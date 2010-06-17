@@ -32,7 +32,6 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.StringField(
         'rezensionAutor',
         storage=atapi.AnnotationStorage(),
-        required=True,
         widget=atapi.StringWidget(
             label=_(u"Autor der Rezension"),
         ),
@@ -87,7 +86,6 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.StringField(
         'erscheinungsjahr',
         storage=atapi.AnnotationStorage(),
-        required=True,
         widget=atapi.StringWidget(
             label=_(u"Erscheinungsjahr"),
         ),
@@ -95,7 +93,6 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.StringField(
         'erscheinungsort',
         storage=atapi.AnnotationStorage(),
-        required=True,
         widget=atapi.StringWidget(
             label=_(u"Erscheinungsort"),
         ),
@@ -179,7 +176,7 @@ fields = {
                 'reihe', 'reihennummer', 'seitenzahl', 'isbn',
                 'ddcSach', 'ddcZeit', 'schlagwoerter'],
     u"Monographie" : [],
-    u"Zeitschrift" : [],
+    u"Zeitschrift" : ['trefferdaten', 'verbundID', 'herausgeber'],
     u"Präsentationen von Monographien" : [],
     u"Präsentationen von Aufsatz in Sammelband" : [],
     u"Präsentationenvon Aufsatz in Zeitschrift" : [],
