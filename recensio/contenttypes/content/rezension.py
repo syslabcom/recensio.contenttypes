@@ -19,7 +19,7 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         required=True,
         vocabulary=("Monographie", "Zeitschrift"),
         widget=atapi.SelectionWidget(
-            label=_(u"Rezension Type"),
+            label=_(u"Typ der Rezension"),
             description=_(u"Rezension einer Monographie, Zeitschrift, usw."),
             format="select",
         ),
@@ -32,7 +32,7 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     ),
     atapi.StringField(
-        'praesentiertenSchriftTextsprache',
+        'praesentierteSchriftTextsprache',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Textsprache der präsentierten Schrift"),
@@ -153,7 +153,7 @@ RezensionSchema['title'].storage = atapi.AnnotationStorage()
 RezensionSchema['description'].storage = atapi.AnnotationStorage()
 
 fields = ['rezensionType', 'rezensionAutor',
-         'praesentiertenScriftTextsprache',
+         'praesentierteSchriftTextsprache',
          'praesentationTextsprache', 'recensioID', 'autorDesBuchs',
          'titel', 'untertitel', 'erscheinungsjahr', 'erscheinungsort',
          'verlag', 'reihe', 'reihennummer', 'seitenzahl', 'isbn',
