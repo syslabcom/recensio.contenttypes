@@ -17,10 +17,12 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'rezensionType',
         storage=atapi.AnnotationStorage(),
         required=True,
-        vocabulary=("Monographie", "Zeitschrift",
-                    "Praesentationen von Monographien",
-                    "Praesentationen von Aufsatz in Sammelband",
-                    "Praesentationenvon Aufsatz in Zeitschrift"),
+        vocabulary=(u"Monographie", u"Zeitschrift",
+                    u"Präsentationen von Monographien",
+                    u"Präsentationen von Aufsatz in Sammelband",
+                    u"Präsentationenvon Aufsatz in Zeitschrift",
+                    u"Präsentationen von Internetressourcen",
+                    u"Kommentar"),
         widget=atapi.SelectionWidget(
             label=_(u"Typ der Rezension"),
             description=_(u"Rezension einer Monographie, Zeitschrift, usw."),
@@ -164,18 +166,20 @@ common_fields = ['rezensionType', 'rezensionAutor',
 
 
 fields = {
-    "common" : ['rezensionType', 'rezensionAutor',
+    u"common" : ['rezensionType', 'rezensionAutor',
                 'praesentiertenSchriftTextsprache',
                 'praesentationTextsprache', 'recensioID',
                 'autorDesBuchs', 'titel', 'untertitel',
                 'erscheinungsjahr', 'erscheinungsort', 'verlag',
                 'reihe', 'reihennummer', 'seitenzahl', 'isbn',
                 'ddcSach', 'ddcZeit', 'schlagwoerter'],
-    "Monographie" : [],
-    "Zeitschrift" : [],
-    "Praesentationen von Monographien" : [],
-    "Praesentationen von Aufsatz in Sammelband" : [],
-    "Praesentationenvon Aufsatz in Zeitschrift" : [],
+    u"Monographie" : [],
+    u"Zeitschrift" : [],
+    u"Präsentationen von Monographien" : [],
+    u"Präsentationen von Aufsatz in Sammelband" : [],
+    u"Präsentationenvon Aufsatz in Zeitschrift" : [],
+    u"Präsentationen von Internetressourcen" : [],
+    u"Kommentar": []
     }
 
 for field in sum(fields.values(), []):
