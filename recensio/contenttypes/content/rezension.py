@@ -154,6 +154,27 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Schlagwörter"),
         ),
     ),
+    atapi.StringField(
+        'trefferdaten',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Trefferdaten"),
+        ),
+    ),
+    atapi.StringField(
+        'verbundID',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Verbund ID"),
+        ),
+    ),
+    atapi.StringField(
+        'herausgeber',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Herausgeber"),
+        ),
+    ),
 ))
 
 RezensionSchema['title'].storage = atapi.AnnotationStorage()
