@@ -112,6 +112,13 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     ),
     atapi.StringField(
+        'seitenzahl',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Seitenzahl"),
+        ),
+    ),
+    atapi.StringField(
         'isbn',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
@@ -142,11 +149,17 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     ),
 ))
 
-# Set storage on fields copied from ATContentTypeSchema, making sure
-# they work well with the python bridge properties.
-
 RezensionSchema['title'].storage = atapi.AnnotationStorage()
 RezensionSchema['description'].storage = atapi.AnnotationStorage()
+
+fields = ['rezensionType', 'rezensionAutor',
+         'praesentiertenScriftTextsprache',
+         'praesentationTextsprache', 'recensioID', 'autorDesBuchs',
+         'titel', 'untertitel', 'erscheinungsjahr', 'erscheinungsort',
+         'verlag', 'reihe', 'reihennummer', 'seitenzahl', 'isbn',
+         'ddcSach', 'ddcZeit', 'schlagwoerter']
+for field in fields:
+    RezensionSchema[field].storage = atapi.AnnotationStorage()
 
 schemata.finalizeATCTSchema(RezensionSchema, moveDiscussion=False)
 
@@ -160,7 +173,24 @@ class Rezension(base.ATCTContent):
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
-
-    # -*- Your ATSchema to Python Property Bridges Here ... -*-
+    rezensionType = atapi.ATFieldProperty('rezensionType')
+    rezensionAutor = atapi.ATFieldProperty('rezensionAutor')
+    praesentiertenScriftTextsprache = atapi.ATFieldProperty(
+        'praesentiertenScriftTextsprache')
+    praesentationTextsprache = atapi.ATFieldProperty('praesentationTextsprache')
+    recensioID = atapi.ATFieldProperty('recensioID')
+    autorDesBuchs = atapi.ATFieldProperty('autorDesBuchs')
+    titel = atapi.ATFieldProperty('titel')
+    untertitel = atapi.ATFieldProperty('untertitel')
+    erscheinungsjahr = atapi.ATFieldProperty('erscheinungsjahr')
+    erscheinungsort = atapi.ATFieldProperty('erscheinungsort')
+    verlag = atapi.ATFieldProperty('verlag')
+    reihe = atapi.ATFieldProperty('reihe')
+    reihennummer = atapi.ATFieldProperty('reihennummer')
+    seitenzahl = atapi.ATFieldProperty('seitenzahl')
+    isbn = atapi.ATFieldProperty('isbn')
+    ddcSach = atapi.ATFieldProperty('ddcSach')
+    ddcZeit = atapi.ATFieldProperty('ddcZeit')
+    schlagwoerter = atapi.ATFieldProperty('schlagwoerter')
 
 atapi.registerType(Rezension, PROJECTNAME)
