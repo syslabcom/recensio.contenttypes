@@ -32,6 +32,7 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.StringField(
         'rezensionAutor',
         storage=atapi.AnnotationStorage(),
+        required=True,
         widget=atapi.StringWidget(
             label=_(u"Autor der Rezension"),
         ),
@@ -61,6 +62,7 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.LinesField(
         'autorDesBuchs',
         storage=atapi.AnnotationStorage(),
+        required=True,
         widget=atapi.LinesWidget(
             label=_(u"Author des Buchs"),
             rows=3,
@@ -68,6 +70,7 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     ),
     atapi.StringField(
         'titel',
+        required=True,
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Titel"),
@@ -84,6 +87,7 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.StringField(
         'erscheinungsjahr',
         storage=atapi.AnnotationStorage(),
+        required=True,
         widget=atapi.StringWidget(
             label=_(u"Erscheinungsjahr"),
         ),
@@ -91,6 +95,7 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.StringField(
         'erscheinungsort',
         storage=atapi.AnnotationStorage(),
+        required=True,
         widget=atapi.StringWidget(
             label=_(u"Erscheinungsort"),
         ),
