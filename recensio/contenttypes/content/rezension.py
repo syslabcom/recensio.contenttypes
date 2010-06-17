@@ -17,7 +17,10 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'rezensionType',
         storage=atapi.AnnotationStorage(),
         required=True,
-        vocabulary=("Monographie", "Zeitschrift"),
+        vocabulary=("Monographie", "Zeitschrift",
+                    "Praesentationen von Monographien",
+                    "Praesentationen von Aufsatz in Sammelband",
+                    "Praesentationenvon Aufsatz in Zeitschrift"),
         widget=atapi.SelectionWidget(
             label=_(u"Typ der Rezension"),
             description=_(u"Rezension einer Monographie, Zeitschrift, usw."),
@@ -32,7 +35,7 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     ),
     atapi.StringField(
-        'praesentierteSchriftTextsprache',
+        'praesentiertenSchriftTextsprache',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Textsprache der präsentierten Schrift"),
@@ -152,13 +155,30 @@ RezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 RezensionSchema['title'].storage = atapi.AnnotationStorage()
 RezensionSchema['description'].storage = atapi.AnnotationStorage()
 
-fields = ['rezensionType', 'rezensionAutor',
-         'praesentierteSchriftTextsprache',
-         'praesentationTextsprache', 'recensioID', 'autorDesBuchs',
-         'titel', 'untertitel', 'erscheinungsjahr', 'erscheinungsort',
-         'verlag', 'reihe', 'reihennummer', 'seitenzahl', 'isbn',
-         'ddcSach', 'ddcZeit', 'schlagwoerter']
-for field in fields:
+common_fields = ['rezensionType', 'rezensionAutor',
+                 'praesentiertenSchriftTextsprache',
+                 'praesentationTextsprache', 'recensioID', 'autorDesBuchs',
+                 'titel', 'untertitel', 'erscheinungsjahr', 'erscheinungsort',
+                 'verlag', 'reihe', 'reihennummer', 'seitenzahl', 'isbn',
+                 'ddcSach', 'ddcZeit', 'schlagwoerter']
+
+
+fields = {
+    "common" : ['rezensionType', 'rezensionAutor',
+                'praesentiertenSchriftTextsprache',
+                'praesentationTextsprache', 'recensioID',
+                'autorDesBuchs', 'titel', 'untertitel',
+                'erscheinungsjahr', 'erscheinungsort', 'verlag',
+                'reihe', 'reihennummer', 'seitenzahl', 'isbn',
+                'ddcSach', 'ddcZeit', 'schlagwoerter'],
+    "Monographie" : [],
+    "Zeitschrift" : [],
+    "Praesentationen von Monographien" : [],
+    "Praesentationen von Aufsatz in Sammelband" : [],
+    "Praesentationenvon Aufsatz in Zeitschrift" : [],
+    }
+
+for field in sum(fields.values(), []):
     RezensionSchema[field].storage = atapi.AnnotationStorage()
 
 schemata.finalizeATCTSchema(RezensionSchema, moveDiscussion=False)
@@ -175,8 +195,8 @@ class Rezension(base.ATCTContent):
     description = atapi.ATFieldProperty('description')
     rezensionType = atapi.ATFieldProperty('rezensionType')
     rezensionAutor = atapi.ATFieldProperty('rezensionAutor')
-    praesentiertenScriftTextsprache = atapi.ATFieldProperty(
-        'praesentiertenScriftTextsprache')
+    praesentiertenSchriftTextsprache = atapi.ATFieldProperty(
+        'praesentiertenSchriftTextsprache')
     praesentationTextsprache = atapi.ATFieldProperty('praesentationTextsprache')
     recensioID = atapi.ATFieldProperty('recensioID')
     autorDesBuchs = atapi.ATFieldProperty('autorDesBuchs')
@@ -192,5 +212,8 @@ class Rezension(base.ATCTContent):
     ddcSach = atapi.ATFieldProperty('ddcSach')
     ddcZeit = atapi.ATFieldProperty('ddcZeit')
     schlagwoerter = atapi.ATFieldProperty('schlagwoerter')
+
+    def get_displayed_fields_by_rezension_type(self):
+        return fields["common"] + fields[self.rezensionType]
 
 atapi.registerType(Rezension, PROJECTNAME)
