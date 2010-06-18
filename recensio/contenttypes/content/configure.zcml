@@ -6,6 +6,12 @@
   <!-- configure your content components here -->
   
   <!-- -*- extra stuff goes here -*- -->
+  <class class=".praesentationenvonmonographien.PraesentationenvonMonographien">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.IPraesentationenvonMonographien"
+        />
+  </class>
   <class class=".rezensioneinermonographie.RezensioneinerMonographie">
     <require
         permission="zope2.View"

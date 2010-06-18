@@ -8,6 +8,8 @@
   -->
 <object name="portal_types" meta_type="Plone Types Tool">
   <!-- -*- extra stuff goes here -*- -->
+  <object name="Praesentationen von Monographien"
+    meta_type="Factory-based Type Information with dynamic views" />
   <object name="Rezension einer Monographie"
     meta_type="Factory-based Type Information with dynamic views" />
   <object name="Rezension"
