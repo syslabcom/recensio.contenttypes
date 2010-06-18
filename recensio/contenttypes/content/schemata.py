@@ -27,7 +27,7 @@ InternetSchema = atapi.Schema((
     atapi.StringField(
         'url',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.TextWidget(
+        widget=atapi.StringWidget(
             label=_(u"URL"),
             ),
         ),
@@ -37,7 +37,7 @@ BezugsautorenSchema = atapi.Schema((
     atapi.StringField(
         'bezugsautoren',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.TextWidget(
+        widget=atapi.StringWidget(
             label=_(u"Bezugsautoren"),
             ),
         ),
@@ -47,7 +47,7 @@ ZeitenzahlSchema = atapi.Schema((
     atapi.StringField(
         'zeitenzahl',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.TextWidget(
+        widget=atapi.StringWidget(
             label=_(u"Zeitenzahl"),
             ),
         ),
@@ -57,14 +57,14 @@ SerialSchema = ZeitenzahlSchema.copy() + atapi.Schema((
     atapi.StringField(
         'reihe',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.TextWidget(
+        widget=atapi.StringWidget(
             label=_(u"Reihe"),
             ),
         ),
     atapi.StringField(
         'reihennummer',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.TextWidget(
+        widget=atapi.StringWidget(
             label=_(u"Reihennummer"),
             ),
         ),
@@ -179,7 +179,7 @@ PrintedRezensionSchema = CommonRezensionSchema.copy() + atapi.Schema((
         ),
 
     ))
-PrintedRezensionSchema["title"].required = True
+# PrintedRezensionSchema["title"].required = True
 
 BookRezensionSchema = AuthorsSchema.copy() + \
                       PrintedRezensionSchema.copy() + \
@@ -195,7 +195,8 @@ BookRezensionSchema = AuthorsSchema.copy() + \
 # TODO check this works:
 #BookRezensionSchema["authors"].widget.label=_(u"Autor des Buchs")
 
-JournalRezensionSchema = AuthorsSchema.copy() + \
+JournalRezensionSchema = schemata.ATContentTypeSchema.copy() + \
+                         AuthorsSchema.copy() + \
                          PrintedRezensionSchema.copy() + \
                          atapi.Schema((
     # Authors label is "Autor des Aufsatzes"
