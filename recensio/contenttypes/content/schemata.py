@@ -106,6 +106,27 @@ BaseRezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Schlagwörter"),
             ),
         ),
+    atapi.FileField(
+        'pdf',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.FileWidget(
+            label=_(u"PDF"),
+            ),
+        ),
+    atapi.FileField(
+        'doc',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.FileWidget(
+            label=_(u"Word Document"),
+            ),
+        ),
+    atapi.TextField(
+        'rezension',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.RichWidget(
+            label=_(u"Rezension"),
+            ),
+        )
     ))
 
 CommonRezensionSchema = BaseRezensionSchema.copy() + atapi.Schema((

@@ -44,5 +44,8 @@ class RezensioneinerMonographie(base.ATCTContent):
     isbn = atapi.ATFieldProperty('isbn')
     bezugsautoren = atapi.ATFieldProperty('bezugsautoren')
     url = atapi.ATFieldProperty('url')
+    pdf = atapi.ATFieldProperty('pdf')
+    doc = atapi.ATFieldProperty('doc')
+    rezension = atapi.ATFieldProperty('rezension')
 
 atapi.registerType(RezensioneinerMonographie, PROJECTNAME)
