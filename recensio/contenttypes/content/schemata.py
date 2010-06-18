@@ -71,17 +71,6 @@ SerialSchema = ZeitenzahlSchema.copy() + atapi.Schema((
     ))
 
 BaseRezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
-    atapi.LinesField(
-        'rezensionType',
-        storage=atapi.AnnotationStorage(),
-        required=True,
-        vocabulary=("rm", "rz", "pm", "pasb", "paz", "kommentar"),
-        widget=atapi.SelectionWidget(
-            label=_(u"Typ der Rezension"),
-            description=_(u"Rezension einer Monographie, Zeitschrift, usw."),
-            format="select",
-            ),
-        ),
     atapi.StringField(
         'rezensionAutor',
         storage=atapi.AnnotationStorage(),
