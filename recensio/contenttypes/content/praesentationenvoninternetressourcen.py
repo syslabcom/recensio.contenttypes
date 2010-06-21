@@ -3,10 +3,10 @@
 
 from zope.interface import implements
 
-from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
+from Products.Archetypes import atapi
 
 from recensio.contenttypes.interfaces import \
      IPraesentationenvonInternetressourcen
@@ -14,6 +14,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.schemata import CommonRezensionSchema
 from recensio.contenttypes.content.schemata import InternetSchema
+from recensio.contenttypes.content.schemata import BaseRezension
 from recensio.policy.constants import vocabularies
 
 PraesentationenvonInternetressourcenSchema = CommonRezensionSchema.copy() + \
@@ -22,7 +23,7 @@ PraesentationenvonInternetressourcenSchema = CommonRezensionSchema.copy() + \
     atapi.StringField(
         'institution',
         storage=atapi.AnnotationStorage(),
-        vocabulary = NamedVocabulary('institution_values'),
+        vocabulary=NamedVocabulary('institution_values'),
         widget=atapi.SelectionWidget(
             label=_(u"Institution"),
         ),
@@ -45,7 +46,7 @@ schemata.finalizeATCTSchema(PraesentationenvonInternetressourcenSchema,
                             moveDiscussion=False)
 
 
-class PraesentationenvonInternetressourcen(base.ATCTContent):
+class PraesentationenvonInternetressourcen(BaseRezension):
     """Praesentationen von Internetressourcen"""
     implements(IPraesentationenvonInternetressourcen)
 

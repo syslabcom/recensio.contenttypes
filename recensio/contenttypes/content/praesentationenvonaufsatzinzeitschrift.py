@@ -9,10 +9,12 @@ from Products.ATContentTypes.content import schemata
 
 from recensio.contenttypes.interfaces import IPraesentationenvonAufsatzinZeitschrift
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.schemata import JournalRezensionSchema
+from recensio.contenttypes.content.schemata import BaseRezension
 from recensio.contenttypes.content.schemata import BezugsautorenSchema
 from recensio.contenttypes.content.schemata import InternetSchema
+from recensio.contenttypes.content.schemata import JournalRezensionSchema
 from recensio.contenttypes.content.schemata import ZeitenzahlSchema
+
 
 
 PraesentationenvonAufsatzinZeitschriftSchema = \
@@ -30,7 +32,7 @@ schemata.finalizeATCTSchema(PraesentationenvonAufsatzinZeitschriftSchema,
                             moveDiscussion=False)
 
 
-class PraesentationenvonAufsatzinZeitschrift(base.ATCTContent):
+class PraesentationenvonAufsatzinZeitschrift(BaseRezension):
     """Praesentationen von Aufsatz in Zeitschrift"""
     implements(IPraesentationenvonAufsatzinZeitschrift)
 

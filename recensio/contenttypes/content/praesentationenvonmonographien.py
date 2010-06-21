@@ -7,11 +7,12 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 
+from recensio.contenttypes.interfaces import IPraesentationenvonMonographien
 from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.content.schemata import BaseRezension
 from recensio.contenttypes.content.schemata import BezugsautorenSchema
 from recensio.contenttypes.content.schemata import BookRezensionSchema
 from recensio.contenttypes.content.schemata import InternetSchema
-from recensio.contenttypes.interfaces import IPraesentationenvonMonographien
 
 PraesentationenvonMonographienSchema = BookRezensionSchema.copy() + \
                                        BezugsautorenSchema.copy() + \
@@ -27,7 +28,7 @@ schemata.finalizeATCTSchema(PraesentationenvonMonographienSchema,
                             moveDiscussion=False)
 
 
-class PraesentationenvonMonographien(base.ATCTContent):
+class PraesentationenvonMonographien(BaseRezension):
     """Praesentationen von Monographien"""
     implements(IPraesentationenvonMonographien)
 

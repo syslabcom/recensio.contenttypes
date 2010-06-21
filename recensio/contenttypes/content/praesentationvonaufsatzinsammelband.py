@@ -11,8 +11,9 @@ from recensio.contenttypes.interfaces import \
      IPraesentationvonAufsatzinSammelband
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.schemata import BookRezensionSchema
+from recensio.contenttypes.content.schemata import BaseRezension
 from recensio.contenttypes.content.schemata import BezugsautorenSchema
+from recensio.contenttypes.content.schemata import BookRezensionSchema
 from recensio.contenttypes.content.schemata import InternetSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 
@@ -42,7 +43,7 @@ schemata.finalizeATCTSchema(PraesentationvonAufsatzinSammelbandSchema,
                             moveDiscussion=False)
 
 
-class PraesentationvonAufsatzinSammelband(base.ATCTContent):
+class PraesentationvonAufsatzinSammelband(BaseRezension):
     """Praesentation von Aufsatz in Sammelband"""
     implements(IPraesentationvonAufsatzinSammelband)
 
