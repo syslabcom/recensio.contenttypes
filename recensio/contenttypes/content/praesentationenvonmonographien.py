@@ -64,6 +64,9 @@ class PraesentationenvonMonographien(base.ATCTContent):
     verbundID = atapi.ATFieldProperty('verbundID')
     trefferdaten = atapi.ATFieldProperty('trefferdaten')
 
+    # Book
+    isbn = atapi.ATFieldProperty('isbn')
+
     # Bezugsautoren
     bezugsautoren = atapi.ATFieldProperty('bezugsautoren')
 

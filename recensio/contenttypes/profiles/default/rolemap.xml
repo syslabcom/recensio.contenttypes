@@ -2,6 +2,10 @@
 <rolemap>
   <permissions>
     <!-- -*- extra stuff goes here -*- -->
+    <permission name="recensio.contenttypes: Add Rezension einer Zeitschrift" acquire="False">
+      <role name="Manager" />
+      <role name="Contributor" />
+    </permission>
     <permission name="recensio.contenttypes: Add Praesentationen von Monographien" acquire="False">
       <role name="Manager" />
       <role name="Contributor" />

@@ -1,4 +1,4 @@
-"""Definition of the Rezension einer Monographie content type
+"""Definition of the Rezension einer Zeitschrift content type
 """
 
 from zope.interface import implements
@@ -7,32 +7,38 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 
+from recensio.contenttypes.interfaces import IRezensioneinerZeitschrift
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.interfaces import IRezensioneinerMonographie
-from recensio.contenttypes.content.schemata import BookRezensionSchema
-from recensio.contenttypes.content.schemata import SerialSchema
+from recensio.contenttypes.content.schemata import JournalRezensionSchema
 
-RezensioneinerMonographieSchema = BookRezensionSchema.copy() + \
-                                  SerialSchema.copy()
+RezensioneinerZeitschriftSchema = JournalRezensionSchema.copy() + atapi.Schema((
+    atapi.StringField(
+        'herausgeber',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Herausgeber"),
+            ),
+        ),
+))
 
-schemata.finalizeATCTSchema(RezensioneinerMonographieSchema,
-                            moveDiscussion=False)
-
-RezensioneinerMonographieSchema['title'].storage = atapi.AnnotationStorage()
-RezensioneinerMonographieSchema['description'].storage = \
+RezensioneinerZeitschriftSchema['title'].storage = atapi.AnnotationStorage()
+RezensioneinerZeitschriftSchema['description'].storage = \
                                                        atapi.AnnotationStorage()
 
+schemata.finalizeATCTSchema(RezensioneinerZeitschriftSchema,
+                            moveDiscussion=False)
 
-class RezensioneinerMonographie(base.ATCTContent):
-    """Rezension einer Monographie"""
-    implements(IRezensioneinerMonographie)
 
-    meta_type = "RezensioneinerMonographie"
-    schema = RezensioneinerMonographieSchema
+class RezensioneinerZeitschrift(base.ATCTContent):
+    """Rezension einer Zeitschrift"""
+    implements(IRezensioneinerZeitschrift)
+
+    meta_type = "RezensioneinerZeitschrift"
+    schema = RezensioneinerZeitschriftSchema
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
-    # Book = Printed + Authors +
+    # Journal = Printed + Authors +
     # Printed = Common +
     # Common = Base +
 
@@ -63,11 +69,14 @@ class RezensioneinerMonographie(base.ATCTContent):
     # Authors
     authors = atapi.ATFieldProperty('authors')
 
-    # Book
-    isbn = atapi.ATFieldProperty('isbn')
+    # Journal
+    issn = atapi.ATFieldProperty('issn')
+    heftnummer = atapi.ATFieldProperty('heftnummer') 
+    kuerzelZeitschrift = atapi.ATFieldProperty('kuerzelZeitschrift')
+    nummer = atapi.ATFieldProperty('nummer')
+    gezaehltesJahr = atapi.ATFieldProperty('gezaehltesJahr')
 
-    # Serial
-    reihe = atapi.ATFieldProperty('reihe')
-    reihennummer = atapi.ATFieldProperty('reihennummer')
+    # RezensioneinerZeitschrift
+    herausgeber = atapi.ATFieldProperty('herausgeber')
 
-atapi.registerType(RezensioneinerMonographie, PROJECTNAME)
+atapi.registerType(RezensioneinerZeitschrift, PROJECTNAME)

@@ -10,6 +10,7 @@
 <object name="portal_factory" meta_type="Plone Factory Tool">
   <factorytypes>
     <!-- -*- extra stuff goes here -*- -->
+    <type portal_type="Rezension einer Zeitschrift" />
     <type portal_type="Praesentationen von Monographien" />
     <type portal_type="Rezension einer Monographie" />
     <type portal_type="Rezension" />
