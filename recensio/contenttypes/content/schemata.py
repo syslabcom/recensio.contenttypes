@@ -202,8 +202,8 @@ PrintedRezensionSchema = CommonRezensionSchema.copy() + atapi.Schema((
     ))
 # PrintedRezensionSchema["title"].required = True
 
-BookRezensionSchema = AuthorsSchema.copy() + \
-                      PrintedRezensionSchema.copy() + \
+BookRezensionSchema = PrintedRezensionSchema.copy() + \
+                      AuthorsSchema.copy() + \
                       atapi.Schema((
     atapi.StringField(
         'isbn',
