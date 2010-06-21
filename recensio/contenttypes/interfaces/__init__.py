@@ -1,4 +1,5 @@
 # -*- extra stuff goes here -*-
+from praesentationenvoninternetressourcen import IPraesentationenvonInternetressourcen
 from praesentationenvonaufsatzinzeitschrift import IPraesentationenvonAufsatzinZeitschrift
 from praesentationvonaufsatzinsammelband import IPraesentationvonAufsatzinSammelband
 from rezensioneinerzeitschrift import IRezensioneinerZeitschrift
