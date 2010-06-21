@@ -6,8 +6,7 @@ from zope.interface import implements
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
-
-# -*- Message Factory Imported Here -*-
+from Products.ATVocabularyManager import NamedVocabulary
 
 from recensio.contenttypes.interfaces import \
      IPraesentationenvonInternetressourcen
@@ -15,6 +14,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.schemata import CommonRezensionSchema
 from recensio.contenttypes.content.schemata import InternetSchema
+from recensio.policy.constants import vocabularies
 
 PraesentationenvonInternetressourcenSchema = CommonRezensionSchema.copy() + \
                                              InternetSchema.copy() + \
@@ -22,7 +22,8 @@ PraesentationenvonInternetressourcenSchema = CommonRezensionSchema.copy() + \
     atapi.StringField(
         'institution',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
+        vocabulary = NamedVocabulary('institution_values'),
+        widget=atapi.SelectionWidget(
             label=_(u"Institution"),
         ),
     ),
