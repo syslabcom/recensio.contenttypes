@@ -256,4 +256,4 @@ JournalRezensionSchema = schemata.ATContentTypeSchema.copy() + \
             ),
         ),
     ))
-JournalSchema["authors"].widget.label=_(u"Autor des Aufsatzes")
+JournalRezensionSchema["authors"].widget.label=_(u"Autor des Aufsatzes")
