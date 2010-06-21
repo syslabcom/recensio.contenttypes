@@ -9,6 +9,7 @@ from Products.ATContentTypes.content import schemata
 
 from recensio.contenttypes.interfaces import IRezensioneinerZeitschrift
 from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.content.schemata import JournalRezensionSchema
 
 
