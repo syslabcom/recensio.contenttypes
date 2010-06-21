@@ -1,4 +1,5 @@
 # -*- extra stuff goes here -*-
+from praesentationvonaufsatzinsammelband import IPraesentationvonAufsatzinSammelband
 from rezensioneinerzeitschrift import IRezensioneinerZeitschrift
 from praesentationenvonmonographien import IPraesentationenvonMonographien
 from rezensioneinermonographie import IRezensioneinerMonographie
