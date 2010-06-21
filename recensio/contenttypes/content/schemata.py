@@ -213,8 +213,7 @@ BookRezensionSchema = PrintedRezensionSchema.copy() + \
             ),
         ),
     ))
-# TODO check this works:
-#BookRezensionSchema["authors"].widget.label=_(u"Autor des Buchs")
+BookRezensionSchema["authors"].widget.label=_(u"Autor des Buchs")
 
 JournalRezensionSchema = schemata.ATContentTypeSchema.copy() + \
                          AuthorsSchema.copy() + \
@@ -257,5 +256,4 @@ JournalRezensionSchema = schemata.ATContentTypeSchema.copy() + \
             ),
         ),
     ))
-# TODO check this works:
-# JournalSchema["authors"].widget.label=_(u"Autor des Aufsatzes")
+JournalSchema["authors"].widget.label=_(u"Autor des Aufsatzes")
