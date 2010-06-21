@@ -36,18 +36,38 @@ class PraesentationenvonMonographien(base.ATCTContent):
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
+    # Book = Printed + Authors +
+    # Printed = Common +
+    # Common = Base +
+
+    # Base
+    rezensionAutor = atapi.ATFieldProperty('rezensionAutor')
+    praesentiertenSchriftTextsprache = atapi.ATFieldProperty(
+        'praesentiertenSchriftTextsprache')
+    praesentationTextsprache = atapi.ATFieldProperty('praesentationTextsprache')
+    recensioID = atapi.ATFieldProperty('recensioID')
+    schlagwoerter = atapi.ATFieldProperty('schlagwoerter')
+    pdf = atapi.ATFieldProperty('pdf')
+    doc = atapi.ATFieldProperty('doc')
+    rezension = atapi.ATFieldProperty('rezension')
+
+    # Common
+    ddcRaum = atapi.ATFieldProperty('ddcRaum')
+    ddcSach = atapi.ATFieldProperty('ddcSach')
+    ddcZeit = atapi.ATFieldProperty('ddcZeit')
+
+    # Printed
     untertitel = atapi.ATFieldProperty('untertitel')
     erscheinungsjahr = atapi.ATFieldProperty('erscheinungsjahr')
     erscheinungsort = atapi.ATFieldProperty('erscheinungsort')
     verlag = atapi.ATFieldProperty('verlag')
     verbundID = atapi.ATFieldProperty('verbundID')
     trefferdaten = atapi.ATFieldProperty('trefferdaten')
-    authors = atapi.ATFieldProperty('authors')
-    isbn = atapi.ATFieldProperty('isbn')
+
+    # Bezugsautoren
     bezugsautoren = atapi.ATFieldProperty('bezugsautoren')
+
+    # Internet
     url = atapi.ATFieldProperty('url')
-    pdf = atapi.ATFieldProperty('pdf')
-    doc = atapi.ATFieldProperty('doc')
-    rezension = atapi.ATFieldProperty('rezension')
 
 atapi.registerType(PraesentationenvonMonographien, PROJECTNAME)
