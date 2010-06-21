@@ -9,6 +9,7 @@ from Products.ATContentTypes.content import schemata
 
 from recensio.contenttypes.interfaces import \
      IPraesentationvonAufsatzinSammelband
+from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.schemata import BookRezensionSchema
 from recensio.contenttypes.content.schemata import BezugsautorenSchema
