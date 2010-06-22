@@ -88,4 +88,19 @@ class PraesentationenvonAufsatzinZeitschrift(BaseRezension):
     # Zeitenzahl
     zeitenzahl = atapi.ATFieldProperty('zeitenzahl')
 
+    # Reorder the fields as required
+    ordered_fields = ["title", "description", "rezensionAutor",
+                      "praesentiertenSchriftTextsprache",
+                      "praesentationTextsprache", "recensioID",
+                      "schlagwoerter", "pdf", "doc", "rezension",
+                      "ddcRaum", "ddcSach", "ddcZeit", "untertitel",
+                      "erscheinungsjahr", "erscheinungsort", "verlag",
+                      "verbundID", "trefferdaten", "authors", "issn",
+                      "heftnummer", "kuerzelZeitschrift", "nummer",
+                      "gezaehltesJahr", "bezugsautoren", "url",
+                      "zeitenzahl"]
+
+    for i, field in enumerate(ordered_fields):
+        schema.moveField(field, pos=i)
+
 atapi.registerType(PraesentationenvonAufsatzinZeitschrift, PROJECTNAME)

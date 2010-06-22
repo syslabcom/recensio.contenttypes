@@ -12,10 +12,9 @@ from recensio.contenttypes.interfaces import \
      IPraesentationenvonInternetressourcen
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.content.schemata import BaseRezension
 from recensio.contenttypes.content.schemata import CommonRezensionSchema
 from recensio.contenttypes.content.schemata import InternetSchema
-from recensio.contenttypes.content.schemata import BaseRezension
-from recensio.policy.constants import vocabularies
 
 PraesentationenvonInternetressourcenSchema = CommonRezensionSchema.copy() + \
                                              InternetSchema.copy() + \
@@ -72,8 +71,18 @@ class PraesentationenvonInternetressourcen(BaseRezension):
     ddcRaum = atapi.ATFieldProperty('ddcRaum')
     ddcSach = atapi.ATFieldProperty('ddcSach')
     ddcZeit = atapi.ATFieldProperty('ddcZeit')
- 
+
     # Internet
     url = atapi.ATFieldProperty('url')
+
+    # Reorder the fields as required
+    ordered_fields = ["title", "description", "rezensionAutor",
+                      "praesentiertenSchriftTextsprache",
+                      "praesentationTextsprache", "recensioID",
+                      "schlagwoerter", "pdf", "doc", "rezension",
+                      "url", "ddcRaum", "ddcSach", "ddcZeit"]
+
+    for i, field in enumerate(ordered_fields):
+        schema.moveField(field, pos=i)
 
 atapi.registerType(PraesentationenvonInternetressourcen, PROJECTNAME)

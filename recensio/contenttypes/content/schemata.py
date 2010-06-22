@@ -254,7 +254,7 @@ JournalRezensionSchema = schemata.ATContentTypeSchema.copy() + \
             ),
         ),
     atapi.StringField(
-        'gazaehltesJahr',
+        'gezaehltesJahr',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Gezähltes Jahr"),

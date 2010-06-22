@@ -99,4 +99,18 @@ class PraesentationvonAufsatzinSammelband(BaseRezension):
     # Praesentation von Aufsatz in Sammelband
     herausgeberSammelband = atapi.ATFieldProperty('herausgeberSammelband')
 
+    # Reorder the fields as required
+    ordered_fields = ["title", "description", "rezensionAutor",
+                      "praesentiertenSchriftTextsprache",
+                      "praesentationTextsprache", "recensioID",
+                      "schlagwoerter", "pdf", "doc", "rezension",
+                      "ddcRaum", "ddcSach", "ddcZeit", "untertitel",
+                      "erscheinungsjahr", "erscheinungsort", "verlag",
+                      "verbundID", "trefferdaten", "authors", "isbn",
+                      "bezugsautoren", "url", "reihe", "reihennummer",
+                      "herausgeberSammelband"]
+
+    for i, field in enumerate(ordered_fields):
+        schema.moveField(field, pos=i)
+
 atapi.registerType(PraesentationvonAufsatzinSammelband, PROJECTNAME)
