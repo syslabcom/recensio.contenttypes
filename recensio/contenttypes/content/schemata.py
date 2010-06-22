@@ -46,17 +46,17 @@ BezugsautorenSchema = atapi.Schema((
         ),
     ))
 
-ZeitenzahlSchema = atapi.Schema((
+SeitenzahlSchema = atapi.Schema((
     atapi.StringField(
-        'zeitenzahl',
+        'seitenzahl',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Zeitenzahl"),
+            label=_(u"Seitenzahl"),
             ),
         ),
     ))
 
-SerialSchema = ZeitenzahlSchema.copy() + atapi.Schema((
+SerialSchema = SeitenzahlSchema.copy() + atapi.Schema((
     atapi.StringField(
         'reihe',
         storage=atapi.AnnotationStorage(),

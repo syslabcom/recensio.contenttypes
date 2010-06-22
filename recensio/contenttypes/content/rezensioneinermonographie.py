@@ -23,6 +23,8 @@ RezensioneinerMonographieSchema['title'].storage = atapi.AnnotationStorage()
 RezensioneinerMonographieSchema['description'].storage = \
                                                        atapi.AnnotationStorage()
 
+RezensioneinerMonographieSchema['erscheinungsort'].required = True
+
 
 class RezensioneinerMonographie(BaseRezension):
     """Rezension einer Monographie"""

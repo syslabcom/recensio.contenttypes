@@ -92,6 +92,10 @@ class PraesentationvonAufsatzinSammelband(BaseRezension):
     # Internet
     url = atapi.ATFieldProperty('url')
 
+    # Serial = Seitenzahl +
+    # Seitenzahl
+    seitenzahl = atapi.ATFieldProperty('seitenzahl')
+
     # Serial
     reihe = atapi.ATFieldProperty('reihe')
     reihennummer = atapi.ATFieldProperty('reihennummer')
@@ -100,15 +104,17 @@ class PraesentationvonAufsatzinSammelband(BaseRezension):
     herausgeberSammelband = atapi.ATFieldProperty('herausgeberSammelband')
 
     # Reorder the fields as required
-    ordered_fields = ["title", "description", "rezensionAutor",
-                      "praesentiertenSchriftTextsprache",
-                      "praesentationTextsprache", "recensioID",
-                      "schlagwoerter", "pdf", "doc", "rezension",
-                      "ddcRaum", "ddcSach", "ddcZeit", "untertitel",
-                      "erscheinungsjahr", "erscheinungsort", "verlag",
-                      "verbundID", "trefferdaten", "authors", "isbn",
-                      "bezugsautoren", "url", "reihe", "reihennummer",
-                      "herausgeberSammelband"]
+    ordered_fields = ["recensioID", "authors",
+                      "herausgeberSammelband", "title", "untertitel",
+                      "erscheinungsort", "erscheinungsjahr",
+                      "seitenzahl", "description",
+                      "praesentationTextsprache",
+                      "praesentiertenSchriftTextsprache", "isbn",
+                      "verlag", "verbundID", "trefferdaten",
+                      "bezugsautoren", "reihe", "reihennummer",
+                      "rezensionAutor", "url", "ddcRaum", "ddcSach",
+                      "ddcZeit", "schlagwoerter", "pdf", "doc",
+                      "rezension"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

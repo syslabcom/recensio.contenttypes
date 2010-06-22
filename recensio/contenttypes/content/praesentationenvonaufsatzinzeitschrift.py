@@ -13,7 +13,7 @@ from recensio.contenttypes.content.schemata import BaseRezension
 from recensio.contenttypes.content.schemata import BezugsautorenSchema
 from recensio.contenttypes.content.schemata import InternetSchema
 from recensio.contenttypes.content.schemata import JournalRezensionSchema
-from recensio.contenttypes.content.schemata import ZeitenzahlSchema
+from recensio.contenttypes.content.schemata import SeitenzahlSchema
 
 
 
@@ -21,7 +21,7 @@ PraesentationenvonAufsatzinZeitschriftSchema = \
                                              JournalRezensionSchema.copy() + \
                                              BezugsautorenSchema.copy() + \
                                              InternetSchema.copy() + \
-                                             ZeitenzahlSchema.copy()
+                                             SeitenzahlSchema.copy()
 
 PraesentationenvonAufsatzinZeitschriftSchema['title'].storage = \
                                                        atapi.AnnotationStorage()
@@ -85,20 +85,20 @@ class PraesentationenvonAufsatzinZeitschrift(BaseRezension):
     # Internet
     url = atapi.ATFieldProperty('url')
 
-    # Zeitenzahl
-    zeitenzahl = atapi.ATFieldProperty('zeitenzahl')
+    # Seitenzahl
+    seitenzahl = atapi.ATFieldProperty('seitenzahl')
 
     # Reorder the fields as required
     ordered_fields = ["title", "description", "rezensionAutor",
                       "praesentiertenSchriftTextsprache",
                       "praesentationTextsprache", "recensioID",
-                      "schlagwoerter", "pdf", "doc", "rezension",
-                      "ddcRaum", "ddcSach", "ddcZeit", "untertitel",
-                      "erscheinungsjahr", "erscheinungsort", "verlag",
-                      "verbundID", "trefferdaten", "authors", "issn",
-                      "heftnummer", "kuerzelZeitschrift", "nummer",
-                      "gezaehltesJahr", "bezugsautoren", "url",
-                      "zeitenzahl"]
+                      "seitenzahl", "schlagwoerter", "pdf", "doc",
+                      "rezension", "ddcRaum", "ddcSach", "ddcZeit",
+                      "untertitel", "erscheinungsjahr",
+                      "erscheinungsort", "verlag", "verbundID",
+                      "trefferdaten", "authors", "issn", "heftnummer",
+                      "kuerzelZeitschrift", "nummer",
+                      "gezaehltesJahr", "bezugsautoren", "url", ]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
