@@ -104,6 +104,7 @@ class PraesentationvonAufsatzinSammelband(BaseRezension):
     herausgeberSammelband = atapi.ATFieldProperty('herausgeberSammelband')
 
     # Reorder the fields as required
+
     ordered_fields = ["recensioID", "authors",
                       "herausgeberSammelband", "title", "untertitel",
                       "erscheinungsort", "erscheinungsjahr",

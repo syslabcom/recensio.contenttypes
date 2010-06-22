@@ -74,15 +74,15 @@ class RezensioneinerMonographie(BaseRezension):
     reihennummer = atapi.ATFieldProperty('reihennummer')
 
     # Reorder the fields as required
-
-    ordered_fields = [ "title", "description", "rezensionAutor",
-                       "praesentiertenSchriftTextsprache",
-                       "praesentationTextsprache", "recensioID",
-                       "schlagwoerter", "pdf", "doc", "rezension",
-                       "ddcRaum", "ddcSach", "ddcZeit", "untertitel",
-                       "erscheinungsjahr", "erscheinungsort",
-                       "verlag", "verbundID", "trefferdaten",
-                       "authors", "isbn", "reihe", "reihennummer"]
+    ordered_fields = ["recensioID", "authors", "title", "untertitel",
+                      "erscheinungsjahr", "erscheinungsort",
+                      "description",
+                      "praesentiertenSchriftTextsprache",
+                      "praesentationTextsprache", "isbn", "verlag",
+                      "verbundID", "trefferdaten", "reihe",
+                      "reihennummer", "rezensionAutor", "ddcRaum",
+                      "ddcSach", "ddcZeit", "schlagwoerter", "pdf",
+                      "doc", "rezension"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

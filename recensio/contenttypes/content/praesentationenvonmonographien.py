@@ -74,16 +74,16 @@ class PraesentationenvonMonographien(BaseRezension):
     # Internet
     url = atapi.ATFieldProperty('url')
 
-
     # Reorder the fields as required
-    ordered_fields = [ "title", "description", "rezensionAutor",
-                       "praesentiertenSchriftTextsprache",
-                       "praesentationTextsprache", "recensioID",
-                       "schlagwoerter", "pdf", "doc", "rezension",
-                       "ddcRaum", "ddcSach", "ddcZeit", "untertitel",
-                       "erscheinungsjahr", "erscheinungsort",
-                       "verlag", "verbundID", "trefferdaten", "isbn",
-                       "bezugsautoren", "url"]
+    ordered_fields = ["recensioID", "title", "untertitel",
+                      "rezensionAutor", "erscheinungsort",
+                      "erscheinungsjahr", "description",
+                      "praesentationTextsprache",
+                      "praesentiertenSchriftTextsprache", "isbn",
+                      "verlag", "verbundID", "trefferdaten",
+                      "bezugsautoren", "url" "ddcRaum", "ddcSach",
+                      "ddcZeit", "schlagwoerter", "pdf", "doc",
+                      "rezension"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

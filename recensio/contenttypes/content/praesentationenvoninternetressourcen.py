@@ -30,32 +30,36 @@ PraesentationenvonInternetressourcenSchema = CommonRezensionSchema.copy() + \
         'documentarten_institution',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('institution_values'),
-        widget=atapi.SelectionWidget(
-            label=_(u"Institution"),
+        widget=atapi.MultiSelectionWidget(
+            label=_(u"Dokumentarten: Institution"),
+            format="checkbox",
         ),
     ),
     atapi.StringField(
         'documentarten_kooperation',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('cooperations_and_communication_values'),
-        widget=atapi.SelectionWidget(
-            label=_(u"Kooperation und Kommunikation"),
+        widget=atapi.MultiSelectionWidget(
+            label=_(u"Dokumentarten: Kooperation und Kommunikation"),
+            format="checkbox",
         ),
     ),
     atapi.StringField(
         'documentarten_bibliographische',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('bibliographic_source_values'),
-        widget=atapi.SelectionWidget(
-            label=_(u"Bibliographische Quellen"),
+        widget=atapi.MultiSelectionWidget(
+            label=_(u"Dokumentarten: Bibliographische Quellen"),
+            format="checkbox",
         ),
     ),
     atapi.StringField(
         'documentarten_individual',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('individual_publication_values'),
-        widget=atapi.SelectionWidget(
-            label=_(u"Individuelle Publikationen"),
+        widget=atapi.MultiSelectionWidget(
+            label=_(u"Dokumentarten: Individuelle Publikationen"),
+            format="checkbox",
         ),
     ),
 
@@ -111,15 +115,16 @@ class PraesentationenvonInternetressourcen(BaseRezension):
     documentarten_individual = atapi.ATFieldProperty('documentarten_individual')
 
     # Reorder the fields as required
-    ordered_fields = ["title", "description", "rezensionAutor",
+    ordered_fields = ["recensioID", "title", "institution",
+                      "praesentationTextsprache",
                       "praesentiertenSchriftTextsprache",
-                      "praesentationTextsprache", "recensioID",
-                      "schlagwoerter", "pdf", "doc", "rezension",
-                      "institution", "documentarten_institution",
+                      "documentarten_institution",
                       "documentarten_kooperation",
                       "documentarten_bibliographische",
-                      "documentarten_individual", "url", "ddcRaum",
-                      "ddcSach", "ddcZeit"]
+                      "documentarten_individual", "description",
+                      "rezensionAutor", "url", "ddcRaum", "ddcSach",
+                      "ddcZeit", "schlagwoerter", "pdf", "doc",
+                      "rezension"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

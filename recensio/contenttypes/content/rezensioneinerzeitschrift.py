@@ -82,16 +82,17 @@ class RezensioneinerZeitschrift(BaseRezension):
     herausgeber = atapi.ATFieldProperty('herausgeber')
 
     # Reorder the fields as required
-    ordered_fields = [ "title", "description", "rezensionAutor",
-                       "praesentiertenSchriftTextsprache",
-                       "praesentationTextsprache", "recensioID",
-                       "schlagwoerter", "pdf", "doc", "rezension",
-                       "ddcRaum", "ddcSach", "ddcZeit", "untertitel",
-                       "erscheinungsjahr", "erscheinungsort",
-                       "verlag", "verbundID", "trefferdaten",
-                       "authors", "issn", "heftnummer",
-                       "kuerzelZeitschrift", "nummer",
-                       "gezaehltesJahr", "herausgeber"]
+
+    ordered_fields = ["recensioID", "authors", "herausgeber", "title",
+                      "untertitel", "erscheinungsjahr",
+                      "erscheinungsort", "description",
+                      "praesentationTextsprache",
+                      "praesentiertenSchriftTextsprache", "issn",
+                      "verlag", "verbundID", "trefferdaten",
+                      "heftnummer", "kuerzelZeitschrift", "nummer",
+                      "rezensionAutor", "gezaehltesJahr", "ddcRaum",
+                      "ddcSach", "ddcZeit", "schlagwoerter", "pdf",
+                      "doc", "rezension"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
