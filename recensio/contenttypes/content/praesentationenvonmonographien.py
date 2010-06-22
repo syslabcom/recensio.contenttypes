@@ -81,7 +81,7 @@ class PraesentationenvonMonographien(BaseRezension):
                       "praesentationTextsprache",
                       "praesentiertenSchriftTextsprache", "isbn",
                       "verlag", "verbundID", "trefferdaten",
-                      "bezugsautoren", "url" "ddcRaum", "ddcSach",
+                      "bezugsautoren", "url", "ddcRaum", "ddcSach",
                       "ddcZeit", "schlagwoerter", "pdf", "doc",
                       "rezension"]
 
