@@ -17,9 +17,7 @@ class View(BrowserView):
     def metadata(self):
         context = self.context
         fields = self.context.Schema()._fields
-        for field in fields.keys():
-            meta[field] = fields[field].getAccessor()
-        import pdb; pdb.set_trace()
+
 
     def __call__(self):
         return self.template()
