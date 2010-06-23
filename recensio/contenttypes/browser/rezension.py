@@ -17,7 +17,12 @@ class View(BrowserView):
     def metadata(self):
         context = self.context
         fields = self.context.Schema()._fields
-
+        meta = {}
+        for field in context.ordered_fields:
+            # skip fields which aren't considered metadata for Rezension types
+            if field not in ["title", "description", "rezension"]:
+                meta[field] = fields[field].widget.label
+        return meta
 
     def __call__(self):
         return self.template()
