@@ -17,7 +17,7 @@
   <property name="view_methods">
     <element value="base_view" />
   </property>
-  <alias from="(Default)" to="(dynamic view)" />
+  <alias from="(Default)" to="@@rezension-view" />
   <alias from="edit" to="atct_edit" />
   <alias from="sharing" to="@@sharing" />
   <alias from="view" to="(selected layout)" />

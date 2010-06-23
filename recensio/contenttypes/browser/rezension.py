@@ -24,5 +24,31 @@ class View(BrowserView):
                 meta[field] = fields[field].widget.label
         return meta
 
+    def get_rezension_title(self):
+        """
+        Review titles have a particular format consisting of a
+        combination of particular metadata:
+
+        Tadeusz Kotlowski: Niemcy. Dzieje panstwa i spoleczenstwa
+        1890-1945 Krakow: Avalon 2008. 336 S. ISBN
+        978-83-60448-39-7.
+        """
+        context = self.context
+        def add_meta(method, separator):
+            """
+            Adds a section of metadata if it exists
+            """
+            meta = None
+            if hasattr(context, method):
+                meta = context[method]()
+                if meta:
+                    return separator+" "+meta
+
+        rtitle = context.Title() + \
+                 add_meta("getUntertitel", ":") + \
+                 add_meta("getErscheinungsort", ".") + \
+                 add_meta("getErscheinungsjahr", ":")
+        return rtitle
+
     def __call__(self):
         return self.template()
