@@ -1,34 +1,35 @@
 <?xml version="1.0"?>
 <rolemap>
   <permissions>
-    <!-- -*- extra stuff goes here -*- -->
     <permission name="recensio.contenttypes: Add Praesentationen von Internetressourcen" acquire="False">
       <role name="Manager" />
       <role name="Contributor" />
+      <role name="Owner" />
     </permission>
     <permission name="recensio.contenttypes: Add Praesentationen von Aufsatz in Zeitschrift" acquire="False">
       <role name="Manager" />
       <role name="Contributor" />
+      <role name="Owner" />
     </permission>
     <permission name="recensio.contenttypes: Add Praesentation von Aufsatz in Sammelband" acquire="False">
       <role name="Manager" />
       <role name="Contributor" />
+      <role name="Owner" />
     </permission>
     <permission name="recensio.contenttypes: Add Rezension einer Zeitschrift" acquire="False">
       <role name="Manager" />
       <role name="Contributor" />
+      <role name="Owner" />
     </permission>
     <permission name="recensio.contenttypes: Add Praesentationen von Monographien" acquire="False">
       <role name="Manager" />
       <role name="Contributor" />
+      <role name="Owner" />
     </permission>
     <permission name="recensio.contenttypes: Add Rezension einer Monographie" acquire="False">
       <role name="Manager" />
       <role name="Contributor" />
-    </permission>
-    <permission name="recensio.contenttypes: Add Rezension" acquire="False">
-      <role name="Manager" />
-      <role name="Contributor" />
+      <role name="Owner" />
     </permission>
   </permissions>
 </rolemap>
