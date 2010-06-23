@@ -7,9 +7,10 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 
-from recensio.contenttypes.interfaces import IPraesentationenvonAufsatzinZeitschrift
+from recensio.contenttypes.interfaces import \
+     IPraesentationenvonAufsatzinZeitschrift
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.schemata import BaseRezension
+from recensio.contenttypes.content.rezension import BaseRezension
 from recensio.contenttypes.content.schemata import BezugsautorenSchema
 from recensio.contenttypes.content.schemata import InternetSchema
 from recensio.contenttypes.content.schemata import JournalRezensionSchema

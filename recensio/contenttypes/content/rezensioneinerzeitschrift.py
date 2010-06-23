@@ -10,7 +10,7 @@ from Products.ATContentTypes.content import schemata
 from recensio.contenttypes.interfaces import IRezensioneinerZeitschrift
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes import contenttypesMessageFactory as _
-from recensio.contenttypes.content.schemata import BaseRezension
+from recensio.contenttypes.content.rezension import BaseRezension
 from recensio.contenttypes.content.schemata import JournalRezensionSchema
 
 RezensioneinerZeitschriftSchema = JournalRezensionSchema.copy() + atapi.Schema((

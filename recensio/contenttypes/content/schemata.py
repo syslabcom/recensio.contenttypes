@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 """Definition of the base Rezension Schemata
 """
-from zope.interface import implements
-
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
 from Products.Archetypes import atapi
-from Products.CMFCore.utils import getToolByName
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
-
 
 
 AuthorsSchema = atapi.Schema((
@@ -262,7 +258,3 @@ JournalRezensionSchema = schemata.ATContentTypeSchema.copy() + \
         ),
     ))
 JournalRezensionSchema["authors"].widget.label=_(u"Autor des Aufsatzes")
-
-class BaseRezension(base.ATCTContent):
-    def listSupportedLanguages(self):
-        return self.portal_languages.listSupportedLanguages()

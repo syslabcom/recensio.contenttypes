@@ -9,7 +9,7 @@ from Products.ATContentTypes.content import schemata
 
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.interfaces import IRezensioneinerMonographie
-from recensio.contenttypes.content.schemata import BaseRezension
+from recensio.contenttypes.content.rezension import BaseRezension
 from recensio.contenttypes.content.schemata import BookRezensionSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 

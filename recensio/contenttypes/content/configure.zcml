@@ -3,9 +3,6 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="recensio.contenttypes">
 
-  <!-- configure your content components here -->
-  
-  <!-- -*- extra stuff goes here -*- -->
   <class class=".praesentationenvoninternetressourcen.PraesentationenvonInternetressourcen">
     <require
         permission="zope2.View"
@@ -40,12 +37,6 @@
     <require
         permission="zope2.View"
         interface="..interfaces.IRezensioneinerMonographie"
-        />
-  </class>
-  <class class=".rezension.Rezension">
-    <require
-        permission="zope2.View"
-        interface="..interfaces.IRezension"
         />
   </class>
 

@@ -1,10 +1,15 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="recensio.contenttypes">
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="recensio.contenttypes">
 
   <include package="plone.app.contentmenu" />
 
-  <!-- -*- extra stuff goes here -*- -->
+  <browser:page
+     for="..interfaces.IRezension"
+     name="rezension-view"
+     class=".rezension.View"
+     permission="zope2.View"
+     />
 
 </configure>
