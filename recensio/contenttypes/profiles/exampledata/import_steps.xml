@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<import-steps>
+    <import-step id="recensio_example_content" version="20100623-01"
+            handler="recensio.contenttypes.setuphandlers.addExampleContent"
+            description="Example Content for Recensio"
+            title="Example Content" />
+</import-steps>
