@@ -93,5 +93,6 @@ def addExampleContent(context):
 
         for i in range(10):
             data["id"] = reviews.generateId(rez_class.meta_type)
+            data['title'] = 'Test %s No %d' %(rez_class.portal_type, i)
             review_id = reviews.invokeFactory(rez_class.__doc__, **data)
             print "Added %s" %reviews[review_id].absolute_url()
