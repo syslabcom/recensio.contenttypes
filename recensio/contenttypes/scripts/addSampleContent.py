@@ -79,10 +79,11 @@ for rez_class in [PraesentationenvonAufsatzinZeitschrift,
                   PraesentationvonAufsatzinSammelband]:
     # Fill in all fields with dummy content
     data = {}
-    data["id"] = reviews.generateId(rez_class.meta_type)
     for field in rez_class.ordered_fields:
         data[field] = test_data[field]
 
-    review_id = reviews.invokeFactory(rez_class.__doc__, **data)
-    print "Added %s" %reviews[review_id].absolute_url()
+    for i in range(10):
+        data["id"] = reviews.generateId(rez_class.meta_type)
+        review_id = reviews.invokeFactory(rez_class.__doc__, **data)
+        print "Added %s" %reviews[review_id].absolute_url()
     transaction.commit()
