@@ -14,7 +14,7 @@
       </div>
       <div id="rezension-reference">
         <iframe tal:condition="view/has_pdf"
-                tal:attributes="src python:'http://docs.google.com/gview?url=%s&embedded=true' %context.pdf.absolute_url()" 
+                tal:attributes="src python:'http://docs.google.com/gview?url=%s/pdf&embedded=true' %context.absolute_url()" 
                 style="width:570px; height:740px;" 
                 frameborder="0"></iframe>
       </div>
