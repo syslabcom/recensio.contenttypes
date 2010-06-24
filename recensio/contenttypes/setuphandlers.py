@@ -6,6 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from AccessControl.SecurityManagement import newSecurityManager
 from AccessControl.SecurityManagement import getSecurityManager
 
+from OFS.Image import File
 from zope.app.component.hooks import getSite
 
 from recensio.contenttypes.content.rezensioneinermonographie import \
@@ -42,6 +43,13 @@ def addExampleContent(context):
 
     reviews = portal.get("sample-reviews")
 
+    pdf_file = open(os.path.join(
+        os.path.dirname(__file__), "tests", "test_content","Testdatei.pdf"),
+                    "r")
+
+    pdf_obj = File(id="test-pdf", title="Test Pdf", file=pdf_file,
+        content_type='application/pdf')
+
     test_data={'authors': u'Tadeusz Kotłowski',
                'bezugsautoren': u'Tadeusz Kotłowski',
                'ddcRaum': u'Deutschland / Mitteleuropa allgemein, Polen',
@@ -64,7 +72,7 @@ def addExampleContent(context):
                'issn':u'1822-4016',
                'kuerzelZeitschrift':u'',
                'nummer':'2',
-               'pdf': None,
+               'pdf': pdf_obj,
                'praesentationTextsprache':'de',
                'praesentiertenSchriftTextsprache':'pl',
                'recensioID':u'',
