@@ -14,7 +14,7 @@ class View(BrowserView):
     """
     template = ViewPageTemplateFile('rezension.pt')
 
-    def metadata(self):
+    def get_metadata(self):
         context = self.context
         fields = self.context.Schema()._fields
         meta = {}
@@ -23,6 +23,14 @@ class View(BrowserView):
             if field not in ["title", "description", "rezension"]:
                 meta[field] = fields[field].widget.label
         return meta
+
+    def has_pdf(self):
+        """
+        If a pdf is deleted a pdf object still exists with size 0
+        """
+        if hasattr(self.context, "pdf"):
+            if self.context.pdf.size > 0:
+                return True
 
     def get_rezension_title(self):
         """
@@ -34,6 +42,7 @@ class View(BrowserView):
         978-83-60448-39-7.
         """
         context = self.context
+
         def add_meta(method, separator):
             """
             Adds a section of metadata if it exists
