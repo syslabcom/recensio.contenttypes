@@ -38,11 +38,12 @@ class View(BrowserView):
             """
             Adds a section of metadata if it exists
             """
-            meta = None
+            meta = u''
             if hasattr(context, method):
                 meta = context[method]()
                 if meta:
-                    return separator+" "+meta
+                    meta = separator+" "+meta
+            return meta
 
         rtitle = context.Title() + \
                  add_meta("getUntertitel", ":") + \
