@@ -5,10 +5,10 @@
   <property name="title" i18n:translate="">Praesentationen von Monographien</property>
   <property name="description"
     i18n:translate="">Praesentationen von Monographien</property>
-  <property name="content_meta_type">PraesentationenvonMonographien</property>
+  <property name="content_meta_type">PresentationMonograph</property>
   <property name="content_icon">document_icon.gif</property>
   <property name="product">recensio.contenttypes</property>
-  <property name="factory">addPraesentationenvonMonographien</property>
+  <property name="factory">addPresentationMonograph</property>
   <property name="immediate_view">atct_edit</property>
   <property name="global_allow">True</property>
   <property name="filter_content_types">False</property>

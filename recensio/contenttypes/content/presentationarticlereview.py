@@ -18,27 +18,27 @@ from recensio.contenttypes.content.schemata import SeitenzahlSchema
 
 
 
-PraesentationenvonAufsatzinZeitschriftSchema = \
+PresentationArticleReviewSchema = \
                                              JournalReviewSchema.copy() + \
                                              BezugsautorenSchema.copy() + \
                                              InternetSchema.copy() + \
                                              SeitenzahlSchema.copy()
 
-PraesentationenvonAufsatzinZeitschriftSchema['title'].storage = \
+PresentationArticleReviewSchema['title'].storage = \
                                                        atapi.AnnotationStorage()
-PraesentationenvonAufsatzinZeitschriftSchema['description'].storage = \
+PresentationArticleReviewSchema['description'].storage = \
                                                        atapi.AnnotationStorage()
 
-schemata.finalizeATCTSchema(PraesentationenvonAufsatzinZeitschriftSchema,
+schemata.finalizeATCTSchema(PresentationArticleReviewSchema,
                             moveDiscussion=False)
 
 
-class PraesentationenvonAufsatzinZeitschrift(BaseReview):
+class PresentationArticleReview(BaseReview):
     """Praesentationen von Aufsatz in Zeitschrift"""
     implements(IPresentationArticleReview)
 
-    meta_type = "PraesentationenvonAufsatzinZeitschrift"
-    schema = PraesentationenvonAufsatzinZeitschriftSchema
+    meta_type = "PresentationArticleReview"
+    schema = PresentationArticleReviewSchema
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
@@ -106,4 +106,4 @@ class PraesentationenvonAufsatzinZeitschrift(BaseReview):
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
-atapi.registerType(PraesentationenvonAufsatzinZeitschrift, PROJECTNAME)
+atapi.registerType(PresentationArticleReview, PROJECTNAME)

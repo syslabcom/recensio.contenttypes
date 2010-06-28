@@ -17,7 +17,7 @@ from recensio.contenttypes.content.schemata import InternetSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 from recensio.contenttypes import contenttypesMessageFactory as _
 
-PraesentationvonAufsatzinSammelbandSchema = BookReviewSchema.copy() + \
+PresentationCollectionSchema = BookReviewSchema.copy() + \
                                             BezugsautorenSchema.copy() + \
                                             InternetSchema.copy() + \
                                             SerialSchema.copy() + \
@@ -33,21 +33,21 @@ PraesentationvonAufsatzinSammelbandSchema = BookReviewSchema.copy() + \
         ),
 ))
 
-PraesentationvonAufsatzinSammelbandSchema['title'].storage = \
+PresentationCollectionSchema['title'].storage = \
                                                        atapi.AnnotationStorage()
-PraesentationvonAufsatzinSammelbandSchema['description'].storage = \
+PresentationCollectionSchema['description'].storage = \
                                                        atapi.AnnotationStorage()
 
-schemata.finalizeATCTSchema(PraesentationvonAufsatzinSammelbandSchema,
+schemata.finalizeATCTSchema(PresentationCollectionSchema,
                             moveDiscussion=False)
 
 
-class PraesentationvonAufsatzinSammelband(BaseReview):
+class PresentationCollection(BaseReview):
     """Praesentation von Aufsatz in Sammelband"""
     implements(IPresentationCollection)
 
-    meta_type = "PraesentationvonAufsatzinSammelband"
-    schema = PraesentationvonAufsatzinSammelbandSchema
+    meta_type = "PresentationCollection"
+    schema = PresentationCollectionSchema
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
@@ -119,4 +119,4 @@ class PraesentationvonAufsatzinSammelband(BaseReview):
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
-atapi.registerType(PraesentationvonAufsatzinSammelband, PROJECTNAME)
+atapi.registerType(PresentationCollection, PROJECTNAME)

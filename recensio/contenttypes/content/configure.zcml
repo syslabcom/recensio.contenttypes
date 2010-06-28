@@ -3,19 +3,19 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="recensio.contenttypes">
 
-  <class class=".presentationonlineresource.PraesentationenvonInternetressourcen">
+  <class class=".presentationonlineresource.PresentationOnlineResource">
     <require
         permission="zope2.View"
         interface="..interfaces.IPresentationOnlineResource"
         />
   </class>
-  <class class=".presentationarticlereview.PraesentationenvonAufsatzinZeitschrift">
+  <class class=".presentationarticlereview.PresentationArticleReview">
     <require
         permission="zope2.View"
         interface="..interfaces.IPresentationArticleReview"
         />
   </class>
-  <class class=".presentationcollection.PraesentationvonAufsatzinSammelband">
+  <class class=".presentationcollection.PresentationCollection">
     <require
         permission="zope2.View"
         interface="..interfaces.IPresentationCollection"
@@ -27,7 +27,7 @@
         interface="..interfaces.IReviewJournal"
         />
   </class>
-  <class class=".presentationmonograph.PraesentationenvonMonographien">
+  <class class=".presentationmonograph.PresentationMonograph">
     <require
         permission="zope2.View"
         interface="..interfaces.IPresentationMonograph"

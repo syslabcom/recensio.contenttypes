@@ -16,7 +16,7 @@ from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import CommonReviewSchema
 from recensio.contenttypes.content.schemata import InternetSchema
 
-PraesentationenvonInternetressourcenSchema = CommonReviewSchema.copy() + \
+PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
                                              InternetSchema.copy() + \
                                              atapi.Schema((
     atapi.StringField(
@@ -65,21 +65,21 @@ PraesentationenvonInternetressourcenSchema = CommonReviewSchema.copy() + \
 
 ))
 
-PraesentationenvonInternetressourcenSchema['title'].storage = \
+PresentationOnlineResourceSchema['title'].storage = \
                                                        atapi.AnnotationStorage()
-PraesentationenvonInternetressourcenSchema['description'].storage = \
+PresentationOnlineResourceSchema['description'].storage = \
                                                        atapi.AnnotationStorage()
 
-schemata.finalizeATCTSchema(PraesentationenvonInternetressourcenSchema,
+schemata.finalizeATCTSchema(PresentationOnlineResourceSchema,
                             moveDiscussion=False)
 
 
-class PraesentationenvonInternetressourcen(BaseReview):
+class PresentationOnlineResource(BaseReview):
     """Praesentationen von Internetressourcen"""
     implements(IPresentationOnlineResource)
 
-    meta_type = "PraesentationenvonInternetressourcen"
-    schema = PraesentationenvonInternetressourcenSchema
+    meta_type = "PresentationOnlineResource"
+    schema = PresentationOnlineResourceSchema
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
@@ -129,4 +129,4 @@ class PraesentationenvonInternetressourcen(BaseReview):
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
-atapi.registerType(PraesentationenvonInternetressourcen, PROJECTNAME)
+atapi.registerType(PresentationOnlineResource, PROJECTNAME)

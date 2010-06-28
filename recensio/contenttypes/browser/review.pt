@@ -47,11 +47,11 @@
   <body>
     <div metal:fill-slot="main">
 
-      <div id="rezension">
-        <h2 tal:content="view/get_rezension_title"></h2>
-        <p tal:content="context/getRezension"></p>
+      <div id="review">
+        <h2 tal:content="view/get_review_title"></h2>
+        <p tal:content="context/getReview"></p>
       </div>
-      <div id="rezension-reference">
+      <div id="review-reference">
         <tal:pdf-viewer condition="view/has_pdf">
           <div id="pageturner">
             tal:condition="python: view.installed and view.is_pdf and view.view.settings.successfully_converted">
@@ -60,7 +60,7 @@
 
         </tal:pdf-viewer>
       </div>
-      <div id="rezension-metadata"
+      <div id="review-metadata"
            tal:define="metadata view/get_metadata">
         <tal:meta repeat="field python:metadata.keys()">
           <dl>

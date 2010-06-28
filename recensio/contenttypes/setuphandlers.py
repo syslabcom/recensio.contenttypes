@@ -13,15 +13,15 @@ from recensio.contenttypes.content.reviewmonograph import \
      RevieweinerMonographie
 
 from recensio.contenttypes.content.presentationarticlereview \
-     import PraesentationenvonAufsatzinZeitschrift
+     import PresentationArticleReview
 from recensio.contenttypes.content.reviewjournal import \
      RevieweinerZeitschrift
 from recensio.contenttypes.content.presentationonlineresource import \
-     PraesentationenvonInternetressourcen
+     PresentationOnlineResource
 from recensio.contenttypes.content.presentationmonograph import \
-     PraesentationenvonMonographien
+     PresentationMonograph
 from recensio.contenttypes.content.presentationcollection import \
-     PraesentationvonAufsatzinSammelband
+     PresentationCollection
 
 mdfile = os.path.join(os.path.dirname(__file__), 'profiles', 'exampledata',
     'metadata.xml')
@@ -89,11 +89,11 @@ def addExampleContent(context):
                'idBvb':u'',
                'publisher':u'',}
 
-    for rez_class in [PraesentationenvonAufsatzinZeitschrift,
+    for rez_class in [PresentationArticleReview,
                       RevieweinerZeitschrift,
-                      PraesentationenvonInternetressourcen,
-                      PraesentationenvonMonographien,
-                      PraesentationvonAufsatzinSammelband]:
+                      PresentationOnlineResource,
+                      PresentationMonograph,
+                      PresentationCollection]:
         # Fill in all fields with dummy content
         data = {}
         for field in rez_class.ordered_fields:

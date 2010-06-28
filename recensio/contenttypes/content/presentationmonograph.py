@@ -14,26 +14,26 @@ from recensio.contenttypes.content.schemata import BezugsautorenSchema
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import InternetSchema
 
-PraesentationenvonMonographienSchema = BookReviewSchema.copy() + \
+PresentationMonographSchema = BookReviewSchema.copy() + \
                                        BezugsautorenSchema.copy() + \
                                        InternetSchema.copy()
 
 
-PraesentationenvonMonographienSchema['title'].storage = \
+PresentationMonographSchema['title'].storage = \
                                                       atapi.AnnotationStorage()
-PraesentationenvonMonographienSchema['description'].storage = \
+PresentationMonographSchema['description'].storage = \
                                                       atapi.AnnotationStorage()
 
-schemata.finalizeATCTSchema(PraesentationenvonMonographienSchema,
+schemata.finalizeATCTSchema(PresentationMonographSchema,
                             moveDiscussion=False)
 
 
-class PraesentationenvonMonographien(BaseReview):
+class PresentationMonograph(BaseReview):
     """Praesentationen von Monographien"""
     implements(IPresentationMonograph)
 
-    meta_type = "PraesentationenvonMonographien"
-    schema = PraesentationenvonMonographienSchema
+    meta_type = "PresentationMonograph"
+    schema = PresentationMonographSchema
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
@@ -88,4 +88,4 @@ class PraesentationenvonMonographien(BaseReview):
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
-atapi.registerType(PraesentationenvonMonographien, PROJECTNAME)
+atapi.registerType(PresentationMonograph, PROJECTNAME)

@@ -5,10 +5,10 @@
   <property name="title" i18n:translate="">Praesentationen von Aufsatz in Zeitschrift</property>
   <property name="description"
     i18n:translate="">Praesentationen von Aufsatz in Zeitschrift</property>
-  <property name="content_meta_type">PraesentationenvonAufsatzinZeitschrift</property>
+  <property name="content_meta_type">PresentationArticleReview</property>
   <property name="content_icon">document_icon.gif</property>
   <property name="product">recensio.contenttypes</property>
-  <property name="factory">addPraesentationenvonAufsatzinZeitschrift</property>
+  <property name="factory">addPresentationArticleReview</property>
   <property name="immediate_view">atct_edit</property>
   <property name="global_allow">True</property>
   <property name="filter_content_types">False</property>
