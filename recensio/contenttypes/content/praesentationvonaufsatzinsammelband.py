@@ -15,7 +15,7 @@ from recensio.contenttypes.content.schemata import BezugsautorenSchema
 from recensio.contenttypes.content.schemata import BookRezensionSchema
 from recensio.contenttypes.content.schemata import InternetSchema
 from recensio.contenttypes.content.schemata import SerialSchema
-
+from recensio.contenttypes import contenttypesMessageFactory as _
 
 PraesentationvonAufsatzinSammelbandSchema = BookRezensionSchema.copy() + \
                                             BezugsautorenSchema.copy() + \
