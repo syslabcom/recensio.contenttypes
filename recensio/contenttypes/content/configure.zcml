@@ -3,40 +3,40 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="recensio.contenttypes">
 
-  <class class=".praesentationenvoninternetressourcen.PraesentationenvonInternetressourcen">
+  <class class=".presentationonlineresource.PraesentationenvonInternetressourcen">
     <require
         permission="zope2.View"
-        interface="..interfaces.IPraesentationenvonInternetressourcen"
+        interface="..interfaces.IPresentationOnlineResource"
         />
   </class>
-  <class class=".praesentationenvonaufsatzinzeitschrift.PraesentationenvonAufsatzinZeitschrift">
+  <class class=".presentationarticlereview.PraesentationenvonAufsatzinZeitschrift">
     <require
         permission="zope2.View"
-        interface="..interfaces.IPraesentationenvonAufsatzinZeitschrift"
+        interface="..interfaces.IPresentationArticleReview"
         />
   </class>
-  <class class=".praesentationvonaufsatzinsammelband.PraesentationvonAufsatzinSammelband">
+  <class class=".presentationcollection.PraesentationvonAufsatzinSammelband">
     <require
         permission="zope2.View"
-        interface="..interfaces.IPraesentationvonAufsatzinSammelband"
+        interface="..interfaces.IPresentationCollection"
         />
   </class>
-  <class class=".rezensioneinerzeitschrift.RezensioneinerZeitschrift">
+  <class class=".reviewjournal.RevieweinerZeitschrift">
     <require
         permission="zope2.View"
-        interface="..interfaces.IRezensioneinerZeitschrift"
+        interface="..interfaces.IReviewJournal"
         />
   </class>
-  <class class=".praesentationenvonmonographien.PraesentationenvonMonographien">
+  <class class=".presentationmonograph.PraesentationenvonMonographien">
     <require
         permission="zope2.View"
-        interface="..interfaces.IPraesentationenvonMonographien"
+        interface="..interfaces.IPresentationMonograph"
         />
   </class>
-  <class class=".rezensioneinermonographie.RezensioneinerMonographie">
+  <class class=".reviewmonograph.RevieweinerMonographie">
     <require
         permission="zope2.View"
-        interface="..interfaces.IRezensioneinerMonographie"
+        interface="..interfaces.IReviewMonograph"
         />
   </class>
 

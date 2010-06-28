@@ -1,8 +1,8 @@
 # -*- extra stuff goes here -*-
-from praesentationenvoninternetressourcen import IPraesentationenvonInternetressourcen
-from praesentationenvonaufsatzinzeitschrift import IPraesentationenvonAufsatzinZeitschrift
-from praesentationvonaufsatzinsammelband import IPraesentationvonAufsatzinSammelband
-from rezensioneinerzeitschrift import IRezensioneinerZeitschrift
-from praesentationenvonmonographien import IPraesentationenvonMonographien
-from rezensioneinermonographie import IRezensioneinerMonographie
-from rezension import IRezension
+from presentationonlineresource import IPresentationOnlineResource
+from presentationarticlereview import IPresentationArticleReview
+from presentationcollection import IPresentationCollection
+from reviewjournal import IReviewJournal
+from presentationmonograph import IPresentationMonograph
+from reviewmonograph import IReviewMonograph
+from review import IReview

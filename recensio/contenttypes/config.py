@@ -8,8 +8,8 @@ ADD_PERMISSIONS = {
     'PraesentationenvonInternetressourcen': 'recensio.contenttypes: Add Praesentationen von Internetressourcen',
     'PraesentationenvonAufsatzinZeitschrift': 'recensio.contenttypes: Add Praesentationen von Aufsatz in Zeitschrift',
     'PraesentationvonAufsatzinSammelband': 'recensio.contenttypes: Add Praesentation von Aufsatz in Sammelband',
-    'RezensioneinerZeitschrift': 'recensio.contenttypes: Add Rezension einer Zeitschrift',
+    'RevieweinerZeitschrift': 'recensio.contenttypes: Add Review einer Zeitschrift',
     'PraesentationenvonMonographien': 'recensio.contenttypes: Add Praesentationen von Monographien',
-    'RezensioneinerMonographie': 'recensio.contenttypes: Add Rezension einer Monographie',
-    'Rezension': 'recensio.contenttypes: Add Rezension',
+    'RevieweinerMonographie': 'recensio.contenttypes: Add Review einer Monographie',
+    'Review': 'recensio.contenttypes: Add Review',
 }

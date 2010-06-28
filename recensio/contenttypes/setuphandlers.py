@@ -9,18 +9,18 @@ from AccessControl.SecurityManagement import getSecurityManager
 from OFS.Image import File
 from zope.app.component.hooks import getSite
 
-from recensio.contenttypes.content.rezensioneinermonographie import \
-     RezensioneinerMonographie
+from recensio.contenttypes.content.reviewmonograph import \
+     RevieweinerMonographie
 
-from recensio.contenttypes.content.praesentationenvonaufsatzinzeitschrift \
+from recensio.contenttypes.content.presentationarticlereview \
      import PraesentationenvonAufsatzinZeitschrift
-from recensio.contenttypes.content.rezensioneinerzeitschrift import \
-     RezensioneinerZeitschrift
-from recensio.contenttypes.content.praesentationenvoninternetressourcen import \
+from recensio.contenttypes.content.reviewjournal import \
+     RevieweinerZeitschrift
+from recensio.contenttypes.content.presentationonlineresource import \
      PraesentationenvonInternetressourcen
-from recensio.contenttypes.content.praesentationenvonmonographien import \
+from recensio.contenttypes.content.presentationmonograph import \
      PraesentationenvonMonographien
-from recensio.contenttypes.content.praesentationvonaufsatzinsammelband import \
+from recensio.contenttypes.content.presentationcollection import \
      PraesentationvonAufsatzinSammelband
 
 mdfile = os.path.join(os.path.dirname(__file__), 'profiles', 'exampledata',
@@ -51,46 +51,46 @@ def addExampleContent(context):
         content_type='application/pdf')
 
     test_data={'authors': u'Tadeusz Kotłowski',
-               'bezugsautoren': u'Tadeusz Kotłowski',
-               'ddcRaum': u'Deutschland / Mitteleuropa allgemein, Polen',
-               'ddcSach': u'Militär- und Kriegsgeschichte',
-               'ddcZeit': u'1939-1941',
+               'referenceAuthors': u'Tadeusz Kotłowski',
+               'ddcPlace': u'Deutschland / Mitteleuropa allgemein, Polen',
+               'ddcSubject': u'Militär- und Kriegsgeschichte',
+               'ddcTime': u'1939-1941',
                'description': u'',
                'doc': None,
                'documentarten_bibliographische': u'',
                'documentarten_individual':u'',
                'documentarten_institution':u'',
                'documentarten_kooperation':u'',
-               'erscheinungsjahr':u'2008',
-               'erscheinungsort':u'Krakow',
-               'gezaehltesJahr':'2008',
-               'heftnummer':u'2',
+               'yearOfPublication':u'2008',
+               'yearOfPublication':u'Krakow',
+               'officialYearOfPublication':'2008',
+               'number':u'2',
                'herausgeber':u'Avalon',
                'herausgeberSammelband':u'',
                'institution':u'',
                'isbn':u'978-83-60448-39-7',
                'issn':u'1822-4016',
-               'kuerzelZeitschrift':u'',
-               'nummer':'2',
+               'shortnameJournal':u'',
+               'volume':'2',
                'pdf': pdf_obj,
-               'praesentationTextsprache':'de',
-               'praesentiertenSchriftTextsprache':'pl',
+               'languagePresentation':'de',
+               'languageReview':'pl',
                'recensioID':u'',
-               'reihe':u'',
-               'reihennummer':u'',
-               'rezension':u'',
-               'rezensionAutor':u'',
-               'schlagwoerter':u'',
-               'seitenzahl':u'',
+               'series':u'',
+               'seriesVol':u'',
+               'review':u'',
+               'reviewAuthor':u'',
+               'subject':u'',
+               'pages':u'',
                'title':u'Niemcy',
-               'trefferdaten':u'',
-               'untertitel':u'Dzieje państwa i społeczeństwa 1890–1945',
+               'searchresults':u'',
+               'subtitle':u'Dzieje państwa i społeczeństwa 1890–1945',
                'url': 'http://www.syslab.com',
-               'verbundID':u'',
-               'verlag':u'',}
+               'idBvb':u'',
+               'publisher':u'',}
 
     for rez_class in [PraesentationenvonAufsatzinZeitschrift,
-                      RezensioneinerZeitschrift,
+                      RevieweinerZeitschrift,
                       PraesentationenvonInternetressourcen,
                       PraesentationenvonMonographien,
                       PraesentationvonAufsatzinSammelband]:

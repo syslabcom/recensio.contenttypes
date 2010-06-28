@@ -13,9 +13,9 @@
     <type portal_type="Praesentationen von Internetressourcen" />
     <type portal_type="Praesentationen von Aufsatz in Zeitschrift" />
     <type portal_type="Praesentation von Aufsatz in Sammelband" />
-    <type portal_type="Rezension einer Zeitschrift" />
+    <type portal_type="Review einer Zeitschrift" />
     <type portal_type="Praesentationen von Monographien" />
-    <type portal_type="Rezension einer Monographie" />
-    <type portal_type="Rezension" />
+    <type portal_type="Review einer Monographie" />
+    <type portal_type="Review" />
   </factorytypes>
 </object>

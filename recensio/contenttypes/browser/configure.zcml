@@ -6,16 +6,16 @@
   <include package="plone.app.contentmenu" />
 
   <browser:page
-     for="..interfaces.IRezension"
-     name="rezension-view"
-     class=".rezension.View"
+     for="..interfaces.IReview"
+     name="review-view"
+     class=".review.View"
      permission="zope2.View"
      />
 
   <browser:page
   	 name="converted.swf"
-  	 for="..interfaces.IRezension"
-  	 class=".rezension.DownloadSWFView"
+  	 for="..interfaces.IReview"
+  	 class=".review.DownloadSWFView"
   	 permission="zope2.View"
      />
 

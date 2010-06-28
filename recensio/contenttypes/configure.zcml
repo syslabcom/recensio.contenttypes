@@ -30,13 +30,13 @@
   <!-- if a Review has been edited or updated, check if the pdf has
        been changed and update the swf version of it if necessary -->
   <subscriber 
-     for=".interfaces.rezension.IRezension
+     for=".interfaces.review.IReview
           Products.Archetypes.interfaces.IObjectEditedEvent"
      handler=".eventhandlers.review_pdf_updated_eventhandler"
      />
 
   <subscriber 
-     for=".interfaces.rezension.IRezension
+     for=".interfaces.review.IReview
           Products.Archetypes.interfaces.IObjectInitializedEvent"
      handler=".eventhandlers.review_pdf_updated_eventhandler"
      />

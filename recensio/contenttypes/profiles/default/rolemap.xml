@@ -16,7 +16,7 @@
       <role name="Contributor" />
       <role name="Owner" />
     </permission>
-    <permission name="recensio.contenttypes: Add Rezension einer Zeitschrift" acquire="False">
+    <permission name="recensio.contenttypes: Add Review einer Zeitschrift" acquire="False">
       <role name="Manager" />
       <role name="Contributor" />
     </permission>
@@ -25,7 +25,7 @@
       <role name="Contributor" />
       <role name="Owner" />
     </permission>
-    <permission name="recensio.contenttypes: Add Rezension einer Monographie" acquire="False">
+    <permission name="recensio.contenttypes: Add Review einer Monographie" acquire="False">
       <role name="Manager" />
       <role name="Contributor" />
     </permission>

@@ -2,7 +2,7 @@ from zope.interface import Interface
 # -*- Additional Imports Here -*-
 
 
-class IRezensioneinerZeitschrift(Interface):
-    """Rezension einer Zeitschrift"""
+class IPresentationOnlineResource(Interface):
+    """Praesentationen von Internetressourcen"""
 
     # -*- schema definition goes here -*-

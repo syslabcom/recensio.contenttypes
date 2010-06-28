@@ -9,14 +9,14 @@ from Products.ATVocabularyManager import NamedVocabulary
 from Products.Archetypes import atapi
 
 from recensio.contenttypes.interfaces import \
-     IPraesentationenvonInternetressourcen
+     IPresentationOnlineResource
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.rezension import BaseRezension
-from recensio.contenttypes.content.schemata import CommonRezensionSchema
+from recensio.contenttypes.content.review import BaseReview
+from recensio.contenttypes.content.schemata import CommonReviewSchema
 from recensio.contenttypes.content.schemata import InternetSchema
 
-PraesentationenvonInternetressourcenSchema = CommonRezensionSchema.copy() + \
+PraesentationenvonInternetressourcenSchema = CommonReviewSchema.copy() + \
                                              InternetSchema.copy() + \
                                              atapi.Schema((
     atapi.StringField(
@@ -74,9 +74,9 @@ schemata.finalizeATCTSchema(PraesentationenvonInternetressourcenSchema,
                             moveDiscussion=False)
 
 
-class PraesentationenvonInternetressourcen(BaseRezension):
+class PraesentationenvonInternetressourcen(BaseReview):
     """Praesentationen von Internetressourcen"""
-    implements(IPraesentationenvonInternetressourcen)
+    implements(IPresentationOnlineResource)
 
     meta_type = "PraesentationenvonInternetressourcen"
     schema = PraesentationenvonInternetressourcenSchema
@@ -86,20 +86,20 @@ class PraesentationenvonInternetressourcen(BaseRezension):
     # Common = Base +
 
     # Base
-    rezensionAutor = atapi.ATFieldProperty('rezensionAutor')
-    praesentiertenSchriftTextsprache = atapi.ATFieldProperty(
-        'praesentiertenSchriftTextsprache')
-    praesentationTextsprache = atapi.ATFieldProperty('praesentationTextsprache')
+    reviewAuthor = atapi.ATFieldProperty('reviewAuthor')
+    languageReview = atapi.ATFieldProperty(
+        'languageReview')
+    languagePresentation = atapi.ATFieldProperty('languagePresentation')
     recensioID = atapi.ATFieldProperty('recensioID')
-    schlagwoerter = atapi.ATFieldProperty('schlagwoerter')
+    subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
     doc = atapi.ATFieldProperty('doc')
-    rezension = atapi.ATFieldProperty('rezension')
+    review = atapi.ATFieldProperty('review')
 
     # Common
-    ddcRaum = atapi.ATFieldProperty('ddcRaum')
-    ddcSach = atapi.ATFieldProperty('ddcSach')
-    ddcZeit = atapi.ATFieldProperty('ddcZeit')
+    ddcPlace = atapi.ATFieldProperty('ddcPlace')
+    ddcSubject = atapi.ATFieldProperty('ddcSubject')
+    ddcTime = atapi.ATFieldProperty('ddcTime')
 
     # Internet
     url = atapi.ATFieldProperty('url')
@@ -116,15 +116,15 @@ class PraesentationenvonInternetressourcen(BaseRezension):
 
     # Reorder the fields as required
     ordered_fields = ["recensioID", "title", "institution",
-                      "praesentationTextsprache",
-                      "praesentiertenSchriftTextsprache",
+                      "languagePresentation",
+                      "languageReview",
                       "documentarten_institution",
                       "documentarten_kooperation",
                       "documentarten_bibliographische",
                       "documentarten_individual", "description",
-                      "rezensionAutor", "url", "ddcRaum", "ddcSach",
-                      "ddcZeit", "schlagwoerter", "pdf", "doc",
-                      "rezension"]
+                      "reviewAuthor", "url", "ddcPlace", "ddcSubject",
+                      "ddcTime", "subject", "pdf", "doc",
+                      "review"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

@@ -7,17 +7,17 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
 
 from recensio.contenttypes.interfaces import \
-     IPraesentationvonAufsatzinSammelband
+     IPresentationCollection
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.rezension import BaseRezension
+from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BezugsautorenSchema
-from recensio.contenttypes.content.schemata import BookRezensionSchema
+from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import InternetSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 from recensio.contenttypes import contenttypesMessageFactory as _
 
-PraesentationvonAufsatzinSammelbandSchema = BookRezensionSchema.copy() + \
+PraesentationvonAufsatzinSammelbandSchema = BookReviewSchema.copy() + \
                                             BezugsautorenSchema.copy() + \
                                             InternetSchema.copy() + \
                                             SerialSchema.copy() + \
@@ -42,9 +42,9 @@ schemata.finalizeATCTSchema(PraesentationvonAufsatzinSammelbandSchema,
                             moveDiscussion=False)
 
 
-class PraesentationvonAufsatzinSammelband(BaseRezension):
+class PraesentationvonAufsatzinSammelband(BaseReview):
     """Praesentation von Aufsatz in Sammelband"""
-    implements(IPraesentationvonAufsatzinSammelband)
+    implements(IPresentationCollection)
 
     meta_type = "PraesentationvonAufsatzinSammelband"
     schema = PraesentationvonAufsatzinSammelbandSchema
@@ -56,28 +56,28 @@ class PraesentationvonAufsatzinSammelband(BaseRezension):
     # Common = Base +
 
     # Base
-    rezensionAutor = atapi.ATFieldProperty('rezensionAutor')
-    praesentiertenSchriftTextsprache = atapi.ATFieldProperty(
-        'praesentiertenSchriftTextsprache')
-    praesentationTextsprache = atapi.ATFieldProperty('praesentationTextsprache')
+    reviewAuthor = atapi.ATFieldProperty('reviewAuthor')
+    languageReview = atapi.ATFieldProperty(
+        'languageReview')
+    languagePresentation = atapi.ATFieldProperty('languagePresentation')
     recensioID = atapi.ATFieldProperty('recensioID')
-    schlagwoerter = atapi.ATFieldProperty('schlagwoerter')
+    subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
     doc = atapi.ATFieldProperty('doc')
-    rezension = atapi.ATFieldProperty('rezension')
+    review = atapi.ATFieldProperty('review')
 
     # Common
-    ddcRaum = atapi.ATFieldProperty('ddcRaum')
-    ddcSach = atapi.ATFieldProperty('ddcSach')
-    ddcZeit = atapi.ATFieldProperty('ddcZeit')
+    ddcPlace = atapi.ATFieldProperty('ddcPlace')
+    ddcSubject = atapi.ATFieldProperty('ddcSubject')
+    ddcTime = atapi.ATFieldProperty('ddcTime')
 
     # Printed
-    untertitel = atapi.ATFieldProperty('untertitel')
-    erscheinungsjahr = atapi.ATFieldProperty('erscheinungsjahr')
-    erscheinungsort = atapi.ATFieldProperty('erscheinungsort')
-    verlag = atapi.ATFieldProperty('verlag')
-    verbundID = atapi.ATFieldProperty('verbundID')
-    trefferdaten = atapi.ATFieldProperty('trefferdaten')
+    subtitle = atapi.ATFieldProperty('subtitle')
+    yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
+    yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
+    publisher = atapi.ATFieldProperty('publisher')
+    idBvb = atapi.ATFieldProperty('idBvb')
+    searchresults = atapi.ATFieldProperty('searchresults')
 
     # Authors
     authors = atapi.ATFieldProperty('authors')
@@ -86,18 +86,18 @@ class PraesentationvonAufsatzinSammelband(BaseRezension):
     isbn = atapi.ATFieldProperty('isbn')
 
     # Bezugsautoren
-    bezugsautoren = atapi.ATFieldProperty('bezugsautoren')
+    referenceAuthors = atapi.ATFieldProperty('referenceAuthors')
 
     # Internet
     url = atapi.ATFieldProperty('url')
 
     # Serial = Seitenzahl +
     # Seitenzahl
-    seitenzahl = atapi.ATFieldProperty('seitenzahl')
+    pages = atapi.ATFieldProperty('pages')
 
     # Serial
-    reihe = atapi.ATFieldProperty('reihe')
-    reihennummer = atapi.ATFieldProperty('reihennummer')
+    series = atapi.ATFieldProperty('series')
+    seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Praesentation von Aufsatz in Sammelband
     herausgeberSammelband = atapi.ATFieldProperty('herausgeberSammelband')
@@ -105,16 +105,16 @@ class PraesentationvonAufsatzinSammelband(BaseRezension):
     # Reorder the fields as required
 
     ordered_fields = ["recensioID", "authors",
-                      "herausgeberSammelband", "title", "untertitel",
-                      "erscheinungsort", "erscheinungsjahr",
-                      "seitenzahl", "description",
-                      "praesentationTextsprache",
-                      "praesentiertenSchriftTextsprache", "isbn",
-                      "verlag", "verbundID", "trefferdaten",
-                      "bezugsautoren", "reihe", "reihennummer",
-                      "rezensionAutor", "url", "ddcRaum", "ddcSach",
-                      "ddcZeit", "schlagwoerter", "pdf", "doc",
-                      "rezension"]
+                      "herausgeberSammelband", "title", "subtitle",
+                      "yearOfPublication", "yearOfPublication",
+                      "pages", "description",
+                      "languagePresentation",
+                      "languageReview", "isbn",
+                      "publisher", "idBvb", "searchresults",
+                      "referenceAuthors", "series", "seriesVol",
+                      "reviewAuthor", "url", "ddcPlace", "ddcSubject",
+                      "ddcTime", "subject", "pdf", "doc",
+                      "review"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

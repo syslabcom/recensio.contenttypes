@@ -2,7 +2,7 @@ from zope.interface import Interface
 # -*- Additional Imports Here -*-
 
 
-class IPraesentationenvonInternetressourcen(Interface):
-    """Praesentationen von Internetressourcen"""
+class IReview(Interface):
+    """Review Content Type"""
 
     # -*- schema definition goes here -*-

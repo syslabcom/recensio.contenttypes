@@ -29,15 +29,15 @@ except IOError:
 class View(BrowserView):
     """Moderation View
     """
-    template = ViewPageTemplateFile('rezension.pt')
+    template = ViewPageTemplateFile('review.pt')
 
     def get_metadata(self):
         context = self.context
         fields = self.context.Schema()._fields
         meta = {}
         for field in context.ordered_fields:
-            # skip fields which aren't considered metadata for Rezension types
-            if field not in ["title", "description", "rezension"]:
+            # skip fields which aren't considered metadata for Review types
+            if field not in ["title", "description", "review"]:
                 meta[field] = fields[field].widget.label
         return meta
 
@@ -60,7 +60,7 @@ class View(BrowserView):
             ptv.settings = Settings(context)
             return ptv.javascript()
 
-    def get_rezension_title(self):
+    def get_review_title(self):
         """
         Review titles have a particular format consisting of a
         combination of particular metadata:

@@ -2,7 +2,7 @@ from zope.interface import Interface
 # -*- Additional Imports Here -*-
 
 
-class IRezension(Interface):
-    """Review Content Type"""
+class IPresentationCollection(Interface):
+    """Praesentation von Aufsatz in Sammelband"""
 
     # -*- schema definition goes here -*-
