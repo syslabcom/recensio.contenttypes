@@ -1,34 +1,44 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
-    i18n_domain="recensio.contenttypes">
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:five="http://namespaces.zope.org/five"
+   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+   xmlns:i18n="http://namespaces.zope.org/i18n"
+   i18n_domain="recensio.contenttypes">
 
   <five:registerPackage package="." initialize=".initialize" />
 
-  <!-- Include the sub-packages that use their own configure.zcml files. -->
   <include package=".browser" />
   <include package=".content" />
   <include package=".portlets" />
 
-  <!-- Register the installation GenericSetup extension profile -->
   <genericsetup:registerProfile
-      name="default"
-      title="Recensio Content Types"
-      directory="profiles/default"
-      description=""
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
+     name="default"
+     title="Recensio Content Types"
+     directory="profiles/default"
+     description=""
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
 
   <genericsetup:registerProfile
-      name="example_content"
-      title="Recensio Content Type examples"
-      directory="profiles/exampledata"
-      description=""
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
+     name="example_content"
+     title="Recensio Content Type examples"
+     directory="profiles/exampledata"
+     description=""
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
 
- <!-- -*- extra stuff goes here -*- -->
+  <!-- if a Review has been edited or updated, check if the pdf has
+       been changed and update the swf version of it if necessary -->
+  <subscriber 
+     for=".interfaces.rezension.IRezension
+          Products.Archetypes.interfaces.IObjectEditedEvent"
+     handler=".eventhandlers.review_pdf_updated_eventhandler"
+     />
+
+  <subscriber 
+     for=".interfaces.rezension.IRezension
+          Products.Archetypes.interfaces.IObjectInitializedEvent"
+     handler=".eventhandlers.review_pdf_updated_eventhandler"
+     />
 
 </configure>

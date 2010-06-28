@@ -5,6 +5,7 @@ from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
 from Products.Archetypes import atapi
+from plone.app.blob.field import BlobField
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
@@ -107,14 +108,14 @@ BaseRezensionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Schlagwörter"),
             ),
         ),
-    atapi.FileField(
+    BlobField(
         'pdf',
         storage=atapi.AnnotationStorage(),
         widget=atapi.FileWidget(
             label=_(u"PDF"),
             ),
         ),
-    atapi.FileField(
+    BlobField(
         'doc',
         storage=atapi.AnnotationStorage(),
         widget=atapi.FileWidget(
