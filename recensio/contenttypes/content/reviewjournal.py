@@ -15,10 +15,10 @@ from recensio.contenttypes.content.schemata import JournalReviewSchema
 
 ReviewJournalSchema = JournalReviewSchema.copy() + atapi.Schema((
     atapi.StringField(
-        'herausgeber',
+        'editor',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Herausgeber"),
+            label=_(u"Editor"),
             ),
         ),
 ))
@@ -79,11 +79,11 @@ class ReviewJournal(BaseReview):
     officialYearOfPublication = atapi.ATFieldProperty('officialYearOfPublication')
 
     # ReviewJournal
-    herausgeber = atapi.ATFieldProperty('herausgeber')
+    editor = atapi.ATFieldProperty('editor')
 
     # Reorder the fields as required
 
-    ordered_fields = ["recensioID", "authors", "herausgeber", "title",
+    ordered_fields = ["recensioID", "authors", "editor", "title",
                       "subtitle", "yearOfPublication",
                       "placeOfPublication", "description",
                       "languagePresentation",

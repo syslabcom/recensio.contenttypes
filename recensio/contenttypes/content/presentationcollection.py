@@ -23,11 +23,11 @@ PresentationCollectionSchema = BookReviewSchema.copy() + \
                                             SerialSchema.copy() + \
                                             atapi.Schema((
     atapi.LinesField(
-        'herausgeberSammelband',
+        'editorCollectedEdition',
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.LinesWidget(
-            label=_(u"Herausgeber Sammelband"),
+            label=_(u"Editor Collected Edition"),
             rows=3,
             ),
         ),
@@ -100,12 +100,12 @@ class PresentationCollection(BaseReview):
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Presentation Collection
-    herausgeberSammelband = atapi.ATFieldProperty('herausgeberSammelband')
+    editorCollectedEdition = atapi.ATFieldProperty('editorCollectedEdition')
 
     # Reorder the fields as required
 
     ordered_fields = ["recensioID", "authors",
-                      "herausgeberSammelband", "title", "subtitle",
+                      "editorCollectedEdition", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
                       "pages", "description",
                       "languagePresentation",
