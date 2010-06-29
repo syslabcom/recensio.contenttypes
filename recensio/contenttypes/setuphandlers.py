@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 import os
 
-from Acquisition import aq_inner, aq_parent, aq_base, aq_chain, aq_get
-from Products.CMFCore.utils import getToolByName
-from AccessControl.SecurityManagement import newSecurityManager
-from AccessControl.SecurityManagement import getSecurityManager
-
 from OFS.Image import File
 from zope.app.component.hooks import getSite
+import zope.event
+from Testing import makerequest
+
+from AccessControl.SecurityManagement import getSecurityManager
+from AccessControl.SecurityManagement import newSecurityManager
+from Acquisition import aq_inner, aq_parent, aq_base, aq_chain, aq_get
+from Products.Archetypes.event import ObjectInitializedEvent
+from Products.CMFCore.utils import getToolByName
 
 from recensio.contenttypes.content.reviewmonograph import \
      ReviewMonograph
@@ -104,4 +107,8 @@ def addExampleContent(context):
             data["id"] = reviews.generateId(rez_class.meta_type)
             data['title'] = 'Test %s No %d' %(rez_class.portal_type, i)
             review_id = reviews.invokeFactory(rez_class.__doc__, **data)
+            obj = reviews[review_id]
+            request = makerequest.makerequest(obj)
+            event=ObjectInitializedEvent(obj, request)
+            zope.event.notify(event)
             print "Added %s" %reviews[review_id].absolute_url()
