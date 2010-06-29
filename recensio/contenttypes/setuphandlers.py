@@ -91,9 +91,10 @@ def addExampleContent(context):
 
     for rez_class in [PresentationArticleReview,
                       PresentationOnlineResource,
+                      ReviewJournal,
+                      ReviewMonograph,
                       PresentationMonograph,
                       PresentationCollection]:
-#                      ReviewJournal,
         # Fill in all fields with dummy content
         data = {}
         for field in rez_class.ordered_fields:
