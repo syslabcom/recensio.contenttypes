@@ -60,7 +60,7 @@ class PresentationMonograph(BaseReview):
     # Printed
     subtitle = atapi.ATFieldProperty('subtitle')
     yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
-    yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
+    placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
     publisher = atapi.ATFieldProperty('publisher')
     idBvb = atapi.ATFieldProperty('idBvb')
     searchresults = atapi.ATFieldProperty('searchresults')
@@ -77,7 +77,7 @@ class PresentationMonograph(BaseReview):
     # Reorder the fields as required
     ordered_fields = ["recensioID", "title", "subtitle",
                       "reviewAuthor", "yearOfPublication",
-                      "yearOfPublication", "description",
+                      "placeOfPublication", "description",
                       "languagePresentation",
                       "languageReview", "isbn",
                       "publisher", "idBvb", "searchresults",

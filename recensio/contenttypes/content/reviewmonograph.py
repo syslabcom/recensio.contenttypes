@@ -58,7 +58,7 @@ class RevieweinerMonographie(BaseReview):
     # Printed
     subtitle = atapi.ATFieldProperty('subtitle')
     yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
-    yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
+    placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
     publisher = atapi.ATFieldProperty('publisher')
     idBvb = atapi.ATFieldProperty('idBvb')
     searchresults = atapi.ATFieldProperty('searchresults')
@@ -75,7 +75,7 @@ class RevieweinerMonographie(BaseReview):
 
     # Reorder the fields as required
     ordered_fields = ["recensioID", "authors", "title", "subtitle",
-                      "yearOfPublication", "yearOfPublication",
+                      "yearOfPublication", "placeOfPublication",
                       "description",
                       "languageReview",
                       "languagePresentation", "isbn", "publisher",

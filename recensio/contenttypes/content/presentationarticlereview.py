@@ -65,7 +65,7 @@ class PresentationArticleReview(BaseReview):
     # Printed
     subtitle = atapi.ATFieldProperty('subtitle')
     yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
-    yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
+    placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
     publisher = atapi.ATFieldProperty('publisher')
     idBvb = atapi.ATFieldProperty('idBvb')
     searchresults = atapi.ATFieldProperty('searchresults')
@@ -92,7 +92,7 @@ class PresentationArticleReview(BaseReview):
     # Reorder the fields as required
 
     ordered_fields = ["recensioID", "authors", "title", "subtitle",
-                      "yearOfPublication", "yearOfPublication",
+                      "yearOfPublication", "placeOfPublication",
                       "pages", "description",
                       "languagePresentation",
                       "languageReview", "issn",

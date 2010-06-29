@@ -173,7 +173,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + atapi.Schema((
             ),
         ),
     atapi.StringField(
-        'yearOfPublication',
+        'placeOfPublication',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Erscheinungsort"),

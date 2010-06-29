@@ -62,7 +62,7 @@ def addExampleContent(context):
                'documentarten_institution':u'',
                'documentarten_kooperation':u'',
                'yearOfPublication':u'2008',
-               'yearOfPublication':u'Krakow',
+               'placeOfPublication':u'Krakow',
                'officialYearOfPublication':'2008',
                'number':u'2',
                'herausgeber':u'Avalon',
