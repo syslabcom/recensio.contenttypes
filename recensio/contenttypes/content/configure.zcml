@@ -21,7 +21,7 @@
         interface="..interfaces.IPresentationCollection"
         />
   </class>
-  <class class=".reviewjournal.RevieweinerZeitschrift">
+  <class class=".reviewjournal.ReviewJournal">
     <require
         permission="zope2.View"
         interface="..interfaces.IReviewJournal"
@@ -33,7 +33,7 @@
         interface="..interfaces.IPresentationMonograph"
         />
   </class>
-  <class class=".reviewmonograph.RevieweinerMonographie">
+  <class class=".reviewmonograph.ReviewMonograph">
     <require
         permission="zope2.View"
         interface="..interfaces.IReviewMonograph"

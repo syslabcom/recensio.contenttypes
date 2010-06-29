@@ -5,10 +5,10 @@
   <property name="title" i18n:translate="">Review einer Monographie</property>
   <property name="description"
     i18n:translate="">Review einer Monographie</property>
-  <property name="content_meta_type">RevieweinerMonographie</property>
+  <property name="content_meta_type">ReviewMonograph</property>
   <property name="content_icon">document_icon.gif</property>
   <property name="product">recensio.contenttypes</property>
-  <property name="factory">addRevieweinerMonographie</property>
+  <property name="factory">addReviewMonograph</property>
   <property name="immediate_view">atct_edit</property>
   <property name="global_allow">True</property>
   <property name="filter_content_types">False</property>

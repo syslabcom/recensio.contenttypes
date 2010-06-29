@@ -13,7 +13,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import JournalReviewSchema
 
-RevieweinerZeitschriftSchema = JournalReviewSchema.copy() + atapi.Schema((
+ReviewJournalSchema = JournalReviewSchema.copy() + atapi.Schema((
     atapi.StringField(
         'herausgeber',
         storage=atapi.AnnotationStorage(),
@@ -23,20 +23,20 @@ RevieweinerZeitschriftSchema = JournalReviewSchema.copy() + atapi.Schema((
         ),
 ))
 
-RevieweinerZeitschriftSchema['title'].storage = atapi.AnnotationStorage()
-RevieweinerZeitschriftSchema['description'].storage = \
+ReviewJournalSchema['title'].storage = atapi.AnnotationStorage()
+ReviewJournalSchema['description'].storage = \
                                                        atapi.AnnotationStorage()
 
-schemata.finalizeATCTSchema(RevieweinerZeitschriftSchema,
+schemata.finalizeATCTSchema(ReviewJournalSchema,
                             moveDiscussion=False)
 
 
-class RevieweinerZeitschrift(BaseReview):
+class ReviewJournal(BaseReview):
     """Review einer Zeitschrift"""
     implements(IReviewJournal)
 
-    meta_type = "RevieweinerZeitschrift"
-    schema = RevieweinerZeitschriftSchema
+    meta_type = "ReviewJournal"
+    schema = ReviewJournalSchema
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
@@ -78,7 +78,7 @@ class RevieweinerZeitschrift(BaseReview):
     volume = atapi.ATFieldProperty('volume')
     officialYearOfPublication = atapi.ATFieldProperty('officialYearOfPublication')
 
-    # RevieweinerZeitschrift
+    # ReviewJournal
     herausgeber = atapi.ATFieldProperty('herausgeber')
 
     # Reorder the fields as required
@@ -97,4 +97,4 @@ class RevieweinerZeitschrift(BaseReview):
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
-atapi.registerType(RevieweinerZeitschrift, PROJECTNAME)
+atapi.registerType(ReviewJournal, PROJECTNAME)

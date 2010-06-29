@@ -10,12 +10,12 @@ from OFS.Image import File
 from zope.app.component.hooks import getSite
 
 from recensio.contenttypes.content.reviewmonograph import \
-     RevieweinerMonographie
+     ReviewMonograph
 
 from recensio.contenttypes.content.presentationarticlereview \
      import PresentationArticleReview
 from recensio.contenttypes.content.reviewjournal import \
-     RevieweinerZeitschrift
+     ReviewJournal
 from recensio.contenttypes.content.presentationonlineresource import \
      PresentationOnlineResource
 from recensio.contenttypes.content.presentationmonograph import \
@@ -90,7 +90,7 @@ def addExampleContent(context):
                'publisher':u'',}
 
     for rez_class in [PresentationArticleReview,
-                      RevieweinerZeitschrift,
+                      ReviewJournal,
                       PresentationOnlineResource,
                       PresentationMonograph,
                       PresentationCollection]:

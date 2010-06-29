@@ -13,25 +13,25 @@ from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 
-RevieweinerMonographieSchema = BookReviewSchema.copy() + \
+ReviewMonographSchema = BookReviewSchema.copy() + \
                                   SerialSchema.copy()
 
-schemata.finalizeATCTSchema(RevieweinerMonographieSchema,
+schemata.finalizeATCTSchema(ReviewMonographSchema,
                             moveDiscussion=False)
 
-RevieweinerMonographieSchema['title'].storage = atapi.AnnotationStorage()
-RevieweinerMonographieSchema['description'].storage = \
+ReviewMonographSchema['title'].storage = atapi.AnnotationStorage()
+ReviewMonographSchema['description'].storage = \
                                                        atapi.AnnotationStorage()
 
-RevieweinerMonographieSchema['yearOfPublication'].required = True
+ReviewMonographSchema['yearOfPublication'].required = True
 
 
-class RevieweinerMonographie(BaseReview):
+class ReviewMonograph(BaseReview):
     """Review einer Monographie"""
     implements(IReviewMonograph)
 
-    meta_type = "RevieweinerMonographie"
-    schema = RevieweinerMonographieSchema
+    meta_type = "ReviewMonograph"
+    schema = ReviewMonographSchema
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
@@ -87,4 +87,4 @@ class RevieweinerMonographie(BaseReview):
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
-atapi.registerType(RevieweinerMonographie, PROJECTNAME)
+atapi.registerType(ReviewMonograph, PROJECTNAME)
