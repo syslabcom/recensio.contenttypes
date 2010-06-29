@@ -1,4 +1,4 @@
-"""Definition of the Praesentationen von Internetressourcen content type
+"""Definition of the Presentation Online Resource content type
 """
 
 from zope.interface import implements
@@ -75,7 +75,7 @@ schemata.finalizeATCTSchema(PresentationOnlineResourceSchema,
 
 
 class PresentationOnlineResource(BaseReview):
-    """Praesentationen von Internetressourcen"""
+    """Presentation Online Resource"""
     implements(IPresentationOnlineResource)
 
     meta_type = "PresentationOnlineResource"

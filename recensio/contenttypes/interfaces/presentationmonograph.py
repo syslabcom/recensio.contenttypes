@@ -3,6 +3,6 @@ from zope.interface import Interface
 
 
 class IPresentationMonograph(Interface):
-    """Praesentationen von Monographien"""
+    """Presentation Monograph"""
 
     # -*- schema definition goes here -*-

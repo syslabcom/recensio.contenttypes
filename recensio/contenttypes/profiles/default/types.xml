@@ -7,16 +7,16 @@
      which supports Plone's "display" menu.
   -->
 <object name="portal_types" meta_type="Plone Types Tool">
-  <object name="Praesentationen von Internetressourcen"
+  <object name="Presentation Online Resource"
     meta_type="Factory-based Type Information with dynamic views" />
-  <object name="Praesentationen von Aufsatz in Zeitschrift"
+  <object name="Presentation Article Review"
     meta_type="Factory-based Type Information with dynamic views" />
-  <object name="Praesentation von Aufsatz in Sammelband"
+  <object name="Presentation Collection"
     meta_type="Factory-based Type Information with dynamic views" />
-  <object name="Review einer Zeitschrift"
+  <object name="Review Journal"
     meta_type="Factory-based Type Information with dynamic views" />
-  <object name="Praesentationen von Monographien"
+  <object name="Presentation Monograph"
     meta_type="Factory-based Type Information with dynamic views" />
-  <object name="Review einer Monographie"
+  <object name="Review Monograph"
     meta_type="Factory-based Type Information with dynamic views" />
 </object>

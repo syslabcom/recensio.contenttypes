@@ -1,4 +1,4 @@
-"""Definition of the Praesentationen von Aufsatz in Zeitschrift content type
+"""Definition of the Presentation Article Review content type
 """
 
 from zope.interface import implements
@@ -34,7 +34,7 @@ schemata.finalizeATCTSchema(PresentationArticleReviewSchema,
 
 
 class PresentationArticleReview(BaseReview):
-    """Praesentationen von Aufsatz in Zeitschrift"""
+    """Presentation Article Review"""
     implements(IPresentationArticleReview)
 
     meta_type = "PresentationArticleReview"

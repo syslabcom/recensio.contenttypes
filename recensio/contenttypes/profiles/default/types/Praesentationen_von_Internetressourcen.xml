@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<object name="Praesentationen von Internetressourcen"
+<object name="Presentation Online Resource"
    meta_type="Factory-based Type Information with dynamic views"
    i18n:domain="recensio.contenttypes" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-  <property name="title" i18n:translate="">Praesentationen von Internetressourcen</property>
+  <property name="title" i18n:translate="">Presentation Online Resource</property>
   <property name="description"
-    i18n:translate="">Praesentationen von Internetressourcen</property>
+    i18n:translate="">Presentation Online Resource</property>
   <property name="content_meta_type">PresentationOnlineResource</property>
   <property name="content_icon">document_icon.gif</property>
   <property name="product">recensio.contenttypes</property>

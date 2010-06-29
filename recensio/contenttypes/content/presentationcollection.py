@@ -1,4 +1,4 @@
-"""Definition of the Praesentation von Aufsatz in Sammelband content type
+"""Definition of the Presentation Collection content type
 """
 
 from zope.interface import implements
@@ -43,7 +43,7 @@ schemata.finalizeATCTSchema(PresentationCollectionSchema,
 
 
 class PresentationCollection(BaseReview):
-    """Praesentation von Aufsatz in Sammelband"""
+    """Presentation Collection"""
     implements(IPresentationCollection)
 
     meta_type = "PresentationCollection"
@@ -99,7 +99,7 @@ class PresentationCollection(BaseReview):
     series = atapi.ATFieldProperty('series')
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
-    # Praesentation von Aufsatz in Sammelband
+    # Presentation Collection
     herausgeberSammelband = atapi.ATFieldProperty('herausgeberSammelband')
 
     # Reorder the fields as required

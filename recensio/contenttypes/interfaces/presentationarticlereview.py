@@ -3,6 +3,6 @@ from zope.interface import Interface
 
 
 class IPresentationArticleReview(Interface):
-    """Praesentationen von Aufsatz in Zeitschrift"""
+    """Presentation Article Review"""
 
     # -*- schema definition goes here -*-

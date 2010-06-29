@@ -1,4 +1,4 @@
-"""Definition of the Review einer Monographie content type
+"""Definition of the Review Monograph content type
 """
 
 from zope.interface import implements
@@ -27,7 +27,7 @@ ReviewMonographSchema['yearOfPublication'].required = True
 
 
 class ReviewMonograph(BaseReview):
-    """Review einer Monographie"""
+    """Review Monograph"""
     implements(IReviewMonograph)
 
     meta_type = "ReviewMonograph"

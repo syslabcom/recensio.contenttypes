@@ -1,4 +1,4 @@
-"""Definition of the Praesentationen von Monographien content type
+"""Definition of the Presentation Monograph content type
 """
 
 from zope.interface import implements
@@ -29,7 +29,7 @@ schemata.finalizeATCTSchema(PresentationMonographSchema,
 
 
 class PresentationMonograph(BaseReview):
-    """Praesentationen von Monographien"""
+    """Presentation Monograph"""
     implements(IPresentationMonograph)
 
     meta_type = "PresentationMonograph"

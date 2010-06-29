@@ -10,12 +10,12 @@
 <object name="portal_factory" meta_type="Plone Factory Tool">
   <factorytypes>
     <!-- -*- extra stuff goes here -*- -->
-    <type portal_type="Praesentationen von Internetressourcen" />
-    <type portal_type="Praesentationen von Aufsatz in Zeitschrift" />
-    <type portal_type="Praesentation von Aufsatz in Sammelband" />
-    <type portal_type="Review einer Zeitschrift" />
-    <type portal_type="Praesentationen von Monographien" />
-    <type portal_type="Review einer Monographie" />
+    <type portal_type="Presentation Online Resource" />
+    <type portal_type="Presentation Article Review" />
+    <type portal_type="Presentation Collection" />
+    <type portal_type="Review Journal" />
+    <type portal_type="Presentation Monograph" />
+    <type portal_type="Review Monograph" />
     <type portal_type="Review" />
   </factorytypes>
 </object>

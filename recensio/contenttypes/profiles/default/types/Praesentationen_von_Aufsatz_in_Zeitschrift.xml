@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<object name="Praesentationen von Aufsatz in Zeitschrift"
+<object name="Presentation Article Review"
    meta_type="Factory-based Type Information with dynamic views"
    i18n:domain="recensio.contenttypes" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-  <property name="title" i18n:translate="">Praesentationen von Aufsatz in Zeitschrift</property>
+  <property name="title" i18n:translate="">Presentation Article Review</property>
   <property name="description"
-    i18n:translate="">Praesentationen von Aufsatz in Zeitschrift</property>
+    i18n:translate="">Presentation Article Review</property>
   <property name="content_meta_type">PresentationArticleReview</property>
   <property name="content_icon">document_icon.gif</property>
   <property name="product">recensio.contenttypes</property>

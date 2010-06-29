@@ -1,4 +1,4 @@
-"""Definition of the Review einer Zeitschrift content type
+"""Definition of the Review Journal content type
 """
 
 from zope.interface import implements
@@ -32,7 +32,7 @@ schemata.finalizeATCTSchema(ReviewJournalSchema,
 
 
 class ReviewJournal(BaseReview):
-    """Review einer Zeitschrift"""
+    """Review Journal"""
     implements(IReviewJournal)
 
     meta_type = "ReviewJournal"

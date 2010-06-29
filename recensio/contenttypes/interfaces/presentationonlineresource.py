@@ -3,6 +3,6 @@ from zope.interface import Interface
 
 
 class IPresentationOnlineResource(Interface):
-    """Praesentationen von Internetressourcen"""
+    """Presentation Online Resource"""
 
     # -*- schema definition goes here -*-

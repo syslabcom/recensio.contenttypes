@@ -3,6 +3,6 @@ from zope.interface import Interface
 
 
 class IReviewMonograph(Interface):
-    """Review einer Monographie"""
+    """Review Monograph"""
 
     # -*- schema definition goes here -*-

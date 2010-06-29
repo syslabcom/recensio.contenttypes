@@ -3,6 +3,6 @@ from zope.interface import Interface
 
 
 class IReviewJournal(Interface):
-    """Review einer Zeitschrift"""
+    """Review Journal"""
 
     # -*- schema definition goes here -*-
