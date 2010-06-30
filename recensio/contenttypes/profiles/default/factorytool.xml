@@ -10,6 +10,8 @@
 <object name="portal_factory" meta_type="Plone Factory Tool">
   <factorytypes>
     <!-- -*- extra stuff goes here -*- -->
+    <type portal_type="Volume" />
+    <type portal_type="Publication" />
     <type portal_type="Presentation Online Resource" />
     <type portal_type="Presentation Article Review" />
     <type portal_type="Presentation Collection" />
