@@ -25,6 +25,7 @@ from recensio.contenttypes.content.presentationmonograph import \
      PresentationMonograph
 from recensio.contenttypes.content.presentationcollection import \
      PresentationCollection
+from swiss.tabular import XlsReader
 
 mdfile = os.path.join(os.path.dirname(__file__), 'profiles', 'exampledata',
     'metadata.xml')
@@ -35,6 +36,85 @@ def guard(func):
             return
         return func(self)
     return wrapper
+
+portal_type_mappings =  {
+    'rm' : {
+        'portal_type' : ReviewMonograph
+       ,'ISBN/ISSN' : 'isbn'
+       ,'Jahr' : 'yearOfPublication'
+       ,'Rez.-Name' : 'reviewAuthor'
+       ,'Autor-Name Werk' : 'Authors'
+       ,'Titel Werk' : 'title'
+       ,'PDF-Seitenzahl Beginn' : 'pages'
+       ,'PDF-Seitenzahl Ende' : 'pages'
+       ,'Type (rm, rz, pm, pasb, paz)' : 'ignore'
+       ,'freies Feld für Zitierschema' : 'unknown'}
+    ,'rz' : {
+        'portal_type' : ReviewJournal
+       ,'ISBN/ISSN' : 'isbn'
+       ,'Jahr' : 'yearOfPublication'
+       ,'Rez.-Name' : 'reviewAuthor'
+       ,'Autor-Name Werk' : 'Authors'
+       ,'Titel Werk' : 'title'
+       ,'PDF-Seitenzahl Beginn' : 'pages'
+       ,'PDF-Seitenzahl Ende' : 'pages'
+       ,'Type (rm, rz, pm, pasb, paz)' : 'ignore'
+       ,'freies Feld für Zitierschema' : 'unknown'}
+    ,'pm' : {
+        'portal_type' : PresentationMonograph
+       ,'ISBN/ISSN' : 'isbn'
+       ,'Jahr' : 'yearOfPublication'
+       ,'Rez.-Name' : 'reviewAuthor'
+       ,'Autor-Name Werk' : 'Authors'
+       ,'Titel Werk' : 'title'
+       ,'PDF-Seitenzahl Beginn' : 'pages'
+       ,'PDF-Seitenzahl Ende' : 'pages'
+       ,'Type (rm, rz, pm, pasb, paz)' : 'ignore'
+       ,'freies Feld für Zitierschema' : 'unknown'}
+    ,'pasb' : {
+        'portal_type' : PresentationCollection
+       ,'ISBN/ISSN' : 'isbn'
+       ,'Jahr' : 'yearOfPublication'
+       ,'Rez.-Name' : 'reviewAuthor'
+       ,'Autor-Name Werk' : 'Authors'
+       ,'Titel Werk' : 'title'
+       ,'PDF-Seitenzahl Beginn' : 'pages'
+       ,'PDF-Seitenzahl Ende' : 'pages'
+       ,'Type (rm, rz, pm, pasb, paz)' : 'ignore'
+       ,'freies Feld für Zitierschema' : 'unknown'}
+    ,'paz' : {
+        'portal_type' : PresentationArticleReview
+       ,'ISBN/ISSN' : 'isbn'
+       ,'Jahr' : 'yearOfPublication'
+       ,'Rez.-Name' : 'reviewAuthor'
+       ,'Autor-Name Werk' : 'Authors'
+       ,'Titel Werk' : 'title'
+       ,'PDF-Seitenzahl Beginn' : 'pages'
+       ,'PDF-Seitenzahl Ende' : 'pages'
+       ,'Type (rm, rz, pm, pasb, paz)' : 'ignore'
+       ,'freies Feld für Zitierschema' : 'unknown'}
+    }
+ignored_fields = [u'freies Feld für Zitierschema', 'Type (rm, rz, pm, pasb, paz)']
+
+@guard
+def addExampleContent2(context):
+    portal = context.getSite()
+    portal_id = 'recensio'
+
+    if 'reviews' not in portal.objectIds():
+        portal.invokeFactory('Folder', id='reviews', title='Reviews')
+    reviews = portal.get('reviews')
+
+    xls_data = XlsReader(context.openDataFile('initial.xls')).read().data
+    keys = xls_data[0]
+    for row in xls_data[1:]:
+        mapping = portal_type_mappings[row[keys.index('Type (rm, rz, pm, pasb, paz)')]]
+        data = {'portal_type' : mapping['portal_type']}
+        for index, key in enumerate(keys):
+            if key not in ignored_fields:
+                data[mapping[key]] = row[index]
+        portal_type = data.pop('portal_type')
+        addOneItem(reviews, portal_type, data)
 
 @guard
 def addExampleContent(context):
@@ -104,11 +184,14 @@ def addExampleContent(context):
             data[field] = test_data[field]
 
         for i in range(10):
-            data["id"] = reviews.generateId(rez_class.meta_type)
-            data['title'] = 'Test %s No %d' %(rez_class.portal_type, i)
-            review_id = reviews.invokeFactory(rez_class.__doc__, **data)
-            obj = reviews[review_id]
-            request = makerequest.makerequest(obj)
-            event=ObjectInitializedEvent(obj, request)
-            zope.event.notify(event)
-            print "Added %s" %reviews[review_id].absolute_url()
+            data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
+            addOneItem(reviews, rez_class, data)
+ 
+def addOneItem(context, type, data):
+    data["id"] = context.generateId(type.meta_type)
+    review_id = context.invokeFactory(type.__doc__, **data)
+    obj = context[review_id]
+    request = makerequest.makerequest(obj)
+    event=ObjectInitializedEvent(obj, request)
+    zope.event.notify(event)
+    print "Added %s" %context[review_id].absolute_url()

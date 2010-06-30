@@ -4,4 +4,8 @@
             handler="recensio.contenttypes.setuphandlers.addExampleContent"
             description="Example Content for Recensio"
             title="Example Content" />
+    <import-step id="recensio_example_content2" version="20100623-01"
+            handler="recensio.contenttypes.setuphandlers.addExampleContent2"
+            description="Example Content for Recensio2"
+            title="Example Content2" />
 </import-steps>
