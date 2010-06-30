@@ -132,27 +132,33 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     ))
 
 CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
-    atapi.StringField(
+    atapi.LinesField(
         'ddcPlace',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
+        vocabulary=NamedVocabulary("region_values"),
+        widget=atapi.MultiSelectionWidget(
             label=_(u"ddc raum"),
+            size=10,
             ),
         ),
-    atapi.StringField(
+    atapi.LinesField(
         'ddcSubject',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
+        vocabulary=NamedVocabulary("topic_values"),
+        widget=atapi.MultiSelectionWidget(
             label=_(u"ddc sach"),
+            size=10,
             ),
         ),
     # Q: DateTimeField ?
-    atapi.StringField(
+    atapi.LinesField(
         'ddcTime',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
+        vocabulary=NamedVocabulary("epoch_values"),
+        widget=atapi.MultiSelectionWidget(
             label=_(u"ddc zeit"),
-        ),
+            size=10,
+            ),
         ),
     ))
 
