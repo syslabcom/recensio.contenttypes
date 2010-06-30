@@ -170,7 +170,8 @@ def addExampleContent(context):
                'subtitle':u'Dzieje państwa i społeczeństwa 1890–1945',
                'url': 'http://www.syslab.com',
                'idBvb':u'',
-               'publisher':u'',}
+               'publisher':u'',
+               'urn': u'testing-data-urn'}
 
     for rez_class in [PresentationArticleReview,
                       PresentationOnlineResource,
