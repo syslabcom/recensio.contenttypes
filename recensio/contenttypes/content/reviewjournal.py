@@ -54,6 +54,7 @@ class ReviewJournal(BaseReview):
     pdf = atapi.ATFieldProperty('pdf')
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
+    urn = atapi.ATFieldProperty('urn')
 
     # Common
     ddcPlace = atapi.ATFieldProperty('ddcPlace')
@@ -92,7 +93,7 @@ class ReviewJournal(BaseReview):
                       "number", "shortnameJournal", "volume",
                       "reviewAuthor", "officialYearOfPublication", "ddcPlace",
                       "ddcSubject", "ddcTime", "subject", "pdf",
-                      "doc", "review"]
+                      "doc", "urn", "review"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

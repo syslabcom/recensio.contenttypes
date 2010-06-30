@@ -95,6 +95,8 @@ class PresentationOnlineResource(BaseReview):
     pdf = atapi.ATFieldProperty('pdf')
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
+    urn = atapi.ATFieldProperty('urn')
+
 
     # Common
     ddcPlace = atapi.ATFieldProperty('ddcPlace')
@@ -123,7 +125,7 @@ class PresentationOnlineResource(BaseReview):
                       "documentarten_bibliographische",
                       "documentarten_individual", "description",
                       "reviewAuthor", "url", "ddcPlace", "ddcSubject",
-                      "ddcTime", "subject", "pdf", "doc",
+                      "ddcTime", "subject", "pdf", "doc", "urn",
                       "review"]
 
     for i, field in enumerate(ordered_fields):

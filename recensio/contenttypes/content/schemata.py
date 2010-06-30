@@ -127,8 +127,16 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.RichWidget(
             label=_(u"Review"),
+            rows=20,
             ),
-        )
+        ),
+    atapi.StringField(
+        'urn',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"URN"),
+            ),
+        ),
     ))
 
 CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
