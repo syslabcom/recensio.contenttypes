@@ -81,8 +81,7 @@ class View(BrowserView):
                 if meta:
                     meta = separator+" "+meta
             return meta
-
-        rtitle = context.Title() + \
+        rtitle = context.Title().decode("utf-8") + \
                  add_meta("getUntertitel", ":") + \
                  add_meta("getErscheinungsort", ".") + \
                  add_meta("getErscheinungsjahr", ":")
