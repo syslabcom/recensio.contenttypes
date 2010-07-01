@@ -135,9 +135,9 @@ def addExampleContent(context):
 
     test_data={'authors': u'Tadeusz Kotłowski',
                'referenceAuthors': u'Tadeusz Kotłowski',
-               'ddcPlace': u'Deutschland / Mitteleuropa allgemein, Polen',
-               'ddcSubject': u'Militär- und Kriegsgeschichte',
-               'ddcTime': u'1939-1941',
+               'ddcPlace': '',
+               'ddcSubject': '',
+               'ddcTime': '',
                'description': u'',
                'doc': None,
                'documentarten_bibliographische': u'',
