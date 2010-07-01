@@ -45,7 +45,7 @@
   </metal:css>
 
   <body>
-    <div metal:fill-slot="main">
+    <div metal:fill-slot="content-core">
 
       <div id="review">
         <h2 tal:content="view/get_review_title"></h2>
