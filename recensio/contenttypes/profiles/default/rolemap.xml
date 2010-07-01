@@ -31,5 +31,15 @@
       <role name="Contributor" />
       <role name="Owner" />
     </permission>
+    <permission name="recensio.contenttypes: Add Publication" acquire="False">
+      <role name="Manager" />
+      <role name="Contributor" />
+      <role name="Owner" />
+    </permission>
+    <permission name="recensio.contenttypes: Add Volume" acquire="False">
+      <role name="Manager" />
+      <role name="Contributor" />
+      <role name="Owner" />
+    </permission>
   </permissions>
 </rolemap>

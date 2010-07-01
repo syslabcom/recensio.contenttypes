@@ -39,5 +39,16 @@
         interface="..interfaces.IReviewMonograph"
         />
   </class>
-
+  <class class=".publication.Publication">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.IPublication"
+        />
+  </class>
+  <class class=".volume.Volume">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.IVolume"
+        />
+  </class>
 </configure>

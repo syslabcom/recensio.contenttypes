@@ -10,5 +10,6 @@ ADD_PERMISSIONS = {
     'ReviewJournal': 'recensio.contenttypes: Add Review Journal',
     'PresentationMonograph': 'recensio.contenttypes: Add Presentation Monograph',
     'ReviewMonograph': 'recensio.contenttypes: Add Review Monograph',
-    'Review': 'recensio.contenttypes: Add Review',
-}
+    'Publication': 'recensio.contenttypes: Add Publication',
+    'Volume': 'recensio.contenttypes: Add Volume',
+    }

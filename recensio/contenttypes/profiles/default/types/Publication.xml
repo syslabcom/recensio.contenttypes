@@ -1,17 +1,20 @@
 <?xml version="1.0"?>
 <object name="Publication"
-   meta_type="Factory-based Type Information with dynamic views"
-   i18n:domain="recensio.contenttypes" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+        meta_type="Factory-based Type Information with dynamic views"
+        i18n:domain="recensio.contenttypes" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
   <property name="title" i18n:translate="">Publication</property>
   <property name="description"
-    i18n:translate="">A container for journals of a particular magazine</property>
+            i18n:translate="">A container for journals of a particular magazine</property>
   <property name="content_meta_type">Publication</property>
   <property name="content_icon">folder_icon.gif</property>
   <property name="product">recensio.contenttypes</property>
   <property name="factory">addPublication</property>
   <property name="immediate_view">atct_edit</property>
   <property name="global_allow">True</property>
-  <property name="filter_content_types">False</property>
+  <property name="filter_content_types">True</property>
+  <property name="allowed_content_types">
+    <element value="Volume"/>
+  </property>
   <property name="allow_discussion">False</property>
   <property name="default_view">base_view</property>
   <property name="view_methods">
@@ -22,11 +25,11 @@
   <alias from="sharing" to="@@sharing" />
   <alias from="view" to="(selected layout)" />
   <action title="View" action_id="view" category="object" condition_expr=""
-    url_expr="string:${folder_url}/" visible="True">
+          url_expr="string:${folder_url}/" visible="True">
     <permission value="View" />
   </action>
   <action title="Edit" action_id="edit" category="object" condition_expr=""
-    url_expr="string:${object_url}/edit" visible="True">
+          url_expr="string:${object_url}/edit" visible="True">
     <permission value="Modify portal content" />
   </action>
 </object>

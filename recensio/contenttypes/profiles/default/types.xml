@@ -19,4 +19,8 @@
     meta_type="Factory-based Type Information with dynamic views" />
   <object name="Review Monograph"
     meta_type="Factory-based Type Information with dynamic views" />
+  <object name="Publication"
+    meta_type="Factory-based Type Information with dynamic views" />
+  <object name="Volume"
+    meta_type="Factory-based Type Information with dynamic views" />
 </object>
