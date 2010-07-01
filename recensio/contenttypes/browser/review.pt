@@ -62,12 +62,16 @@
       </div>
       <div id="review-metadata"
            tal:define="metadata view/get_metadata">
-        <tal:meta repeat="field python:metadata.keys()">
-          <dl>
+        <dl tal:condition="python:context.meta_type == 'ReviewJournal'">
+          <dt>Publication Title</dt>
+          <dd tal:content="context/get_publication_title"></dd>
+          <dt>Volume Title</dt>
+          <dd tal:content="context/get_volume_title"></dd>
+        </dl>
+        <dl tal:repeat="field python:metadata.keys()">
             <dt tal:content="python:metadata[field]"></dt>
             <dd><tal:widget metal:use-macro="python:context.widget(field)" /></dd>
-          </dl>
-        </tal:meta>
+        </dl>
       </div>
 
     </div>

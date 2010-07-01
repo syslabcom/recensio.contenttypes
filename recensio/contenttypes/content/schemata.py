@@ -244,13 +244,6 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
             ),
         ),
     atapi.StringField(
-        'number',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Heftvolume"),
-            ),
-        ),
-    atapi.StringField(
         'shortnameJournal',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
@@ -258,10 +251,10 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
             ),
         ),
     atapi.StringField(
-        'volume',
+        'number',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Nummer"),
+            label=_(u"Heftvolume"),
             ),
         ),
     atapi.StringField(

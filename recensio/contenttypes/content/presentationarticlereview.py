@@ -7,22 +7,30 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 
-from recensio.contenttypes.interfaces import \
-     IPresentationArticleReview
+from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BezugsautorenSchema
 from recensio.contenttypes.content.schemata import InternetSchema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import SeitenzahlSchema
-
+from recensio.contenttypes.interfaces import IPresentationArticleReview
 
 
 PresentationArticleReviewSchema = \
-                                             JournalReviewSchema.copy() + \
-                                             BezugsautorenSchema.copy() + \
-                                             InternetSchema.copy() + \
-                                             SeitenzahlSchema.copy()
+                                JournalReviewSchema.copy() + \
+                                BezugsautorenSchema.copy() + \
+                                InternetSchema.copy() + \
+                                SeitenzahlSchema.copy() + \
+                                atapi.Schema((
+    atapi.StringField(
+        'volume',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Nummer"),
+            ),
+        ),
+))
 
 PresentationArticleReviewSchema['title'].storage = \
                                                        atapi.AnnotationStorage()
