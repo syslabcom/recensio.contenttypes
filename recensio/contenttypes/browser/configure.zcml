@@ -7,7 +7,7 @@
 
   <browser:page
      for="..interfaces.IReview"
-     name="review-view"
+     name="review_view"
      class=".review.View"
      permission="zope2.View"
      />
