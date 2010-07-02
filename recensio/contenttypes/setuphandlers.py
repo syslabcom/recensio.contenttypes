@@ -195,4 +195,4 @@ def addOneItem(context, type, data):
     request = makerequest.makerequest(obj)
     event=ObjectInitializedEvent(obj, request)
     zope.event.notify(event)
-    print "Added %s" %context[review_id].absolute_url()
+    return context[review_id]
