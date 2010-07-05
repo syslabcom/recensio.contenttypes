@@ -82,16 +82,18 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'languageReview',
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
-        widget=atapi.SelectionWidget(
+        widget=atapi.MultiSelectionWidget(
             label=_(u"Textsprache der präsentierten Schrift"),
+            size=3,
             ),
         ),
     atapi.StringField(
         'languagePresentation',
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
-        widget=atapi.SelectionWidget(
+        widget=atapi.MultiSelectionWidget(
             label=_(u"Textsprache der Präsentation"),
+            size=3,
             ),
         ),
     atapi.StringField(
