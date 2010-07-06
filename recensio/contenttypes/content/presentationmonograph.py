@@ -17,6 +17,7 @@ from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 
 PresentationMonographSchema = BookReviewSchema.copy() + \
                               PresentationSchema.copy() + \
+                              ReferenceAuthorsSchema.copy() + \
                               InternetSchema.copy()
 
 
