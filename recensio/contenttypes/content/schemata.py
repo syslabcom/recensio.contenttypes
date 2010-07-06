@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 """Definition of the base Review Schemata
 """
+from zope.interface import implements
+
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
 from Products.Archetypes import atapi
+from Products.validation.interfaces.IValidator import IValidator
 from plone.app.blob.field import BlobField
 
 from recensio.contenttypes import contenttypesMessageFactory as _
@@ -43,11 +46,25 @@ ReferenceAuthorsSchema = atapi.Schema((
         ),
     ))
 
+
+class isTrue:
+    """
+    Custom validator to ensure that the isLicenceApproved box is checked
+    """
+    implements(IValidator)
+    name = "is_true_validator"
+
+    def __call__(self, value, *args, **kwargs):
+        if value == True:
+            return 1
+        return _(u"All submitted reviews must be published under the CC-BY licence.")
+
 PresentationSchema = atapi.Schema((
     atapi.BooleanField(
         'isLicenceApproved',
         storage=atapi.AnnotationStorage(),
         value=False,
+        validators=(isTrue(),),
         widget=atapi.BooleanWidget(
             label=_(u"I agree that this review is my own work and may be published under the CC-BY license"),
             ),
