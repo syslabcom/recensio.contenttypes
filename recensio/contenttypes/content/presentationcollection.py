@@ -11,17 +11,19 @@ from recensio.contenttypes.interfaces import \
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
-from recensio.contenttypes.content.schemata import BezugsautorenSchema
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import InternetSchema
+from recensio.contenttypes.content.schemata import PresentationSchema
+from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 from recensio.contenttypes import contenttypesMessageFactory as _
 
 PresentationCollectionSchema = BookReviewSchema.copy() + \
-                                            BezugsautorenSchema.copy() + \
-                                            InternetSchema.copy() + \
-                                            SerialSchema.copy() + \
-                                            atapi.Schema((
+                               PresentationSchema.copy() + \
+                               ReferenceAuthorsSchema.copy() + \
+                               InternetSchema.copy() + \
+                               SerialSchema.copy() + \
+                               atapi.Schema((
     atapi.LinesField(
         'editorCollectedEdition',
         storage=atapi.AnnotationStorage(),
@@ -87,7 +89,10 @@ class PresentationCollection(BaseReview):
     # Book
     isbn = atapi.ATFieldProperty('isbn')
 
-    # Bezugsautoren
+    # Presentation 
+    isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
+
+    # Reference authors
     referenceAuthors = atapi.ATFieldProperty('referenceAuthors')
 
     # Internet
@@ -105,18 +110,15 @@ class PresentationCollection(BaseReview):
     editorCollectedEdition = atapi.ATFieldProperty('editorCollectedEdition')
 
     # Reorder the fields as required
-
     ordered_fields = ["recensioID", "authors",
                       "editorCollectedEdition", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
-                      "pages", "description",
-                      "languagePresentation",
-                      "languageReview", "isbn",
-                      "publisher", "idBvb", "searchresults",
-                      "referenceAuthors", "series", "seriesVol",
-                      "reviewAuthor", "url", "ddcPlace", "ddcSubject",
-                      "ddcTime", "subject", "pdf", "doc", "urn",
-                      "review"]
+                      "pages", "description", "languagePresentation",
+                      "languageReview", "isbn", "publisher", "idBvb",
+                      "searchresults", "referenceAuthors", "series",
+                      "seriesVol", "reviewAuthor", "url", "ddcPlace",
+                      "ddcSubject", "ddcTime", "subject", "pdf",
+                      "doc", "urn", "review", "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

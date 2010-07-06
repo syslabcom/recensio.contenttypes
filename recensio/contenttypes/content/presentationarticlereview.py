@@ -10,18 +10,20 @@ from Products.ATContentTypes.content import schemata
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
-from recensio.contenttypes.content.schemata import BezugsautorenSchema
 from recensio.contenttypes.content.schemata import InternetSchema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
-from recensio.contenttypes.content.schemata import SeitenzahlSchema
+from recensio.contenttypes.content.schemata import PagecountSchema
+from recensio.contenttypes.content.schemata import PresentationSchema
+from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.interfaces import IPresentationArticleReview
 
 
 PresentationArticleReviewSchema = \
                                 JournalReviewSchema.copy() + \
-                                BezugsautorenSchema.copy() + \
+                                PresentationSchema.copy() + \
+                                ReferenceAuthorsSchema.copy() + \
                                 InternetSchema.copy() + \
-                                SeitenzahlSchema.copy() + \
+                                PagecountSchema.copy() + \
                                 atapi.Schema((
     atapi.StringField(
         'volume',
@@ -89,7 +91,10 @@ class PresentationArticleReview(BaseReview):
     volume = atapi.ATFieldProperty('volume')
     officialYearOfPublication = atapi.ATFieldProperty('officialYearOfPublication')
 
-    # Bezugsautoren
+    # Presentation 
+    isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
+
+    # Reference authors
     referenceAuthors = atapi.ATFieldProperty('referenceAuthors')
 
     # Internet
@@ -102,15 +107,14 @@ class PresentationArticleReview(BaseReview):
 
     ordered_fields = ["recensioID", "authors", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
-                      "pages", "description",
-                      "languagePresentation",
-                      "languageReview", "issn",
-                      "publisher", "idBvb", "searchresults",
-                      "referenceAuthors", "reviewAuthor", "number",
-                      "shortnameJournal", "volume",
-                      "officialYearOfPublication", "url", "ddcPlace", "ddcSubject",
-                      "ddcTime", "subject", "pdf", "doc", "urn",
-                      "review"]
+                      "pages", "description", "languagePresentation",
+                      "languageReview", "issn", "publisher", "idBvb",
+                      "searchresults", "referenceAuthors",
+                      "reviewAuthor", "number", "shortnameJournal",
+                      "volume", "officialYearOfPublication", "url",
+                      "ddcPlace", "ddcSubject", "ddcTime", "subject",
+                      "pdf", "doc", "urn", "review",
+                      "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

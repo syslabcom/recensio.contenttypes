@@ -10,19 +10,18 @@ from Products.ATContentTypes.content import schemata
 from recensio.contenttypes.interfaces import IPresentationMonograph
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
-from recensio.contenttypes.content.schemata import BezugsautorenSchema
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import InternetSchema
+from recensio.contenttypes.content.schemata import PresentationSchema
+from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 
 PresentationMonographSchema = BookReviewSchema.copy() + \
-                                       BezugsautorenSchema.copy() + \
-                                       InternetSchema.copy()
+                              PresentationSchema.copy() + \
+                              InternetSchema.copy()
 
 
-PresentationMonographSchema['title'].storage = \
-                                                      atapi.AnnotationStorage()
-PresentationMonographSchema['description'].storage = \
-                                                      atapi.AnnotationStorage()
+PresentationMonographSchema['title'].storage = atapi.AnnotationStorage()
+PresentationMonographSchema['description'].storage = atapi.AnnotationStorage()
 
 schemata.finalizeATCTSchema(PresentationMonographSchema,
                             moveDiscussion=False)
@@ -69,7 +68,10 @@ class PresentationMonograph(BaseReview):
     # Book
     isbn = atapi.ATFieldProperty('isbn')
 
-    # Bezugsautoren
+    # Presentation 
+    isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
+
+    # Reference authors
     referenceAuthors = atapi.ATFieldProperty('referenceAuthors')
 
     # Internet
@@ -79,12 +81,11 @@ class PresentationMonograph(BaseReview):
     ordered_fields = ["recensioID", "title", "subtitle",
                       "reviewAuthor", "yearOfPublication",
                       "placeOfPublication", "description",
-                      "languagePresentation",
-                      "languageReview", "isbn",
-                      "publisher", "idBvb", "searchresults",
-                      "referenceAuthors", "url", "ddcPlace", "ddcSubject",
-                      "ddcTime", "subject", "pdf", "doc", "urn",
-                      "review"]
+                      "languagePresentation", "languageReview",
+                      "isbn", "publisher", "idBvb", "searchresults",
+                      "referenceAuthors", "url", "ddcPlace",
+                      "ddcSubject", "ddcTime", "subject", "pdf",
+                      "doc", "urn", "review", "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

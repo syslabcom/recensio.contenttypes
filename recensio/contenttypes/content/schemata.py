@@ -33,17 +33,28 @@ InternetSchema = atapi.Schema((
         ),
     ))
 
-BezugsautorenSchema = atapi.Schema((
+ReferenceAuthorsSchema = atapi.Schema((
     atapi.StringField(
         'referenceAuthors',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Bezugsautoren"),
+            label=_(u"Reference Authors"),
             ),
         ),
     ))
 
-SeitenzahlSchema = atapi.Schema((
+PresentationSchema = atapi.Schema((
+    atapi.BooleanField(
+        'isLicenceApproved',
+        storage=atapi.AnnotationStorage(),
+        value=False,
+        widget=atapi.BooleanWidget(
+            label=_(u"I agree that this review is my own work and may be published under the CC-BY license"),
+            ),
+        ),
+    ))
+
+PagecountSchema = atapi.Schema((
     atapi.StringField(
         'pages',
         storage=atapi.AnnotationStorage(),
@@ -53,7 +64,7 @@ SeitenzahlSchema = atapi.Schema((
         ),
     ))
 
-SerialSchema = SeitenzahlSchema.copy() + atapi.Schema((
+SerialSchema = PagecountSchema.copy() + atapi.Schema((
     atapi.StringField(
         'series',
         storage=atapi.AnnotationStorage(),

@@ -15,10 +15,12 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import CommonReviewSchema
 from recensio.contenttypes.content.schemata import InternetSchema
+from recensio.contenttypes.content.schemata import PresentationSchema
 
 PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
-                                             InternetSchema.copy() + \
-                                             atapi.Schema((
+                                   PresentationSchema.copy() + \
+                                   InternetSchema.copy() + \
+                                   atapi.Schema((
     atapi.StringField(
         'institution',
         storage=atapi.AnnotationStorage(),
@@ -103,6 +105,9 @@ class PresentationOnlineResource(BaseReview):
     ddcSubject = atapi.ATFieldProperty('ddcSubject')
     ddcTime = atapi.ATFieldProperty('ddcTime')
 
+    # Presentation 
+    isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
+
     # Internet
     url = atapi.ATFieldProperty('url')
 
@@ -118,15 +123,14 @@ class PresentationOnlineResource(BaseReview):
 
     # Reorder the fields as required
     ordered_fields = ["recensioID", "title", "institution",
-                      "languagePresentation",
-                      "languageReview",
+                      "languagePresentation", "languageReview",
                       "documentarten_institution",
                       "documentarten_kooperation",
                       "documentarten_bibliographische",
                       "documentarten_individual", "description",
                       "reviewAuthor", "url", "ddcPlace", "ddcSubject",
                       "ddcTime", "subject", "pdf", "doc", "urn",
-                      "review"]
+                      "review", "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
