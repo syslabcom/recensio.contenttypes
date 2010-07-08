@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Definition of the Review Journal content type
 """
 
@@ -25,7 +26,6 @@ ReviewJournalSchema = JournalReviewSchema.copy() + atapi.Schema((
 
 ReviewJournalSchema['title'].storage = atapi.AnnotationStorage()
 ReviewJournalSchema['description'].storage = atapi.AnnotationStorage()
-ReviewJournalSchema['shortnameJournal'].widget.label = _(u"Short name (journal)")
 
 schemata.finalizeATCTSchema(ReviewJournalSchema,
                             moveDiscussion=False)
@@ -72,53 +72,53 @@ class ReviewJournal(BaseReview):
     # Authors
     authors = atapi.ATFieldProperty('authors')
 
+    # Serial
+    series = atapi.ATFieldProperty('series')
+    seriesVol = atapi.ATFieldProperty('seriesVol')
+
     # Journal
     issn = atapi.ATFieldProperty('issn')
-    number = atapi.ATFieldProperty('number') 
-    shortnameJournal = atapi.ATFieldProperty('shortnameJournal')
     officialYearOfPublication = atapi.ATFieldProperty('officialYearOfPublication')
 
     # ReviewJournal
     editor = atapi.ATFieldProperty('editor')
 
     # Reorder the fields as required
-
     ordered_fields = ["recensioID", "authors", "editor", "title",
                       "subtitle", "yearOfPublication",
                       "placeOfPublication", "description",
-                      "languagePresentation",
-                      "languageReview", "issn",
-                      "publisher", "idBvb", "searchresults",
-                      "number", "shortnameJournal",
-                      "reviewAuthor", "officialYearOfPublication", "ddcPlace",
-                      "ddcSubject", "ddcTime", "subject", "pdf",
-                      "doc", "urn", "review"]
+                      "languagePresentation", "languageReview",
+                      "issn", "publisher", "idBvb", "searchresults",
+                      "reviewAuthor", "officialYearOfPublication",
+                      "ddcPlace", "ddcSubject", "ddcTime", "subject",
+                      "pdf", "doc", "urn", "review"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
-    def get_publication_title(self):
+    def get_title_from_parent_of_type(self, meta_type):
         """
-        Get the "Title (Journal)" from containing Publication Title
+        Return the title of the first object of a particular type
+        which is a parent of the current object.
         """
-        publication_title = ""
+        title = ""
         parents = self.REQUEST.PARENTS
         for parent in parents:
-            if parent.meta_type == "Publication":
-                publication_title = parent.Title()
+            if parent.meta_type == meta_type:
+                title = parent.Title()
                 break
-        return publication_title
+        return title
+
+    def get_publication_title(self):
+        """ Equivalent of 'shortnameJournal'"""
+        return self.get_title_from_parent_of_type("Publication")
 
     def get_volume_title(self):
-        """
-        Get the "Volume Title" from containing Volume Title
-        """
-        volume_title = ""
-        parents = self.REQUEST.PARENTS
-        for parent in parents:
-            if parent.meta_type == "Volume":
-                volume_title = parent.Title()
-                break
-        return volume_title
+        """ Equivalent of 'volume'"""
+        return self.get_title_from_parent_of_type("Volume")
+
+    def get_issue_title(self):
+        """ Equivalent of 'issue'"""
+        return self.get_title_from_parent_of_type("Issue")
 
 atapi.registerType(ReviewJournal, PROJECTNAME)

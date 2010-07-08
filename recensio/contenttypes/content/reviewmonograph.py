@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 """Definition of the Review Monograph content type
 """
 
@@ -11,10 +12,12 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.interfaces import IReviewMonograph
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
+from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 
 ReviewMonographSchema = BookReviewSchema.copy() + \
-                                  SerialSchema.copy()
+                        PagecountSchema.copy() + \
+                        SerialSchema.copy()
 
 schemata.finalizeATCTSchema(ReviewMonographSchema,
                             moveDiscussion=False)
@@ -70,6 +73,9 @@ class ReviewMonograph(BaseReview):
     # Book
     isbn = atapi.ATFieldProperty('isbn')
 
+    # Pagecount
+    pages = atapi.ATFieldProperty('pages')
+
     # Serial
     series = atapi.ATFieldProperty('series')
     seriesVol = atapi.ATFieldProperty('seriesVol')
@@ -77,10 +83,9 @@ class ReviewMonograph(BaseReview):
     # Reorder the fields as required
     ordered_fields = ["recensioID", "authors", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
-                      "description",
-                      "languageReview",
+                      "description", "languageReview",
                       "languagePresentation", "isbn", "publisher",
-                      "idBvb", "searchresults", "series",
+                      "idBvb", "searchresults", "pages", "series",
                       "seriesVol", "reviewAuthor", "ddcPlace",
                       "ddcSubject", "ddcTime", "subject", "pdf",
                       "doc", "urn", "review"]

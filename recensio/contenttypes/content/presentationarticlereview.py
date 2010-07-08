@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Definition of the Presentation Article Review content type
 """
 
@@ -12,7 +13,7 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import InternetSchema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
-from recensio.contenttypes.content.schemata import PagecountSchema
+from recensio.contenttypes.content.schemata import PageStartEndSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.interfaces import IPresentationArticleReview
@@ -23,13 +24,27 @@ PresentationArticleReviewSchema = \
                                 PresentationSchema.copy() + \
                                 ReferenceAuthorsSchema.copy() + \
                                 InternetSchema.copy() + \
-                                PagecountSchema.copy() + \
+                                PageStartEndSchema.copy() + \
                                 atapi.Schema((
     atapi.StringField(
         'volume',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Nummer"),
+            label=_(u"Volume"),
+            ),
+        ),
+    atapi.StringField(
+        'issue',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Issue"),
+            ),
+        ),
+    atapi.StringField(
+        'shortnameJournal',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Shortname (Journal)"),
             ),
         ),
 ))
@@ -86,7 +101,6 @@ class PresentationArticleReview(BaseReview):
 
     # Journal
     issn = atapi.ATFieldProperty('issn')
-    number = atapi.ATFieldProperty('number') 
     shortnameJournal = atapi.ATFieldProperty('shortnameJournal')
     volume = atapi.ATFieldProperty('volume')
     officialYearOfPublication = atapi.ATFieldProperty('officialYearOfPublication')
@@ -100,23 +114,48 @@ class PresentationArticleReview(BaseReview):
     # Internet
     url = atapi.ATFieldProperty('url')
 
-    # Seitenzahl
-    pages = atapi.ATFieldProperty('pages')
+    # PageStartEnd
+    pageStart = atapi.ATFieldProperty('pageStart')
+    pageEnd = atapi.ATFieldProperty('pageEnd')
+
+    volume = atapi.ATFieldProperty('volume')
+    issue = atapi.ATFieldProperty('issue')
 
     # Reorder the fields as required
-
     ordered_fields = ["recensioID", "authors", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
-                      "pages", "description", "languagePresentation",
-                      "languageReview", "issn", "publisher", "idBvb",
-                      "searchresults", "referenceAuthors",
-                      "reviewAuthor", "number", "shortnameJournal",
-                      "volume", "officialYearOfPublication", "url",
-                      "ddcPlace", "ddcSubject", "ddcTime", "subject",
-                      "pdf", "doc", "urn", "review",
-                      "isLicenceApproved"]
+                      "pageStart", "pageEnd", "description",
+                      "languagePresentation", "languageReview",
+                      "issn", "publisher", "idBvb", "searchresults",
+                      "referenceAuthors", "reviewAuthor",
+                      "shortnameJournal", "volume", "issue",
+                      "officialYearOfPublication", "url", "ddcPlace",
+                      "ddcSubject", "ddcTime", "subject", "pdf",
+                      "doc", "urn", "review", "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
+
+    def get_citation_string(self):
+        """
+        Präsentator, presentation of: Autor, Titel. Untertitel, in:
+        Zs-Titel, Nummer, Heftnummer (gezähltes
+        Jahr/Erscheinungsjahr), Seite von/bis, URL recensio.
+        """
+        template = u"%(reviewAuthor)s, presentation of: %(authors), "+\
+                   u"%(title)s, %(subtitle)s, in: "+\
+                   u"%(shortnameJournal)s, %(volume)s, %(issue)s, "+\
+                   u"(%(officialYearOfPublication)s/%(yearOfPublication)s), "+\
+                   u"Pages %(pages), %(absolute_url)s"
+        citation_dict = {}
+        citation_dict["reviewAuthor"] = self.getReviewAuthor()
+        citation_dict["shortnameJournal"] = self.getShortnameJournal()
+        citation_dict["volume"] = self.getVolume()
+        citation_dict["number"] = self.getNumber()
+        citation_dict["yearOfPublication"] = self.getYearOfPublication()
+        citation_dict["officialYearOfPublication"] = \
+                                             self.getOfficialYearOfPublication()
+        citation_dict["absolute_url"] = self.absolute_url()
+        return template % citation_dict
 
 atapi.registerType(PresentationArticleReview, PROJECTNAME)

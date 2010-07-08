@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 """Definition of the base Review Schemata
 """
 from zope.interface import implements
@@ -71,17 +71,34 @@ PresentationSchema = atapi.Schema((
         ),
     ))
 
+PageStartEndSchema = atapi.Schema((
+    atapi.StringField(
+        'pageStart',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Page number (start)"),
+            ),
+        ),
+    atapi.StringField(
+        'pageEnd',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Page number (end)"),
+            ),
+        ),
+    ))
+
 PagecountSchema = atapi.Schema((
     atapi.StringField(
         'pages',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Seitenzahl"),
+            label=_(u"Pages"),
             ),
         ),
     ))
 
-SerialSchema = PagecountSchema.copy() + atapi.Schema((
+SerialSchema = atapi.Schema((
     atapi.StringField(
         'series',
         storage=atapi.AnnotationStorage(),
@@ -271,20 +288,6 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"ISSN"),
-            ),
-        ),
-    atapi.StringField(
-        'shortnameJournal',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Kürzel Zeitschrift"),
-            ),
-        ),
-    atapi.StringField(
-        'number',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Heftvolume"),
             ),
         ),
     atapi.StringField(

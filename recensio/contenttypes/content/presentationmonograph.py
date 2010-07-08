@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 """Definition of the Presentation Monograph content type
 """
 
@@ -12,14 +13,17 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import InternetSchema
+from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
+from recensio.contenttypes.content.schemata import SerialSchema
 
 PresentationMonographSchema = BookReviewSchema.copy() + \
+                              InternetSchema.copy() + \
+                              PagecountSchema.copy() + \
                               PresentationSchema.copy() + \
                               ReferenceAuthorsSchema.copy() + \
-                              InternetSchema.copy()
-
+                              SerialSchema.copy()
 
 PresentationMonographSchema['title'].storage = atapi.AnnotationStorage()
 PresentationMonographSchema['description'].storage = atapi.AnnotationStorage()
@@ -75,6 +79,13 @@ class PresentationMonograph(BaseReview):
     # Reference authors
     referenceAuthors = atapi.ATFieldProperty('referenceAuthors')
 
+    # Pagecount
+    pages = atapi.ATFieldProperty('pages')
+
+    # Serial
+    series = atapi.ATFieldProperty('series')
+    seriesVol = atapi.ATFieldProperty('seriesVol')
+
     # Internet
     url = atapi.ATFieldProperty('url')
 
@@ -84,9 +95,10 @@ class PresentationMonograph(BaseReview):
                       "placeOfPublication", "description",
                       "languagePresentation", "languageReview",
                       "isbn", "publisher", "idBvb", "searchresults",
-                      "referenceAuthors", "url", "ddcPlace",
-                      "ddcSubject", "ddcTime", "subject", "pdf",
-                      "doc", "urn", "review", "isLicenceApproved"]
+                      "referenceAuthors", "series", "seriesVol",
+                      "url", "ddcPlace", "ddcSubject", "ddcTime",
+                      "subject", "pdf", "doc", "urn", "review",
+                      "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

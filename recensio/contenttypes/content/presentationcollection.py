@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Definition of the Presentation Collection content type
 """
 
@@ -13,6 +14,7 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import InternetSchema
+from recensio.contenttypes.content.schemata import PageStartEndSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.content.schemata import SerialSchema
@@ -22,6 +24,7 @@ PresentationCollectionSchema = BookReviewSchema.copy() + \
                                PresentationSchema.copy() + \
                                ReferenceAuthorsSchema.copy() + \
                                InternetSchema.copy() + \
+                               PageStartEndSchema.copy() + \
                                SerialSchema.copy() + \
                                atapi.Schema((
     atapi.LinesField(
@@ -66,7 +69,6 @@ class PresentationCollection(BaseReview):
     subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
     def getPdf(self, *args, **kwargs):
-        import pdb;pdb.set_trace()
         return None
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
@@ -101,9 +103,9 @@ class PresentationCollection(BaseReview):
     # Internet
     url = atapi.ATFieldProperty('url')
 
-    # Serial = Seitenzahl +
-    # Seitenzahl
-    pages = atapi.ATFieldProperty('pages')
+    # Serial = PageStartEnd +
+    pageStart = atapi.ATFieldProperty('pageStart')
+    pageEnd = atapi.ATFieldProperty('pageEnd')
 
     # Serial
     series = atapi.ATFieldProperty('series')
@@ -116,14 +118,37 @@ class PresentationCollection(BaseReview):
     ordered_fields = ["recensioID", "authors",
                       "editorCollectedEdition", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
-                      "pages", "description", "languagePresentation",
-                      "languageReview", "isbn", "publisher", "idBvb",
-                      "searchresults", "referenceAuthors", "series",
-                      "seriesVol", "reviewAuthor", "url", "ddcPlace",
-                      "ddcSubject", "ddcTime", "subject", "pdf",
-                      "doc", "urn", "review", "isLicenceApproved"]
+                      "pageStart", "pageEnd", "description",
+                      "languagePresentation", "languageReview",
+                      "isbn", "publisher", "idBvb", "searchresults",
+                      "referenceAuthors", "series", "seriesVol",
+                      "reviewAuthor", "url", "ddcPlace", "ddcSubject",
+                      "ddcTime", "subject", "pdf", "doc", "urn",
+                      "review", "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
+
+    def get_citation_string(self):
+        """
+        Präsentator, presentation of: Autor, Titel. Untertitel, in:
+        Zs-Titel, Nummer, Heftnummer (gezähltes
+        Jahr/Erscheinungsjahr), Seite von/bis, URL recensio.
+        """
+        template = u"%(reviewAuthor)s, review of: %(shortnameJournal)s,"+\
+                   u"%(volume)s, %(number)s, "+\
+                   u"(%(yearOfPublication)s/%(officialYearOfPublication)s,"+\
+                   u"%(absolute_url)s"
+        citation_dict = {}
+        citation_dict["reviewAuthor"] = self.getReviewAuthor()
+        citation_dict["shortnameJournal"] = self.getShortnameJournal()
+        citation_dict["volume"] = self.getVolume()
+        citation_dict["number"] = self.getNumber()
+        citation_dict["yearOfPublication"] = self.getYearOfPublication()
+        citation_dict["officialYearOfPublication"] = \
+                                             self.getOfficialYearOfPublication()
+        citation_dict["absolute_url"] = self.absolute_url()
+        return template % citation_dict
+
 
 atapi.registerType(PresentationCollection, PROJECTNAME)
