@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+import re
+
 from zope.interface import implements
+from zope.pagetemplate.pagetemplatefile import PageTemplateFile
 
 from Products.ATContentTypes.content import base
 
@@ -69,3 +72,25 @@ class BaseReview(base.ATCTContent):
         metadata_dict['absolute_url'] = unicode(review.absolute_url())
         log.debug(metadata_dict)
         return citation_templates[review.portal_type] % metadata_dict
+
+    def clean_citation(self, citation_dict):
+        """
+        Clean up the citation, decode as utf-8, remove empty
+        punctuation sections
+        """
+        for key in citation_dict.keys():
+            citation_dict[key] = citation_dict[key].decode("utf-8")
+        citation = self.template % citation_dict
+        citation = re.sub("^[,.:]", "", citation)
+        citation = re.sub(" [,.:]", "", citation)
+        citation = citation.replace("Page(s) /,", "")
+        return citation
+
+class simpleZpt(PageTemplateFile):
+    """
+    Use simple PageTemplateFiles for formatting the citation
+    """
+    def pt_getContext(self, args=(), options={}, **kw):
+        rval = PageTemplateFile.pt_getContext(self, args=args)
+        options.update(rval)
+        return options
