@@ -65,6 +65,9 @@ class PresentationCollection(BaseReview):
     recensioID = atapi.ATFieldProperty('recensioID')
     subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
+    def getPdf(self, *args, **kwargs):
+        import pdb;pdb.set_trace()
+        return None
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
     urn = atapi.ATFieldProperty('urn')
