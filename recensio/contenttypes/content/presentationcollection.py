@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Definition of the Presentation Collection content type
 """
-
 from zope.interface import implements
 
 from Products.Archetypes import atapi
@@ -28,11 +27,11 @@ PresentationCollectionSchema = BookReviewSchema.copy() + \
                                SerialSchema.copy() + \
                                atapi.Schema((
     atapi.LinesField(
-        'editorCollectedEdition',
+        'editorsCollectedEdition',
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.LinesWidget(
-            label=_(u"Editor Collected Edition"),
+            label=_(u"Editor(s) Collected Edition"),
             rows=3,
             ),
         ),
@@ -112,43 +111,32 @@ class PresentationCollection(BaseReview):
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Presentation Collection
-    editorCollectedEdition = atapi.ATFieldProperty('editorCollectedEdition')
+    editorsCollectedEdition = atapi.ATFieldProperty('editorsCollectedEdition')
 
     # Reorder the fields as required
     ordered_fields = ["recensioID", "authors",
-                      "editorCollectedEdition", "title", "subtitle",
+                      "editorsCollectedEdition", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
                       "pageStart", "pageEnd", "description",
                       "languagePresentation", "languageReview",
-                      "isbn", "publisher", "idBvb", "searchresults",
-                      "referenceAuthors", "series", "seriesVol",
-                      "reviewAuthor", "url", "ddcPlace", "ddcSubject",
-                      "ddcTime", "subject", "pdf", "doc", "urn",
-                      "review", "isLicenceApproved"]
+                      "editorsCollectedEdition", "isbn", "publisher",
+                      "idBvb", "searchresults", "referenceAuthors",
+                      "series", "seriesVol", "reviewAuthor", "url",
+                      "ddcPlace", "ddcSubject", "ddcTime", "subject",
+                      "pdf", "doc", "urn", "review",
+                      "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
-    def get_citation_string(self):
-        """
-        Präsentator, presentation of: Autor, Titel. Untertitel, in:
-        Zs-Titel, Nummer, Heftnummer (gezähltes
-        Jahr/Erscheinungsjahr), Seite von/bis, URL recensio.
-        """
-        template = u"%(reviewAuthor)s, review of: %(shortnameJournal)s,"+\
-                   u"%(volume)s, %(number)s, "+\
-                   u"(%(yearOfPublication)s/%(officialYearOfPublication)s,"+\
-                   u"%(absolute_url)s"
-        citation_dict = {}
-        citation_dict["reviewAuthor"] = self.getReviewAuthor()
-        citation_dict["shortnameJournal"] = self.getShortnameJournal()
-        citation_dict["volume"] = self.getVolume()
-        citation_dict["number"] = self.getNumber()
-        citation_dict["yearOfPublication"] = self.getYearOfPublication()
-        citation_dict["officialYearOfPublication"] = \
-                                             self.getOfficialYearOfPublication()
-        citation_dict["absolute_url"] = self.absolute_url()
-        return template % citation_dict
-
+    # Präsentator, presentation of: Autor, Titel. Untertitel, in:
+    # Herausgeber, Titel. Untertitel, Erscheinungsort: Verlag Jahr,
+    # URL recensio.
+    citation_template =  u"{reviewAuthor}, {text_presentation_of}: "+\
+                        "{authors}, {title}, {subtitle}, {text_in}: "+\
+                        "{editorsCollectedEdition}, "+\
+                        "{title}, {subtitle}, {text_in}: "+\
+                        "{placeOfPublication}: {publisher} "+\
+                        "{yearOfPublication}"
 
 atapi.registerType(PresentationCollection, PROJECTNAME)

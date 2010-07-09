@@ -93,4 +93,16 @@ class ReviewMonograph(BaseReview):
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
+    #  Rezensent, review of: Autor, Titel. Untertitel,
+    # Erscheinungsort: Verlag Jahr, in: Zs-Titel, Nummer, Heftnummer
+    # (gezähltes Jahr/Erscheinungsjahr), Seite von/bis, URL recensio.
+
+    # NOTE: ReviewMonograph doesn't have:
+    # officialYearOfPublication, pageStart, pageEnd
+    citation_template =  u"{reviewAuthor}, {text_review_of}: "+\
+                        "{authors}, {title}, {subtitle}, {text_in}: "+\
+                        "{placeOfPublication}: {yearOfPublication}, "+\
+                        "{text_in}: {publisher}, {series}, {seriesVol}"+\
+                        "({yearOfPublication}), Pages {pages}"
+
 atapi.registerType(ReviewMonograph, PROJECTNAME)

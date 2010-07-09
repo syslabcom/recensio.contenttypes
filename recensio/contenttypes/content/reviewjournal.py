@@ -12,11 +12,9 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import JournalReviewSchema
-from recensio.contenttypes.content.schemata import SerialSchema
 from recensio.contenttypes.interfaces import IReviewJournal
 
-ReviewJournalSchema = SerialSchema.copy() +\
-                      JournalReviewSchema.copy() + atapi.Schema((
+ReviewJournalSchema = JournalReviewSchema.copy() + atapi.Schema((
     atapi.StringField(
         'editor',
         storage=atapi.AnnotationStorage(),
@@ -39,7 +37,6 @@ class ReviewJournal(BaseReview):
 
     meta_type = "ReviewJournal"
     schema = ReviewJournalSchema
-
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
     # Journal = Printed + Authors +
@@ -97,6 +94,21 @@ class ReviewJournal(BaseReview):
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
+
+    # Rezensent, review of: Zs-Titel, Nummer, Heftnummer (gezähltes
+    # Jahr/Erscheinungsjahr), in: Zs-Titel, Nummer, Heftnummer
+    # (gezähltes Jahr/Erscheinungsjahr), Seite von/bis, URL recensio
+
+    # NOTE: No pages
+    citation_template =  u"{reviewAuthor}, {text_review_of}: "+\
+                        "{get_volume_title}, {get_issue_title}, "+\
+                        "({officialYearOfPublication}/"+\
+                        "{yearOfPublication}), {text_in}: "+\
+                        "{reviewAuthor}, {text_review_of}: "+\
+                        "{get_volume_title}, {get_issue_title}, "+\
+                        "({officialYearOfPublication}/"+\
+                        "{yearOfPublication})"
+
 
     def get_title_from_parent_of_type(self, meta_type):
         """

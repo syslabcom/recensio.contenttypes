@@ -135,32 +135,14 @@ class PresentationArticleReview(BaseReview):
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
-    def get_citation_string(self):
-        """
-        Präsentator, presentation of: Autor, Titel. Untertitel, in:
-        Zs-Titel, Nummer, Heftnummer (gezähltes
-        Jahr/Erscheinungsjahr), Seite von/bis, URL recensio.
-        """
-        self.template =  u"%(reviewAuthor)s, presentation of: %(authors)s, "+\
-                        "%(title)s, %(subtitle)s, in: "+\
-                        "%(shortnameJournal)s, %(volume)s, %(issue)s, "+\
-                        "(%(officialYearOfPublication)s/"+\
-                        "%(yearOfPublication)s), "+\
-                        "Page(s) %(pageStart)s/%(pageEnd)s, %(absolute_url)s."
-        citation_dict = {}
-        citation_dict["reviewAuthor"] = self.getReviewAuthor()
-        citation_dict["authors"] = ", ".join(self.getAuthors())
-        citation_dict["title"] = self.Title()
-        citation_dict["subtitle"] = self.getSubtitle()
-        citation_dict["shortnameJournal"] = self.getShortnameJournal()
-        citation_dict["volume"] = self.getVolume()
-        citation_dict["issue"] = self.getIssue()
-        citation_dict["officialYearOfPublication"] = \
-                                             self.getOfficialYearOfPublication()
-        citation_dict["yearOfPublication"] = self.getYearOfPublication()
-        citation_dict["pageStart"] = self.getPageStart()
-        citation_dict["pageEnd"] = self.getPageEnd()
-        citation_dict["absolute_url"] = self.absolute_url()
-        return self.clean_citation(citation_dict)
+    # Präsentator, presentation of: Autor, Titel. Untertitel, in:
+    # Zs-Titel, Nummer, Heftnummer (gezähltes Jahr/Erscheinungsjahr),
+    # Seite von/bis, URL recensio.
+    citation_template =  u"{reviewAuthor}, {text_presentation_of}: "+\
+                        "{authors}, {title}, {subtitle}, {text_in}: "+\
+                        "{shortnameJournal}, {volume}, {issue}, "+\
+                        "({officialYearOfPublication}/"+\
+                        "{yearOfPublication}), "+\
+                        "Page(s) {pageStart}/{pageEnd}"
 
 atapi.registerType(PresentationArticleReview, PROJECTNAME)

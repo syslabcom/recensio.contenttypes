@@ -135,4 +135,8 @@ class PresentationOnlineResource(BaseReview):
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
+    # Präsentator, presentation of: Titel, URL Ressource, URL recensio.
+    citation_template =  u"{reviewAuthor}, {text_presentation_of}: "+\
+                        "{title}, {url}"
+
 atapi.registerType(PresentationOnlineResource, PROJECTNAME)

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import re
+from string import Formatter
 
 from zope.interface import implements
-from zope.pagetemplate.pagetemplatefile import PageTemplateFile
 
 from Products.ATContentTypes.content import base
 
@@ -13,26 +13,6 @@ log = logging.getLogger('recensio.contentypes/content/review.py')
 
 class BaseReview(base.ATCTContent):
     implements(IReview)
-
-    # Override the template for each content type
-    citation_template = u"%(reviewAuthor)s, review of: %(authors)s,"+\
-                        u"%(title)s%(titel_divider)s%(subtitle)s, "+\
-                        u"%(placeOfPublication)s: %(publisher)s "+\
-                        u"%(yearOfPublication)s, in: %(series)s, "+\
-                        u"%(seriesVol)s, p. %(pages)s, %(absolute_url)s"
-
-    # "Review einer Monographie": u"%(reviewAuthor)s, review of:
-    # %(authors)s, %(title)s%(titel_divider)s%(subtitle)s,
-    # %(placeOfPublication)s: %(publisher)s %(yearOfPublication)s, in:
-    # %(series)s, %(seriesVol)s, p. %(pages)s, %(absolute_url)s",
-    # "Review einer Zeitschrift": u"%(reviewAuthor)s, review of:
-    # %(shortnameJournal)s, %(volume)s, %(number)s,
-    # (%(yearOfPublication)s/%(officialYearOfPublication)s,
-    # %(absolute_url)s", "Praesentationen von Monographien":
-    # u"%(authors)s, presentation of: %(authors)s,
-    # %(title)s%(titel_divider)s%(subtitle)s, %(placeOfPublication)s:
-    # %(publisher)s %(yearOfPublication)s, %(absolute_url)s",
-
 
     def listSupportedLanguages(self):
         return self.portal_languages.listSupportedLanguages()
@@ -45,52 +25,46 @@ class BaseReview(base.ATCTContent):
         """
         pass
 
-    def get_citation_string(review):
-        metadata_fields = map(lambda f: f.getName(),
-                              review.schema.getSchemataFields('default'))
-        # [ 'reviewAuthor', 'authors', 'title', 'subtitle',
-        # 'placeOfPublication', 'publisher', 'yearOfPublication',
-        # 'series', 'seriesVol', 'pages', ]
+    def translate(self, msgid):
+        return msgid
 
-        metadata_dict = dict()
-        metadata_dict['pages'] = '123-456'
-        for field in metadata_fields:
-            log.debug('getting field %s' % field)
-            metadata_dict[field] = review.getField(field).getAccessor(review)()
-            if isinstance(metadata_dict[field], (tuple,list)):
-                strval = ''
-                for val in metadata_dict[field]:
-                    strval += val + ', '
-                metadata_dict[field] = strval[:-2]
-            if metadata_dict[field] and \
-                   not isinstance(metadata_dict[field], unicode):
+    def get_citation_dict(self, citation_template):
+        """
+        Parse the citation_template and using the create a dict the
+        values to be substituted, including translation
+        """
+        formatter = Formatter()
+        # Get the keys from the citation_template string i.e. words inside {}
+        keys = set([i[1] for i in formatter.parse(citation_template)])
+        if None in keys:
+            keys.remove(None)
+        citation_dict = {}
+        for key in keys:
+            # First translate the necessary strings
+            if key.startswith("text_"):
+                citation_dict[key] = self.translate(key)
+            elif key.startswith("get_"):
+                citation_dict[key] = self[key]()
+            else:
+                value = ""
                 try:
-                    metadata_dict[field] = metadata_dict[field].decode('utf8')
-                except AttributeError:
-                    log.warn('AttributeError while trying to decode %s (%s)' % (field, metadata_dict[field]))
-        metadata_dict['titel_divider'] = u'. ' if metadata_dict['subtitle'] else u''
-        metadata_dict['absolute_url'] = unicode(review.absolute_url())
-        log.debug(metadata_dict)
-        return citation_templates[review.portal_type] % metadata_dict
+                    value = self.getField(key).getAccessor(self)()
+                except exception, e:
+                    log.error("Error with citation %s" ,e)
+                if isinstance(value, tuple):
+                    value = ", ".join(value)
+                citation_dict[key] = value.decode("utf-8")
+        return citation_dict
 
-    def clean_citation(self, citation_dict):
+    def get_citation_string(self):
         """
-        Clean up the citation, decode as utf-8, remove empty
-        punctuation sections
+        Clean up the citation, removing empty sections
         """
-        for key in citation_dict.keys():
-            citation_dict[key] = citation_dict[key].decode("utf-8")
-        citation = self.template % citation_dict
+        citation_dict = self.get_citation_dict(self.citation_template)
+        citation = self.citation_template.format(**citation_dict)
+        citation = citation.replace("Page(s) /", "")
         citation = re.sub("^[,.:]", "", citation)
         citation = re.sub(" [,.:]", "", citation)
-        citation = citation.replace("Page(s) /,", "")
+        citation = re.sub("[,.:]\ *$", "", citation)
+        citation = citation + "."
         return citation
-
-class simpleZpt(PageTemplateFile):
-    """
-    Use simple PageTemplateFiles for formatting the citation
-    """
-    def pt_getContext(self, args=(), options={}, **kw):
-        rval = PageTemplateFile.pt_getContext(self, args=args)
-        options.update(rval)
-        return options

@@ -94,13 +94,25 @@ class PresentationMonograph(BaseReview):
                       "reviewAuthor", "yearOfPublication",
                       "placeOfPublication", "description",
                       "languagePresentation", "languageReview",
-                      "isbn", "publisher", "idBvb", "searchresults",
-                      "referenceAuthors", "series", "seriesVol",
-                      "url", "ddcPlace", "ddcSubject", "ddcTime",
-                      "subject", "pdf", "doc", "urn", "review",
-                      "isLicenceApproved"]
+                      "isbn", "publisher", "pages", "idBvb",
+                      "searchresults", "referenceAuthors", "series",
+                      "seriesVol", "url", "ddcPlace", "ddcSubject",
+                      "ddcTime", "subject", "pdf", "doc", "urn",
+                      "review", "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
+
+    # Präsentator, presentation of: Autor, Titel. Untertitel,
+    # Erscheinungsort: Verlag Jahr, in: Zs-Titel, Nummer, Heftnummer
+    # (gezähltes Jahr/Erscheinungsjahr), Seite von/bis, URL recensio.
+
+    # NOTE: PresentationMonograph doesn't have:
+    # officialYearOfPublication, pageStart, pageEnd
+    citation_template =  u"{reviewAuthor}, {text_presentation_of}: "+\
+                        "{authors}, {title}, {subtitle}, {text_in}: "+\
+                        "{placeOfPublication}: {yearOfPublication}, "+\
+                        "{text_in}: {publisher}, {series}, {seriesVol}"+\
+                        "({yearOfPublication}), Pages {pages}"
 
 atapi.registerType(PresentationMonograph, PROJECTNAME)
