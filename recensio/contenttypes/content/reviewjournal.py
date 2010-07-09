@@ -12,9 +12,11 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import JournalReviewSchema
+from recensio.contenttypes.content.schemata import SerialSchema
 from recensio.contenttypes.interfaces import IReviewJournal
 
-ReviewJournalSchema = JournalReviewSchema.copy() + atapi.Schema((
+ReviewJournalSchema = SerialSchema.copy() +\
+                      JournalReviewSchema.copy() + atapi.Schema((
     atapi.StringField(
         'editor',
         storage=atapi.AnnotationStorage(),
