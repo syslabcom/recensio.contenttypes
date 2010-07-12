@@ -124,7 +124,7 @@ class PresentationArticleReview(BaseReview):
     issue = atapi.ATFieldProperty('issue')
 
     # Reorder the fields as required
-    ordered_fields = ["recensioID", "authors", "title", "subtitle",
+    ordered_fields = ["authors", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
                       "pageStart", "pageEnd", "description",
                       "languagePresentation", "languageReview",

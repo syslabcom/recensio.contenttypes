@@ -86,7 +86,7 @@ class ReviewJournal(BaseReview):
     editor = atapi.ATFieldProperty('editor')
 
     # Reorder the fields as required
-    ordered_fields = ["recensioID", "authors", "editor", "title",
+    ordered_fields = ["authors", "editor", "title",
                       "subtitle", "yearOfPublication",
                       "placeOfPublication", "description",
                       "languagePresentation", "languageReview",

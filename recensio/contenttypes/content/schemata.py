@@ -182,6 +182,8 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Recensio ID"),
+            visible={"view":"hidden",
+                     "edit":"hidden"},
             ),
         ),
     atapi.StringField(
@@ -294,7 +296,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + atapi.Schema((
         'searchresults',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Trefferdaten"),
+            label=_(u"Zitation"),
             ),
         ),
 

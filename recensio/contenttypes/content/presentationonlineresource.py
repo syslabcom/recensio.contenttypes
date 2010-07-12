@@ -126,7 +126,7 @@ class PresentationOnlineResource(BaseReview):
     documentarten_individual = atapi.ATFieldProperty('documentarten_individual')
 
     # Reorder the fields as required
-    ordered_fields = ["recensioID", "title", "institution",
+    ordered_fields = ["title", "institution",
                       "languagePresentation", "languageReview",
                       "documentarten_institution",
                       "documentarten_kooperation",

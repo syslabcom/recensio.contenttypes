@@ -84,7 +84,7 @@ class ReviewMonograph(BaseReview):
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Reorder the fields as required
-    ordered_fields = ["recensioID", "authors", "title", "subtitle",
+    ordered_fields = ["authors", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
                       "description", "languageReview",
                       "languagePresentation", "isbn", "publisher",

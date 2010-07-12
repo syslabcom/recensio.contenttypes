@@ -93,7 +93,7 @@ class PresentationMonograph(BaseReview):
     url = atapi.ATFieldProperty('url')
 
     # Reorder the fields as required
-    ordered_fields = ["recensioID", "title", "subtitle",
+    ordered_fields = ["title", "subtitle",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
                       "yearOfPublication", "placeOfPublication",
