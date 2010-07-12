@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Definition of the Presentation Online Resource content type
 """
 
@@ -88,7 +89,10 @@ class PresentationOnlineResource(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthor = atapi.ATFieldProperty('reviewAuthor')
+    reviewAuthorHonorific = atapi.ATFieldProperty('reviewAuthorHonorific')
+    reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
+    reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
+    reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languagePresentation = atapi.ATFieldProperty('languagePresentation')
@@ -128,15 +132,17 @@ class PresentationOnlineResource(BaseReview):
                       "documentarten_kooperation",
                       "documentarten_bibliographische",
                       "documentarten_individual", "description",
-                      "reviewAuthor", "url", "ddcPlace", "ddcSubject",
-                      "ddcTime", "subject", "pdf", "doc", "urn",
-                      "review", "isLicenceApproved"]
+                      "reviewAuthorHonorific", "reviewAuthorLastname",
+                      "reviewAuthorFirstname", "reviewAuthorEmail",
+                      "url", "ddcPlace", "ddcSubject", "ddcTime",
+                      "subject", "pdf", "doc", "urn", "review",
+                      "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
     # Präsentator, presentation of: Titel, URL Ressource, URL recensio.
-    citation_template =  u"{reviewAuthor}, {text_presentation_of}: "+\
+    citation_template =  u"{reviewAuthorLastname}, {text_presentation_of}: "+\
                         "{title}, {url}"
 
 atapi.registerType(PresentationOnlineResource, PROJECTNAME)

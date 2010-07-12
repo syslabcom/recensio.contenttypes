@@ -71,7 +71,10 @@ class PresentationArticleReview(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthor = atapi.ATFieldProperty('reviewAuthor')
+    reviewAuthorHonorific = atapi.ATFieldProperty('reviewAuthorHonorific')
+    reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
+    reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
+    reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languagePresentation = atapi.ATFieldProperty('languagePresentation')
@@ -126,11 +129,13 @@ class PresentationArticleReview(BaseReview):
                       "pageStart", "pageEnd", "description",
                       "languagePresentation", "languageReview",
                       "issn", "publisher", "idBvb", "searchresults",
-                      "referenceAuthors", "reviewAuthor",
-                      "shortnameJournal", "volume", "issue",
-                      "officialYearOfPublication", "url", "ddcPlace",
-                      "ddcSubject", "ddcTime", "subject", "pdf",
-                      "doc", "urn", "review", "isLicenceApproved"]
+                      "referenceAuthors", "reviewAuthorHonorific",
+                      "reviewAuthorLastname", "reviewAuthorFirstname",
+                      "reviewAuthorEmail", "shortnameJournal",
+                      "volume", "issue", "officialYearOfPublication",
+                      "url", "ddcPlace", "ddcSubject", "ddcTime",
+                      "subject", "pdf", "doc", "urn", "review",
+                      "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
@@ -138,7 +143,7 @@ class PresentationArticleReview(BaseReview):
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:
     # Zs-Titel, Nummer, Heftnummer (gezähltes Jahr/Erscheinungsjahr),
     # Seite von/bis, URL recensio.
-    citation_template =  u"{reviewAuthor}, {text_presentation_of}: "+\
+    citation_template =  u"{reviewAuthorLastname}, {text_presentation_of}: "+\
                         "{authors}, {title}, {subtitle}, {text_in}: "+\
                         "{shortnameJournal}, {volume}, {issue}, "+\
                         "({officialYearOfPublication}/"+\

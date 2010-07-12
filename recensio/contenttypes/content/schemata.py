@@ -13,15 +13,21 @@ from plone.app.blob.field import BlobField
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 
+from Products.DataGridField import DataGridField, DataGridWidget
+from Products.DataGridField.Column import Column
+from Products.DataGridField.SelectColumn import SelectColumn
+
 
 AuthorsSchema = atapi.Schema((
-    atapi.LinesField(
+    DataGridField(
         'authors',
         storage=atapi.AnnotationStorage(),
-        required=True,
-        widget=atapi.LinesWidget(
-            label=_(u"Authors"),
-            rows=3,
+        columns=("lastname", "firstname"),
+        widget=DataGridWidget(
+            label = _(u"Authors"),
+            columns = {"lastname" : Column(_(u"Lastname")),
+                       "firstname" : Column(_(u"Firstname")),
+                       }
             ),
         ),
     ))
@@ -37,11 +43,15 @@ InternetSchema = atapi.Schema((
     ))
 
 ReferenceAuthorsSchema = atapi.Schema((
-    atapi.StringField(
+    DataGridField(
         'referenceAuthors',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
+        columns=("lastname", "firstname"),
+        widget=DataGridWidget(
             label=_(u"Reference Authors"),
+            columns = {"lastname" : Column(_(u"Lastname")),
+                       "firstname" : Column(_(u"Firstname")),
+                       }
             ),
         ),
     ))
@@ -117,10 +127,36 @@ SerialSchema = atapi.Schema((
 
 BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.StringField(
-        'reviewAuthor',
+        'reviewAuthorHonorific',
         storage=atapi.AnnotationStorage(),
+        required=True,
+        vocabulary=NamedVocabulary("honorifics"),
+        widget=atapi.SelectionWidget(
+            label=_(u"Honorific Title"),
+            ),
+        ),
+    atapi.StringField(
+        'reviewAuthorLastname',
+        storage=atapi.AnnotationStorage(),
+        required=True,
         widget=atapi.StringWidget(
-            label=_(u"Autor der Review"),
+            label=_(u"Lastname"),
+            ),
+        ),
+    atapi.StringField(
+        'reviewAuthorFirstname',
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        widget=atapi.StringWidget(
+            label=_(u"Firstname"),
+            ),
+        ),
+    atapi.StringField(
+        'reviewAuthorEmail',
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        widget=atapi.StringWidget(
+            label=_(u"Email"),
             ),
         ),
     atapi.StringField(

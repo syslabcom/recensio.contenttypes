@@ -44,7 +44,10 @@ class ReviewJournal(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthor = atapi.ATFieldProperty('reviewAuthor')
+    reviewAuthorHonorific = atapi.ATFieldProperty('reviewAuthorHonorific')
+    reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
+    reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
+    reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languagePresentation = atapi.ATFieldProperty('languagePresentation')
@@ -88,9 +91,11 @@ class ReviewJournal(BaseReview):
                       "placeOfPublication", "description",
                       "languagePresentation", "languageReview",
                       "issn", "publisher", "idBvb", "searchresults",
-                      "reviewAuthor", "officialYearOfPublication",
-                      "ddcPlace", "ddcSubject", "ddcTime", "subject",
-                      "pdf", "doc", "urn", "review"]
+                      "reviewAuthorHonorific", "reviewAuthorLastname",
+                      "reviewAuthorFirstname", "reviewAuthorEmail",
+                      "officialYearOfPublication", "ddcPlace",
+                      "ddcSubject", "ddcTime", "subject", "pdf",
+                      "doc", "urn", "review"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
@@ -100,11 +105,11 @@ class ReviewJournal(BaseReview):
     # (gezähltes Jahr/Erscheinungsjahr), Seite von/bis, URL recensio
 
     # NOTE: No pages
-    citation_template =  u"{reviewAuthor}, {text_review_of}: "+\
+    citation_template =  u"{reviewAuthorLastname}, {text_review_of}: "+\
                         "{get_volume_title}, {get_issue_title}, "+\
                         "({officialYearOfPublication}/"+\
                         "{yearOfPublication}), {text_in}: "+\
-                        "{reviewAuthor}, {text_review_of}: "+\
+                        "{reviewAuthorLastname}, {text_review_of}: "+\
                         "{get_volume_title}, {get_issue_title}, "+\
                         "({officialYearOfPublication}/"+\
                         "{yearOfPublication})"

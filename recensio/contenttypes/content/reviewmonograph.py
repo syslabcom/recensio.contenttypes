@@ -43,7 +43,10 @@ class ReviewMonograph(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthor = atapi.ATFieldProperty('reviewAuthor')
+    reviewAuthorHonorific = atapi.ATFieldProperty('reviewAuthorHonorific')
+    reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
+    reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
+    reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languagePresentation = atapi.ATFieldProperty('languagePresentation')
@@ -86,9 +89,11 @@ class ReviewMonograph(BaseReview):
                       "description", "languageReview",
                       "languagePresentation", "isbn", "publisher",
                       "idBvb", "searchresults", "pages", "series",
-                      "seriesVol", "reviewAuthor", "ddcPlace",
-                      "ddcSubject", "ddcTime", "subject", "pdf",
-                      "doc", "urn", "review"]
+                      "seriesVol", "reviewAuthorHonorific",
+                      "reviewAuthorLastname", "reviewAuthorFirstname",
+                      "reviewAuthorEmail", "ddcPlace", "ddcSubject",
+                      "ddcTime", "subject", "pdf", "doc", "urn",
+                      "review"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
@@ -99,7 +104,7 @@ class ReviewMonograph(BaseReview):
 
     # NOTE: ReviewMonograph doesn't have:
     # officialYearOfPublication, pageStart, pageEnd
-    citation_template =  u"{reviewAuthor}, {text_review_of}: "+\
+    citation_template =  u"{reviewAuthorLastname}, {text_review_of}: "+\
                         "{authors}, {title}, {subtitle}, {text_in}: "+\
                         "{placeOfPublication}: {yearOfPublication}, "+\
                         "{text_in}: {publisher}, {series}, {seriesVol}"+\

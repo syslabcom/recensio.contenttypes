@@ -46,7 +46,10 @@ class PresentationMonograph(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthor = atapi.ATFieldProperty('reviewAuthor')
+    reviewAuthorHonorific = atapi.ATFieldProperty('reviewAuthorHonorific')
+    reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
+    reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
+    reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languagePresentation = atapi.ATFieldProperty('languagePresentation')
@@ -91,14 +94,15 @@ class PresentationMonograph(BaseReview):
 
     # Reorder the fields as required
     ordered_fields = ["recensioID", "title", "subtitle",
-                      "reviewAuthor", "yearOfPublication",
-                      "placeOfPublication", "description",
-                      "languagePresentation", "languageReview",
-                      "isbn", "publisher", "pages", "idBvb",
-                      "searchresults", "referenceAuthors", "series",
-                      "seriesVol", "url", "ddcPlace", "ddcSubject",
-                      "ddcTime", "subject", "pdf", "doc", "urn",
-                      "review", "isLicenceApproved"]
+                      "reviewAuthorHonorific", "reviewAuthorLastname",
+                      "reviewAuthorFirstname", "reviewAuthorEmail",
+                      "yearOfPublication", "placeOfPublication",
+                      "description", "languagePresentation",
+                      "languageReview", "isbn", "publisher", "pages",
+                      "idBvb", "searchresults", "referenceAuthors",
+                      "series", "seriesVol", "url", "ddcPlace",
+                      "ddcSubject", "ddcTime", "subject", "pdf",
+                      "doc", "urn", "review", "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
@@ -109,7 +113,7 @@ class PresentationMonograph(BaseReview):
 
     # NOTE: PresentationMonograph doesn't have:
     # officialYearOfPublication, pageStart, pageEnd
-    citation_template =  u"{reviewAuthor}, {text_presentation_of}: "+\
+    citation_template =  u"{reviewAuthorLastname}, {text_presentation_of}: "+\
                         "{authors}, {title}, {subtitle}, {text_in}: "+\
                         "{placeOfPublication}: {yearOfPublication}, "+\
                         "{text_in}: {publisher}, {series}, {seriesVol}"+\
