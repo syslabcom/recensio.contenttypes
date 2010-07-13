@@ -12,10 +12,12 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.interfaces import IReviewMonograph
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
+from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 
 ReviewMonographSchema = BookReviewSchema.copy() + \
+                        CoverPictureSchema.copy() + \
                         PagecountSchema.copy() + \
                         SerialSchema.copy()
 
@@ -76,6 +78,9 @@ class ReviewMonograph(BaseReview):
     # Book
     isbn = atapi.ATFieldProperty('isbn')
 
+    # Cover Picture
+    coverPicture = atapi.ATFieldProperty('coverPicture')
+
     # Pagecount
     pages = atapi.ATFieldProperty('pages')
 
@@ -84,16 +89,16 @@ class ReviewMonograph(BaseReview):
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Reorder the fields as required
-
     ordered_fields = ["isbn", "urn", "pdf", "doc", "review",
-                      "reviewAuthorHonorific", "reviewAuthorLastname",
-                      "reviewAuthorFirstname", "reviewAuthorEmail",
-                      "languageReview", "languagePresentation",
-                      "authors", "title", "subtitle",
-                      "yearOfPublication", "placeOfPublication",
-                      "publisher", "series", "seriesVol", "pages",
-                      "ddcSubject", "ddcTime", "ddcPlace", "subject",
-                      "searchresults", "description"]
+                      "coverPicture", "reviewAuthorHonorific",
+                      "reviewAuthorLastname", "reviewAuthorFirstname",
+                      "reviewAuthorEmail", "languageReview",
+                      "languagePresentation", "authors", "title",
+                      "subtitle", "yearOfPublication",
+                      "placeOfPublication", "publisher", "series",
+                      "seriesVol", "pages", "ddcSubject", "ddcTime",
+                      "ddcPlace", "subject", "searchresults",
+                      "description"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

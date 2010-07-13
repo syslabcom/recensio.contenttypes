@@ -9,6 +9,7 @@ from Products.ATVocabularyManager import NamedVocabulary
 from Products.Archetypes import atapi
 from Products.validation.interfaces.IValidator import IValidator
 from plone.app.blob.field import BlobField
+from plone.app.blob.field import ImageField
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
@@ -27,6 +28,16 @@ AuthorsSchema = atapi.Schema((
             columns = {"lastname" : Column(_(u"Lastname")),
                        "firstname" : Column(_(u"Firstname")),
                        }
+            ),
+        ),
+    ))
+
+CoverPictureSchema = atapi.Schema((
+    ImageField(
+        'coverPicture',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.ImageWidget(
+            label=_(u"Cover picture"),
             ),
         ),
     ))

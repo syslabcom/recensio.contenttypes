@@ -13,6 +13,7 @@ from recensio.contenttypes.interfaces import IPresentationMonograph
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
+from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import InternetSchema
 from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
@@ -21,6 +22,7 @@ from recensio.contenttypes.content.schemata import SerialSchema
 
 PresentationMonographSchema = BookReviewSchema.copy() + \
                               InternetSchema.copy() + \
+                              CoverPictureSchema.copy() + \
                               PagecountSchema.copy() + \
                               PresentationSchema.copy() + \
                               ReferenceAuthorsSchema.copy() + \
@@ -102,7 +104,10 @@ class PresentationMonograph(BaseReview):
     # Book
     isbn = atapi.ATFieldProperty('isbn')
 
-    # Presentation 
+    # Cover Picture
+    coverPicture = atapi.ATFieldProperty('coverPicture')
+
+    # Presentation
     isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
 
     # Reference authors
@@ -120,13 +125,14 @@ class PresentationMonograph(BaseReview):
 
     # Reorder the fields as required
     ordered_fields = ["isbn", "url", "urn", "pdf", "doc", "review",
-                      "reviewAuthorHonorific", "reviewAuthorLastname",
-                      "reviewAuthorFirstname", "reviewAuthorEmail",
-                      "languagePresentation", "languageReview",
-                      "referenceAuthors", "title", "subtitle",
-                      "yearOfPublication", "placeOfPublication",
-                      "publisher", "series", "seriesVol", "pages",
-                      "ddcSubject", "ddcTime","ddcPlace", "subject",
+                      "coverPicture", "reviewAuthorHonorific",
+                      "reviewAuthorLastname", "reviewAuthorFirstname",
+                      "reviewAuthorEmail", "languagePresentation",
+                      "languageReview", "referenceAuthors", "title",
+                      "subtitle", "yearOfPublication",
+                      "placeOfPublication", "publisher", "series",
+                      "seriesVol", "pages", "ddcSubject",
+                      "ddcTime","ddcPlace", "subject",
                       "searchresults", "description",
                       "isLicenceApproved"]
 

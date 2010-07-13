@@ -52,11 +52,14 @@ class BaseReview(base.ATCTContent):
                 except exception, e:
                     log.error("Error with citation %s" ,e)
                 if isinstance(value, tuple):
-                    if isinstance(value[0], dict):
-                        # DataGridField
-                        value = ", ".join(value[0])
+                    if value == ():
+                        value = ""
                     else:
-                        value = ", ".join(value)
+                        if isinstance(value[0], dict):
+                            # DataGridField
+                            value = ", ".join(value[0])
+                        else:
+                            value = ", ".join(value)
                 citation_dict[key] = value.decode("utf-8")
         return citation_dict
 
