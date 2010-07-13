@@ -86,16 +86,17 @@ class ReviewJournal(BaseReview):
     editor = atapi.ATFieldProperty('editor')
 
     # Reorder the fields as required
-    ordered_fields = ["authors", "editor", "title",
-                      "subtitle", "yearOfPublication",
-                      "placeOfPublication", "description",
-                      "languagePresentation", "languageReview",
-                      "issn", "publisher", "idBvb", "searchresults",
+
+    ordered_fields = ["issn", "urn", "pdf", "doc", "review",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
-                      "officialYearOfPublication", "ddcPlace",
-                      "ddcSubject", "ddcTime", "subject", "pdf",
-                      "doc", "urn", "review"]
+                      "authors", "languagePresentation",
+                      "languageReview", "editor", "title", "subtitle",
+                      "yearOfPublication",
+                      "officialYearOfPublication", "publisher",
+                      "placeOfPublication", "searchresults",
+                      "ddcSubject", "ddcTime", "ddcPlace", "subject",
+                      "description"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

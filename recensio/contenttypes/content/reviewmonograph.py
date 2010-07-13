@@ -84,16 +84,16 @@ class ReviewMonograph(BaseReview):
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Reorder the fields as required
-    ordered_fields = ["authors", "title", "subtitle",
+
+    ordered_fields = ["isbn", "urn", "pdf", "doc", "review",
+                      "reviewAuthorHonorific", "reviewAuthorLastname",
+                      "reviewAuthorFirstname", "reviewAuthorEmail",
+                      "languageReview", "languagePresentation",
+                      "authors", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
-                      "description", "languageReview",
-                      "languagePresentation", "isbn", "publisher",
-                      "idBvb", "searchresults", "pages", "series",
-                      "seriesVol", "reviewAuthorHonorific",
-                      "reviewAuthorLastname", "reviewAuthorFirstname",
-                      "reviewAuthorEmail", "ddcPlace", "ddcSubject",
-                      "ddcTime", "subject", "pdf", "doc", "urn",
-                      "review"]
+                      "publisher", "series", "seriesVol", "pages",
+                      "ddcSubject", "ddcTime", "ddcPlace", "subject",
+                      "searchresults", "description"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

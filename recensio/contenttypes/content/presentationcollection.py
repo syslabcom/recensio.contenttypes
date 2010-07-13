@@ -117,18 +117,17 @@ class PresentationCollection(BaseReview):
     editorsCollectedEdition = atapi.ATFieldProperty('editorsCollectedEdition')
 
     # Reorder the fields as required
-    ordered_fields = ["authors",
-                      "editorsCollectedEdition", "title", "subtitle",
-                      "yearOfPublication", "placeOfPublication",
-                      "pageStart", "pageEnd", "description",
-                      "languagePresentation", "languageReview",
-                      "editorsCollectedEdition", "isbn", "publisher",
-                      "idBvb", "searchresults", "referenceAuthors",
-                      "series", "seriesVol", "reviewAuthorHonorific",
-                      "reviewAuthorLastname", "reviewAuthorFirstname",
-                      "reviewAuthorEmail", "url", "ddcPlace",
-                      "ddcSubject", "ddcTime", "subject", "pdf",
-                      "doc", "urn", "review", "isLicenceApproved"]
+    ordered_fields = ["isbn", "url", "urn", "pdf", "doc", "review",
+                      "reviewAuthorHonorific", "reviewAuthorLastname",
+                      "reviewAuthorFirstname", "reviewAuthorEmail",
+                      "authors", "languagePresentation",
+                      "languageReview", "referenceAuthors", "title",
+                      "subtitle", "pageStart", "pageEnd",
+                      "editorsCollectedEdition", "yearOfPublication",
+                      "placeOfPublication", "publisher", "series",
+                      "seriesVol", "ddcSubject", "ddcTime",
+                      "ddcPlace", "subject", "searchresults",
+                      "description", "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

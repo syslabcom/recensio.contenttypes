@@ -8,6 +8,7 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 
+from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.interfaces import IPresentationMonograph
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
@@ -27,6 +28,31 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
 
 PresentationMonographSchema['title'].storage = atapi.AnnotationStorage()
 PresentationMonographSchema['description'].storage = atapi.AnnotationStorage()
+
+# Setting the descriptions like this throws an encoding error. When we
+# have the translations we can use the English text here instead, or
+# replace it with a proper msgid
+
+# PresentationMonographSchema['review'].widget.description=_(
+#     u"Bitte formulieren Sie hier kurz und übersichtlich die von Ihnen"+\
+#     u"erarbeiteten Thesen, Ihre Methodik und/oder Ihre"+\
+#     u"Auseinandersetzung mit bestehenden Forschungsansätzen.  Durch das"+\
+#     u"Einfügen von Absätzen erhöhen Sie die Lesbarkeit Ihrer"+\
+#     u"Ausführungen.  Durch das Kommentieren einer bereits vorhandenen"+\
+#     u"Rezension/Präsentation auf recensio.net erhöhen Sie die für Ihre"+\
+#     u"eigene Präsentation zur Verfügung stehende Zeichenzahl von 3000"+\
+#     u"auf 4000.")
+# PresentationMonographSchema['referenceAuthors'].widget.description=_(
+#     u"Mit welchen wissenschaftlichen Autoren haben Sie sich in Ihrer"+\
+#     u"Monographie verstärkt auseinandergesetzt?  Wir bitten Sie um"+\
+#     u"möglichst detaillierte Angaben zu den darunter befindlichen"+\
+#     u"„zeitgenössischen“ Namen, da die recensio.net-Redaktion"+\
+#     u"i.d.R. versuchen wird, diese Autoren über die Existenz Ihrer"+\
+#     u"Monographie, Ihrer Präsentation und über die Kommentarmöglichkeit"+\
+#     u"zu informieren.  Lediglich der Name des Bezugsautors wird"+\
+#     u"öffentlich sichtbar sein."+\
+#     u"Historische Bezugspersonen (Bsp.: Aristoteles, Charles de Gaulle)"+\
+#     u"bitten wir Sie, weiter unten als Schlagwörter zu vergeben.")
 
 schemata.finalizeATCTSchema(PresentationMonographSchema,
                             moveDiscussion=False)
@@ -93,16 +119,16 @@ class PresentationMonograph(BaseReview):
     url = atapi.ATFieldProperty('url')
 
     # Reorder the fields as required
-    ordered_fields = ["title", "subtitle",
+    ordered_fields = ["isbn", "url", "urn", "pdf", "doc", "review",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
+                      "languagePresentation", "languageReview",
+                      "referenceAuthors", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
-                      "description", "languagePresentation",
-                      "languageReview", "isbn", "publisher", "pages",
-                      "idBvb", "searchresults", "referenceAuthors",
-                      "series", "seriesVol", "url", "ddcPlace",
-                      "ddcSubject", "ddcTime", "subject", "pdf",
-                      "doc", "urn", "review", "isLicenceApproved"]
+                      "publisher", "series", "seriesVol", "pages",
+                      "ddcSubject", "ddcTime","ddcPlace", "subject",
+                      "searchresults", "description",
+                      "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

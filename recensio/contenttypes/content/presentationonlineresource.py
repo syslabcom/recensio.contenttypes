@@ -30,7 +30,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         ),
     ),
     atapi.StringField(
-        'documentarten_institution',
+        'documenttypes_institution',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('institution_values'),
         widget=atapi.MultiSelectionWidget(
@@ -39,25 +39,25 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         ),
     ),
     atapi.StringField(
-        'documentarten_kooperation',
+        'documenttypes_cooperation',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('cooperations_and_communication_values'),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Dokumentarten: Kooperation und Kommunikation"),
+            label=_(u"Dokumentarten: Cooperation und Kommunikation"),
             format="checkbox",
         ),
     ),
     atapi.StringField(
-        'documentarten_bibliographische',
+        'documenttypes_bibliographical',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('bibliographic_source_values'),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Dokumentarten: Bibliographische Quellen"),
+            label=_(u"Dokumentarten: Bibliographical Quellen"),
             format="checkbox",
         ),
     ),
     atapi.StringField(
-        'documentarten_individual',
+        'documenttypes_individual',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('individual_publication_values'),
         widget=atapi.MultiSelectionWidget(
@@ -117,26 +117,25 @@ class PresentationOnlineResource(BaseReview):
 
     # Additional fields
     institution = atapi.ATFieldProperty('institution')
-    documentarten_institution = \
-                         atapi.ATFieldProperty('documentarten_institution')
-    documentarten_kooperation = \
-                         atapi.ATFieldProperty('documentarten_kooperation')
-    documentarten_bibliographische = \
-                         atapi.ATFieldProperty('documentarten_bibliographische')
-    documentarten_individual = atapi.ATFieldProperty('documentarten_individual')
+    documenttypes_institution = \
+                         atapi.ATFieldProperty('documenttypes_institution')
+    documenttypes_cooperation = \
+                         atapi.ATFieldProperty('documenttypes_cooperation')
+    documenttypes_bibliographical = \
+                         atapi.ATFieldProperty('documenttypes_bibliographical')
+    documenttypes_individual = atapi.ATFieldProperty('documenttypes_individual')
 
     # Reorder the fields as required
-    ordered_fields = ["title", "institution",
-                      "languagePresentation", "languageReview",
-                      "documentarten_institution",
-                      "documentarten_kooperation",
-                      "documentarten_bibliographische",
-                      "documentarten_individual", "description",
+    ordered_fields = ["title", "url", "urn", "pdf", "doc", "review",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
-                      "url", "ddcPlace", "ddcSubject", "ddcTime",
-                      "subject", "pdf", "doc", "urn", "review",
-                      "isLicenceApproved"]
+                      "institution", "documenttypes_institution",
+                      "documenttypes_cooperation",
+                      "documenttypes_bibliographical",
+                      "documenttypes_individual",
+                      "languagePresentation", "languageReview",
+                      "ddcSubject", "ddcTime", "ddcPlace", "subject",
+                      "description", "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

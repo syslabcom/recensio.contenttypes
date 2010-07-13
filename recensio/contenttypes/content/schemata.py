@@ -17,7 +17,6 @@ from Products.DataGridField import DataGridField, DataGridWidget
 from Products.DataGridField.Column import Column
 from Products.DataGridField.SelectColumn import SelectColumn
 
-
 AuthorsSchema = atapi.Schema((
     DataGridField(
         'authors',
@@ -76,7 +75,15 @@ PresentationSchema = atapi.Schema((
         value=False,
         validators=(isTrue(),),
         widget=atapi.BooleanWidget(
-            label=_(u"I agree that this review is my own work and may be published under the CC-BY license"),
+            label=_(
+    u"Ich bin damit einverstanden, dass meine Präsentation von recensio.net"+\
+    u"unter der Creative-Commons-Lizenz "+\
+    u"<a href='http://creativecommons.org/licenses/by-nc-nd/3.0/de'>"+\
+    u"Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung</a> "+\
+    u"(CC-BY-NC-ND) publiziert wird. Sie darf"+\
+    u"unter diesen Bedingungen von Plattformnutzern elektronisch"+\
+    u"benutzt, übermittelt, ausgedruckt und zum Download bereitgestellt"+\
+    u"werden."),
             ),
         ),
     ))
@@ -290,6 +297,8 @@ PrintedReviewSchema = CommonReviewSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Verbund ID"),
+            visible={"view":"hidden",
+                     "edit":"hidden"},
             ),
         ),
     atapi.StringField(
