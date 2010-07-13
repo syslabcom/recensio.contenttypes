@@ -5,6 +5,7 @@ from string import Formatter
 from zope.interface import implements
 
 from Products.ATContentTypes.content import base
+from Products.ATContentTypes.content import schemata
 
 from recensio.contenttypes.interfaces.review import IReview
 

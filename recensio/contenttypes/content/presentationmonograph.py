@@ -59,6 +59,10 @@ PresentationMonographSchema['description'].storage = atapi.AnnotationStorage()
 schemata.finalizeATCTSchema(PresentationMonographSchema,
                             moveDiscussion=False)
 
+# finalizeATCTSchema moves 'subject' into "categorization" which we
+# don't want
+PresentationMonographSchema.changeSchemataForField('subject', 'default')
+
 
 class PresentationMonograph(BaseReview):
     """Presentation Monograph"""

@@ -21,14 +21,17 @@ ReviewMonographSchema = BookReviewSchema.copy() + \
                         PagecountSchema.copy() + \
                         SerialSchema.copy()
 
-schemata.finalizeATCTSchema(ReviewMonographSchema,
-                            moveDiscussion=False)
-
 ReviewMonographSchema['title'].storage = atapi.AnnotationStorage()
 ReviewMonographSchema['description'].storage = \
                                                        atapi.AnnotationStorage()
-
 ReviewMonographSchema['yearOfPublication'].required = True
+
+schemata.finalizeATCTSchema(ReviewMonographSchema,
+                            moveDiscussion=False)
+
+# finalizeATCTSchema moves 'subject' into "categorization" which we
+# don't want
+ReviewMonographSchema.changeSchemataForField('subject', 'default')
 
 
 class ReviewMonograph(BaseReview):

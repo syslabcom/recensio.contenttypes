@@ -29,7 +29,9 @@ ReviewJournalSchema['description'].storage = atapi.AnnotationStorage()
 
 schemata.finalizeATCTSchema(ReviewJournalSchema,
                             moveDiscussion=False)
-
+# finalizeATCTSchema moves 'subject' into "categorization" which we
+# don't want
+ReviewJournalSchema.changeSchemataForField('subject', 'default')
 
 class ReviewJournal(BaseReview):
     """Review Journal"""

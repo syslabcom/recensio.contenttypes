@@ -76,6 +76,10 @@ PresentationOnlineResourceSchema['description'].storage = \
 schemata.finalizeATCTSchema(PresentationOnlineResourceSchema,
                             moveDiscussion=False)
 
+# finalizeATCTSchema moves 'subject' into "categorization" which we
+# don't want
+PresentationOnlineResourceSchema.changeSchemataForField('subject', 'default')
+
 
 class PresentationOnlineResource(BaseReview):
     """Presentation Online Resource"""

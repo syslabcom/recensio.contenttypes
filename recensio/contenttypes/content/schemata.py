@@ -204,13 +204,6 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
                      "edit":"hidden"},
             ),
         ),
-    atapi.StringField(
-        'subject',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Schlagwörter"),
-            ),
-        ),
     BlobField(
         'pdf',
         storage=atapi.AnnotationStorage(),
@@ -241,6 +234,8 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             ),
         ),
     ))
+BaseReviewSchema.changeSchemataForField('subject', 'default')
+
 
 CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
     atapi.LinesField(
@@ -357,3 +352,4 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
         ),
     ))
 JournalReviewSchema["authors"].widget.label=_(u"Autor des Aufsatzes")
+

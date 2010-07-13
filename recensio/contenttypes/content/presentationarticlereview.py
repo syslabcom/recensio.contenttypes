@@ -56,6 +56,10 @@ PresentationArticleReviewSchema['description'].storage = \
 schemata.finalizeATCTSchema(PresentationArticleReviewSchema,
                             moveDiscussion=False)
 
+# finalizeATCTSchema moves 'subject' into "categorization" which we
+# don't want
+PresentationArticleReviewSchema.changeSchemataForField('subject', 'default')
+
 
 class PresentationArticleReview(BaseReview):
     """Presentation Article Review"""

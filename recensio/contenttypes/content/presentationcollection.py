@@ -45,6 +45,10 @@ PresentationCollectionSchema['description'].storage = \
 schemata.finalizeATCTSchema(PresentationCollectionSchema,
                             moveDiscussion=False)
 
+# finalizeATCTSchema moves 'subject' into "categorization" which we
+# don't want
+PresentationCollectionSchema.changeSchemataForField('subject', 'default')
+
 
 class PresentationCollection(BaseReview):
     """Presentation Collection"""
