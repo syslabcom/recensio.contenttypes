@@ -92,8 +92,7 @@ PresentationSchema = atapi.Schema((
             label=_(
     u"Ich bin damit einverstanden, dass meine Präsentation von recensio.net"+\
     u"unter der Creative-Commons-Lizenz "+\
-    u"<a href='http://creativecommons.org/licenses/by-nc-nd/3.0/de'>"+\
-    u"Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung</a> "+\
+    u"Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung "+\
     u"(CC-BY-NC-ND) publiziert wird. Sie darf"+\
     u"unter diesen Bedingungen von Plattformnutzern elektronisch"+\
     u"benutzt, übermittelt, ausgedruckt und zum Download bereitgestellt"+\
@@ -101,6 +100,11 @@ PresentationSchema = atapi.Schema((
             ),
         ),
     ))
+
+# TODO find out how to have a link in the label:
+# u"<a href='http://creativecommons.org/licenses/by-nc-nd/3.0/de'>"+\
+# u"Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung</a> "+\
+
 
 PageStartEndSchema = atapi.Schema((
     atapi.StringField(
