@@ -99,6 +99,7 @@ class PresentationArticleReview(BaseReview):
     pdf = atapi.ATFieldProperty('pdf')
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
+    customCitation = atapi.ATFieldProperty('customCitation')
     urn = atapi.ATFieldProperty('urn')
 
     # Common
@@ -141,7 +142,7 @@ class PresentationArticleReview(BaseReview):
     issue = atapi.ATFieldProperty('issue')
 
     # Reorder the fields as required
-    ordered_fields = ["issn", "url", "urn", "pdf", "doc", "review",
+    ordered_fields = ["issn", "url", "urn", "pdf", "doc", "review", "customCitation",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
                       "authors", "languagePresentation",

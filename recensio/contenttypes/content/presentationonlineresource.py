@@ -105,6 +105,7 @@ class PresentationOnlineResource(BaseReview):
     pdf = atapi.ATFieldProperty('pdf')
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
+    customCitation = atapi.ATFieldProperty('customCitation')
     urn = atapi.ATFieldProperty('urn')
 
 
@@ -130,7 +131,7 @@ class PresentationOnlineResource(BaseReview):
     documenttypes_individual = atapi.ATFieldProperty('documenttypes_individual')
 
     # Reorder the fields as required
-    ordered_fields = ["title", "url", "urn", "pdf", "doc", "review",
+    ordered_fields = ["title", "url", "urn", "pdf", "doc", "review", "customCitation",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
                       "institution", "documenttypes_institution",

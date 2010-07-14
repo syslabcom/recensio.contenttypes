@@ -212,6 +212,15 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             ),
         ),
     BlobField(
+        'generatedPdf',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.FileWidget(
+            label=_(u"Generated Pdf"),
+            visible={"view":"hidden",
+                     "edit":"hidden"},
+            ),
+        ),
+    BlobField(
         'pdf',
         storage=atapi.AnnotationStorage(),
         widget=atapi.FileWidget(
@@ -231,6 +240,17 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.RichWidget(
             label=_(u"Review"),
             rows=20,
+            ),
+        ),
+    atapi.TextField(
+        'customCitation',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.TextAreaWidget(
+            label=_(u"Citation"),
+            description=_(
+    u"A default citation is generated automatically. To use a custom "+\
+    u"citation instead, add the required text here"),
+            rows=3,
             ),
         ),
     atapi.StringField(
