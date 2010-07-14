@@ -225,6 +225,8 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.FileWidget(
             label=_(u"PDF"),
+            visible={"view":"hidden",
+                     "edit":"visible"},
             ),
         ),
     BlobField(

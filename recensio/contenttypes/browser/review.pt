@@ -68,9 +68,17 @@
           <dt>Volume Title</dt>
           <dd tal:content="context/get_volume_title"></dd>
         </dl>
-        <dl tal:repeat="field python:metadata.keys()">
+        <dl>
+          <tal:field repeat="field python:metadata.keys()">
             <dt tal:content="python:metadata[field]"></dt>
             <dd><tal:widget metal:use-macro="python:context.widget(field)" /></dd>
+          </tal:field>
+        </dl>
+        <dl tal:define="pdf context/get_review_pdf"
+            tal:condition="pdf">
+          <dt>Download</dt>
+          <dd><a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension'"
+                 tal:content="pdf/Title">PDF</a></dd>
         </dl>
       </div>
       <div id="review-citation">

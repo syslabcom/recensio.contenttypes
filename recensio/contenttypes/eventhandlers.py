@@ -19,15 +19,7 @@ def review_pdf_updated_eventhandler(obj, evt):
     """
     Update the swf version of a review pdf when it has been edited
     """
-    pdf = None
-    # If a pdf file has explicitly been uploaded use this instead of
-    # the generated pdf
-    if hasattr(obj, "pdf"):
-        if obj.pdf.get_size() > 0:
-            pdf = obj.pdf
-        elif hasattr(obj, "generatedPdf"):
-            if obj.generatedPdf.get_size() > 0:
-                pdf = obj.generatedPdf
+    pdf = self.get_review_pdf()
     if pdf:
         settings = Settings(obj)
         if DateTime(settings.last_updated) < \

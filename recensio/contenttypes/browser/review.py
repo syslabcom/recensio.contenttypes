@@ -37,7 +37,7 @@ class View(BrowserView):
         meta = {}
         for field in context.ordered_fields:
             # skip fields which aren't considered metadata for Review types
-            if field not in ["title", "description", "review"]:
+            if field not in ["title", "description", "review", "pdf"]:
                 meta[field] = fields[field].widget.label
         return meta
 

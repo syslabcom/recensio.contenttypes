@@ -80,3 +80,17 @@ class BaseReview(base.ATCTContent):
             citation = re.sub("[,.:]\ *$", "", citation)
             citation = citation + "."
             return citation
+
+    def get_review_pdf(self):
+        """
+        Return the uploaded pdf or if that doesn't exist return the
+        generatedPdf otherwise return None
+        """
+        pdf = None
+        if hasattr(self, "pdf"):
+            if self.pdf.get_size() > 0:
+                pdf = self.pdf
+            elif hasattr(self, "generatedPdf"):
+                if self.generatedPdf.get_size() > 0:
+                    pdf = self.generatedPdf
+        return pdf
