@@ -19,21 +19,28 @@ def review_pdf_updated_eventhandler(obj, evt):
     """
     Update the swf version of a review pdf when it has been edited
     """
+    pdf = None
+    # If a pdf file has explicitly been uploaded use this instead of
+    # the generated pdf
     if hasattr(obj, "pdf"):
-        pdf = obj.pdf
+        if obj.pdf.get_size() > 0:
+            pdf = obj.pdf
+        elif hasattr(obj, "generatedPdf"):
+            if obj.generatedPdf.get_size() > 0:
+                pdf = obj.generatedPdf
+    if pdf:
         settings = Settings(obj)
-        if pdf.get_size() > 0:
-            if DateTime(settings.last_updated) < \
-                   DateTime(obj.ModificationDate()):
-                try:
-                    swf = pdf2swf.convert(pdf.data)
-                    log.info("Converted pdf for %s" %obj.absolute_url())
-                except exception, e:
-                    log.error("Error converting pdf for %s : %s" \
-                         %(obj.absolute_url(), e))
-                if swf:
-                    blob = Blob()
-                    blob.open("w").writelines(swf)
-                    settings.data = blob
-                    settings.last_updated = DateTime().pCommonZ()
-                    settings.successfully_converted = True
+        if DateTime(settings.last_updated) < \
+               DateTime(obj.ModificationDate()):
+            try:
+                swf = pdf2swf.convert(pdf.data)
+                log.info("Converted pdf for %s" %obj.absolute_url())
+            except exception, e:
+                log.error("Error converting pdf for %s : %s" \
+                     %(obj.absolute_url(), e))
+            if swf:
+                blob = Blob()
+                blob.open("w").writelines(swf)
+                settings.data = blob
+                settings.last_updated = DateTime().pCommonZ()
+                settings.successfully_converted = True

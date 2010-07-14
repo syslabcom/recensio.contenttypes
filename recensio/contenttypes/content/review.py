@@ -66,13 +66,17 @@ class BaseReview(base.ATCTContent):
 
     def get_citation_string(self):
         """
+        If there's a custom one, return that, otherwise:
         Clean up the citation, removing empty sections
         """
-        citation_dict = self.get_citation_dict(self.citation_template)
-        citation = self.citation_template.format(**citation_dict)
-        citation = citation.replace("Page(s) /", "")
-        citation = re.sub("^[,.:]", "", citation)
-        citation = re.sub(" [,.:]", "", citation)
-        citation = re.sub("[,.:]\ *$", "", citation)
-        citation = citation + "."
-        return citation
+        if self.customCitation:
+            return self.customCitation
+        else:
+            citation_dict = self.get_citation_dict(self.citation_template)
+            citation = self.citation_template.format(**citation_dict)
+            citation = citation.replace("Page(s) /", "")
+            citation = re.sub("^[,.:]", "", citation)
+            citation = re.sub(" [,.:]", "", citation)
+            citation = re.sub("[,.:]\ *$", "", citation)
+            citation = citation + "."
+            return citation
