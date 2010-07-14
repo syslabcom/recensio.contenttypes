@@ -4,6 +4,8 @@ import os
 from OFS.Image import File
 from zope.app.component.hooks import getSite
 import zope.event
+from zope.component import getMultiAdapter
+from zope.publisher.browser import TestRequest
 from Testing import makerequest
 
 from AccessControl.SecurityManagement import getSecurityManager
@@ -191,6 +193,18 @@ def addExampleContent(context):
         for i in range(10):
             data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
             addOneItem(reviews, rez_class, data)
+
+    request = TestRequest()
+    class FakeResponse(object):
+        def write(a, b):
+            pass
+    request.RESPONSE = FakeResponse()
+
+    view = getMultiAdapter((portal, request), name='solr-maintenance')
+    view.clear()
+    view.reindex()
+
+
  
 def addOneItem(context, type, data):
     data["id"] = context.generateId(type.meta_type)
