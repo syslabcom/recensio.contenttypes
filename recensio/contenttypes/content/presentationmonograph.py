@@ -30,6 +30,8 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
 
 PresentationMonographSchema['title'].storage = atapi.AnnotationStorage()
 PresentationMonographSchema['description'].storage = atapi.AnnotationStorage()
+PresentationMonographSchema['authors'].widget.label = _(
+    u"Autor(en) der präsentierten Monographie")
 
 # Setting the descriptions like this throws an encoding error. When we
 # have the translations we can use the English text here instead, or
@@ -82,8 +84,7 @@ class PresentationMonograph(BaseReview):
     reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
     reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
-    languageReview = atapi.ATFieldProperty(
-        'languageReview')
+    languageReview = atapi.ATFieldProperty('languageReview')
     languagePresentation = atapi.ATFieldProperty('languagePresentation')
     recensioID = atapi.ATFieldProperty('recensioID')
     subject = atapi.ATFieldProperty('subject')
@@ -104,6 +105,9 @@ class PresentationMonograph(BaseReview):
     publisher = atapi.ATFieldProperty('publisher')
     idBvb = atapi.ATFieldProperty('idBvb')
     searchresults = atapi.ATFieldProperty('searchresults')
+
+    # Authors
+    authors = atapi.ATFieldProperty('authors')
 
     # Book
     isbn = atapi.ATFieldProperty('isbn')
@@ -131,7 +135,7 @@ class PresentationMonograph(BaseReview):
     ordered_fields = ["isbn", "url", "urn", "pdf", "doc", "review",
                       "coverPicture", "reviewAuthorHonorific",
                       "reviewAuthorLastname", "reviewAuthorFirstname",
-                      "reviewAuthorEmail", "languagePresentation",
+                      "reviewAuthorEmail", "authors", "languagePresentation",
                       "languageReview", "referenceAuthors", "title",
                       "subtitle", "yearOfPublication",
                       "placeOfPublication", "publisher", "series",

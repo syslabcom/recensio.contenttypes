@@ -5,6 +5,8 @@ from zope.interface import implements
 
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
+from Products.DataGridField import DataGridField, DataGridWidget
+from Products.DataGridField.Column import Column
 
 from recensio.contenttypes.interfaces import \
      IPresentationCollection
@@ -26,19 +28,31 @@ PresentationCollectionSchema = BookReviewSchema.copy() + \
                                PageStartEndSchema.copy() + \
                                SerialSchema.copy() + \
                                atapi.Schema((
-    atapi.LinesField(
+    atapi.StringField(
+        'titleCollectedEdition',
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        widget=atapi.StringWidget(
+            label=_(u"Title Collected Edition"),
+            rows=3,
+            ),
+        ),
+
+    DataGridField(
         'editorsCollectedEdition',
         storage=atapi.AnnotationStorage(),
         required=True,
-        widget=atapi.LinesWidget(
-            label=_(u"Editor(s) Collected Edition"),
-            rows=3,
+        columns=("lastname", "firstname"),
+        widget=DataGridWidget(
+            label = _(u"Editor(s) Collected Edition"),
+            columns = {"lastname" : Column(_(u"Lastname")),
+                       "firstname" : Column(_(u"Firstname")),
+                       }
             ),
         ),
 ))
 
-PresentationCollectionSchema['title'].storage = \
-                                                       atapi.AnnotationStorage()
+PresentationCollectionSchema['title'].storage = atapi.AnnotationStorage()
 PresentationCollectionSchema['description'].storage = \
                                                        atapi.AnnotationStorage()
 
@@ -118,6 +132,7 @@ class PresentationCollection(BaseReview):
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Presentation Collection
+    titleCollectedEdition = atapi.ATFieldProperty('titleCollectedEdition')
     editorsCollectedEdition = atapi.ATFieldProperty('editorsCollectedEdition')
 
     # Reorder the fields as required
@@ -126,7 +141,7 @@ class PresentationCollection(BaseReview):
                       "reviewAuthorFirstname", "reviewAuthorEmail",
                       "authors", "languagePresentation",
                       "languageReview", "referenceAuthors", "title",
-                      "subtitle", "pageStart", "pageEnd",
+                      "subtitle", "pageStart", "pageEnd", "titleCollectedEdition",
                       "editorsCollectedEdition", "yearOfPublication",
                       "placeOfPublication", "publisher", "series",
                       "seriesVol", "ddcSubject", "ddcTime",

@@ -7,6 +7,9 @@ from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
 from Products.Archetypes import atapi
+from Products.DataGridField import DataGridField, DataGridWidget
+from Products.DataGridField.Column import Column
+from Products.DataGridField.SelectColumn import SelectColumn
 from Products.validation.interfaces.IValidator import IValidator
 from plone.app.blob.field import BlobField
 from plone.app.blob.field import ImageField
@@ -14,9 +17,6 @@ from plone.app.blob.field import ImageField
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 
-from Products.DataGridField import DataGridField, DataGridWidget
-from Products.DataGridField.Column import Column
-from Products.DataGridField.SelectColumn import SelectColumn
 
 AuthorsSchema = atapi.Schema((
     DataGridField(
@@ -56,11 +56,14 @@ ReferenceAuthorsSchema = atapi.Schema((
     DataGridField(
         'referenceAuthors',
         storage=atapi.AnnotationStorage(),
-        columns=("lastname", "firstname"),
+        columns=("lastname", "firstname", "email", "address", "phone"),
         widget=DataGridWidget(
             label=_(u"Reference Authors"),
             columns = {"lastname" : Column(_(u"Lastname")),
                        "firstname" : Column(_(u"Firstname")),
+                       "email" : Column(_(u"Email")),
+                       "address" : Column(_(u"Address")),
+                       "phone" : Column(_(u"Phone")),
                        }
             ),
         ),
@@ -234,8 +237,6 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             ),
         ),
     ))
-BaseReviewSchema.changeSchemataForField('subject', 'default')
-
 
 CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
     atapi.LinesField(
@@ -319,8 +320,8 @@ PrintedReviewSchema = CommonReviewSchema.copy() + atapi.Schema((
 # PrintedReviewSchema["title"].required = True
 
 BookReviewSchema = PrintedReviewSchema.copy() + \
-                      AuthorsSchema.copy() + \
-                      atapi.Schema((
+                   AuthorsSchema.copy() + \
+                   atapi.Schema((
     atapi.StringField(
         'isbn',
         storage=atapi.AnnotationStorage(),

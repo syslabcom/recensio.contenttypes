@@ -26,8 +26,26 @@ PresentationArticleReviewSchema = \
                                 PageStartEndSchema.copy() + \
                                 atapi.Schema((
     atapi.StringField(
+        'titleJournal',
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        widget=atapi.StringWidget(
+            label=_(u"Title Journal"),
+            rows=3,
+            ),
+        ),
+    atapi.StringField(
+        'shortnameJournal',
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        widget=atapi.StringWidget(
+            label=_(u"Shortname (Journal)"),
+            ),
+        ),
+    atapi.StringField(
         'volume',
         storage=atapi.AnnotationStorage(),
+        required=True,
         widget=atapi.StringWidget(
             label=_(u"Volume"),
             ),
@@ -35,15 +53,9 @@ PresentationArticleReviewSchema = \
     atapi.StringField(
         'issue',
         storage=atapi.AnnotationStorage(),
+        required=True,
         widget=atapi.StringWidget(
             label=_(u"Issue"),
-            ),
-        ),
-    atapi.StringField(
-        'shortnameJournal',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Shortname (Journal)"),
             ),
         ),
 ))
@@ -107,6 +119,7 @@ class PresentationArticleReview(BaseReview):
 
     # Journal
     issn = atapi.ATFieldProperty('issn')
+    titleJournal = atapi.ATFieldProperty('titleJournal')
     shortnameJournal = atapi.ATFieldProperty('shortnameJournal')
     volume = atapi.ATFieldProperty('volume')
     officialYearOfPublication = atapi.ATFieldProperty('officialYearOfPublication')
@@ -133,7 +146,7 @@ class PresentationArticleReview(BaseReview):
                       "reviewAuthorFirstname", "reviewAuthorEmail",
                       "authors", "languagePresentation",
                       "languageReview", "referenceAuthors", "title",
-                      "subtitle", "pageStart", "pageEnd",
+                      "subtitle", "pageStart", "pageEnd", "titleJournal",
                       "shortnameJournal", "yearOfPublication",
                       "officialYearOfPublication", "volume", "issue",
                       "placeOfPublication", "publisher",
