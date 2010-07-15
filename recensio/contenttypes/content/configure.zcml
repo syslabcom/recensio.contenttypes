@@ -51,4 +51,10 @@
         interface="..interfaces.IVolume"
         />
   </class>
+  <class class=".issue.Issue">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.IIssue"
+        />
+  </class>
 </configure>

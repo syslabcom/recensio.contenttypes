@@ -1,4 +1,5 @@
 # -*- extra stuff goes here -*-
+from issue import IIssue
 from volume import IVolume
 from publication import IPublication
 from presentationonlineresource import IPresentationOnlineResource
