@@ -8,6 +8,8 @@ from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
 from Products.Archetypes import atapi
+from Products.DataGridField import DataGridField, DataGridWidget
+from Products.DataGridField.Column import Column
 
 from recensio.contenttypes.interfaces import \
      IPresentationOnlineResource
@@ -22,11 +24,16 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
                                    PresentationSchema.copy() + \
                                    InternetSchema.copy() + \
                                    atapi.Schema((
-    atapi.StringField(
+    DataGridField(
         'institution',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
+        columns=("institution", "lastname", "firstname"),
+        widget=atapi.DataGridWidget(
             label=_(u"Institution"),
+            columns = {"institution" : Column(_(u"Institution")),
+                       "lastname" : Column(_(u"Lastname")),
+                       "firstname" : Column(_(u"Firstname")),
+                       }
         ),
     ),
     atapi.StringField(
@@ -44,6 +51,15 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         vocabulary=NamedVocabulary('cooperations_and_communication_values'),
         widget=atapi.MultiSelectionWidget(
             label=_(u"Dokumentarten: Cooperation und Kommunikation"),
+            format="checkbox",
+        ),
+    ),
+    atapi.StringField(
+        'documenttypes_referenceworks',
+        storage=atapi.AnnotationStorage(),
+        vocabulary=NamedVocabulary('reference_values'),
+        widget=atapi.MultiSelectionWidget(
+            label=_(u"Dokumentarten: Nachschlagewerke"),
             format="checkbox",
         ),
     ),
@@ -114,7 +130,7 @@ class PresentationOnlineResource(BaseReview):
     ddcSubject = atapi.ATFieldProperty('ddcSubject')
     ddcTime = atapi.ATFieldProperty('ddcTime')
 
-    # Presentation 
+    # Presentation
     isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
 
     # Internet
@@ -126,16 +142,20 @@ class PresentationOnlineResource(BaseReview):
                          atapi.ATFieldProperty('documenttypes_institution')
     documenttypes_cooperation = \
                          atapi.ATFieldProperty('documenttypes_cooperation')
+    documenttypes_referenceworks = \
+                         atapi.ATFieldProperty('documenttypes_referenceworks')
     documenttypes_bibliographical = \
                          atapi.ATFieldProperty('documenttypes_bibliographical')
     documenttypes_individual = atapi.ATFieldProperty('documenttypes_individual')
 
     # Reorder the fields as required
-    ordered_fields = ["title", "url", "urn", "pdf", "doc", "review", "customCitation",
-                      "reviewAuthorHonorific", "reviewAuthorLastname",
-                      "reviewAuthorFirstname", "reviewAuthorEmail",
-                      "institution", "documenttypes_institution",
+    ordered_fields = ["title", "url", "urn", "pdf", "doc", "review",
+                      "customCitation", "reviewAuthorHonorific",
+                      "reviewAuthorLastname", "reviewAuthorFirstname",
+                      "reviewAuthorEmail", "institution",
+                      "documenttypes_institution",
                       "documenttypes_cooperation",
+                      "documenttypes_referenceworks",
                       "documenttypes_bibliographical",
                       "documenttypes_individual",
                       "languagePresentation", "languageReview",

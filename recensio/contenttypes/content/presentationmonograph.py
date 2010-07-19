@@ -26,7 +26,30 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
                               PagecountSchema.copy() + \
                               PresentationSchema.copy() + \
                               ReferenceAuthorsSchema.copy() + \
-                              SerialSchema.copy()
+                              SerialSchema.copy() + \
+                              atapi.Schema((
+    DataGridField(
+        'existingOnlineReviews',
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        columns=("name", "url"),
+        widget=DataGridWidget(
+            label = _(u"Existing online reviews"),
+            columns = {"name" : Column(_(u"Name of the Journal")),
+                       "url" : Column(_(u"URL")),
+                       }
+            ),
+        ),
+        atapi.StringField(
+        'publishedReviews',
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        widget=atapi.StringWidget(
+            label=_(u"Published Reviews"),
+            rows=3,
+            ),
+        ),
+))
 
 PresentationMonographSchema['title'].storage = atapi.AnnotationStorage()
 PresentationMonographSchema['description'].storage = atapi.AnnotationStorage()
@@ -132,11 +155,17 @@ class PresentationMonograph(BaseReview):
     # Internet
     url = atapi.ATFieldProperty('url')
 
+    # Presentation Monograph
+    existingOnlineReviews = atapi.ATFieldProperty('existingOnlineReviews')
+    publishedReviews = atapi.ATFieldProperty('publishedReviews')
+
     # Reorder the fields as required
-    ordered_fields = ["isbn", "url", "urn", "pdf", "doc", "review", "customCitation",
-                      "coverPicture", "reviewAuthorHonorific",
-                      "reviewAuthorLastname", "reviewAuthorFirstname",
-                      "reviewAuthorEmail", "authors", "languagePresentation",
+    ordered_fields = ["isbn", "url", "urn", "pdf", "doc", "review",
+                      "existingOnlineReviews", "publishedReviews",
+                      "customCitation", "coverPicture",
+                      "reviewAuthorHonorific", "reviewAuthorLastname",
+                      "reviewAuthorFirstname", "reviewAuthorEmail",
+                      "authors", "languagePresentation",
                       "languageReview", "referenceAuthors", "title",
                       "subtitle", "yearOfPublication",
                       "placeOfPublication", "publisher", "series",

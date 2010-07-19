@@ -137,12 +137,13 @@ class PresentationCollection(BaseReview):
     editorsCollectedEdition = atapi.ATFieldProperty('editorsCollectedEdition')
 
     # Reorder the fields as required
-    ordered_fields = ["isbn", "url", "urn", "pdf", "doc", "review", "customCitation",
-                      "reviewAuthorHonorific", "reviewAuthorLastname",
-                      "reviewAuthorFirstname", "reviewAuthorEmail",
-                      "authors", "languagePresentation",
-                      "languageReview", "referenceAuthors", "title",
-                      "subtitle", "pageStart", "pageEnd", "titleCollectedEdition",
+    ordered_fields = ["isbn", "url", "urn", "pdf", "doc", "review",
+                      "customCitation", "reviewAuthorHonorific",
+                      "reviewAuthorLastname", "reviewAuthorFirstname",
+                      "reviewAuthorEmail", "authors",
+                      "languagePresentation", "languageReview",
+                      "referenceAuthors", "title", "subtitle",
+                      "pageStart", "pageEnd", "titleCollectedEdition",
                       "editorsCollectedEdition", "yearOfPublication",
                       "placeOfPublication", "publisher", "series",
                       "seriesVol", "ddcSubject", "ddcTime",

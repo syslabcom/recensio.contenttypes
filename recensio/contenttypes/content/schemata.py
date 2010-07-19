@@ -42,6 +42,7 @@ CoverPictureSchema = atapi.Schema((
         ),
     ))
 
+# The URL of the work being presented/reviewed
 InternetSchema = atapi.Schema((
     atapi.StringField(
         'url',

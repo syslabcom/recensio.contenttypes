@@ -83,23 +83,22 @@ class ReviewJournal(BaseReview):
 
     # Journal
     issn = atapi.ATFieldProperty('issn')
-    officialYearOfPublication = atapi.ATFieldProperty('officialYearOfPublication')
+    officialYearOfPublication = \
+                              atapi.ATFieldProperty('officialYearOfPublication')
 
     # ReviewJournal
     editor = atapi.ATFieldProperty('editor')
 
     # Reorder the fields as required
-
     ordered_fields = ["issn", "urn", "pdf", "doc", "review", "customCitation",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
                       "authors", "languagePresentation",
                       "languageReview", "editor", "title", "subtitle",
                       "yearOfPublication",
-                      "officialYearOfPublication", "publisher",
-                      "placeOfPublication", "searchresults",
-                      "ddcSubject", "ddcTime", "ddcPlace", "subject",
-                      "description"]
+                      "officialYearOfPublication", "placeOfPublication",
+                      "publisher", "description", "searchresults",
+                      "ddcPlace", "ddcSubject", "ddcTime", "subject"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
