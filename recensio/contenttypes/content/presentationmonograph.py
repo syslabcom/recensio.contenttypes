@@ -7,6 +7,8 @@ from zope.interface import implements
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
+from Products.DataGridField import DataGridField, DataGridWidget
+from Products.DataGridField.Column import Column
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.interfaces import IPresentationMonograph
