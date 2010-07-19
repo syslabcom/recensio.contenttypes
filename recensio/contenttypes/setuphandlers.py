@@ -177,6 +177,12 @@ def addExampleContent(context):
                'url': 'http://www.syslab.com',
                'idBvb':u'',
                'publisher':u'',
+               'customCitation':u'',
+               'reviewAuthorHonorific':u'Dr. rer nat',
+               'reviewAuthorLastname':u'Стоичков',
+               'reviewAuthorFirstname':u'Христо',
+               'reviewAuthorEmail':u'',
+               'titleJournal':u'',
                'urn': u'testing-data-urn'}
 
     for rez_class in [PresentationArticleReview,
