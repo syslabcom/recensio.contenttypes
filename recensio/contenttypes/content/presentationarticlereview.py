@@ -10,7 +10,7 @@ from Products.ATContentTypes.content import schemata
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
-from recensio.contenttypes.content.schemata import InternetSchema
+
 from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
 from recensio.contenttypes.content.schemata import PresentationSchema

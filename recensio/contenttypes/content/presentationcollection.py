@@ -14,7 +14,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
-from recensio.contenttypes.content.schemata import InternetSchema
+
 from recensio.contenttypes.content.schemata import PageStartEndSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema

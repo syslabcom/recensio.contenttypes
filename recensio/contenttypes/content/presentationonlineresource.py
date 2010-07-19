@@ -17,7 +17,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import CommonReviewSchema
-from recensio.contenttypes.content.schemata import InternetSchema
+
 from recensio.contenttypes.content.schemata import PresentationSchema
 
 PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
@@ -80,7 +80,6 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
             format="checkbox",
         ),
     ),
-
 ))
 
 PresentationOnlineResourceSchema['title'].storage = \

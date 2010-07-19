@@ -16,7 +16,7 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import CoverPictureSchema
-from recensio.contenttypes.content.schemata import InternetSchema
+
 from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
