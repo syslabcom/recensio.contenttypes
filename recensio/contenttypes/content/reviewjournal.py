@@ -12,9 +12,12 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import JournalReviewSchema
+from recensio.contenttypes.content.schemata import PageStartEndSchema
 from recensio.contenttypes.interfaces import IReviewJournal
 
-ReviewJournalSchema = JournalReviewSchema.copy() + atapi.Schema((
+ReviewJournalSchema = JournalReviewSchema.copy() + \
+                      PageStartEndSchema.copy() + \
+                      atapi.Schema((
     atapi.StringField(
         'editor',
         storage=atapi.AnnotationStorage(),
@@ -82,8 +85,13 @@ class ReviewJournal(BaseReview):
     officialYearOfPublication = \
                               atapi.ATFieldProperty('officialYearOfPublication')
 
+    # PageStartEnd
+    pageStart = atapi.ATFieldProperty('pageStart')
+    pageEnd = atapi.ATFieldProperty('pageEnd')
+
     # ReviewJournal
     editor = atapi.ATFieldProperty('editor')
+
 
     # Reorder the fields as required
     ordered_fields = ["issn", "uri", "pdf", "doc", "review",
@@ -91,12 +99,8 @@ class ReviewJournal(BaseReview):
                       "reviewAuthorLastname", "reviewAuthorFirstname",
                       "reviewAuthorEmail", "authors",
                       "languagePresentation", "languageReview",
-
-                      "editor",
-
-                      "title", "subtitle",
-
-                      "yearOfPublication",
+                      "editor", "title", "subtitle", "pageStart",
+                      "pageEnd", "yearOfPublication",
                       "officialYearOfPublication",
                       "placeOfPublication", "publisher",
                       "description", "searchresults", "ddcPlace",
