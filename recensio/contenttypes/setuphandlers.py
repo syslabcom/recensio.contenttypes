@@ -174,7 +174,7 @@ def addExampleContent(context):
                'title':u'Niemcy',
                'searchresults':u'',
                'subtitle':u'Dzieje państwa i społeczeństwa 1890–1945',
-               'url': 'http://www.syslab.com',
+               'uri': 'http://www.syslab.com',
                'idBvb':u'',
                'publisher':u'',
                'customCitation':u'',
@@ -182,8 +182,7 @@ def addExampleContent(context):
                'reviewAuthorLastname':u'Стоичков',
                'reviewAuthorFirstname':u'Христо',
                'reviewAuthorEmail':u'',
-               'titleJournal':u'',
-               'urn': u'testing-data-urn'}
+               'titleJournal':u'',}
 
     for rez_class in [PresentationArticleReview,
                       PresentationOnlineResource,
