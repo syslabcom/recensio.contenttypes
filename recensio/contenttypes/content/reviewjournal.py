@@ -77,10 +77,6 @@ class ReviewJournal(BaseReview):
     # Authors
     authors = atapi.ATFieldProperty('authors')
 
-    # Serial
-    series = atapi.ATFieldProperty('series')
-    seriesVol = atapi.ATFieldProperty('seriesVol')
-
     # Journal
     issn = atapi.ATFieldProperty('issn')
     officialYearOfPublication = \
@@ -95,7 +91,11 @@ class ReviewJournal(BaseReview):
                       "reviewAuthorLastname", "reviewAuthorFirstname",
                       "reviewAuthorEmail", "authors",
                       "languagePresentation", "languageReview",
-                      "editor", "title", "subtitle",
+
+                      "editor",
+
+                      "title", "subtitle",
+
                       "yearOfPublication",
                       "officialYearOfPublication",
                       "placeOfPublication", "publisher",
