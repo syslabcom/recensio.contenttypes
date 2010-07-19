@@ -54,7 +54,7 @@ class ReviewMonograph(BaseReview):
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
-    languagePresentation = atapi.ATFieldProperty('languagePresentation')
+    languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
     recensioID = atapi.ATFieldProperty('recensioID')
     subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
@@ -92,17 +92,22 @@ class ReviewMonograph(BaseReview):
     series = atapi.ATFieldProperty('series')
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
-    # Reorder the fields as required
+    # Reorder the fields as required for the edit view
     ordered_fields = ["isbn", "uri", "pdf", "doc", "review",
                       "customCitation", "coverPicture",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
-                      "authors", "languagePresentation",
+                      "authors", "languageReviewedText",
                       "languageReview", "title", "subtitle",
                       "yearOfPublication", "placeOfPublication",
                       "publisher", "series", "seriesVol", "pages",
                       "ddcTime", "ddcPlace", "ddcSubject", "subject",
                       "searchresults", "description"]
+
+    # An ordered list of fields used for the metadata area of the view
+
+    metadata_fields = ["author", "languageReviewedText",
+                       "languageReview", ""]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

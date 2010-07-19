@@ -109,7 +109,7 @@ class PresentationMonograph(BaseReview):
     reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty('languageReview')
-    languagePresentation = atapi.ATFieldProperty('languagePresentation')
+    languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
     recensioID = atapi.ATFieldProperty('recensioID')
     subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
@@ -163,7 +163,7 @@ class PresentationMonograph(BaseReview):
                       "customCitation", "coverPicture",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
-                      "authors", "languagePresentation",
+                      "authors", "languageReviewedText",
                       "languageReview", "referenceAuthors", "title",
                       "subtitle", "yearOfPublication",
                       "placeOfPublication", "publisher", "series",

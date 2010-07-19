@@ -113,7 +113,7 @@ class PresentationOnlineResource(BaseReview):
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
-    languagePresentation = atapi.ATFieldProperty('languagePresentation')
+    languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
     recensioID = atapi.ATFieldProperty('recensioID')
     subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
@@ -153,7 +153,7 @@ class PresentationOnlineResource(BaseReview):
                       "documenttypes_referenceworks",
                       "documenttypes_bibliographical",
                       "documenttypes_individual",
-                      "languagePresentation", "languageReview",
+                      "languageReviewedText", "languageReview",
                       "ddcSubject", "ddcTime", "ddcPlace", "subject",
                       "description", "isLicenceApproved"]
 

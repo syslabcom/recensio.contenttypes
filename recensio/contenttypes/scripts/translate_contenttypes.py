@@ -15,7 +15,7 @@ map = {
 "gezaehltesJahr" : ("officialYearOfPublication","Official year of publication"),
 "heftnummer" : ("number","Number"),
 "kuerzelZeitschrift" : ("shortnameJournal","Shortname (jurnal)"),
-"praesentationTextsprache" : ("languagePresentation","Language (presentation)"),
+"praesentationTextsprache" : ("languageReviewedText","Language (presentation)"),
 "praesentiertenSchriftTextsprache" : ("languageReview","Language (review)"),
 "reihennummer" : ("seriesVol","Series Volume"),
 "rezensionAutor" : ("reviewAuthor","Review author"),

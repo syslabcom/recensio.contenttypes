@@ -164,7 +164,7 @@ def addExampleContent(context):
                'pageStart':'2',
                'pageEnd':'3',
                'pdf': pdf_obj,
-               'languagePresentation':'de',
+               'languageReviewedText':'de',
                'languageReview':'pl',
                'recensioID':u'',
                'series':u'',

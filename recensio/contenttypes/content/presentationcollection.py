@@ -83,7 +83,7 @@ class PresentationCollection(BaseReview):
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
-    languagePresentation = atapi.ATFieldProperty('languagePresentation')
+    languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
     recensioID = atapi.ATFieldProperty('recensioID')
     subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
@@ -137,7 +137,7 @@ class PresentationCollection(BaseReview):
                       "customCitation", "reviewAuthorHonorific",
                       "reviewAuthorLastname", "reviewAuthorFirstname",
                       "reviewAuthorEmail", "authors",
-                      "languagePresentation", "languageReview",
+                      "languageReviewedText", "languageReview",
                       "referenceAuthors", "title", "subtitle",
                       "pageStart", "pageEnd", "titleCollectedEdition",
                       "editorsCollectedEdition", "yearOfPublication",

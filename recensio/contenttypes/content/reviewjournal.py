@@ -55,7 +55,7 @@ class ReviewJournal(BaseReview):
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
-    languagePresentation = atapi.ATFieldProperty('languagePresentation')
+    languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
     recensioID = atapi.ATFieldProperty('recensioID')
     subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
@@ -98,7 +98,7 @@ class ReviewJournal(BaseReview):
                       "customCitation", "reviewAuthorHonorific",
                       "reviewAuthorLastname", "reviewAuthorFirstname",
                       "reviewAuthorEmail", "authors",
-                      "languagePresentation", "languageReview",
+                      "languageReviewedText", "languageReview",
                       "editor", "title", "subtitle", "pageStart",
                       "pageEnd", "yearOfPublication",
                       "officialYearOfPublication",
