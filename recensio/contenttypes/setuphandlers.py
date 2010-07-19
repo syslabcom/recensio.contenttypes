@@ -135,8 +135,9 @@ def addExampleContent(context):
     pdf_obj = File(id="test-pdf", title="Test Pdf", file=pdf_file,
         content_type='application/pdf')
 
-    test_data={'authors': u'Tadeusz Kotłowski',
-               'referenceAuthors': u'Tadeusz Kotłowski',
+    test_data={'authors': [dict(firstname=u'Tadeusz', lastname='Kotłowski')],
+               'referenceAuthors': [dict(firstname=u'Tadeusz', 
+                   lastname='Kotłowski', email=u'', address=u'', phone=u'')],
                'ddcPlace': '',
                'ddcSubject': '',
                'ddcTime': '',
@@ -152,7 +153,8 @@ def addExampleContent(context):
                'number':u'2',
                'editor':u'Avalon',
                'editorCollectedEdition':u'',
-               'institution':u'',
+               'institution':[dict(institution=u'', lastname=u'', 
+                   firstname=u'')],
                'isbn':u'978-83-60448-39-7',
                'isLicenceApproved':True,
                'issn':u'1822-4016',
@@ -182,7 +184,18 @@ def addExampleContent(context):
                'reviewAuthorLastname':u'Стоичков',
                'reviewAuthorFirstname':u'Христо',
                'reviewAuthorEmail':u'',
-               'titleJournal':u'',}
+               'titleJournal':u'',
+               'documenttypes_institution':u'',
+               'documenttypes_cooperation':u'',
+               'documenttypes_bibliographical':u'',
+               'documenttypes_individual':u'',
+               'documenttypes_referenceworks':u'',
+               'coverPicture':None,
+               'existingOnlineReviews':[dict(name=u'Dzieje państwa', url='')],
+               'publishedReviews':u'',
+               'titleCollectedEdition':u'',
+               'editorsCollectedEdition':[dict(lastname=u'Стоичков', fistname=u'Христо')],
+               'urn': u'testing-data-urn'}
 
     for rez_class in [PresentationArticleReview,
                       PresentationOnlineResource,
@@ -193,7 +206,9 @@ def addExampleContent(context):
         # Fill in all fields with dummy content
         data = {}
         for field in rez_class.ordered_fields:
+          # try:
             data[field] = test_data[field]
+          # except: print "MISSING", field
 
         for i in range(10):
             data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
