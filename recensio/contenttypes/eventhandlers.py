@@ -19,7 +19,7 @@ def review_pdf_updated_eventhandler(obj, evt):
     """
     Update the swf version of a review pdf when it has been edited
     """
-    pdf = self.get_review_pdf()
+    pdf = obj.get_review_pdf()
     if pdf:
         settings = Settings(obj)
         if DateTime(settings.last_updated) < \
