@@ -59,7 +59,7 @@ class ReviewJournal(BaseReview):
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
-    urn = atapi.ATFieldProperty('urn')
+    uri = atapi.ATFieldProperty('uri')
 
     # Common
     ddcPlace = atapi.ATFieldProperty('ddcPlace')
@@ -90,7 +90,7 @@ class ReviewJournal(BaseReview):
     editor = atapi.ATFieldProperty('editor')
 
     # Reorder the fields as required
-    ordered_fields = ["issn", "urn", "pdf", "doc", "review", "customCitation",
+    ordered_fields = ["issn", "uri", "pdf", "doc", "review", "customCitation",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
                       "authors", "languagePresentation",

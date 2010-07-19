@@ -24,7 +24,6 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 PresentationCollectionSchema = BookReviewSchema.copy() + \
                                PresentationSchema.copy() + \
                                ReferenceAuthorsSchema.copy() + \
-                               InternetSchema.copy() + \
                                PageStartEndSchema.copy() + \
                                SerialSchema.copy() + \
                                atapi.Schema((
@@ -93,7 +92,7 @@ class PresentationCollection(BaseReview):
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
-    urn = atapi.ATFieldProperty('urn')
+    uri = atapi.ATFieldProperty('uri')
 
 
     # Common
@@ -121,9 +120,6 @@ class PresentationCollection(BaseReview):
     # Reference authors
     referenceAuthors = atapi.ATFieldProperty('referenceAuthors')
 
-    # Internet
-    url = atapi.ATFieldProperty('url')
-
     # Serial = PageStartEnd +
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
@@ -137,7 +133,7 @@ class PresentationCollection(BaseReview):
     editorsCollectedEdition = atapi.ATFieldProperty('editorsCollectedEdition')
 
     # Reorder the fields as required
-    ordered_fields = ["isbn", "url", "urn", "pdf", "doc", "review",
+    ordered_fields = ["isbn", "uri", "pdf", "doc", "review",
                       "customCitation", "reviewAuthorHonorific",
                       "reviewAuthorLastname", "reviewAuthorFirstname",
                       "reviewAuthorEmail", "authors",

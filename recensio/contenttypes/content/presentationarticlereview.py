@@ -22,7 +22,6 @@ PresentationArticleReviewSchema = \
                                 JournalReviewSchema.copy() + \
                                 PresentationSchema.copy() + \
                                 ReferenceAuthorsSchema.copy() + \
-                                InternetSchema.copy() + \
                                 PageStartEndSchema.copy() + \
                                 atapi.Schema((
     atapi.StringField(
@@ -100,7 +99,7 @@ class PresentationArticleReview(BaseReview):
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
-    urn = atapi.ATFieldProperty('urn')
+    uri = atapi.ATFieldProperty('uri')
 
     # Common
     ddcPlace = atapi.ATFieldProperty('ddcPlace')
@@ -131,9 +130,6 @@ class PresentationArticleReview(BaseReview):
     # Reference authors
     referenceAuthors = atapi.ATFieldProperty('referenceAuthors')
 
-    # Internet
-    url = atapi.ATFieldProperty('url')
-
     # PageStartEnd
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
@@ -142,7 +138,7 @@ class PresentationArticleReview(BaseReview):
     issue = atapi.ATFieldProperty('issue')
 
     # Reorder the fields as required
-    ordered_fields = ["issn", "url", "urn", "pdf", "doc", "review",
+    ordered_fields = ["issn", "uri", "pdf", "doc", "review",
                       "customCitation", "reviewAuthorHonorific",
                       "reviewAuthorLastname", "reviewAuthorFirstname",
                       "reviewAuthorEmail", "authors",

@@ -61,7 +61,7 @@ class ReviewMonograph(BaseReview):
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
-    urn = atapi.ATFieldProperty('urn')
+    uri = atapi.ATFieldProperty('uri')
 
     # Common
     ddcPlace = atapi.ATFieldProperty('ddcPlace')
@@ -93,7 +93,7 @@ class ReviewMonograph(BaseReview):
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Reorder the fields as required
-    ordered_fields = ["isbn", "urn", "pdf", "doc", "review", "customCitation",
+    ordered_fields = ["isbn", "uri", "pdf", "doc", "review", "customCitation",
                       "coverPicture", "reviewAuthorHonorific",
                       "reviewAuthorLastname", "reviewAuthorFirstname",
                       "reviewAuthorEmail", "languageReview",

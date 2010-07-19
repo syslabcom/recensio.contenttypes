@@ -23,7 +23,6 @@ from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 
 PresentationMonographSchema = BookReviewSchema.copy() + \
-                              InternetSchema.copy() + \
                               CoverPictureSchema.copy() + \
                               PagecountSchema.copy() + \
                               PresentationSchema.copy() + \
@@ -117,7 +116,7 @@ class PresentationMonograph(BaseReview):
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
-    urn = atapi.ATFieldProperty('urn')
+    uri = atapi.ATFieldProperty('uri')
 
     # Common
     ddcPlace = atapi.ATFieldProperty('ddcPlace')
@@ -154,15 +153,12 @@ class PresentationMonograph(BaseReview):
     series = atapi.ATFieldProperty('series')
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
-    # Internet
-    url = atapi.ATFieldProperty('url')
-
     # Presentation Monograph
     existingOnlineReviews = atapi.ATFieldProperty('existingOnlineReviews')
     publishedReviews = atapi.ATFieldProperty('publishedReviews')
 
     # Reorder the fields as required
-    ordered_fields = ["isbn", "url", "urn", "pdf", "doc", "review",
+    ordered_fields = ["isbn", "uri", "pdf", "doc", "review",
                       "existingOnlineReviews", "publishedReviews",
                       "customCitation", "coverPicture",
                       "reviewAuthorHonorific", "reviewAuthorLastname",

@@ -22,7 +22,6 @@ from recensio.contenttypes.content.schemata import PresentationSchema
 
 PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
                                    PresentationSchema.copy() + \
-                                   InternetSchema.copy() + \
                                    atapi.Schema((
     DataGridField(
         'institution',
@@ -122,7 +121,7 @@ class PresentationOnlineResource(BaseReview):
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
-    urn = atapi.ATFieldProperty('urn')
+    uri = atapi.ATFieldProperty('uri')
 
 
     # Common
@@ -132,9 +131,6 @@ class PresentationOnlineResource(BaseReview):
 
     # Presentation
     isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
-
-    # Internet
-    url = atapi.ATFieldProperty('url')
 
     # Additional fields
     institution = atapi.ATFieldProperty('institution')
@@ -149,7 +145,7 @@ class PresentationOnlineResource(BaseReview):
     documenttypes_individual = atapi.ATFieldProperty('documenttypes_individual')
 
     # Reorder the fields as required
-    ordered_fields = ["title", "url", "urn", "pdf", "doc", "review",
+    ordered_fields = ["title", "uri", "pdf", "doc", "review",
                       "customCitation", "reviewAuthorHonorific",
                       "reviewAuthorLastname", "reviewAuthorFirstname",
                       "reviewAuthorEmail", "institution",

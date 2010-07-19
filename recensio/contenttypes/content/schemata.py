@@ -42,17 +42,6 @@ CoverPictureSchema = atapi.Schema((
         ),
     ))
 
-# The URL of the work being presented/reviewed
-InternetSchema = atapi.Schema((
-    atapi.StringField(
-        'url',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"URL"),
-            ),
-        ),
-    ))
-
 ReferenceAuthorsSchema = atapi.Schema((
     DataGridField(
         'referenceAuthors',
@@ -257,7 +246,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             ),
         ),
     atapi.StringField(
-        'urn',
+        'uri',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"URN"),
