@@ -17,8 +17,9 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import CommonReviewSchema
-
 from recensio.contenttypes.content.schemata import PresentationSchema
+
+
 
 PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
                                    PresentationSchema.copy() + \
@@ -40,7 +41,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('institution_values'),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Dokumentarten: Institution"),
+            label=_(u"Organisations"),
             format="checkbox",
         ),
     ),
@@ -49,7 +50,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('cooperations_and_communication_values'),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Dokumentarten: Cooperation und Kommunikation"),
+            label=_(u"Web Services and Communication"),
             format="checkbox",
         ),
     ),
@@ -58,7 +59,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('reference_values'),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Dokumentarten: Nachschlagewerke"),
+            label=_(u"Factual Reference Works"),
             format="checkbox",
         ),
     ),
@@ -67,16 +68,25 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('bibliographic_source_values'),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Dokumentarten: Bibliographical Quellen"),
+            label=_(u"Bibliographies, Catalogues, Directories"),
             format="checkbox",
         ),
     ),
     atapi.StringField(
-        'documenttypes_individual',
+        'documenttypes_fulltexts',
         storage=atapi.AnnotationStorage(),
-        vocabulary=NamedVocabulary('individual_publication_values'),
+        vocabulary=NamedVocabulary('fulltexts_public_domain'),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Dokumentarten: Individuelle Publikationen"),
+            label=_(u"Fulltexts (public domain)"),
+            format="checkbox",
+        ),
+    ),
+    atapi.StringField(
+        'documenttypes_periodicals',
+        storage=atapi.AnnotationStorage(),
+        vocabulary=NamedVocabulary('periodicals_journals_magazines'),
+        widget=atapi.MultiSelectionWidget(
+            label=_(u"Periodicals (Journals, Magazines)"),
             format="checkbox",
         ),
     ),
@@ -141,7 +151,10 @@ class PresentationOnlineResource(BaseReview):
                          atapi.ATFieldProperty('documenttypes_referenceworks')
     documenttypes_bibliographical = \
                          atapi.ATFieldProperty('documenttypes_bibliographical')
-    documenttypes_individual = atapi.ATFieldProperty('documenttypes_individual')
+    documenttypes_periodicals = \
+                         atapi.ATFieldProperty('documenttypes_periodicals')
+    documenttypes_fulltexts = \
+                         atapi.ATFieldProperty('documenttypes_fulltexts')
 
     # Reorder the fields as required
     ordered_fields = ["title", "uri", "pdf", "doc", "review",
@@ -152,7 +165,8 @@ class PresentationOnlineResource(BaseReview):
                       "documenttypes_cooperation",
                       "documenttypes_referenceworks",
                       "documenttypes_bibliographical",
-                      "documenttypes_individual",
+                      "documenttypes_fulltexts",
+                      "documenttypes_periodicals",
                       "languageReviewedText", "languageReview",
                       "ddcSubject", "ddcTime", "ddcPlace", "subject",
                       "description", "isLicenceApproved"]
