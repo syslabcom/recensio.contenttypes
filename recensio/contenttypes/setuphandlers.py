@@ -143,10 +143,12 @@ def addExampleContent(context):
                'ddcTime': '',
                'description': u'',
                'doc': None,
-               'documentarten_bibliographische': u'',
-               'documentarten_individual':u'',
-               'documentarten_institution':u'',
-               'documentarten_kooperation':u'',
+               'documenttypes_institution': u'',
+               'documenttypes_cooperation': u'',
+               'documenttypes_referenceworks': u'',
+               'documenttypes_bibliographical': u'',
+               'documenttypes_fulltexts': u'',
+               'documenttypes_periodicals': u'',
                'yearOfPublication':u'2008',
                'placeOfPublication':u'Krakow',
                'officialYearOfPublication':'2008',
@@ -199,10 +201,11 @@ def addExampleContent(context):
 
     for rez_class in [PresentationArticleReview,
                       PresentationOnlineResource,
-                      ReviewJournal,
                       ReviewMonograph,
                       PresentationMonograph,
-                      PresentationCollection]:
+                      PresentationCollection,
+                      ReviewJournal,]:
+
         # Fill in all fields with dummy content
         data = {}
         for field in rez_class.ordered_fields:
@@ -210,9 +213,19 @@ def addExampleContent(context):
             data[field] = test_data[field]
           # except: print "MISSING", field
 
+        if rez_class.__doc__ == "Review Journal":
+            reviews.invokeFactory("Publication", id="newspapera", title="NewspaperA")
+            newspapera = reviews["newspapera"]
+            newspapera.invokeFactory("Volume", id="summer", title="Summer")
+            summer = newspapera["summer"]
+            summer.invokeFactory("Issue", id="issue-2", title="Issue 2")
+            container = summer["issue-2"]
+        else:
+            container = reviews
+
         for i in range(10):
             data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
-            addOneItem(reviews, rez_class, data)
+            addOneItem(container, rez_class, data)
 
     request = TestRequest()
     class FakeResponse(object):
@@ -224,8 +237,6 @@ def addExampleContent(context):
     view.clear()
     view.reindex()
 
-
- 
 def addOneItem(context, type, data):
     data["id"] = context.generateId(type.meta_type)
     review_id = context.invokeFactory(type.__doc__, **data)
