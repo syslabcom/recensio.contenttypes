@@ -50,8 +50,9 @@ class BaseReview(base.ATCTContent):
                 value = ""
                 try:
                     value = self.getField(key).getAccessor(self)()
-                except exception, e:
+                except Exception, e:
                     log.error("Error with citation %s" ,e)
+                    import pdb; pdb.set_trace()
                 if isinstance(value, tuple):
                     if value == ():
                         value = ""

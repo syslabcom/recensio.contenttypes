@@ -352,7 +352,14 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
                          AuthorsSchema.copy() + \
                          PrintedReviewSchema.copy() + \
                          atapi.Schema((
-    # Authors label is "Autor des Aufsatzes"
+    atapi.StringField(
+        'shortnameJournal',
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        widget=atapi.StringWidget(
+            label=_(u"Shortname (Journal)"),
+            ),
+        ),
     atapi.StringField(
         'issn',
         storage=atapi.AnnotationStorage(),
@@ -369,4 +376,3 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
         ),
     ))
 JournalReviewSchema["authors"].widget.label=_(u"Autor des Aufsatzes")
-

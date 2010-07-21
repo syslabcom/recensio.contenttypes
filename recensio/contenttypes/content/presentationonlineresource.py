@@ -174,8 +174,20 @@ class PresentationOnlineResource(BaseReview):
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
+    # An ordered list of fields used for the metadata area of the view
+    metadata_fields = ["title", "institution", "uri",
+                      "documenttypes_institution",
+                      "documenttypes_cooperation",
+                      "documenttypes_referenceworks",
+                      "documenttypes_bibliographical",
+                      "documenttypes_fulltexts",
+                      "documenttypes_periodicals",
+                      "languageReviewedText", "languageReview",
+                      "recensioID", "ddcSubject", "ddcTime",
+                      "ddcPlace", "subject"]
+
     # Präsentator, presentation of: Titel, URL Ressource, URL recensio.
     citation_template =  u"{reviewAuthorLastname}, {text_presentation_of}: "+\
-                        "{title}, {url}"
+                        "{title}"
 
 atapi.registerType(PresentationOnlineResource, PROJECTNAME)

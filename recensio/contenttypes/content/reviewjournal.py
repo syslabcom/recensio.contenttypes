@@ -82,6 +82,7 @@ class ReviewJournal(BaseReview):
 
     # Journal
     issn = atapi.ATFieldProperty('issn')
+    shortnameJournal = atapi.ATFieldProperty('shortnameJournal')
     officialYearOfPublication = \
                               atapi.ATFieldProperty('officialYearOfPublication')
 
@@ -108,6 +109,26 @@ class ReviewJournal(BaseReview):
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
+
+    # An ordered list of fields used for the metadata area of the view
+    # TODO fix get_ fields
+    # metadata_fields = ["authors", "languageReviewedText",
+    #                    "languageReview", "recensioID",
+    #                    "searchresults", "idBvb", "editor",
+    #                    "get_publication_title", "shortnameJournal",
+    #                    "yearOfPublication",
+    #                    "officialYearOfPublication",
+    #                    "get_volume_title", "get_issue_title",
+    #                    "placeOfPublication", "publisher", "issn",
+    #                    "ddcSubject", "ddcTime", "ddcPlace", "subject"]
+
+    metadata_fields = ["authors", "languageReviewedText",
+                       "languageReview", "recensioID",
+                       "searchresults", "idBvb", "editor",
+                       "shortnameJournal", "yearOfPublication",
+                       "officialYearOfPublication",
+                       "placeOfPublication", "publisher", "issn",
+                       "ddcSubject", "ddcTime", "ddcPlace", "subject"]
 
     # Rezensent, review of: Zs-Titel, Nummer, Heftnummer (gezähltes
     # Jahr/Erscheinungsjahr), in: Zs-Titel, Nummer, Heftnummer
@@ -138,7 +159,7 @@ class ReviewJournal(BaseReview):
         return title
 
     def get_publication_title(self):
-        """ Equivalent of 'shortnameJournal'"""
+        """ Equivalent of 'titleJournal'"""
         return self.get_title_from_parent_of_type("Publication")
 
     def get_volume_title(self):

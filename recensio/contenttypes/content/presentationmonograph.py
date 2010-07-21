@@ -175,6 +175,15 @@ class PresentationMonograph(BaseReview):
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
+    # An ordered list of fields used for the metadata area of the view
+    metadata_fields = ["authors", "languageReviewedText",
+                       "languageReview", "referenceAuthors", "recensioID",
+                       "uri", "searchresults", "idBvb", "authors", "title",
+                       "subtitle", "yearOfPublication",
+                       "placeOfPublication", "publisher", "series",
+                       "seriesVol", "pages", "isbn", "ddcSubject",
+                       "ddcTime", "ddcPlace", "subject"]
+
     # Präsentator, presentation of: Autor, Titel. Untertitel,
     # Erscheinungsort: Verlag Jahr, in: Zs-Titel, Nummer, Heftnummer
     # (gezähltes Jahr/Erscheinungsjahr), Seite von/bis, URL recensio.

@@ -104,13 +104,17 @@ class ReviewMonograph(BaseReview):
                       "ddcTime", "ddcPlace", "ddcSubject", "subject",
                       "searchresults", "description"]
 
-    # An ordered list of fields used for the metadata area of the view
-
-    metadata_fields = ["author", "languageReviewedText",
-                       "languageReview", ""]
-
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
+
+    # An ordered list of fields used for the metadata area of the view
+    metadata_fields = ["authors", "languageReviewedText",
+                       "languageReview", "recensioID",
+                       "searchresults", "idBvb", "authors", "title",
+                       "subtitle", "yearOfPublication",
+                       "placeOfPublication", "publisher", "series",
+                       "seriesVol", "pages", "isbn", "ddcSubject",
+                       "ddcTime", "ddcPlace", "subject"]
 
     #  Rezensent, review of: Autor, Titel. Untertitel,
     # Erscheinungsort: Verlag Jahr, in: Zs-Titel, Nummer, Heftnummer

@@ -34,14 +34,6 @@ PresentationArticleReviewSchema = \
             ),
         ),
     atapi.StringField(
-        'shortnameJournal',
-        storage=atapi.AnnotationStorage(),
-        required=True,
-        widget=atapi.StringWidget(
-            label=_(u"Shortname (Journal)"),
-            ),
-        ),
-    atapi.StringField(
         'volume',
         storage=atapi.AnnotationStorage(),
         required=True,
@@ -119,10 +111,9 @@ class PresentationArticleReview(BaseReview):
 
     # Journal
     issn = atapi.ATFieldProperty('issn')
-    titleJournal = atapi.ATFieldProperty('titleJournal')
     shortnameJournal = atapi.ATFieldProperty('shortnameJournal')
-    volume = atapi.ATFieldProperty('volume')
-    officialYearOfPublication = atapi.ATFieldProperty('officialYearOfPublication')
+    officialYearOfPublication = \
+                              atapi.ATFieldProperty('officialYearOfPublication')
 
     # Presentation 
     isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
@@ -134,6 +125,7 @@ class PresentationArticleReview(BaseReview):
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
 
+    titleJournal = atapi.ATFieldProperty('titleJournal')
     volume = atapi.ATFieldProperty('volume')
     issue = atapi.ATFieldProperty('issue')
 
@@ -154,6 +146,17 @@ class PresentationArticleReview(BaseReview):
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
+
+    # An ordered list of fields used for the metadata area of the view
+    metadata_fields = ["authors", "languageReviewedText",
+                       "languageReview", "referenceAuthors",
+                       "recensioID", "uri", "searchresults",
+                       "authors", "title", "subtitle", "pageStart",
+                       "pageEnd", "titleJournal", "shortnameJournal",
+                       "yearOfPublication",
+                       "officialYearOfPublication", "volume", "issue",
+                       "placeOfPublication", "publisher", "issn",
+                       "ddcSubject", "ddcTime", "ddcPlace", "subject"]
 
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:
     # Zs-Titel, Nummer, Heftnummer (gezähltes Jahr/Erscheinungsjahr),
