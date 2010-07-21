@@ -62,6 +62,7 @@
       </div>
       <div id="review-metadata"
            tal:define="metadata view/get_metadata">
+        <h2>Metadata</h2>
         <dl tal:condition="python:context.meta_type == 'ReviewJournal'">
           <dt>Publication Title</dt>
           <dd tal:content="context/get_publication_title"></dd>
@@ -69,9 +70,12 @@
           <dd tal:content="context/get_volume_title"></dd>
         </dl>
         <dl>
-          <tal:field repeat="field python:metadata.keys()">
+          <tal:field repeat="field context/metadata_fields">
             <dt tal:content="python:metadata[field]"></dt>
-            <dd><tal:widget metal:use-macro="python:context.widget(field)" /></dd>
+            <dd tal:condition="python: field in view.review_journal_fields.keys()">
+              <tal:review_journal_field content="python: context[field]()" /></dd>
+            <dd tal:condition="python: not field in view.review_journal_fields.keys()">
+              <tal:widget metal:use-macro="python:context.widget(field)" /></dd>
           </tal:field>
         </dl>
         <dl tal:define="pdf context/get_review_pdf"

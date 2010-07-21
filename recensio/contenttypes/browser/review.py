@@ -30,14 +30,21 @@ class View(BrowserView):
     """Moderation View
     """
     template = ViewPageTemplateFile('review.pt')
+    review_journal_fields = {
+        "get_publication_title": _("Publication Title"),
+        "get_volume_title": _("Volume Title"),
+        "get_issue_title": _("Issue Title")
+        }
 
     def get_metadata(self):
         context = self.context
         fields = self.context.Schema()._fields
         meta = {}
-        for field in context.ordered_fields:
-            # skip fields which aren't considered metadata for Review types
-            if field not in ["title", "description", "review", "pdf"]:
+
+        for field in context.metadata_fields:
+            if field in self.review_journal_fields.keys():
+                meta[field] = self.review_journal_fields[field]
+            else:
                 meta[field] = fields[field].widget.label
         return meta
 
