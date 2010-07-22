@@ -124,16 +124,15 @@ class ReviewJournal(BaseReview):
     # Rezensent, review of: Zs-Titel, Nummer, Heftnummer (gezähltes
     # Jahr/Erscheinungsjahr), in: Zs-Titel, Nummer, Heftnummer
     # (gezähltes Jahr/Erscheinungsjahr), Seite von/bis, URL recensio
-
-    # NOTE: No pages
-    citation_template =  u"{reviewAuthorLastname}, {text_review_of}: "+\
-                        "{get_volume_title}, {get_issue_title}, "+\
-                        "({officialYearOfPublication}/"+\
-                        "{yearOfPublication}), {text_in}: "+\
-                        "{reviewAuthorLastname}, {text_review_of}: "+\
-                        "{get_volume_title}, {get_issue_title}, "+\
-                        "({officialYearOfPublication}/"+\
-                        "{yearOfPublication})"
+    citation_template =  (u"{reviewAuthorLastname}, {text_review_of}: "
+                          "{get_publication_title}, {get_volume_title},"
+                          "{get_issue_title}, "
+                          "({officialYearOfPublication}/{yearOfPublication}), "
+                          "{text_in}: "
+                          "{get_publication_title}, {get_volume_title}, "
+                          "{get_issue_title}, ({officialYearOfPublication}/"
+                          "{yearOfPublication}) {text_pages} "
+                          "{pageStart}/{pageEnd}")
 
 
     def get_title_from_parent_of_type(self, meta_type):

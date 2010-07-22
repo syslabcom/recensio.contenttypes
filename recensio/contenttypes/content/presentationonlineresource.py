@@ -188,6 +188,6 @@ class PresentationOnlineResource(BaseReview):
 
     # Präsentator, presentation of: Titel, URL Ressource, URL recensio.
     citation_template =  u"{reviewAuthorLastname}, {text_presentation_of}: "+\
-                        "{title}"
+                        "{title}, {uri}"
 
 atapi.registerType(PresentationOnlineResource, PROJECTNAME)

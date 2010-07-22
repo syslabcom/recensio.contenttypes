@@ -184,16 +184,17 @@ class PresentationMonograph(BaseReview):
                        "seriesVol", "pages", "isbn", "ddcSubject",
                        "ddcTime", "ddcPlace", "subject"]
 
+    # Citation:
     # Präsentator, presentation of: Autor, Titel. Untertitel,
     # Erscheinungsort: Verlag Jahr, in: Zs-Titel, Nummer, Heftnummer
     # (gezähltes Jahr/Erscheinungsjahr), Seite von/bis, URL recensio.
 
     # NOTE: PresentationMonograph doesn't have:
     # officialYearOfPublication, pageStart, pageEnd
-    citation_template =  u"{reviewAuthorLastname}, {text_presentation_of}: "+\
-                        "{authors}, {title}, {subtitle}, {text_in}: "+\
-                        "{placeOfPublication}: {yearOfPublication}, "+\
-                        "{text_in}: {publisher}, {series}, {seriesVol}"+\
-                        "({yearOfPublication}), Pages {pages}"
+    citation_template =  (u"{reviewAuthorLastname}, {text_presentation_of}: "
+                          "{authors}, {title}, {subtitle}, "
+                          "{placeOfPublication}: {yearOfPublication}, "
+                          "{text_in}: {publisher}, {series}, {seriesVol}"
+                          "({yearOfPublication}), Pages {pages}")
 
 atapi.registerType(PresentationMonograph, PROJECTNAME)

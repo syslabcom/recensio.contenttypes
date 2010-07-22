@@ -122,10 +122,10 @@ class ReviewMonograph(BaseReview):
 
     # NOTE: ReviewMonograph doesn't have:
     # officialYearOfPublication, pageStart, pageEnd
-    citation_template =  u"{reviewAuthorLastname}, {text_review_of}: "+\
-                        "{authors}, {title}, {subtitle}, {text_in}: "+\
-                        "{placeOfPublication}: {yearOfPublication}, "+\
-                        "{text_in}: {publisher}, {series}, {seriesVol}"+\
-                        "({yearOfPublication}), Pages {pages}"
+    citation_template =  (u"{reviewAuthorLastname}, {text_review_of}: "
+                          "{authors}, {title}, {subtitle}, "
+                          "{placeOfPublication}: {yearOfPublication}, "
+                          "{text_in}: {publisher}, {series}, {seriesVol}"
+                          "({yearOfPublication}), Pages {pages}")
 
 atapi.registerType(ReviewMonograph, PROJECTNAME)
