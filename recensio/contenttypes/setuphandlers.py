@@ -28,6 +28,7 @@ from recensio.contenttypes.content.presentationmonograph import \
 from recensio.contenttypes.content.presentationcollection import \
      PresentationCollection
 from swiss.tabular import XlsReader
+import random
 
 mdfile = os.path.join(os.path.dirname(__file__), 'profiles', 'exampledata',
     'metadata.xml')
@@ -135,12 +136,35 @@ def addExampleContent(context):
     pdf_obj = File(id="test-pdf", title="Test Pdf", file=pdf_file,
         content_type='application/pdf')
 
-    test_data={'authors': [dict(firstname=u'Tadeusz', lastname='Kotłowski')],
-               'referenceAuthors': [dict(firstname=u'Tadeusz', 
-                   lastname='Kotłowski', email=u'', address=u'', phone=u'')],
-               'ddcPlace': '',
-               'ddcSubject': '',
-               'ddcTime': '',
+    authors_list = [dict(firstname='Tadeusz', lastname='Kotłowski'),
+                    dict(firstname='Fürchtegott', lastname='Hubermüller'),
+                    dict(firstname='François', lastname='Lamère'),
+                    dict(firstname='Harald', lastname='Schmidt'),
+                    dict(lastname='Стоичков', fistname='Христо')]
+    referenceAuthors_list = [dict(firstname='Tadeusz', lastname='Kotłowski', email=u'', address=u'', phone=u''),
+                    dict(firstname='Fürchtegott', lastname='Hubermüller', email=u'', address=u'', phone=u''),
+                    dict(firstname='François', lastname='Lamère', email=u'', address=u'', phone=u''),
+                    dict(firstname='Harald', lastname='Schmidt', email=u'', address=u'', phone=u'')]
+
+    voc = getToolByName(portal, 'portal_vocabularies')
+
+    ddcPlace = voc.getVocabularyByName('region_values')
+    ddcPlace_list = ddcPlace.getDisplayList(ddcPlace).keys()
+
+    ddcSubject = voc.getVocabularyByName('topic_values')
+    ddcSubject_list = ddcSubject.getDisplayList(ddcSubject).keys()
+
+    ddcTime = voc.getVocabularyByName('epoch_values')
+    ddcTime_list = ddcTime.getDisplayList(ddcTime).keys()
+
+    random.seed('recensio.syslab.com')
+
+    def test_data():
+        return {'authors': [random.choice(authors_list)],
+               'referenceAuthors': [random.choice(referenceAuthors_list), random.choice(referenceAuthors_list)],
+               'ddcPlace': random.choice(ddcPlace_list),
+               'ddcSubject': random.choice(ddcSubject_list),
+               'ddcTime': random.choice(ddcTime_list),
                'description': u'',
                'doc': None,
                'documenttypes_institution': u'',
@@ -196,7 +220,7 @@ def addExampleContent(context):
                'existingOnlineReviews':[dict(name=u'Dzieje państwa', url='')],
                'publishedReviews':u'',
                'titleCollectedEdition':u'',
-               'editorsCollectedEdition':[dict(lastname=u'Стоичков', fistname=u'Христо')],
+               'editorsCollectedEdition':[random.choice(authors_list)],
                'urn': u'testing-data-urn'}
 
     for rez_class in [PresentationArticleReview,
@@ -207,10 +231,10 @@ def addExampleContent(context):
                       ReviewJournal,]:
 
         # Fill in all fields with dummy content
-        data = {}
-        for field in rez_class.ordered_fields:
+        #data = test_data()
+        #for field in rez_class.ordered_fields:
           # try:
-            data[field] = test_data[field]
+        #    data[field] = test_data[field]
           # except: print "MISSING", field
 
         if rez_class.__doc__ == "Review Journal":
@@ -224,6 +248,7 @@ def addExampleContent(context):
             container = reviews
 
         for i in range(10):
+            data = test_data()
             data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
             addOneItem(container, rez_class, data)
 
