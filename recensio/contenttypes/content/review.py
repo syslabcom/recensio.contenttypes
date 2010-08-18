@@ -46,7 +46,7 @@ class BaseReview(base.ATCTContent):
             if key.startswith("text_"):
                 citation_dict[key] = self.translate(key)
             elif key.startswith("get_"):
-                citation_dict[key] = self[key]()
+                citation_dict[key] = self[key]().decode("utf-8")
             else:
                 value = ""
                 try:
