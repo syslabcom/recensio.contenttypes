@@ -3,10 +3,12 @@
 """
 
 from zope.interface import implements
+import Acquisition
 
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
+from Products.CMFPlone.Portal import PloneSite
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
@@ -148,9 +150,22 @@ class ReviewJournal(BaseReview):
                 break
         return title
 
+    def get_parent_object_of_type(self, meta_type):
+        """ Return the object of a particular type which is
+        the parent of the current object."""
+        obj = Acquisition.aq_inner(self)
+        while not isinstance(obj, PloneSite):
+            obj = Acquisition.aq_parent(obj)
+            if obj.meta_type == meta_type:
+                return obj
+        return None
+
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""
         return self.get_title_from_parent_of_type("Publication")
+
+    def get_publication_object(self):
+        return self.get_parent_object_of_type("Publication")
 
     def get_volume_title(self):
         """ Equivalent of 'volume'"""
