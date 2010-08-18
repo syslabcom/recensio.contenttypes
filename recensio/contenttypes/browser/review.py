@@ -83,25 +83,29 @@ class DownloadSWFView(PageTurnerView):
     """
 
     def render_blob_version(self):
+        context = self.context
+        request = self.request
+        pdf = context.get_review_pdf()
         header_value = contentDispositionHeader(
-            disposition='inline',
-            filename=self.context.pdf.getFilename().replace('.pdf', '.swf'))
+            disposition = 'inline',
+            filename = pdf.getFilename().replace('.pdf', '.swf'))
 
-        blob = self.settings.data
-        blobfi = openBlob(blob)
-        length = fstat(blobfi.fileno()).st_size
-        blobfi.close()
+        swf_blob = self.settings.data
+        if swf_blob:
+            blobfi = openBlob(swf_blob)
+            length = fstat(blobfi.fileno()).st_size
+            blobfi.close()
 
-        self.request.response.setHeader('Last-Modified',
-                                        rfc1123_date(self.context._p_mtime))
-        self.request.response.setHeader('Accept-Ranges', 'bytes')
-        self.request.response.setHeader('Content-Disposition', header_value)
-        self.request.response.setHeader("Content-Length", length)
-        self.request.response.setHeader('Content-Type',
-                                        'application/x-shockwave-flash')
-        range = handleRequestRange(self.context, length,
-                                   self.request, self.request.response)
-        return BlobStreamIterator(blob, **range)
+            self.request.response.setHeader('Last-Modified',
+                                            rfc1123_date(context._p_mtime))
+            self.request.response.setHeader('Accept-Ranges', 'bytes')
+            self.request.response.setHeader('Content-Disposition', header_value)
+            self.request.response.setHeader("Content-Length", length)
+            self.request.response.setHeader('Content-Type',
+                                            'application/x-shockwave-flash')
+            range = handleRequestRange(context, length,
+                                       request, request.response)
+            return BlobStreamIterator(swf_blob, **range)
 
     def __call__(self):
         self.settings = Settings(self.context)
