@@ -6,6 +6,7 @@ from zope.interface import implements
 
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
+from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes.interfaces.review import IReview
 
@@ -71,10 +72,11 @@ class BaseReview(base.ATCTContent):
         Clean up the citation, removing empty sections
         """
         if self.customCitation:
-            return self.customCitation
+            return scrubHTML(self.customCitation)
         else:
             citation_dict = self.get_citation_dict(self.citation_template)
             citation = self.citation_template.format(**citation_dict)
+            # TODO replace all empty translation strings from text_*
             citation = citation.replace("Page(s) /", "")
             citation = re.sub("^[,.:]", "", citation)
             citation = re.sub(" [,.:]", "", citation)
