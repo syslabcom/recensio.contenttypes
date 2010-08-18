@@ -40,13 +40,18 @@ class View(BrowserView):
         context = self.context
         fields = self.context.Schema()._fields
         meta = {}
-
         for field in context.metadata_fields:
             if field in self.review_journal_fields.keys():
                 meta[field] = self.review_journal_fields[field]
             else:
                 meta[field] = fields[field].widget.label
         return meta
+
+    def has_coverpicture(self):
+        if "coverPicture" in self.context.ordered_fields:
+            return self.context.getCoverPicture().get_size() > 0
+        else:
+            return False
 
     def has_pdf(self):
         """

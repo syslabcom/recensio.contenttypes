@@ -169,3 +169,4 @@ class PresentationArticleReview(BaseReview):
                         "Page(s) {pageStart}/{pageEnd}"
 
 atapi.registerType(PresentationArticleReview, PROJECTNAME)
+

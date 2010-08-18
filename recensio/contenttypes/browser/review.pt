@@ -57,7 +57,20 @@
         </h2>
     </div>
     <div metal:fill-slot="content-core">
-      <div id="review">
+      <div id="review"
+           tal:define="searchresults context/getSearchresults | nothing;"
+           >
+        <p tal:condition="searchresults" tal:content="searchresults">
+          Presentation Online Resources don't have this field
+          
+          [Infos aus dem „freien Feld“, das sich im Fall von
+          Präsentationen automatisch aus den Metadaten befüllt
+          (s. dazu am Ende der Metadaten)]
+        </p>
+        <tal:coverpicture condition="view/has_coverpicture">
+          <tal:widget metal:use-macro="python:context.widget('coverPicture')" />
+        </tal:coverpicture>
+
         <p tal:content="context/getReview"></p>
       </div>
       <div id="review-reference">
@@ -84,7 +97,8 @@
             <dd tal:condition="python: field in view.review_journal_fields.keys()">
               <tal:review_journal_field content="python: context[field]()" /></dd>
             <dd tal:condition="python: not field in view.review_journal_fields.keys()">
-              <tal:widget metal:use-macro="python:context.widget(field)" /></dd>
+              <tal:widget metal:use-macro="python:context.widget(field)" />
+            </dd>
           </tal:field>
         </dl>
         <dl tal:define="pdf context/get_review_pdf"
