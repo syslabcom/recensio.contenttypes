@@ -119,6 +119,8 @@ class BaseReview(base.ATCTContent):
             for value in data:
                 retval.extend(self._getAllAuthorData(value))
         else:
+            if isinstance(data, str):
+                data = data.decode('utf-8')
             retval = [data]
         return retval
 
