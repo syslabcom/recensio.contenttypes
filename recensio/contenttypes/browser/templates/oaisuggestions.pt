@@ -1,0 +1,12 @@
+<div id="oaisuggestions">
+    <div style="display:none;" class="oaisuggestion" 
+        tal:attributes="id python: ignore==1 and 'oaisuggestion_template' or ''" tal:repeat="ignore python: [1,2]">
+        OAI Suggestion
+        <ul>
+            <li style="border-style:solid; border-width: 1px; border-collapse:collapse;display:block;" class="dc_definition"><def style="display:inline; padding-right: 10px;">Some example key</def><ul class="dc_values" style="display:inline-block"><li style="display:block; background-color:#eee;">Some example value</li></ul></li>
+        </ul>
+        <form>
+            <input type="button" name="takeover" value="take over" />
+        </form>
+    </div>
+</div>

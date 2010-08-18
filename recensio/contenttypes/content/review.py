@@ -97,3 +97,28 @@ class BaseReview(base.ATCTContent):
                 if self.generatedPdf.get_size() > 0:
                     pdf = self.generatedPdf
         return pdf
+
+    def getAllAuthorData(self):
+        relevant_fields = ['authors', 'reviewAuthorEmail', \
+    'reviewAuthorFirstname', 'reviewAuthorLastname', 'reviewAuthorHonorific', 
+    'referenceAuthors', 'creators', 'contributors']
+        retval = []
+        for field_name in relevant_fields:
+            field_value = getattr(self, field_name, None)
+            if field_value:
+                retval.extend(self._getAllAuthorData(field_value))
+
+        return retval
+
+    def _getAllAuthorData(self, data):
+        retval = []
+        if hasattr(data, 'values'):
+            for value in data.values():
+                retval.extend(self._getAllAuthorData(value))
+        elif hasattr(data, '__iter__'):
+            for value in data:
+                retval.extend(self._getAllAuthorData(value))
+        else:
+            retval = [data]
+        return retval
+
