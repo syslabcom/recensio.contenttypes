@@ -174,7 +174,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Email"),
             ),
         ),
-    atapi.StringField(
+    atapi.LinesField(
         'languageReview',
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
@@ -183,7 +183,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             size=3,
             ),
         ),
-    atapi.StringField(
+    atapi.LinesField(
         'languageReviewedText',
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
