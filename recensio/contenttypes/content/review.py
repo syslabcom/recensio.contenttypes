@@ -5,6 +5,7 @@ from os import fstat
 
 from zope.interface import implements
 
+from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
@@ -16,7 +17,7 @@ from recensio.contenttypes.interfaces.review import IReview
 import logging
 log = logging.getLogger('recensio.contentypes/content/review.py')
 
-class BaseReview(base.ATCTContent):
+class BaseReview(base.ATCTMixin, atapi.BaseContent):
     implements(IReview)
 
     def listSupportedLanguages(self):
@@ -130,3 +131,8 @@ class BaseReview(base.ATCTContent):
                 data = data.decode('utf-8')
             retval = [data]
         return retval
+
+    def Language(self):
+        """ Reviews are NOT translatable. As such, they must remain neutral """
+        # XXX We probably should hide the language field altogether
+        return ''
