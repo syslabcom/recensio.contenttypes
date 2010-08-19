@@ -53,24 +53,15 @@ class View(BrowserView):
         else:
             return False
 
-    def has_pdf(self):
-        """
-        If a pdf is deleted a pdf object still exists with size 0
-        """
-        if hasattr(self.context, "pdf"):
-            if self.context.pdf.get_size() > 0:
-                return True
-
     def javascript(self):
         """
         Generates the block of javascript required to embed the flash
         based pdf viewer from wc.pageturner
         """
-        if self.has_pdf():
-            context = self.context
-            ptv = PageTurnerView(context, self.request)
-            ptv.settings = Settings(context)
-            return ptv.javascript()
+        context = self.context
+        ptv = PageTurnerView(context, self.request)
+        ptv.settings = Settings(context)
+        return ptv.javascript()
 
     def __call__(self):
         return self.template()
@@ -88,7 +79,7 @@ class DownloadSWFView(PageTurnerView):
         pdf = context.get_review_pdf()
         header_value = contentDispositionHeader(
             disposition = 'inline',
-            filename = pdf.getFilename().replace('.pdf', '.swf'))
+            filename = context.Title() +'.swf')
 
         swf_blob = self.settings.data
         if swf_blob:

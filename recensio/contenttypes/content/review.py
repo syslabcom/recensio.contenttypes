@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 import re
 from string import Formatter
+from os import fstat
 
 from zope.interface import implements
 
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
+
+from plone.app.blob.utils import openBlob
 
 from recensio.contenttypes.interfaces.review import IReview
 
@@ -87,15 +90,19 @@ class BaseReview(base.ATCTContent):
     def get_review_pdf(self):
         """
         Return the uploaded pdf or if that doesn't exist return the
-        generatedPdf otherwise return None
+        generatedPdf Blob object otherwise return None
         """
         pdf = None
         if hasattr(self, "pdf"):
             if self.pdf.get_size() > 0:
-                pdf = self.pdf
+                pdf = self.pdf.blob
             elif hasattr(self, "generatedPdf"):
-                if self.generatedPdf.get_size() > 0:
-                    pdf = self.generatedPdf
+                generated_pdf = self.generatedPdf
+                pdf_blob = openBlob(generated_pdf)
+                size = fstat(pdf_blob.fileno()).st_size
+                pdf_blob.close()
+                if size > 0:
+                    pdf = generated_pdf
         return pdf
 
     def getAllAuthorData(self):
@@ -123,4 +130,3 @@ class BaseReview(base.ATCTContent):
                 data = data.decode('utf-8')
             retval = [data]
         return retval
-

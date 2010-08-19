@@ -74,13 +74,9 @@
         <p tal:content="context/getReview"></p>
       </div>
       <div id="review-reference">
-        <tal:pdf-viewer condition="view/has_pdf">
-          <div id="pageturner">
-            tal:condition="python: view.installed and view.is_pdf and view.view.settings.successfully_converted">
-            <p> To view this page ensure that Adobe Flash Player version 9.0.124 or greater is installed.</p> 
-          </div>
-
-        </tal:pdf-viewer>
+        <div id="pageturner">
+          <p> To view this page ensure that Adobe Flash Player version 9.0.124 or greater is installed.</p> 
+        </div>
       </div>
       <div id="review-metadata"
            tal:define="metadata view/get_metadata">
@@ -105,7 +101,7 @@
             tal:condition="pdf">
           <dt>Download</dt>
           <dd><a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension'"
-                 tal:content="pdf/Title">PDF</a></dd>
+                 tal:content="pdf/Title | string:PDF">PDF</a></dd>
         </dl>
       </div>
       <div id="review-citation">
