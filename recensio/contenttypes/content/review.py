@@ -107,29 +107,17 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         return pdf
 
     def getAllAuthorData(self):
-        relevant_fields = ['authors', 'reviewAuthorEmail', \
-    'reviewAuthorFirstname', 'reviewAuthorLastname', 'reviewAuthorHonorific', 
-    'referenceAuthors', 'creators', 'contributors']
         retval = []
-        for field_name in relevant_fields:
-            field_value = getattr(self, field_name, None)
-            if field_value:
-                retval.extend(self._getAllAuthorData(field_value))
-
-        return retval
-
-    def _getAllAuthorData(self, data):
-        retval = []
-        if hasattr(data, 'values'):
-            for value in data.values():
-                retval.extend(self._getAllAuthorData(value))
-        elif hasattr(data, '__iter__'):
-            for value in data:
-                retval.extend(self._getAllAuthorData(value))
-        else:
-            if isinstance(data, str):
-                data = data.decode('utf-8')
-            retval = [data]
+        field_values = list(getattr(self, 'authors', [])) + \
+                       list(getattr(self, 'referenceAuthors', []))
+        for data in field_values:
+            retval.append(('%s %s' % (data['firstname'], data['lastname'])).decode('utf-8'))
+        review_author = ('%s %s %s' % (\
+            getattr(self, 'reviewAuthorHonorific', '')
+           ,getattr(self, 'reviewAuthorFirstname', '')
+           ,getattr(self, 'reviewAuthorLastname', ''))).decode('utf-8')
+        if review_author.strip():
+            retval.append(review_author.strip())
         return retval
 
     def Language(self):
