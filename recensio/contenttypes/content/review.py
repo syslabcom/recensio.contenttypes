@@ -12,7 +12,13 @@ from zope.interface import implements
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
+from Products.CMFCore.utils import getToolByName
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
+from plone.registry.interfaces import IRegistry
+from zope.component import queryUtility
+from plone.i18n.locales.interfaces import ILanguageAvailability
+from zope.component import getGlobalSiteManager
+from recensio.policy.interfaces import IRecensioSettings
 
 from plone.app.blob.utils import openBlob
 
@@ -31,7 +37,20 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
     implements(IReview)
 
     def listSupportedLanguages(self):
-        return self.portal_languages.listSupportedLanguages()
+        # get the user-defined langages
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IRecensioSettings)
+        allowed_langs = getattr(settings, 'available_content_languages', '').split('\n')
+        # get names for language codes
+        gsm = getGlobalSiteManager()
+        util = gsm.queryUtility(ILanguageAvailability)
+        available_languages = util.getLanguages()
+        languages = list()
+        for lang in allowed_langs:
+            lang = lang.strip()
+            if available_languages.get(lang):
+                languages.append((lang, available_languages[lang]['name']))
+        return languages
 
     def setIsLicenceApproved(self, value):
         """
