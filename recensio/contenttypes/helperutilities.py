@@ -5,6 +5,8 @@ from tempfile import mkstemp
 import os
 import subprocess
 
+from Products.Five.browser.pagetemplatefile import PageTemplateFile
+
 def which(program_name, extra_paths=[]):
     """
     Return the full path to a program
@@ -19,6 +21,16 @@ def which(program_name, extra_paths=[]):
         if os.path.exists(full_path):
             return full_path
     return None
+
+# http://tools.cherrypy.org/wiki/ZPT
+class SimpleZpt(PageTemplateFile):
+    """ Customise ViewPageTemplateFile so that we can pass in a dict
+    to be used as the context """
+    def pt_getContext(self, args=(), options={}, **kw):
+        rval = PageTemplateFile.pt_getContext(self, args=args)
+        options.update(rval)
+        return options
+
 
 
 class RunSubprocess:

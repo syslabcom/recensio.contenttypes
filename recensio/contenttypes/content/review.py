@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
-import re
-from string import Formatter
 from os import fstat
+from string import Formatter
+import cStringIO as StringIO
+import ho.pisa
+import re
+from DateTime import DateTime
 
+from ZODB.blob import Blob
 from zope.interface import implements
 
 from Products.Archetypes import atapi
@@ -12,7 +16,13 @@ from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from plone.app.blob.utils import openBlob
 
+from wc.pageturner.views import pdf2swf_subprocess
+from wc.pageturner.settings import Settings
+from wc.pageturner.interfaces import IPageTurnerSettings
+
 from recensio.contenttypes.interfaces.review import IReview
+from recensio.contenttypes.helperutilities import SimpleZpt
+from recensio.contenttypes.helperutilities import wvPDF
 
 import logging
 log = logging.getLogger('recensio.contentypes/content/review.py')
@@ -87,6 +97,66 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
             citation = re.sub("[,.:]\ *$", "", citation)
             citation = citation + "."
             return citation
+
+    def update_generated_pdf(self):
+        """
+        If there isn't a custom pdf version of the review, generate
+        the pdf from an MS Word .doc file. If there isn't an MS Word
+        doc generate the pdf from the contents of the review text (html)
+
+        We could implement odf to pdf too, but it sounds like we would
+        need to run openoffice as a service:
+        http://www.artofsolving.com/opensource/pyodconverter
+        #1720
+        """
+        has_custom_pdf = hasattr(self, "pdf") and self.pdf.get_size() > 0
+        if not has_custom_pdf:
+            doc = self.getDoc()
+            if doc:
+                pdf_blob = Blob()
+                pdf_blob.open("w").writelines(wvPDF(doc.data))
+                self.generatedPdf = pdf_blob
+            else:
+                # Generate the pdf from the content of the review
+                review = self.getReview()
+                # Insert the review into a template
+                pdf_template = SimpleZpt("../browser/templates/htmltopdf.pt")
+                pdf_html = pdf_template(context={"review":review})
+                # Generate the pdf file and save it as a blob
+                pdf_blob = Blob()
+                pdf_blob_writer = pdf_blob.open("w")
+                pdf = ho.pisa.pisaDocument(
+                    StringIO.StringIO(pdf_html.encode("UTF-8")),
+                    pdf_blob_writer)
+                pdf_blob_writer.close()
+                if not pdf.err:
+                    self.generatedPdf = pdf_blob
+
+    def update_swf(self):
+        """
+        Update the swf version of the pdf version of the review
+        """
+        pdf_blob = self.get_review_pdf()
+        if pdf_blob:
+            settings = Settings(self)
+            if DateTime(settings.last_updated) < \
+                   DateTime(self.ModificationDate()):
+                swf = None
+                try:
+                    pdf = openBlob(pdf_blob)
+                    pdf2swf = pdf2swf_subprocess()
+                    swf = pdf2swf.convert(pdf.read())
+                    pdf.close()
+                    log.info("Converted pdf for %s" %self.absolute_url())
+                except Exception, e:
+                    log.error("Error converting pdf for %s : %s" \
+                         %(self.absolute_url(), e))
+                if swf:
+                    blob = Blob()
+                    blob.open("w").writelines(swf)
+                    settings.data = blob
+                    settings.last_updated = DateTime().pCommonZ()
+                    settings.successfully_converted = True
 
     def get_review_pdf(self):
         """
