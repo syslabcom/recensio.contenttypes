@@ -111,11 +111,11 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         field_values = list(getattr(self, 'authors', [])) + \
                        list(getattr(self, 'referenceAuthors', []))
         for data in field_values:
-            retval.append(('%s %s' % (data['firstname'], data['lastname'])).decode('utf-8'))
+            retval.append(('%s %s' % (data['firstname'], data['lastname'])).decode('utf-8').encode('utf-8'))
         review_author = ('%s %s %s' % (\
             getattr(self, 'reviewAuthorHonorific', '')
            ,getattr(self, 'reviewAuthorFirstname', '')
-           ,getattr(self, 'reviewAuthorLastname', ''))).decode('utf-8')
+           ,getattr(self, 'reviewAuthorLastname', ''))).decode('utf-8').encode('utf-8')
         if review_author.strip():
             retval.append(review_author.strip())
         return retval
