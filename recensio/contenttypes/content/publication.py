@@ -6,6 +6,7 @@ from zope.interface import implements
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
+from Products.GenericSetup.interfaces import IDAVAware
 
 # -*- Message Factory Imported Here -*-
 
@@ -44,7 +45,7 @@ schemata.finalizeATCTSchema(
 
 class Publication(folder.ATFolder):
     """A container for journals of a particular magazine"""
-    implements(IPublication)
+    implements(IPublication, IDAVAware)
 
     meta_type = "Publication"
     schema = PublicationSchema

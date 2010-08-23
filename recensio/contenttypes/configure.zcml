@@ -30,7 +30,7 @@
   <genericsetup:registerProfile
     name="initial_content"
     title="Recensio initial content"
-    directory="profile/initial_content"
+    directory="profiles/initial_content"
     description="Contains the initial content."
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
@@ -48,15 +48,5 @@
           Products.Archetypes.interfaces.IObjectInitializedEvent"
      handler=".eventhandlers.review_pdf_updated_eventhandler"
      />
-
-  <adapter
-    factory=".setuphandlers.MagazineFolderWalkingAdapter"
-    provides="Products.GenericSetup.interfaces.IFilesystemExporter"
-    />
-
-  <adapter
-    factory=".setuphandlers.MagazineFolderWalkingAdapter"
-    provides="Products.GenericSetup.interfaces.IFilesystemImporter"
-    />
 
 </configure>
