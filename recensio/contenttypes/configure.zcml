@@ -41,4 +41,14 @@
      handler=".eventhandlers.review_pdf_updated_eventhandler"
      />
 
+  <adapter
+    factory=".setuphandlers.MagazineFolderWalkingAdapter"
+    provides="Products.GenericSetup.interfaces.IFilesystemExporter"
+    />
+
+  <adapter
+    factory=".setuphandlers.MagazineFolderWalkingAdapter"
+    provides="Products.GenericSetup.interfaces.IFilesystemImporter"
+    />
+
 </configure>
