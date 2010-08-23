@@ -27,6 +27,14 @@
      provides="Products.GenericSetup.interfaces.EXTENSION"
      />
 
+  <genericsetup:registerProfile
+    name="initial_content"
+    title="Recensio initial content"
+    directory="profile/initial_content"
+    description="Contains the initial content."
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
   <!-- if a Review has been edited or updated, check if the pdf has
        been changed and update the swf version of it if necessary -->
   <subscriber 
