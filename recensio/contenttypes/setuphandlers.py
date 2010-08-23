@@ -130,11 +130,48 @@ def addExampleContent(context):
     reviews = portal.get("sample-reviews")
 
     pdf_file = open(os.path.join(
-        os.path.dirname(__file__), "tests", "test_content","Testdatei.pdf"),
+        os.path.dirname(__file__), "tests", "test_content","Review.pdf"),
                     "r")
 
     pdf_obj = File(id="test-pdf", title="Test Pdf", file=pdf_file,
         content_type='application/pdf')
+
+    word_doc_file = open(os.path.join(
+        os.path.dirname(__file__), "tests", "test_content","Review.doc"),
+                    "r")
+
+    word_doc_obj = File(id="test-word-doc", title="Test Word Doc",
+                   file=word_doc_file,
+                   content_type='application/msword')
+
+    review_text = u"""
+TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT 
+
+Deutschland, Österreich, der Schweiz, Tschechien, Ungarn, Kroatien,
+Slowenien, der Republik Moldau, der Ukraine, Großbritannien und
+Frankreich. Das Themenspektrum reicht von den frühesten
+deutschsprachigen Zeitungen und Zeitschriften in Osteuropa aus der
+Zeit vor 1848 bis hin zu dem nach dem Zweiten Weltkrieg für die
+deutsche Minderheit in Rumänien gegründeten Blatt Neuer Weg. Der
+dritte Teil des Bandes beleuchtet die Zeitungslandschaft der Bukowina
+und ihrer Hauptstadt Czernowitz/Černivci/Cernăuţi. Einige Aufsätze,
+die die thematische Spannweite des Bandes zeigen, seien im Folgenden
+exemplarisch genannt: Walter Schmitz: Medien und
+Milieu. Deutschsprachige Zeitschriften in Prag um 1900; Hans-Jürgen
+Schrader: „Gottes starres Lid“ – Reflexionen geographischer und
+metaphysischer Grenzen in der Lyrik Manfred Winklers; Peter Vodopivec:
+Die Presse der Deutschen in der Untersteiermark und in Krain
+1861–1941; András F. Balogh: Deutsche Presse in den Revolutionsjahren
+1848/49 in Ungarn; Marijan Bobinac: Niedergang des deutschen und das
+Aufkommen des kroatischen Theaters in Zagreb nach 1848 im Spiegelbild
+der zeitgenössischen Publizistik; Bianca Bican: Die Zeitschrift
+„Frühling“ (Hermannstadt, 1920) und ihre Herausgeber; Mihai-Ştefan
+Ceauşu: Die Presse und das politische Leben in der Bukowina am Anfang
+des 20. Jahrhunderts. Der Fall der Zeitschrift „Die Wahrheit“; Mariana
+Hausleitner: Öffentlichkeit und Pressezensur in der Bukowina und in
+Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
+"""
+
 
     authors_list = [dict(firstname='Tadeusz', lastname='Kotłowski'),
                     dict(firstname='Fürchtegott', lastname='Hubermüller'),
@@ -161,12 +198,13 @@ def addExampleContent(context):
 
     def test_data():
         return {'authors': [random.choice(authors_list)],
-               'referenceAuthors': [random.choice(referenceAuthors_list), random.choice(referenceAuthors_list)],
+               'referenceAuthors': [random.choice(referenceAuthors_list),
+                                    random.choice(referenceAuthors_list)],
                'ddcPlace': random.choice(ddcPlace_list),
                'ddcSubject': random.choice(ddcSubject_list),
                'ddcTime': random.choice(ddcTime_list),
                'description': u'',
-               'doc': None,
+               'doc': word_doc_obj,
                'documenttypes_institution': u'',
                'documenttypes_cooperation': u'',
                'documenttypes_referenceworks': u'',
@@ -195,7 +233,7 @@ def addExampleContent(context):
                'recensioID':u'',
                'series':u'',
                'seriesVol':u'',
-               'review':u'',
+               'review': review_text,
                'reviewAuthor':u'',
                'subject':u'',
                'pages':u'',
