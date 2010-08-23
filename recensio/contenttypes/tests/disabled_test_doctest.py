@@ -1,3 +1,7 @@
+"""
+The auto-generated doctests here are disabled
+"""
+
 import unittest
 import doctest
 
@@ -15,11 +19,8 @@ def test_suite():
         # Demonstrate the main content types
         ztc.ZopeDocFileSuite(
             'README.txt', package='recensio.contenttypes',
-            test_class=base.FunctionalTestCase,
+            test_class=base.RecensioContenttypes,
             optionflags=doctest.REPORT_ONLY_FIRST_FAILURE |
                 doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
 
         ])
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')

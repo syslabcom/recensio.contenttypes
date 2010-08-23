@@ -1,3 +1,7 @@
+These doctests have been disabled
+=================================
+
+
 Introduction
 ============
 
@@ -48,251 +52,6 @@ Finally, let's return to the front page of our site before continuing
     >>> browser.open(portal_url)
 
 -*- extra stuff goes here -*-
-The Issue content type
-===============================
-
-In this section we are tesing the Issue content type by performing
-basic operations like adding, updadating and deleting Issue content
-items.
-
-Adding a new Issue content item
---------------------------------
-
-We use the 'Add new' menu to add a new content item.
-
-    >>> browser.getLink('Add new').click()
-
-Then we select the type of item we want to add. In this case we select
-'Issue' and click the 'Add' button to get to the add form.
-
-    >>> browser.getControl('Issue').click()
-    >>> browser.getControl(name='form.button.Add').click()
-    >>> 'Issue' in browser.contents
-    True
-
-Now we fill the form and submit it.
-
-    >>> browser.getControl(name='title').value = 'Issue Sample'
-    >>> browser.getControl('Save').click()
-    >>> 'Changes saved' in browser.contents
-    True
-
-And we are done! We added a new 'Issue' content item to the portal.
-
-Updating an existing Issue content item
----------------------------------------
-
-Let's click on the 'edit' tab and update the object attribute values.
-
-    >>> browser.getLink('Edit').click()
-    >>> browser.getControl(name='title').value = 'New Issue Sample'
-    >>> browser.getControl('Save').click()
-
-We check that the changes were applied.
-
-    >>> 'Changes saved' in browser.contents
-    True
-    >>> 'New Issue Sample' in browser.contents
-    True
-
-Removing a/an Issue content item
---------------------------------
-
-If we go to the home page, we can see a tab with the 'New Issue
-Sample' title in the global navigation tabs.
-
-    >>> browser.open(portal_url)
-    >>> 'New Issue Sample' in browser.contents
-    True
-
-Now we are going to delete the 'New Issue Sample' object. First we
-go to the contents tab and select the 'New Issue Sample' for
-deletion.
-
-    >>> browser.getLink('Contents').click()
-    >>> browser.getControl('New Issue Sample').click()
-
-We click on the 'Delete' button.
-
-    >>> browser.getControl('Delete').click()
-    >>> 'Item(s) deleted' in browser.contents
-    True
-
-So, if we go back to the home page, there is no longer a 'New Issue
-Sample' tab.
-
-    >>> browser.open(portal_url)
-    >>> 'New Issue Sample' in browser.contents
-    False
-
-Adding a new Issue content item as contributor
-------------------------------------------------
-
-Not only site managers are allowed to add Issue content items, but
-also site contributors.
-
-Let's logout and then login as 'contributor', a portal member that has the
-contributor role assigned.
-
-    >>> browser.getLink('Log out').click()
-    >>> browser.open(portal_url + '/login_form')
-    >>> browser.getControl(name='__ac_name').value = 'contributor'
-    >>> browser.getControl(name='__ac_password').value = default_password
-    >>> browser.getControl(name='submit').click()
-    >>> browser.open(portal_url)
-
-We use the 'Add new' menu to add a new content item.
-
-    >>> browser.getLink('Add new').click()
-
-We select 'Issue' and click the 'Add' button to get to the add form.
-
-    >>> browser.getControl('Issue').click()
-    >>> browser.getControl(name='form.button.Add').click()
-    >>> 'Issue' in browser.contents
-    True
-
-Now we fill the form and submit it.
-
-    >>> browser.getControl(name='title').value = 'Issue Sample'
-    >>> browser.getControl('Save').click()
-    >>> 'Changes saved' in browser.contents
-    True
-
-Done! We added a new Issue content item logged in as contributor.
-
-Finally, let's login back as manager.
-
-    >>> browser.getLink('Log out').click()
-    >>> browser.open(portal_url + '/login_form')
-    >>> browser.getControl(name='__ac_name').value = portal_owner
-    >>> browser.getControl(name='__ac_password').value = default_password
-    >>> browser.getControl(name='submit').click()
-    >>> browser.open(portal_url)
-
-
-The Volume content type
-===============================
-
-In this section we are tesing the Volume content type by performing
-basic operations like adding, updadating and deleting Volume content
-items.
-
-Adding a new Volume content item
---------------------------------
-
-We use the 'Add new' menu to add a new content item.
-
-    >>> browser.getLink('Add new').click()
-
-Then we select the type of item we want to add. In this case we select
-'Volume' and click the 'Add' button to get to the add form.
-
-    >>> browser.getControl('Volume').click()
-    >>> browser.getControl(name='form.button.Add').click()
-    >>> 'Volume' in browser.contents
-    True
-
-Now we fill the form and submit it.
-
-    >>> browser.getControl(name='title').value = 'Volume Sample'
-    >>> browser.getControl('Save').click()
-    >>> 'Changes saved' in browser.contents
-    True
-
-And we are done! We added a new 'Volume' content item to the portal.
-
-Updating an existing Volume content item
----------------------------------------
-
-Let's click on the 'edit' tab and update the object attribute values.
-
-    >>> browser.getLink('Edit').click()
-    >>> browser.getControl(name='title').value = 'New Volume Sample'
-    >>> browser.getControl('Save').click()
-
-We check that the changes were applied.
-
-    >>> 'Changes saved' in browser.contents
-    True
-    >>> 'New Volume Sample' in browser.contents
-    True
-
-Removing a/an Volume content item
---------------------------------
-
-If we go to the home page, we can see a tab with the 'New Volume
-Sample' title in the global navigation tabs.
-
-    >>> browser.open(portal_url)
-    >>> 'New Volume Sample' in browser.contents
-    True
-
-Now we are going to delete the 'New Volume Sample' object. First we
-go to the contents tab and select the 'New Volume Sample' for
-deletion.
-
-    >>> browser.getLink('Contents').click()
-    >>> browser.getControl('New Volume Sample').click()
-
-We click on the 'Delete' button.
-
-    >>> browser.getControl('Delete').click()
-    >>> 'Item(s) deleted' in browser.contents
-    True
-
-So, if we go back to the home page, there is no longer a 'New Volume
-Sample' tab.
-
-    >>> browser.open(portal_url)
-    >>> 'New Volume Sample' in browser.contents
-    False
-
-Adding a new Volume content item as contributor
-------------------------------------------------
-
-Not only site managers are allowed to add Volume content items, but
-also site contributors.
-
-Let's logout and then login as 'contributor', a portal member that has the
-contributor role assigned.
-
-    >>> browser.getLink('Log out').click()
-    >>> browser.open(portal_url + '/login_form')
-    >>> browser.getControl(name='__ac_name').value = 'contributor'
-    >>> browser.getControl(name='__ac_password').value = default_password
-    >>> browser.getControl(name='submit').click()
-    >>> browser.open(portal_url)
-
-We use the 'Add new' menu to add a new content item.
-
-    >>> browser.getLink('Add new').click()
-
-We select 'Volume' and click the 'Add' button to get to the add form.
-
-    >>> browser.getControl('Volume').click()
-    >>> browser.getControl(name='form.button.Add').click()
-    >>> 'Volume' in browser.contents
-    True
-
-Now we fill the form and submit it.
-
-    >>> browser.getControl(name='title').value = 'Volume Sample'
-    >>> browser.getControl('Save').click()
-    >>> 'Changes saved' in browser.contents
-    True
-
-Done! We added a new Volume content item logged in as contributor.
-
-Finally, let's login back as manager.
-
-    >>> browser.getLink('Log out').click()
-    >>> browser.open(portal_url + '/login_form')
-    >>> browser.getControl(name='__ac_name').value = portal_owner
-    >>> browser.getControl(name='__ac_password').value = default_password
-    >>> browser.getControl(name='submit').click()
-    >>> browser.open(portal_url)
-
 
 The Publication content type
 ===============================
@@ -416,70 +175,71 @@ Finally, let's login back as manager.
     >>> browser.getControl(name='submit').click()
     >>> browser.open(portal_url)
 
-
-The Praesentationen von Internetressourcen content type
+The Volume content type
 ===============================
 
-In this section we are tesing the Praesentationen von Internetressourcen content type by performing
-basic operations like adding, updadating and deleting Praesentationen von Internetressourcen content
+In this section we are tesing the Volume content type by performing
+basic operations like adding, updadating and deleting Volume content
 items.
 
-Adding a new Praesentationen von Internetressourcen content item
+Adding a new Volume content item
 --------------------------------
 
-We use the 'Add new' menu to add a new content item.
+Volumes can only be added inside Publications so we start off in the publication folder we created above. We use the 'Add new' menu to add a new content item.
 
+    >>> publication_url = portal_url + "/publication-sample"
+    >>> browser.open(publication_url)
     >>> browser.getLink('Add new').click()
 
 Then we select the type of item we want to add. In this case we select
-'Praesentationen von Internetressourcen' and click the 'Add' button to get to the add form.
+'Volume' and click the 'Add' button to get to the add form.
 
-    >>> browser.getControl('Praesentationen von Internetressourcen').click()
+    >>> browser.getControl('Volume').click()
     >>> browser.getControl(name='form.button.Add').click()
-    >>> 'Praesentationen von Internetressourcen' in browser.contents
+    >>> 'Volume' in browser.contents
     True
 
 Now we fill the form and submit it.
 
-    >>> browser.getControl(name='title').value = 'Praesentationen von Internetressourcen Sample'
+    >>> browser.getControl(name='title').value = 'Volume Sample'
     >>> browser.getControl('Save').click()
     >>> 'Changes saved' in browser.contents
     True
 
-And we are done! We added a new 'Praesentationen von Internetressourcen' content item to the portal.
+And we are done! We added a new 'Volume' content item to the portal.
 
-Updating an existing Praesentationen von Internetressourcen content item
+Updating an existing Volume content item
 ---------------------------------------
 
 Let's click on the 'edit' tab and update the object attribute values.
 
     >>> browser.getLink('Edit').click()
-    >>> browser.getControl(name='title').value = 'New Praesentationen von Internetressourcen Sample'
+    >>> browser.getControl(name='title').value = 'New Volume Sample'
     >>> browser.getControl('Save').click()
 
 We check that the changes were applied.
 
     >>> 'Changes saved' in browser.contents
     True
-    >>> 'New Praesentationen von Internetressourcen Sample' in browser.contents
+    >>> 'New Volume Sample' in browser.contents
     True
 
-Removing a/an Praesentationen von Internetressourcen content item
+Removing a/an Volume content item
 --------------------------------
 
-If we go to the home page, we can see a tab with the 'New Praesentationen von Internetressourcen
-Sample' title in the global navigation tabs.
+If we go to the publication folder we can see a tab with the 'New
+Volume Sample' title in the global navigation tabs.
 
-    >>> browser.open(portal_url)
-    >>> 'New Praesentationen von Internetressourcen Sample' in browser.contents
+    >>> browser.open(publication_url)
+    >>> 'New Volume Sample' in browser.contents
     True
 
-Now we are going to delete the 'New Praesentationen von Internetressourcen Sample' object. First we
-go to the contents tab and select the 'New Praesentationen von Internetressourcen Sample' for
+Now we are going to delete the 'New Volume Sample' object. First we
+go to the contents tab and select the 'New Volume Sample' for
 deletion.
 
     >>> browser.getLink('Contents').click()
-    >>> browser.getControl('New Praesentationen von Internetressourcen Sample').click()
+    >>> browser.getControl('New Volume Sample').click()
 
 We click on the 'Delete' button.
 
@@ -487,17 +247,268 @@ We click on the 'Delete' button.
     >>> 'Item(s) deleted' in browser.contents
     True
 
-So, if we go back to the home page, there is no longer a 'New Praesentationen von Internetressourcen
+So, if we go back to the home page, there is no longer a 'New Volume
 Sample' tab.
 
     >>> browser.open(portal_url)
-    >>> 'New Praesentationen von Internetressourcen Sample' in browser.contents
+    >>> 'New Volume Sample' in browser.contents
     False
 
-Adding a new Praesentationen von Internetressourcen content item as contributor
+Adding a new Volume content item as contributor
 ------------------------------------------------
 
-Not only site managers are allowed to add Praesentationen von Internetressourcen content items, but
+Not only site managers are allowed to add Volume content items, but
+also site contributors.
+
+Let's logout and then login as 'contributor', a portal member that has the
+contributor role assigned.
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = 'contributor'
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open(publication_url)
+
+We use the 'Add new' menu to add a new content item.
+
+    >>> browser.getLink('Add new').click()
+
+We select 'Volume' and click the 'Add' button to get to the add form.
+
+    >>> browser.getControl('Volume').click()
+    >>> browser.getControl(name='form.button.Add').click()
+    >>> 'Volume' in browser.contents
+    True
+
+Now we fill the form and submit it.
+
+    >>> browser.getControl(name='title').value = 'Volume Sample'
+    >>> browser.getControl('Save').click()
+    >>> 'Changes saved' in browser.contents
+    True
+
+Done! We added a new Volume content item logged in as contributor.
+
+Finally, let's login back as manager.
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = portal_owner
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open(portal_url)
+
+The Issue content type
+===============================
+
+In this section we are tesing the Issue content type by performing
+basic operations like adding, updadating and deleting Issue content
+items.
+
+Adding a new Issue content item
+--------------------------------
+
+Issues can only be added to Volumes which in turn can only be added to
+Publications. First we open the Volume we created earlier, then, we use the
+'Add new' menu to add a new content item.
+
+    >>> volume_url = publication_url + "/volume-sample"
+    >>> browser.open(volume_url)
+    >>> browser.getLink('Add new').click()
+
+Then we select the type of item we want to add. In this case we select
+'Issue' and click the 'Add' button to get to the add form.
+
+    >>> browser.getControl('Issue').click()
+    >>> browser.getControl(name='form.button.Add').click()
+    >>> 'Issue' in browser.contents
+    True
+
+Now we fill the form and submit it.
+
+    >>> browser.getControl(name='title').value = 'Issue Sample'
+    >>> browser.getControl('Save').click()
+    >>> 'Changes saved' in browser.contents
+    True
+
+And we are done! We added a new 'Issue' content item to the portal.
+
+Updating an existing Issue content item
+---------------------------------------
+
+Let's click on the 'edit' tab and update the object attribute values.
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='title').value = 'New Issue Sample'
+    >>> browser.getControl('Save').click()
+
+We check that the changes were applied.
+
+    >>> 'Changes saved' in browser.contents
+    True
+    >>> 'New Issue Sample' in browser.contents
+    True
+
+Removing a/an Issue content item
+--------------------------------
+
+If we go to the Volume we created above, we can see a tab with the
+'New Issue Sample' title in the global navigation tabs.
+
+    >>> browser.open(volume_url)
+    >>> 'New Issue Sample' in browser.contents
+    True
+
+Now we are going to delete the 'New Issue Sample' object. First we
+go to the contents tab and select the 'New Issue Sample' for
+deletion.
+
+    >>> browser.getLink('Contents').click()
+    >>> browser.getControl('New Issue Sample').click()
+
+We click on the 'Delete' button.
+
+    >>> browser.getControl('Delete').click()
+    >>> 'Item(s) deleted' in browser.contents
+    True
+
+So, if we go back to the Volume we created earlier, there is no longer
+a 'New Issue Sample' tab.
+
+    >>> browser.open(volume_url)
+    >>> 'New Issue Sample' in browser.contents
+    False
+
+Adding a new Issue content item as contributor
+------------------------------------------------
+
+Not only site managers are allowed to add Issue content items, but
+also site contributors.
+
+Let's logout and then login as 'contributor', a portal member that has the
+contributor role assigned.
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = 'contributor'
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open(volume_url)
+
+We use the 'Add new' menu to add a new content item.
+
+    >>> browser.getLink('Add new').click()
+
+We select 'Issue' and click the 'Add' button to get to the add form.
+
+    >>> browser.getControl('Issue').click()
+    >>> browser.getControl(name='form.button.Add').click()
+    >>> 'Issue' in browser.contents
+    True
+
+Now we fill the form and submit it.
+
+    >>> browser.getControl(name='title').value = 'Issue Sample'
+    >>> browser.getControl('Save').click()
+    >>> 'Changes saved' in browser.contents
+    True
+
+Done! We added a new Issue content item logged in as contributor.
+
+Finally, let's login back as manager.
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = portal_owner
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open(portal_url)
+
+
+The Presentation Online Resource content type
+===============================
+
+In this section we are tesing the Praesentationen von
+Internetressourcen content type by performing basic operations like
+adding, updadating and deleting Presentation Online Resource
+content items.
+
+Adding a new Presentation Online Resource content item
+--------------------------------
+
+We use the 'Add new' menu to add a new content item.
+
+    >>> browser.getLink('Add new').click()
+
+Then we select the type of item we want to add. In this case we select
+'Presentation Online Resource' and click the 'Add' button to get to the add form.
+
+    >>> browser.getControl('Presentation Online Resource').click()
+    >>> import pdb; pdb.set_trace()
+    >>> browser.getControl(name='form.button.Add').click()
+    >>> 'Presentation Online Resource' in browser.contents
+    True
+
+Now we fill the form and submit it.
+
+    >>> browser.getControl(name='title').value = 'Presentation Online Resource Sample'
+    >>> browser.getControl('Save').click()
+    >>> 'Changes saved' in browser.contents
+    True
+
+And we are done! We added a new 'Presentation Online Resource' content item to the portal.
+
+Updating an existing Presentation Online Resource content item
+---------------------------------------
+
+Let's click on the 'edit' tab and update the object attribute values.
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='title').value = 'New Presentation Online Resource Sample'
+    >>> browser.getControl('Save').click()
+
+We check that the changes were applied.
+
+    >>> 'Changes saved' in browser.contents
+    True
+    >>> 'New Presentation Online Resource Sample' in browser.contents
+    True
+
+Removing a/an Presentation Online Resource content item
+--------------------------------
+
+If we go to the home page, we can see a tab with the 'New Presentation Online Resource
+Sample' title in the global navigation tabs.
+
+    >>> browser.open(portal_url)
+    >>> 'New Presentation Online Resource Sample' in browser.contents
+    True
+
+Now we are going to delete the 'New Presentation Online Resource Sample' object. First we
+go to the contents tab and select the 'New Presentation Online Resource Sample' for
+deletion.
+
+    >>> browser.getLink('Contents').click()
+    >>> browser.getControl('New Presentation Online Resource Sample').click()
+
+We click on the 'Delete' button.
+
+    >>> browser.getControl('Delete').click()
+    >>> 'Item(s) deleted' in browser.contents
+    True
+
+So, if we go back to the home page, there is no longer a 'New Presentation Online Resource
+Sample' tab.
+
+    >>> browser.open(portal_url)
+    >>> 'New Presentation Online Resource Sample' in browser.contents
+    False
+
+Adding a new Presentation Online Resource content item as contributor
+------------------------------------------------
+
+Not only site managers are allowed to add Presentation Online Resource content items, but
 also site contributors.
 
 Let's logout and then login as 'contributor', a portal member that has the
@@ -514,21 +525,21 @@ We use the 'Add new' menu to add a new content item.
 
     >>> browser.getLink('Add new').click()
 
-We select 'Praesentationen von Internetressourcen' and click the 'Add' button to get to the add form.
+We select 'Presentation Online Resource' and click the 'Add' button to get to the add form.
 
-    >>> browser.getControl('Praesentationen von Internetressourcen').click()
+    >>> browser.getControl('Presentation Online Resource').click()
     >>> browser.getControl(name='form.button.Add').click()
-    >>> 'Praesentationen von Internetressourcen' in browser.contents
+    >>> 'Presentation Online Resource' in browser.contents
     True
 
 Now we fill the form and submit it.
 
-    >>> browser.getControl(name='title').value = 'Praesentationen von Internetressourcen Sample'
+    >>> browser.getControl(name='title').value = 'Presentation Online Resource Sample'
     >>> browser.getControl('Save').click()
     >>> 'Changes saved' in browser.contents
     True
 
-Done! We added a new Praesentationen von Internetressourcen content item logged in as contributor.
+Done! We added a new Presentation Online Resource content item logged in as contributor.
 
 Finally, let's login back as manager.
 
