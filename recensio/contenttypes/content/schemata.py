@@ -229,6 +229,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.TextField(
         'review',
         storage=atapi.AnnotationStorage(),
+        default_output_type="text/html",
         widget=atapi.RichWidget(
             label=_(u"Review"),
             rows=20,
