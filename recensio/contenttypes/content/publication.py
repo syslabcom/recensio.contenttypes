@@ -9,10 +9,21 @@ from Products.ATContentTypes.content import schemata
 
 # -*- Message Factory Imported Here -*-
 
+from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.interfaces import IPublication
 from recensio.contenttypes.config import PROJECTNAME
 
 PublicationSchema = folder.ATFolderSchema.copy() + atapi.Schema((
+    atapi.TextField(
+        'long_description',
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        default_output_type="text/html",
+        widget=atapi.RichWidget(
+            label=_('Beschreibung'),
+            rows=20,
+        ),
+    ),
 
     # -*- Your Archetypes field definitions here ... -*-
 
