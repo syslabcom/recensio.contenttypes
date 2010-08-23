@@ -55,12 +55,22 @@ class TestReviewFileConversions(unittest.TestCase):
         event = ObjectEditedEvent(review, request)
         zope.event.notify(event)
         self.assertTrue(hasattr(review, "generatedPdf"))
+        self.assertTrue(review.generatedPdf == review.get_review_pdf())
         settings = Settings(review)
         doc_swf_blob = openBlob(settings.data)
         doc_swf_size = fstat(doc_swf_blob.fileno()).st_size
         doc_swf_blob.close()
         self.assertTrue(doc_swf_size != swf_size)
 
-        # TODO
-        # Remove the Word doc and the review text content should be
+        # Remove the Word doc and the review html content should be
         # used instead to create the pdf and swf versions
+        review.setDoc(None)
+        self.assertTrue(review.getDoc().get_size() == 0)
+        request = makerequest.makerequest(review)
+        event = ObjectEditedEvent(review, request)
+        zope.event.notify(event)
+        settings = Settings(review)
+        html_swf_blob = openBlob(settings.data)
+        html_swf_size = fstat(html_swf_blob.fileno()).st_size
+        html_swf_blob.close()
+        self.assertTrue(html_swf_size != swf_size)
