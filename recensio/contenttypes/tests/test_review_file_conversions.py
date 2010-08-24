@@ -55,7 +55,7 @@ class TestReviewFileConversions(unittest.TestCase):
                         msg=("Review: %s "
                              "doesn't have an swf version."
                              %review.absolute_url()))
-        self.assertTrue(review.pdf.blob == review.get_review_pdf()
+        self.assertTrue(review.pdf.blob == review.get_review_pdf(),
                         msg=("Review: %s "
                              "get_review_pdf doesn't return the custom pdf."
                              %review.absolute_url()))
@@ -71,7 +71,7 @@ class TestReviewFileConversions(unittest.TestCase):
         request = makerequest.makerequest(review)
         event = ObjectEditedEvent(review, request)
         zope.event.notify(event)
-        self.assertTrue(hasattr(review, "generatedPdf")
+        self.assertTrue(hasattr(review, "generatedPdf"),
                         msg=("Review: %s "
                              "A pdf has not successfully been generated."
                              %review.absolute_url()))
