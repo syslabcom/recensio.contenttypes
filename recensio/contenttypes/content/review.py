@@ -8,17 +8,15 @@ from DateTime import DateTime
 
 from ZODB.blob import Blob
 from zope.interface import implements
+from zope.component import getUtility
 
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.CMFCore.utils import getToolByName
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
-from plone.registry.interfaces import IRegistry
-from zope.component import queryUtility
-from plone.i18n.locales.interfaces import ILanguageAvailability
-from zope.component import getGlobalSiteManager
-from recensio.policy.interfaces import IRecensioSettings
+from zope.app.schema.vocabulary import IVocabularyFactory
+from Products.Archetypes.utils import DisplayList
 
 from plone.app.blob.utils import openBlob
 
@@ -37,20 +35,11 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
     implements(IReview)
 
     def listSupportedLanguages(self):
-        # get the user-defined langages
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IRecensioSettings)
-        allowed_langs = getattr(settings, 'available_content_languages', '').split('\n')
-        # get names for language codes
-        gsm = getGlobalSiteManager()
-        util = gsm.queryUtility(ILanguageAvailability)
-        available_languages = util.getLanguages()
-        languages = list()
-        for lang in allowed_langs:
-            lang = lang.strip()
-            if available_languages.get(lang):
-                languages.append((lang, available_languages[lang]['name']))
-        return languages
+        util = getUtility(IVocabularyFactory,
+            u"recensio.policy.vocabularies.available_content_languages")
+        vocab = util(self)
+        terms = [(x.value, x.title) for x in vocab]
+        return DisplayList(terms)
 
     def setIsLicenceApproved(self, value):
         """
