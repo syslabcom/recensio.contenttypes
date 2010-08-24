@@ -41,13 +41,6 @@ import random
 mdfile = os.path.join(os.path.dirname(__file__), 'profiles', 'exampledata',
     'metadata.xml')
 
-def guard(func):
-    def wrapper(self):
-        if self.readDataFile('recensio.contenttypes_marker.txt') is None:
-            return
-        return func(self)
-    return wrapper
-
 portal_type_mappings =  {
     'rm' : {
         'portal_type' : ReviewMonograph
@@ -107,51 +100,38 @@ portal_type_mappings =  {
     }
 ignored_fields = [u'freies Feld für Zitierschema', 'Type (rm, rz, pm, pasb, paz)']
 
-@guard
-def addExampleContent2(context):
+def addOneItem(context, type, data):
+    """Add an item and fire the ObjectInitializedEvent
+
+    This triggers file conversions for the Reviews/Presentations
+    """
+    data["id"] = context.generateId(type.meta_type)
+    review_id = context.invokeFactory(type.__doc__, **data)
+    obj = context[review_id]
+    request = makerequest.makerequest(obj)
+    event=ObjectInitializedEvent(obj, request)
+    zope.event.notify(event)
+    return context[review_id]
+
+def add_number_of_each_review_type(context, number_of_each):
+    """Add a particular number of each Review/Presentation type
+
+    This is useful for testing
+    """
     portal = context.getSite()
-    portal_id = 'recensio'
 
-    if 'reviews' not in portal.objectIds():
-        portal.invokeFactory('Folder', id='reviews', title='Reviews')
-    reviews = portal.get('reviews')
-
-    xls_data = XlsReader(context.openDataFile('initial.xls')).read().data
-    keys = xls_data[0]
-    for row in xls_data[1:]:
-        mapping = portal_type_mappings[row[keys.index('Type (rm, rz, pm, pasb, paz)')]]
-        data = {'portal_type' : mapping['portal_type']}
-        for index, key in enumerate(keys):
-            if key not in ignored_fields:
-                data[mapping[key]] = row[index]
-        portal_type = data.pop('portal_type')
-        addOneItem(reviews, portal_type, data)
-
-@guard
-def addExampleContent(context):
-    portal = context.getSite()
-    portal_id = "recensio"
-
-    if "sample-reviews" not in portal.objectIds():
-        portal.invokeFactory("Folder", id="sample-reviews", title="Sample Reviews")
-
-    reviews = portal.get("sample-reviews")
-
+    # Prepare values for the Review/Presentation fields
     pdf_file = open(os.path.join(
         os.path.dirname(__file__), "tests", "test_content","Review.pdf"),
                     "r")
-
     pdf_obj = File(id="test-pdf", title="Test Pdf", file=pdf_file,
         content_type='application/pdf')
-
     word_doc_file = open(os.path.join(
         os.path.dirname(__file__), "tests", "test_content","Review.doc"),
                     "r")
-
     word_doc_obj = File(id="test-word-doc", title="Test Word Doc",
                    file=word_doc_file,
                    content_type='application/msword')
-
     review_text = u"""
 TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT 
 
@@ -179,17 +159,20 @@ des 20. Jahrhunderts. Der Fall der Zeitschrift „Die Wahrheit“; Mariana
 Hausleitner: Öffentlichkeit und Pressezensur in der Bukowina und in
 Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
 """
-
-
     authors_list = [dict(firstname='Tadeusz', lastname='Kotłowski'),
                     dict(firstname='Fürchtegott', lastname='Hubermüller'),
                     dict(firstname='François', lastname='Lamère'),
                     dict(firstname='Harald', lastname='Schmidt'),
                     dict(lastname='Стоичков', fistname='Христо')]
-    referenceAuthors_list = [dict(firstname='Tadeusz', lastname='Kotłowski', email=u'', address=u'', phone=u''),
-                    dict(firstname='Fürchtegott', lastname='Hubermüller', email=u'', address=u'', phone=u''),
-                    dict(firstname='François', lastname='Lamère', email=u'', address=u'', phone=u''),
-                    dict(firstname='Harald', lastname='Schmidt', email=u'', address=u'', phone=u'')]
+    referenceAuthors_list = [
+        dict(firstname='Tadeusz', lastname='Kotłowski', email=u'',
+             address=u'', phone=u''),
+        dict(firstname='Fürchtegott', lastname='Hubermüller',
+             email=u'', address=u'', phone=u''),
+        dict(firstname='François', lastname='Lamère', email=u'',
+             address=u'', phone=u''),
+        dict(firstname='Harald', lastname='Schmidt', email=u'',
+             address=u'', phone=u'')]
 
     voc = getToolByName(portal, 'portal_vocabularies')
 
@@ -203,8 +186,9 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
     ddcTime_list = ddcTime.getDisplayList(ddcTime).keys()
 
     random.seed('recensio.syslab.com')
-
     def test_data():
+        """Randomise the values in certain fields
+        """
         return {'authors': [random.choice(authors_list)],
                'referenceAuthors': [random.choice(referenceAuthors_list),
                                     random.choice(referenceAuthors_list)],
@@ -269,6 +253,13 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                'editorsCollectedEdition':[random.choice(authors_list)],
                'urn': u'testing-data-urn'}
 
+    # Add a folder to contain the sample-reviews
+    portal_id = "recensio"
+    if "sample-reviews" not in portal.objectIds():
+        portal.invokeFactory("Folder", id="sample-reviews",
+                             title="Sample Reviews")
+    reviews = portal.get("sample-reviews")
+
     for rez_class in [PresentationArticleReview,
                       PresentationOnlineResource,
                       ReviewMonograph,
@@ -284,16 +275,20 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
           # except: print "MISSING", field
 
         if rez_class.__doc__ == "Review Journal":
-            reviews.invokeFactory("Publication", id="newspapera", title="NewspaperA")
+            if "newspapera" not in reviews.objectIds():
+                reviews.invokeFactory("Publication", id="newspapera",
+                                      title="NewspaperA")
             newspapera = reviews["newspapera"]
-            newspapera.invokeFactory("Volume", id="summer", title="Summer")
+            if "summer" not in newspapera.objectIds():
+                newspapera.invokeFactory("Volume", id="summer", title="Summer")
             summer = newspapera["summer"]
-            summer.invokeFactory("Issue", id="issue-2", title="Issue 2")
+            if "issue-2" not in summer.objectIds():
+                summer.invokeFactory("Issue", id="issue-2", title="Issue 2")
             container = summer["issue-2"]
         else:
             container = reviews
 
-        for i in range(10):
+        for i in range(number_of_each):
             data = test_data()
             data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
             addOneItem(container, rez_class, data)
@@ -308,11 +303,37 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
     view.clear()
     view.reindex()
 
-def addOneItem(context, type, data):
-    data["id"] = context.generateId(type.meta_type)
-    review_id = context.invokeFactory(type.__doc__, **data)
-    obj = context[review_id]
-    request = makerequest.makerequest(obj)
-    event=ObjectInitializedEvent(obj, request)
-    zope.event.notify(event)
-    return context[review_id]
+def guard(func):
+    def wrapper(self):
+        if self.readDataFile('recensio.contenttypes_marker.txt') is None:
+            return
+        return func(self)
+    return wrapper
+
+@guard
+def addExampleContent(context):
+    add_number_of_each_review_type(context, 10)
+
+@guard
+def addExampleContent2(context):
+    portal = context.getSite()
+    portal_id = 'recensio'
+
+    if 'reviews' not in portal.objectIds():
+        portal.invokeFactory('Folder', id='reviews', title='Reviews')
+    reviews = portal.get('reviews')
+
+    xls_data = XlsReader(context.openDataFile('initial.xls')).read().data
+    keys = xls_data[0]
+    for row in xls_data[1:]:
+        mapping = portal_type_mappings[row[keys.index('Type (rm, rz, pm, pasb, paz)')]]
+        data = {'portal_type' : mapping['portal_type']}
+        for index, key in enumerate(keys):
+            if key not in ignored_fields:
+                data[mapping[key]] = row[index]
+        portal_type = data.pop('portal_type')
+        addOneItem(reviews, portal_type, data)
+
+@guard
+def addOneOfEachReviewType(context):
+    add_number_of_each_review_type(context, 1)
