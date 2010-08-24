@@ -8,8 +8,11 @@
             handler="recensio.contenttypes.setuphandlers.addExampleContent2"
             description="Example Content for Recensio2"
             title="Example Content2" />
-    <import-step id="recensio_one_of_each_review_type" version="20100824-01"
-            handler="recensio.contenttypes.setuphandlers.addOneOfEachReviewType"
-            description="Example Reviews / Presentations, one of each type"
-            title="Example Reviews and Presentations (one of each)" />
+
+<!-- Commenting this out as I don't know how to run this import step on -->
+<!-- its own via tests/base.py -->
+    <!-- <import-step id="recensio_one_of_each_review_type" version="20100824-01" -->
+    <!--         handler="recensio.contenttypes.setuphandlers.addOneOfEachReviewType" -->
+    <!--         description="Example Reviews / Presentations, one of each type" -->
+    <!--         title="Example Reviews and Presentations (one of each)" /> -->
 </import-steps>
