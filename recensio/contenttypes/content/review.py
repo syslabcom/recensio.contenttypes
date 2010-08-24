@@ -198,6 +198,10 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
             retval.append(review_author.strip())
         return retval
 
+    def getAllAuthorDataFulltext(self):
+        authors = " ".join(self.getAllAuthorData())
+        return authors.decode('utf-8')
+
     def Language(self):
         """ Reviews are NOT translatable. As such, they must remain neutral """
         # XXX We probably should hide the language field altogether
