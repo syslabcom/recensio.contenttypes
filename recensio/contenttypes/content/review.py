@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- CODING: utf-8 -*-
 from os import fstat
 from string import Formatter
 import cStringIO as StringIO
@@ -9,6 +9,7 @@ from DateTime import DateTime
 from ZODB.blob import Blob
 from zope.interface import implements
 from zope.component import getUtility
+from zope.i18n import translate
 
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
@@ -24,9 +25,10 @@ from wc.pageturner.views import pdf2swf_subprocess
 from wc.pageturner.settings import Settings
 from wc.pageturner.interfaces import IPageTurnerSettings
 
-from recensio.contenttypes.interfaces.review import IReview
+from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.helperutilities import SimpleZpt
 from recensio.contenttypes.helperutilities import wvPDF
+from recensio.contenttypes.interfaces.review import IReview
 
 import logging
 log = logging.getLogger('recensio.contentypes/content/review.py')
@@ -49,8 +51,22 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         """
         pass
 
-    def translate(self, msgid):
-        return msgid
+    def get_citation_translation(self, msgid):
+        """Returns a list of translation strings which can be used in citations
+
+        This is partially to ensure that the relevant msgids are
+        exported correctly when we generate the .pot file with
+        i18nexport, and also to ensure that we notice if new msgids are
+        needed by writing to the error log.
+        """
+        # Explicitly referring to the package message factory here is
+        # enough for i18nextract to work
+        citation_messages = [_("text_in"), _("text_presentation_of")]
+        if _(msgid) not in citation_messages:
+            log.error("Translation for %s is not available" %msgid)
+        # We've logged the error, but we will still return a
+        # default translation
+        return translate(_(msgid))
 
     def get_citation_dict(self, citation_template):
         """
@@ -66,7 +82,7 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         for key in keys:
             # First translate the necessary strings
             if key.startswith("text_"):
-                citation_dict[key] = self.translate(key)
+                citation_dict[key] = self.get_citation_translation(key)
             elif key.startswith("get_"):
                 citation_dict[key] = self[key]().decode("utf-8")
             else:
@@ -74,8 +90,7 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
                 try:
                     value = self.getField(key).getAccessor(self)()
                 except Exception, e:
-                    log.error("Error with citation %s" ,e)
-                    import pdb; pdb.set_trace()
+                    log.error("Error with citation %s" %e)
                 if isinstance(value, tuple):
                     if value == ():
                         value = ""
