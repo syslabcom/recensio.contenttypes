@@ -1,0 +1,8 @@
+<metadata>
+    <description>Recensio example data</description>
+    <version>1</version>
+    <dependencies>
+        <dependency>profile-recensio.contenttypes:initial_content</dependency>
+    </dependencies>
+</metadata>
+
