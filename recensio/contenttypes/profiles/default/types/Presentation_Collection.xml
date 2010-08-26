@@ -6,7 +6,7 @@
   <property name="description"
     i18n:translate="">Presentation Collection</property>
   <property name="content_meta_type">PresentationCollection</property>
-  <property name="content_icon">string:++resource++recensio.theme.images/InternetResource.png</property>
+  <property name="content_icon">++resource++recensio.theme.images/InternetResource.png</property>
   <property name="product">recensio.contenttypes</property>
   <property name="factory">addPresentationCollection</property>
   <property name="immediate_view">atct_edit</property>

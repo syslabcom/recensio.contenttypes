@@ -6,7 +6,7 @@
   <property name="description"
     i18n:translate="">Review Monograph</property>
   <property name="content_meta_type">ReviewMonograph</property>
-  <property name="content_icon">string:++resource++recensio.theme.images/Aufsaetze.png</property>
+  <property name="content_icon">++resource++recensio.theme.images/Aufsaetze.png</property>
   <property name="product">recensio.contenttypes</property>
   <property name="factory">addReviewMonograph</property>
   <property name="immediate_view">atct_edit</property>

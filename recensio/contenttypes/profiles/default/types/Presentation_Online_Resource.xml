@@ -6,7 +6,7 @@
   <property name="description"
     i18n:translate="">Presentation Online Resource</property>
   <property name="content_meta_type">PresentationOnlineResource</property>
-  <property name="content_icon">string:++resource++recensio.theme.images/InternetResource.png</property>
+  <property name="content_icon">++resource++recensio.theme.images/InternetResource.png</property>
   <property name="product">recensio.contenttypes</property>
   <property name="factory">addPresentationOnlineResource</property>
   <property name="immediate_view">atct_edit</property>
