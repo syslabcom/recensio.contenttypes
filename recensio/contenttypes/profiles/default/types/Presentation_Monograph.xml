@@ -6,7 +6,7 @@
   <property name="description"
     i18n:translate="">Presentation Monograph</property>
   <property name="content_meta_type">PresentationMonograph</property>
-  <property name="content_icon">document_icon.gif</property>
+  <property name="content_icon">string:++resource++recensio.theme.images/InternetResource.png</property>
   <property name="product">recensio.contenttypes</property>
   <property name="factory">addPresentationMonograph</property>
   <property name="immediate_view">atct_edit</property>
