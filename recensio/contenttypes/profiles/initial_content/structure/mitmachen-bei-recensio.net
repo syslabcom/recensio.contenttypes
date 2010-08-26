@@ -13,7 +13,7 @@ creators: admin
 contributors: 
 rights: 
 allowDiscussion: False
-excludeFromNav: False
+excludeFromNav: True
 presentation: False
 tableContents: False
 allow_ratings: True
