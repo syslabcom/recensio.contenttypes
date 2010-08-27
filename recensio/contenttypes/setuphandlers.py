@@ -258,6 +258,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
     if "sample-reviews" not in portal.objectIds():
         portal.invokeFactory("Folder", id="sample-reviews",
                              title="Sample Reviews")
+    sample_reviews = portal.get("sample-reviews")
 
     for rez_class in [PresentationArticleReview,
                       PresentationOnlineResource,
@@ -274,10 +275,10 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
           # except: print "MISSING", field
 
         if rez_class.__doc__.startswith("Review"):
-            if "newspapera" not in reviews.objectIds():
-                reviews.invokeFactory("Publication", id="newspapera",
+            if "newspapera" not in sample_reviews.objectIds():
+                sample_reviews.invokeFactory("Publication", id="newspapera",
                                       title="NewspaperA")
-            newspapera = reviews["newspapera"]
+            newspapera = sample_reviews["newspapera"]
             if "summer" not in newspapera.objectIds():
                 newspapera.invokeFactory("Volume", id="summer", title="Summer")
             summer = newspapera["summer"]
