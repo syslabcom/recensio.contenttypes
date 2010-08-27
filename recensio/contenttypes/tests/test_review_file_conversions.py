@@ -30,8 +30,9 @@ class TestReviewFileConversions(unittest.TestCase):
         use that version for downloading and conversion to swf
         """
         portal = self.layer["portal"]
-        sample_reviews = portal["sample-reviews"]
-        review = sample_reviews[sample_reviews.objectIds()[0]]
+        pm = portal.portal_membership
+        sample_presentations = pm.getMembersFolder().get("fake_member")
+        review = sample_presentations[sample_presentations.objectIds()[0]]
         # The sample reviews have both a pdf and a word doc attached
         self.assertTrue(review.pdf.get_size() > 0,
                         msg=("Review: %s "
