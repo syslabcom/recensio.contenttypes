@@ -286,7 +286,11 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                 summer.invokeFactory("Issue", id="issue-2", title="Issue 2")
             container = summer["issue-2"]
         else:
-            container = portal.Members.admin
+            pm = portal.portal_membership
+            pm.addMember(id="fake_member", password="fake_member_pw",
+                         roles=[], domains=[])
+            pm.createMemberArea("fake_member")
+            container = pm.getMembersFolder().get("fake_member")
 
         for i in range(number_of_each):
             data = test_data()
