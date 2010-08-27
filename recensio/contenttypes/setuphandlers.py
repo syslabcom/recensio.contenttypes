@@ -337,3 +337,22 @@ def addExampleContent2(context):
 @guard
 def addOneOfEachReviewType(context):
     add_number_of_each_review_type(context, 1)
+
+@guard
+def setTypesOnMemberFolder(self):
+    """Only Presentations are allowed in user folders
+
+    Setting the allowed types on the Member folder will achieve the
+    appropriate result.
+    """
+    portal = getSite()
+
+    portal.Members.setConstrainTypesMode(1)
+    portal.Members.setLocallyAllowedTypes(["Presentation Article Review",
+                                           "Presentation Collection",
+                                           "Presentation Online Resource",
+                                           "Presentation Monograph",])
+    portal.Members.setImmediatelyAddableTypes(["Presentation Article Review",
+                                               "Presentation Collection",
+                                               "Presentation Online Resource",
+                                               "Presentation Monograph",])

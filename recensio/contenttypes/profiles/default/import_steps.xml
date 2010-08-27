@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<import-steps>
+  <import-step id="recensio_contenttypes_set_types_on_member_folder"
+               version="20100826-01"
+               handler="recensio.contenttypes.setuphandlers.setTypesOnMemberFolder"
+               title="Restrict the content types allowed in the member folder"
+               description="Restrict the allowed content types on the member folder, only Presentations are allowed in the user folders" 
+               />
+</import-steps>
