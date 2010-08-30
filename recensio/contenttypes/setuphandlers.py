@@ -165,13 +165,13 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                     dict(firstname='Harald', lastname='Schmidt'),
                     dict(lastname='Стоичков', fistname='Христо')]
     referenceAuthors_list = [
-        dict(firstname='Tadeusz', lastname='Kotłowski', email=u'',
+        dict(firstname='Tadeusz', lastname='Kotłowski', email=u'dev0@syslab.com',
              address=u'', phone=u''),
         dict(firstname='Fürchtegott', lastname='Hubermüller',
-             email=u'', address=u'', phone=u''),
-        dict(firstname='François', lastname='Lamère', email=u'',
+             email=u'dev0@syslab.com', address=u'', phone=u''),
+        dict(firstname='François', lastname='Lamère', email=u'dev0@syslab.com',
              address=u'', phone=u''),
-        dict(firstname='Harald', lastname='Schmidt', email=u'',
+        dict(firstname='Harald', lastname='Schmidt', email=u'dev0@syslab.com',
              address=u'', phone=u'')]
 
     voc = getToolByName(portal, 'portal_vocabularies')
@@ -239,7 +239,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                'reviewAuthorHonorific':u'Dr. rer nat',
                'reviewAuthorLastname':u'Стоичков',
                'reviewAuthorFirstname':u'Христо',
-               'reviewAuthorEmail':u'',
+               'reviewAuthorEmail':u'dev0@syslab.com',
                'titleJournal':u'',
                'documenttypes_institution':u'',
                'documenttypes_cooperation':u'',
@@ -294,6 +294,12 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
 
         for i in range(number_of_each):
             data = test_data()
+            if i / (number_of_each / 3) == 1:
+                data['languageReviewedText'] = 'fr'
+                data['languageReview'] = 'en'
+            elif i / (number_of_each / 3) == 2:
+                data['languageReviewedText'] = 'de'
+                data['languageReview'] = 'fr'
             data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
             addOneItem(container, rez_class, data)
 
