@@ -8,11 +8,11 @@ language: en
 effectiveDate: None
 expirationDate: None
 creation_date: 2010/08/25 14:58:29.739325 GMT+2
-modification_date: 2010/08/25 18:29:17.647466 GMT+2
+modification_date: 2010/08/27 14:25:28.451797 GMT+2
 creators: admin
 contributors: 
 rights: 
-allowDiscussion: False
+allowDiscussion: True
 excludeFromNav: True
 presentation: False
 tableContents: False
@@ -20,230 +20,87 @@ allow_ratings: True
 Content-Type: text/html
 
 <!-- p.sdfootnote { margin-left: 0.2in; text-indent: -0.2in; margin-bottom: 0in; font-size: 10pt; }p { margin-bottom: 0.08in; }a.sdfootnoteanc { font-size: 57%; } -->
-<p>[<i>Postadresse und Fax erscheinen jeweils bei Berührung mit der Maus</i>]</p>
-<p>Projektleitung<br />Prof. Dr. Gudrun Gersmann, Direktorin Deutsches Historisches Institut Paris (DHIP)<br />gudrun.gersmann[at]dhi-paris.fr</p>
-<p><a class="external-link" href="http://www.dhi-paris.fr/index.php?id=home"><img alt="Deutsches Historisches Institut Paris" class="image-inline" src="dhiplogo.gif" /></a></p>
+<p>Projektleitung</p>
+<p><a class="external-link" href="http://www.dhi-paris.fr/index.php?id=home"><img alt="Deutsches Historisches Institut Paris" class="image-inline" src="images/dhiplogo.gif" /></a></p>
+<p>Prof. Dr. Gudrun Gersmann, Direktorin Deutsches Historisches Institut Paris (DHIP)<br />gudrun.gersmann[at]dhi-paris.fr</p>
+<p><a class="external-link" href="http://www.bsb-muenchen.de"><img alt="Bayerische Staatsbibliothek" class="image-inline" src="images/bsb_logo.gif" /></a></p>
 <p>Zentralredaktion an der Bayerischen Staatsbibliothek</p>
-<p><a class="external-link" href="http://www.bsb-muenchen.de"><img alt="Bayerische Staatsbibliothek" class="image-inline" src="bsb_logo.gif" /></a></p>
 <table>
 <tbody>
 <tr>
 <td>Dr. Lilian Landes</td>
-<td>(Leitung)<br /> Kooperation mit Printjournalen</td>
+<td>(Leitung) <br /> Kooperation mit Printjournalen</td>
 <td>lilian.landes[at]bsb-muenchen.de</td>
 <td>+49-(0)89-28638-2977</td>
 <td>
 <h4 class="hide_title">Postadresse</h4>
-<!-- p.sdfootnote { margin-bottom: 0in; font-size: 10pt; }p { margin-bottom: 0.08in; } -->
-<p class="hide_content">Bayerische Staatsbibliothek<br />Zentrum für Elektronisches Publizieren (ZEP)<br />Kaulbachstraße 19 / 207<br />80539 München</p>
+<p class="hide_content">Bayerische Staatsbibliothek <br /> Zentrum für Elektronisches Publizieren (ZEP) <br /> Kaulbachstraße 19 / 207 <br /> 80539 München</p>
 </td>
 <td>
 <h4 class="hide_title">Fax</h4>
-<!-- p.sdfootnote { margin-bottom: 0in; font-size: 10pt; }p { margin-bottom: 0.08in; } -->
 <p class="hide_content">+49-(0)89-28638-2947</p>
 </td>
 </tr>
 <tr>
+<td>Eva Kraus Dipl.-Kulturw.</td>
+<td>Öffentlichkeitsarbeit <br /> Ansprechpartnerin für Autoren: <br /> englischsprachiger Raum (Nordeuropa allgemein)</td>
+<td>eva.kraus[at]bsb-muenchen.de</td>
+<td>+49-(0)89-28638-2230</td>
 <td>
-Dr. Lilian Landes
+<h4 class="hide_title">Postadresse</h4>
+<p class="hide_content">Bayerische Staatsbibliothek <br /> Zentrum für Elektronisches Publizieren (ZEP) <br /> Kaulbachstraße 19 / 207 <br /> 80539 München</p>
 </td>
 <td>
-(Leitung)
-<br />
-Kooperation mit Printjournalen
-</td>
-<td>
-lilian.landes[at]bsb-muenchen.de
-</td>
-<td>
-+49-(0)89-28638-2977
-</td>
-<td>
-<h4 class="hide_title">
-Postadresse
-</h4>
-<p class="hide_content">
-Bayerische Staatsbibliothek
-<br />
-Zentrum für Elektronisches Publizieren (ZEP)
-<br />
-Kaulbachstraße 19 / 207
-<br />
-80539 München
-</p>
-</td>
-<td>
-<h4 class="hide_title">
-Fax
-</h4>
-<p class="hide_content">
-+49-(0)89-28638-2947
-</p>
+<h4 class="hide_title">Fax</h4>
+<p class="hide_content">+49-(0)89-28638-2947</p>
 </td>
 </tr>
 <tr>
+<td>Claire Vital M.A.</td>
+<td><br /> Ansprechpartnerin für Autoren: <br /> französischsprachiger Raum</td>
+<td>claire.vital[at]bsb-muenchen.de</td>
+<td>+49-(0)89-28638-2230</td>
 <td>
-Eva Kraus Dipl.-Kulturw.
+<h4 class="hide_title">Postadresse</h4>
+<p class="hide_content">Bayerische Staatsbibliothek <br /> Zentrum für Elektronisches Publizieren (ZEP) <br /> Kaulbachstraße 19 / 207 <br /> 80539 München</p>
 </td>
 <td>
-Öffentlichkeitsarbeit
-<br />
-Ansprechpartnerin für Autoren:
-<br \>
-englischsprachiger Raum
-(Nordeuropa allgemein)
-</td>
-<td>
-eva.kraus[at]bsb-muenchen.de
-</td>
-<td>
-+49-(0)89-28638-2230
-</td>
-<td>
-<h4 class="hide_title">
-Postadresse
-</h4>
-<p class="hide_content">
-Bayerische Staatsbibliothek
-<br />
-Zentrum für Elektronisches Publizieren (ZEP)
-<br />
-Kaulbachstraße 19 / 207
-<br />
-80539 München
-</p>
-</td>
-<td>
-<h4 class="hide_title">
-Fax
-</h4>
-<p class="hide_content">
-+49-(0)89-28638-2947
-</p>
+<h4 class="hide_title">Fax</h4>
+<p class="hide_content">+49-(0)89-28638-2947</p>
 </td>
 </tr>
 <tr>
+<td>Elena Usinger</td>
+<td><br /> Ansprechpartnerin für Autoren: <br /> Russland, Ukraine, Rumänien</td>
+<td>elena.usinger[at]bsb-muenchen.de</td>
+<td>+49-(0)89-28638-2230</td>
 <td>
-Claire Vital M.A.
+<h4 class="hide_title">Postadresse</h4>
+<p class="hide_content">Bayerische Staatsbibliothek <br /> Zentrum für Elektronisches Publizieren (ZEP) <br /> Kaulbachstraße 19 / 207 <br /> 80539 München</p>
 </td>
 <td>
-<br />
-Ansprechpartnerin für Autoren:
-<br \>
-französischsprachiger Raum
-</td>
-<td>
-claire.vital[at]bsb-muenchen.de
-</td>
-<td>
-+49-(0)89-28638-2230
-</td>
-<td>
-<h4 class="hide_title">
-Postadresse
-</h4>
-<p class="hide_content">
-Bayerische Staatsbibliothek
-<br />
-Zentrum für Elektronisches Publizieren (ZEP)
-<br />
-Kaulbachstraße 19 / 207
-<br />
-80539 München
-</p>
-</td>
-<td>
-<h4 class="hide_title">
-Fax
-</h4>
-<p class="hide_content">
-+49-(0)89-28638-2947
-</p>
+<h4 class="hide_title">Fax</h4>
+<p class="hide_content">+49-(0)89-28638-2947</p>
 </td>
 </tr>
 <tr>
+<td>Eva Gilhuber</td>
+<td><br /> Ansprechpartnerin für Autoren: <br /> Spanien (Westeuropa allgmein)</td>
+<td>eva.gilhuber[at]bsb-muenchen.de</td>
+<td>+49-(0)89-28638-2230</td>
 <td>
-Elena Usinger
+<h4 class="hide_title">Postadresse</h4>
+<p class="hide_content">Bayerische Staatsbibliothek <br /> Zentrum für Elektronisches Publizieren (ZEP) <br /> Kaulbachstraße 19 / 207 <br /> 80539 München</p>
 </td>
 <td>
-<br />
-Ansprechpartnerin für Autoren:
-<br \>
-Russland, Ukraine, Rumänien
-</td>
-<td>
-elena.usinger[at]bsb-muenchen.de
-</td>
-<td>
-+49-(0)89-28638-2230
-</td>
-<td>
-<h4 class="hide_title">
-Postadresse
-</h4>
-<p class="hide_content">
-Bayerische Staatsbibliothek
-<br />
-Zentrum für Elektronisches Publizieren (ZEP)
-<br />
-Kaulbachstraße 19 / 207
-<br />
-80539 München
-</p>
-</td>
-<td>
-<h4 class="hide_title">
-Fax
-</h4>
-<p class="hide_content">
-+49-(0)89-28638-2947
-</p>
-</td>
-</tr>
-<tr>
-<td>
-Eva Gilhuber
-</td>
-<td>
-<br />
-Ansprechpartnerin für Autoren:
-<br \>
-Spanien (Westeuropa allgmein)
-</td>
-<td>
-eva.gilhuber[at]bsb-muenchen.de
-</td>
-<td>
-+49-(0)89-28638-2230
-</td>
-<td>
-<h4 class="hide_title">
-Postadresse
-</h4>
-<p class="hide_content">
-Bayerische Staatsbibliothek
-<br />
-Zentrum für Elektronisches Publizieren (ZEP)
-<br />
-Kaulbachstraße 19 / 207
-<br />
-80539 München
-</p>
-</td>
-<td>
-<h4 class="hide_title">
-Fax
-</h4>
-<p class="hide_content">
-+49-(0)89-28638-2947
-</p>
+<h4 class="hide_title">Fax</h4>
+<p class="hide_content">+49-(0)89-28638-2947</p>
 </td>
 </tr>
 </tbody>
 </table>
-
+<p><a class="external-link" href="http://histinst.phil-fak.uni-koeln.de/"><img alt="Uni Köln" class="image-inline" src="images/logo_uni_koeln.gif" /></a></p>
 <p>Redaktion an der Universität zu Köln</p>
-<p>[<i>mit Logo HistSem der Uni Köln als Link zu http://histinst.phil-fak.uni-koeln.de/</i>]</p>
 <table>
 <tbody>
 <tr>
@@ -253,26 +110,16 @@ Fax
 <td>+49-(0)221-470-6751</td>
 <td>
 <h4 class="hide_title">Postadresse</h4>
-<p class="hide_content">
-Universität zu Köln
-<br \>
-Historisches Seminar I
-<br \>
-Mittlere und Neurere Geschichte
-<br \>
-Albert-Magnus-Platz / Philisophikum, 408
-<br \>
-50923 Köln
-</p>
+<p class="hide_content">Universität zu Köln <br /> Historisches Seminar I <br /> Mittlere und Neurere Geschichte <br /> Albert-Magnus-Platz / Philisophikum, 408 <br /> 50923 Köln</p>
 </td>
 <td>
 <h4 class="hide_title">Fax</h4>
-<p class="hide_content"></p>
+<p class="hide_content"> </p>
 </td>
 </tr>
+</tbody>
 </table>
-<p>Redaktion am Institut für Europäische Geschichte Mainz</p>
-<p>[<i>mit Logo IEG Mainz als Link zu http://www.ieg-mainz.de/likecms/index.php</i>]</p>
+<p><a class="external-link" href="http://www.ieg-mainz.de/likecms/index.php"><img alt="IEG" class="image-inline" src="images/ieg_logo.jpg" /></a><br />Redaktion am Institut für Europäische Geschichte Mainz</p>
 <table>
 <tbody>
 <tr>
@@ -282,19 +129,11 @@ Albert-Magnus-Platz / Philisophikum, 408
 <td>+49-(0)6131/3939041</td>
 <td>
 <h4 class="hide_title">Postadresse</h4>
-<p class="hide_content">
-Institut für Europäische Geschichte
-<br \>
-Alte Universitätsstraße 19
-<br \>
-55116 Mainz
-<br \>
-Büroanschrift: Schillerplatz, sog. Wichernhaus Raum 01-101
-</p>
+<p class="hide_content">Institut für Europäische Geschichte <br /> Alte Universitätsstraße 19 <br /> 55116 Mainz <br /> Büroanschrift: Schillerplatz, sog. Wichernhaus Raum 01-101</p>
 </td>
 <td>
 <h4 class="hide_title">Fax</h4>
-<p class="hide_content"></p>
+<p class="hide_content"> </p>
 </td>
 </tr>
 <tr>
@@ -304,20 +143,12 @@ Büroanschrift: Schillerplatz, sog. Wichernhaus Raum 01-101
 <td>+49-(0)6131/3939041</td>
 <td>
 <h4 class="hide_title">Postadresse</h4>
-<p class="hide_content">
-Institut für Europäische Geschichte
-<br \>
-Alte Universitätsstraße 19
-<br \>
-55116 Mainz
-<br \>
-Büroanschrift: Schillerplatz, sog. Wichernhaus Raum 01-101
-</p>
+<p class="hide_content">Institut für Europäische Geschichte <br /> Alte Universitätsstraße 19 <br /> 55116 Mainz <br /> Büroanschrift: Schillerplatz, sog. Wichernhaus Raum 01-101</p>
 </td>
 <td>
 <h4 class="hide_title">Fax</h4>
-<p class="hide_content"></p>
+<p class="hide_content"> </p>
 </td>
 </tr>
+</tbody>
 </table>
-</div>

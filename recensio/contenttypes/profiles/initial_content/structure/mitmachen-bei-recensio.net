@@ -8,11 +8,11 @@ language: en
 effectiveDate: None
 expirationDate: None
 creation_date: 2010/08/25 14:18:31.586100 GMT+2
-modification_date: 2010/08/25 14:38:42.281531 GMT+2
+modification_date: 2010/08/27 13:54:52.401675 GMT+2
 creators: admin
 contributors: 
 rights: 
-allowDiscussion: False
+allowDiscussion: True
 excludeFromNav: True
 presentation: False
 tableContents: False
