@@ -61,7 +61,7 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         """
         # Explicitly referring to the package message factory here is
         # enough for i18nextract to work
-        citation_messages = [_("text_in"), _("text_presentation_of")]
+        citation_messages = [_("text_in"), _("text_presentation_of"), _("text_review_of")]
         if _(msgid) not in citation_messages:
             log.error("Translation for %s is not available" %msgid)
         # We've logged the error, but we will still return a
@@ -219,5 +219,4 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
 
     def Language(self):
         """ Reviews are NOT translatable. As such, they must remain neutral """
-        # XXX We probably should hide the language field altogether
         return ''
