@@ -313,18 +313,20 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
     view.clear()
     view.reindex()
 
-def guard(func):
+def guard(func, profiles):
     def wrapper(self):
-        if self.readDataFile('recensio.contenttypes_marker.txt') is None:
-            return
-        return func(self)
+        for profile in profiles:
+            if self.readDataFile('recensio.contenttypes_%s_marker.txt' \
+               % profile) is not None:
+                return func(self)
+        return
     return wrapper
 
-@guard
+@guard(['exampledata'])
 def addExampleContent(context):
     add_number_of_each_review_type(context, 10)
 
-@guard
+@guard(['exampledata'])
 def addExampleContent2(context):
     portal = context.getSite()
     portal_id = 'recensio'
@@ -344,11 +346,11 @@ def addExampleContent2(context):
         portal_type = data.pop('portal_type')
         addOneItem(reviews, portal_type, data)
 
-@guard
+@guard(['exampledata'])
 def addOneOfEachReviewType(context):
     add_number_of_each_review_type(context, 1)
 
-@guard
+@guard(['default'])
 def setTypesOnMemberFolder(self):
     """Only Presentations are allowed in user folders
 
