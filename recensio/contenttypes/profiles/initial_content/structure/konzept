@@ -8,11 +8,11 @@ language: en
 effectiveDate: None
 expirationDate: None
 creation_date: 2010/08/25 14:32:22.600569 GMT+2
-modification_date: 2010/08/25 14:54:5.956925 GMT+2
+modification_date: 2010/08/30 16:35:36.417518 GMT+2
 creators: admin
 contributors: 
 rights: 
-allowDiscussion: False
+allowDiscussion: True
 excludeFromNav: True
 presentation: False
 tableContents: False
@@ -40,4 +40,4 @@ Content-Type: text/html
 <p>Die Bayerische Staatsbibliothek garantiert die Anreicherung der Rezensionen mit Metadaten, ihre Anbindung an den Bibliothekskatalog (OPAC) des Bibliotheksverbunds Bayern sowie ihre Langzeitarchivierung.</p>
 <p>Sie haben die Möglichkeit, <a class="internal-link" href="mitmachen-bei-recensio.net">recensio.net <span>mitzugestalten</span></a> – wir freuen uns, mit Ihnen in Kontakt zu treten.</p>
 <p>Bitte beachten Sie die <a class="internal-link" href="benutzerrichtlinien"><span>Benutzerrichtlinien</span></a>.</p>
-<p>Haben Sie Fragen oder Anregungen? Hier finden Sie den passenden <span>Ansprechpartner</span>. [<i></i><i> Link zu „Kontakt“</i>]</p>
+<p>Haben Sie Fragen oder Anregungen? Hier finden Sie den passenden <a class="internal-link" href="ansprechpartner"><span>Ansprechpartner</span></a>.</p>
