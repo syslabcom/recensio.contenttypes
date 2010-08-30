@@ -313,14 +313,16 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
     view.clear()
     view.reindex()
 
-def guard(func, profiles):
-    def wrapper(self):
-        for profile in profiles:
-            if self.readDataFile('recensio.contenttypes_%s_marker.txt' \
-               % profile) is not None:
-                return func(self)
-        return
-    return wrapper
+def guard(profiles):
+    def inner_guard(func):
+        def wrapper(self):
+            for profile in profiles:
+                if self.readDataFile('recensio.contenttypes_%s_marker.txt' \
+                   % profile) is not None:
+                    return func(self)
+            return
+        return wrapper
+    return inner_guard
 
 @guard(['exampledata'])
 def addExampleContent(context):
