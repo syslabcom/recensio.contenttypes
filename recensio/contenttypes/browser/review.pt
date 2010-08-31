@@ -73,11 +73,6 @@
 
         <p tal:content="context/getReview"></p>
       </div>
-      <div id="review-reference">
-        <div id="pageturner">
-          <p> To view this page ensure that Adobe Flash Player version 9.0.124 or greater is installed.</p> 
-        </div>
-      </div>
       <div id="review-metadata"
            tal:define="metadata view/get_metadata">
         <h2>Metadata</h2>

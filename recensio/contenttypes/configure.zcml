@@ -49,4 +49,10 @@
      handler=".eventhandlers.review_pdf_updated_eventhandler"
      />
 
+  <adapter 
+     factory=".adapter.reviewpdf.ReviewPDF" 
+     provides="recensio.contenttypes.interfaces.IReviewPDF"
+     for=".interfaces.IReview"
+     />
+
 </configure>

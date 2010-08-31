@@ -97,7 +97,7 @@ class ReviewJournal(BaseReview):
 
 
     # Reorder the fields as required
-    ordered_fields = ["issn", "uri", "pdf", "doc", "review",
+    ordered_fields = ["coverPicture", "issn", "uri", "pdf", "doc", "review",
                       "customCitation", "reviewAuthorHonorific",
                       "reviewAuthorLastname", "reviewAuthorFirstname",
                       "reviewAuthorEmail", "authors",

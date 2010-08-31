@@ -1,8 +1,9 @@
 from zope.interface import Interface
 # -*- Additional Imports Here -*-
+from recensio.contenttypes.interfaces.review import IReview
 
 
-class IReviewJournal(Interface):
+class IReviewJournal(IReview):
     """Review Journal"""
 
     # -*- schema definition goes here -*-

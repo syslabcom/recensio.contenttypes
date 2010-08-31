@@ -286,7 +286,8 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
         ),
     ))
 
-PrintedReviewSchema = CommonReviewSchema.copy() + atapi.Schema((
+PrintedReviewSchema = CommonReviewSchema.copy() + \
+                      CoverPictureSchema.copy() + atapi.Schema((
     atapi.StringField(
         'subtitle',
         storage=atapi.AnnotationStorage(),

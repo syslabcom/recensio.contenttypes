@@ -5,7 +5,7 @@ from publication import IPublication
 from presentationonlineresource import IPresentationOnlineResource
 from presentationarticlereview import IPresentationArticleReview
 from presentationcollection import IPresentationCollection
-from reviewjournal import IReviewJournal
 from presentationmonograph import IPresentationMonograph
+from review import IReview, IReviewPDF
+from reviewjournal import IReviewJournal
 from reviewmonograph import IReviewMonograph
-from review import IReview

@@ -12,3 +12,12 @@ class IReview(Interface):
         """
 
     # -*- schema definition goes here -*-
+
+class IReviewPDF(Interface):
+    """Review with PDF data"""
+
+    def generateImage(self):
+        """
+        return a cover image generated from pdf data
+        """
+

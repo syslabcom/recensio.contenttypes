@@ -93,7 +93,7 @@ class ReviewMonograph(BaseReview):
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Reorder the fields as required for the edit view
-    ordered_fields = ["isbn", "uri", "pdf", "doc", "review",
+    ordered_fields = ["coverPicture", "isbn", "uri", "pdf", "doc", "review",
                       "customCitation", "coverPicture",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
