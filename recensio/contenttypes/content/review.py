@@ -61,7 +61,8 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         """
         # Explicitly referring to the package message factory here is
         # enough for i18nextract to work
-        citation_messages = [_("text_in"), _("text_presentation_of"), _("text_review_of")]
+        citation_messages = [_("text_in"), _("text_presentation_of"),
+            _("text_review_of"), _("text_pages")]
         if _(msgid) not in citation_messages:
             log.error("Translation for %s is not available" %msgid)
         # We've logged the error, but we will still return a
@@ -100,7 +101,9 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
                             value = ", ".join(value[0])
                         else:
                             value = ", ".join(value)
-                citation_dict[key] = value.decode("utf-8")
+                if isinstance(value, str):
+                    value = value.decode("utf-8")
+                citation_dict[key] = value
         return citation_dict
 
     def get_citation_string(self):
