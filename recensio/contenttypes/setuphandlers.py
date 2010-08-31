@@ -370,3 +370,12 @@ def setTypesOnMemberFolder(self):
                                                "Presentation Collection",
                                                "Presentation Online Resource",
                                                "Presentation Monograph",])
+
+@guard(['exampledata'])
+def hideAllFolders(context):
+    site = context.getSite()
+    for id in ['Members', 'news', 'imports', 'RSS-feeds', 'Images']:
+        ob = getattr(site, id, None)
+        if ob:
+            ob.setExcludeFromNav(True)
+            ob.reindexObject()

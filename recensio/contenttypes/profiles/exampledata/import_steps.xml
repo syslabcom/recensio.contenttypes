@@ -8,7 +8,10 @@
             handler="recensio.contenttypes.setuphandlers.addExampleContent2"
             description="Example Content for Recensio2"
             title="Example Content2" />
-
+    <import-step id="recensio_policy_hide_navigation" version="20100824-01"
+            handler="recensio.policy.setuphandlers.hideAllFolders"
+            description="Hide all default Folders"
+            title="Hide all default Folders" />
 <!-- Commenting this out as I don't know how to run this import step on -->
 <!-- its own via tests/base.py -->
     <!-- <import-step id="recensio_one_of_each_review_type" version="20100824-01" -->
