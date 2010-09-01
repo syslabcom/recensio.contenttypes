@@ -1,8 +1,9 @@
 from zope.interface import Interface
 # -*- Additional Imports Here -*-
+from recensio.contenttypes.interfaces.review import IReview
 
 
-class IPresentationCollection(Interface):
+class IPresentationCollection(IReview):
     """Presentation Collection"""
 
     # -*- schema definition goes here -*-
