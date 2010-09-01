@@ -8,7 +8,6 @@
 
   <metal:js fill-slot="javascript_head_slot">
     <script type="text/javascript" tal:attributes="src string:${context/absolute_url}/++resource++pageturner.resources/swfobject.js"></script>
-    <script tal:attributes="src string:${context/absolute_url}/mootools-fluid16-autoselect.js" type="text/javascript"></script>
     <script type="text/javascript">
       jq(document).ready(function(){
       if(window.addEventListener)
