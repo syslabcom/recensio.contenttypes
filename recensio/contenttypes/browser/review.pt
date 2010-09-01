@@ -71,7 +71,7 @@
           <tal:widget metal:use-macro="python:context.widget('coverPicture')" />
         </tal:coverpicture>
 
-        <p tal:content="context/getReview"></p>
+        <p tal:content="structure context/getReview"></p>
       </div>
       <div id="review-metadata"
            tal:define="metadata view/get_metadata">
@@ -220,7 +220,7 @@
 
 
 
-
+<!--
         <dl>
           <tal:field repeat="field context/metadata_fields">
             <dt tal:content="python:metadata[field]"></dt>
@@ -231,10 +231,11 @@
             </dd>
           </tal:field>
         </dl>
+        -->
         <dl tal:define="pdf context/get_review_pdf"
             tal:condition="pdf">
           <dt>Download</dt>
-          <dd><a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension'"
+          <dd><a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
                  tal:content="pdf/Title | string:PDF">PDF</a></dd>
         </dl>
       </div>
