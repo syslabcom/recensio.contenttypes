@@ -14,3 +14,9 @@ ADD_PERMISSIONS = {
     'Volume': 'recensio.contenttypes: Add Volume',
     'Issue': 'recensio.contenttypes: Add Issue',
     }
+
+PORTAL_TYPES = ['Presentation Online Resource', 'Presentation Article Review',
+    'Presentation Collection', 'Presentation Monograph',
+    'Review Journal', 'Review Monograph',
+    'Publication', 'Volume', 'Issue'
+    ]
