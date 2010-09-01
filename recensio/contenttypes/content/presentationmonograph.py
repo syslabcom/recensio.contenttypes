@@ -191,10 +191,10 @@ class PresentationMonograph(BaseReview):
 
     # NOTE: PresentationMonograph doesn't have:
     # officialYearOfPublication, pageStart, pageEnd
-    citation_template =  (u"{reviewAuthorLastname}, {text_presentation_of}: "
+    citation_template =  (u"{reviewAuthorLastname}, {text_presentation_of} "
                           "{authors}, {title}, {subtitle}, "
                           "{placeOfPublication}: {yearOfPublication}, "
-                          "{text_in}: {publisher}, {series}, {seriesVol}"
+                          "{text_in} {publisher}, {series}, {seriesVol}"
                           "({yearOfPublication}), {text_pages} {pages}")
 
 atapi.registerType(PresentationMonograph, PROJECTNAME)

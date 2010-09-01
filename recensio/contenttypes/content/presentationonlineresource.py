@@ -187,7 +187,7 @@ class PresentationOnlineResource(BaseReview):
                       "ddcPlace", "subject"]
 
     # Präsentator, presentation of: Titel, URL Ressource, URL recensio.
-    citation_template =  u"{reviewAuthorLastname}, {text_presentation_of}: "+\
+    citation_template =  u"{reviewAuthorLastname}, {text_presentation_of} "+\
                         "{title}, {uri}"
 
 atapi.registerType(PresentationOnlineResource, PROJECTNAME)

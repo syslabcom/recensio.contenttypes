@@ -163,8 +163,8 @@ class PresentationCollection(BaseReview):
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:
     # Herausgeber, Titel. Untertitel, Erscheinungsort: Verlag Jahr,
     # URL recensio.
-    citation_template =  (u"{reviewAuthorLastname}, {text_presentation_of}: "
-                          "{authors}, {title}, {subtitle}, {text_in}: "
+    citation_template =  (u"{reviewAuthorLastname}, {text_presentation_of} "
+                          "{authors}, {title}, {subtitle}, {text_in} "
                           "{editorsCollectedEdition}, "
                           "{title}, {subtitle}, "
                           "{placeOfPublication}: {publisher} "

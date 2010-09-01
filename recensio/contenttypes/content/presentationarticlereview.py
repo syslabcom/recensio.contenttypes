@@ -161,8 +161,8 @@ class PresentationArticleReview(BaseReview):
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:
     # Zs-Titel, Nummer, Heftnummer (gezähltes Jahr/Erscheinungsjahr),
     # Seite von/bis, URL recensio.
-    citation_template =  u"{reviewAuthorLastname}, {text_presentation_of}: "+\
-                        "{authors}, {title}, {subtitle}, {text_in}: "+\
+    citation_template =  u"{reviewAuthorLastname}, {text_presentation_of} "+\
+                        "{authors}, {title}, {subtitle}, {text_in} "+\
                         "{shortnameJournal}, {volume}, {issue}, "+\
                         "({officialYearOfPublication}/"+\
                         "{yearOfPublication}), "+\

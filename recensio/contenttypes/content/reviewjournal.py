@@ -126,11 +126,11 @@ class ReviewJournal(BaseReview):
     # Rezensent, review of: Zs-Titel, Nummer, Heftnummer (gezähltes
     # Jahr/Erscheinungsjahr), in: Zs-Titel, Nummer, Heftnummer
     # (gezähltes Jahr/Erscheinungsjahr), Seite von/bis, URL recensio
-    citation_template =  (u"{reviewAuthorLastname}, {text_review_of}: "
+    citation_template =  (u"{reviewAuthorLastname}, {text_review_of} "
                           "{get_publication_title}, {get_volume_title},"
                           "{get_issue_title}, "
                           "({officialYearOfPublication}/{yearOfPublication}), "
-                          "{text_in}: "
+                          "{text_in} "
                           "{get_publication_title}, {get_volume_title}, "
                           "{get_issue_title}, ({officialYearOfPublication}/"
                           "{yearOfPublication}) {text_pages} "
