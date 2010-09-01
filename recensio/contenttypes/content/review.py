@@ -98,7 +98,7 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
                     else:
                         if isinstance(value[0], dict):
                             # DataGridField
-                            value = ", ".join(value[0])
+                            value = ", ".join(value[0].values())
                         else:
                             value = ", ".join(value)
                 if isinstance(value, str):
