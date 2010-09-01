@@ -195,6 +195,6 @@ class PresentationMonograph(BaseReview):
                           "{authors}, {title}, {subtitle}, "
                           "{placeOfPublication}: {yearOfPublication}, "
                           "{text_in}: {publisher}, {series}, {seriesVol}"
-                          "({yearOfPublication}), Pages {pages}")
+                          "({yearOfPublication}), {text_pages} {pages}")
 
 atapi.registerType(PresentationMonograph, PROJECTNAME)
