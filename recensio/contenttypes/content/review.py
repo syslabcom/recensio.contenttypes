@@ -51,7 +51,7 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         """
         pass
 
-    def get_citation_translation(self, msgid):
+    def get_citation_translation(self, msgid, lang):
         """Returns a list of translation strings which can be used in citations
 
         This is partially to ensure that the relevant msgids are
@@ -67,13 +67,15 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
             log.error("Translation for %s is not available" %msgid)
         # We've logged the error, but we will still return a
         # default translation
-        return translate(_(msgid))
+        return translate(_(msgid), target_language=lang)
 
     def get_citation_dict(self, citation_template):
         """
         Parse the citation_template and using the create a dict the
         values to be substituted, including translation
         """
+        plt = getToolByName(self, 'portal_languages')
+        lang = plt.getPreferredLanguage()
         formatter = Formatter()
         # Get the keys from the citation_template string i.e. words inside {}
         keys = set([i[1] for i in formatter.parse(citation_template)])
@@ -83,7 +85,7 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         for key in keys:
             # First translate the necessary strings
             if key.startswith("text_"):
-                citation_dict[key] = self.get_citation_translation(key)
+                citation_dict[key] = self.get_citation_translation(key, lang)
             elif key.startswith("get_"):
                 citation_dict[key] = self[key]().decode("utf-8")
             else:
@@ -119,7 +121,8 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
             # TODO replace all empty translation strings from text_*
             citation = citation.replace("Page(s) /", "")
             citation = re.sub("^[,.:]", "", citation)
-            citation = re.sub(" [,.:]", "", citation)
+            # In French, we have a space before the colon
+            # citation = re.sub(" [,.:]", "", citation)
             citation = re.sub("[,.:]\ *$", "", citation)
             citation = citation + "."
             return citation
