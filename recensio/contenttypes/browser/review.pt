@@ -85,136 +85,141 @@
         </dl>
 
 		<div class="box menu">
-							<h2>
-								<a id="toggle-section-menu" href="#" style="cursor: pointer;" class="visible">Metadaten</a>
-							</h2>
-							<div style="margin: 0px; overflow: hidden; position: static; height: 231px;"><div id="section-menu" class="block" style="margin: 0px;">
-								<ul class="section menu">
-									<li>
-										<a class="menuitem ">Publication</a>
-										<ul class="submenu " style="border-top: medium none; border-bottom: medium none; overflow: hidden; padding-top: 0px; padding-bottom: 0px; height: 0px;">
-											<li>
-												<table>
-													<tbody><tr>
-														<th>Publication Title</th>
-														<td>NewspaperA</td>
+			<h2>
+				<a id="toggle-section-menu" href="#" style="cursor: pointer;" class="visible">Metadaten</a>
+			</h2>
+			<div style="margin: 0px; overflow: hidden; position: static; height: 231px;">
+				<div id="section-menu" class="block" style="margin: 0px;">
+					<ul class="section menu">
+						<li>
+							<a class="menuitem ">Publication</a>
+							<ul class="submenu " style="border-top: medium none; border-bottom: medium none; overflow: hidden; padding-top: 0px; padding-bottom: 0px; height: 0px;">
+								<li>
+									<table>
+										<tbody>
+											<tr>
+												<th>Publication Title</th>
+												<td>NewspaperA</td>
 
-													</tr>
-													<tr>
-														<th>Volume Title</th>
-														<td>Summer</td>
+											</tr>
+											<tr>
+												<th>Volume Title</th>
+												<td>Summer</td>
 
-													</tr>
-													<tr>
-														<th>Autor des Aufsatzes</th>
-														<td>Frank Severin</td>
+											</tr>
+											<tr>
+												<th>Autor des Aufsatzes</th>
+												<td>Frank Severin</td>
 
-													</tr>
-													<tr>
-														<th>Shortname (Journal)</th>
-														<td>Danzig </td>
+											</tr>
+											<tr>
+												<th>Shortname (Journal)</th>
+												<td>Danzig </td>
 
-													</tr>
-													<tr>
-														<th>Erscheinungsjahr</th>
-														<td>2004</td>
+											</tr>
+											<tr>
+												<th>Erscheinungsjahr</th>
+												<td>2004</td>
 
-													</tr>
-													<tr>
-														<th>Gezähltes Jahr</th>
-														<td>2010 </td>
+											</tr>
+											<tr>
+												<th>Gezähltes Jahr</th>
+												<td>2010 </td>
 
-													</tr>
-													<tr>
-														<th>Issue Title</th>
-														<td>Issue 2</td>
+											</tr>
+											<tr>
+												<th>Issue Title</th>
+												<td>Issue 2</td>
 
-													</tr>
-													<tr>
-														<th>Erscheinungsort</th>
-														<td>Danzig</td>
+											</tr>
+											<tr>
+												<th>Erscheinungsort</th>
+												<td>Danzig</td>
 
-													</tr>
-													<tr>
-														<th>Verlag</th>
-														<td>DHI Wahrschau </td>
+											</tr>
+											<tr>
+												<th>Verlag</th>
+												<td>DHI Wahrschau </td>
 
-													</tr>
-													<tr>
-														<th>ISSN</th>
-														<td>9887-997-003-241</td>
+											</tr>
+											<tr>
+												<th>ISSN</th>
+												<td>9887-997-003-241</td>
 
-													</tr>
-												</tbody></table>
-											</li>
-										</ul>
-									</li>
-									<li>
-										<a class="menuitem ">Others</a>
-										<ul class="submenu " style="border-top: medium none; border-bottom: medium none; overflow: hidden; padding-top: 0px; padding-bottom: 0px; height: 0px;">
-											<table>
-												<tbody><tr>
-													<th>Textsprache der präsentierten Schrift</th>
-													<td>German</td>
+											</tr>
+										</tbody>
+									</table>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a class="menuitem ">Others</a>
+							<ul class="submenu " style="border-top: medium none; border-bottom: medium none; overflow: hidden; padding-top: 0px; padding-bottom: 0px; height: 0px;">
+								<table>
+									<tbody>
+										<tr>
+											<th>Textsprache der präsentierten Schrift</th>
+											<td>German</td>
 
-												</tr>
-												<tr>
-													<th>Textsprache der Präsentation</th>
-													<td>German</td>
+										</tr>
+										<tr>
+											<th>Textsprache der Präsentation</th>
+											<td>German</td>
 
-												</tr>
-												<tr>
-													<th>Recensio ID</th>
-													<td>Lorem ipsum</td>
+										</tr>
+										<tr>
+											<th>Recensio ID</th>
+											<td>Lorem ipsum</td>
 
-												</tr>
-												<tr>
-													<th>Verbund ID</th>
-													<td>Dolor sit</td>
+										</tr>
+										<tr>
+											<th>Verbund ID</th>
+											<td>Dolor sit</td>
 
-												</tr>
-												<tr>
-													<th>ddc sach</th>
-													<td>Geschichte allgemein </td>
+										</tr>
+										<tr>
+											<th>ddc sach</th>
+											<td>Geschichte allgemein </td>
 
-												</tr>
-												<tr>
-													<th>ddc zeit</th>
-													<td>20. Jahrhundert - 1930 - 1939</td>
+										</tr>
+										<tr>
+											<th>ddc zeit</th>
+											<td>20. Jahrhundert - 1930 - 1939</td>
 
-												</tr>
-												<tr>
-													<th>ddc raum</th>
-													<td>DEUTSCHLAND 20. JAHRHUNDERT</td>
+										</tr>
+										<tr>
+											<th>ddc raum</th>
+											<td>DEUTSCHLAND 20. JAHRHUNDERT</td>
 
-												</tr>
-												<tr>
-													<th>Stichworte</th>
-													<td>* Polen
-											        * Menschen
-											        * Deutschland
-											        * Religion
-											        * Geschichte
-											        * Danzig
-											        * Kirche
-											        * 19.Jahrhundert</td>
+										</tr>
+										<tr>
+											<th>Stichworte</th>
+											<td>* Polen
+									        * Menschen
+									        * Deutschland
+									        * Religion
+									        * Geschichte
+									        * Danzig
+									        * Kirche
+									        * 19.Jahrhundert</td>
 
-												</tr>
-												<tr>
-													<th>Zitation</th>
-													<td>Geschichtsbewusstsein</td>
+										</tr>
+										<tr>
+											<th>Zitation</th>
+											<td>Geschichtsbewusstsein</td>
 
-												</tr>
-											</tbody></table>
-										</ul>
-									</li>
+										</tr>
+									</tbody>
+								</table>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 
-										</ul>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
+
+
 
 
         <dl>
