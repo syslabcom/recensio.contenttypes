@@ -121,8 +121,8 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
             # TODO replace all empty translation strings from text_*
             citation = citation.replace("Page(s) /", "")
             citation = re.sub("^[,.:]", "", citation)
-            # In French, we have a space before the colon
-            # citation = re.sub(" [,.:]", "", citation)
+            # In French, we have a space before the colon, so don't remove it
+            citation = re.sub(" [,.]", "", citation)
             citation = re.sub("[,.:]\ *$", "", citation)
             citation = citation + "."
             return citation
