@@ -212,17 +212,12 @@
                 </ul>
             </div>
         </div>
-
-
-        <dl tal:define="pdf context/get_review_pdf"  tal:condition="pdf">
-          <dt>Download</dt>
-          <dd><a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
-                 tal:content="pdf/Title | string:PDF">PDF</a></dd>
-        </dl>
       </div>
-
-      <div id="review-citation">
+      
+      <div id="review-citation" class="message notice">
+        <h2>Zitierhinweise</h2>
         <p tal:content="structure context/get_citation_string"></p>
+        URL:
         <a tal:attributes="href context/absolute_url"
            tal:content="context/absolute_url"></a>
       </div>
