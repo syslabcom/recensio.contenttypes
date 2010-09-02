@@ -49,7 +49,8 @@ class View(BrowserView):
 
     def has_coverpicture(self):
         if "coverPicture" in self.context.ordered_fields:
-            return self.context.getCoverPicture().get_size() > 0
+            coverPicture = self.context.getCoverPicture()
+            return coverPicture and coverPicture.get_size() > 0 or False
         else:
             return False
 
