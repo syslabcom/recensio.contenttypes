@@ -6,6 +6,7 @@ from zope.interface import implements
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
+from recensio.contenttypes.content import container
 
 # -*- Message Factory Imported Here -*-
 
@@ -31,7 +32,7 @@ schemata.finalizeATCTSchema(
 )
 
 
-class Issue(folder.ATFolder):
+class Issue(container.Container):
     """A container for Publication issues"""
     implements(IIssue)
 

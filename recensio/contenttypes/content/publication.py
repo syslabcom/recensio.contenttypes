@@ -7,6 +7,7 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
 from Products.GenericSetup.interfaces import IDAVAware
+from recensio.contenttypes.content import container
 
 # -*- Message Factory Imported Here -*-
 
@@ -43,7 +44,7 @@ schemata.finalizeATCTSchema(
 )
 
 
-class Publication(folder.ATFolder):
+class Publication(container.Container):
     """A container for journals of a particular magazine"""
     implements(IPublication, IDAVAware)
 
