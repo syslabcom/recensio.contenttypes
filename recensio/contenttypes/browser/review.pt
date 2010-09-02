@@ -47,7 +47,7 @@
   </metal:css>
 
   <body>
-    <div metal:fill-slot="content-title">
+    <div metal:fill-slot="content-title" tal:define="global sr python:True">
         <h2 tal:condition="python: context.portal_type == 'Presentation Online Resource'">
           <tal:title content="context/Title" />
         </h2>
@@ -58,6 +58,8 @@
           <tal:title content="context/getSubtitle" />
         </h2>
     </div>
+    
+    
     <div metal:fill-slot="content-core">
       <div id="review"
            tal:define="searchresults context/getSearchresults | nothing;"
@@ -218,11 +220,27 @@
                  tal:content="pdf/Title | string:PDF">PDF</a></dd>
         </dl>
       </div>
+
       <div id="review-citation">
         <p tal:content="structure context/get_citation_string"></p>
         <a tal:attributes="href context/absolute_url"
            tal:content="context/absolute_url"></a>
       </div>
+      
+      
+      
+
     </div>
+    
+    <metal:portlets fill-slot="portlets_two_slot" tal:define="pdf python:context.getField('pdf')"  tal:condition="pdf">
+        <div class="portlet" id="portletDownload"> 
+            <p class="download pdf"> 
+              <a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
+                 href="PartB.pdf">Download as <strong>PDF</strong><br />
+              <em class="discrete" tal:content="python:context.get_size()">(1.5 mb)</em></a> 
+            </p> 
+        </div>
+    </metal:portlets>
+    
   </body>
 </html>
