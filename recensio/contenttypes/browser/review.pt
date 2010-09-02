@@ -83,153 +83,138 @@
           <dd tal:content="context/get_volume_title"></dd>
         </dl>
 
-        <div class="shown" id="content">              
-	            <div id="side"> 
-	                <ul class="accordion">
-	                    <li><a class="trigger" style="display: block;" href="#" title="open/close">Metadaten
-	                        </a><ul style="display: none;">
-	                            <li><a class="trigger" style="display: block;" href="#" title="open/close">Publications
-	                                </a><ul style="display: none;">
-	                                    <ul>
-											<li>
-												<table>
-													<tbody><tr>
-														<th>Publication Title</th>
-														<td>NewspaperA</td>
+        <div class="shown" id="content">
+                <div id="side"> 
+                    <ul class="accordion">
+                        <li><a class="trigger" style="display: block;" href="#" title="open/close">Metadaten
+                            </a><ul style="display: none;">
+                                <li><a class="trigger" style="display: block;" href="#" title="open/close">Publications
+                                    </a><ul style="display: none;">
+                                        <ul>
+                                            <li>
+                                                <table>
+                                                    <tbody><tr>
+                                                        <th>Publication Title</th>
+                                                        <td>NewspaperA</td>
 
-													</tr>
-													<tr>
-														<th>Volume Title</th>
-														<td>Summer</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Volume Title</th>
+                                                        <td>Summer</td>
 
-													</tr>
-													<tr>
-														<th>Autor des Aufsatzes</th>
-														<td>Frank Severin</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Autor des Aufsatzes</th>
+                                                        <td>Frank Severin</td>
 
-													</tr>
-													<tr>
-														<th>Shortname (Journal)</th>
-														<td>Danzig </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Shortname (Journal)</th>
+                                                        <td>Danzig </td>
 
-													</tr>
-													<tr>
-														<th>Erscheinungsjahr</th>
-														<td>2004</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Erscheinungsjahr</th>
+                                                        <td>2004</td>
 
-													</tr>
-													<tr>
-														<th>Gezähltes Jahr</th>
-														<td>2010 </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Gezähltes Jahr</th>
+                                                        <td>2010 </td>
 
-													</tr>
-													<tr>
-														<th>Issue Title</th>
-														<td>Issue 2</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Issue Title</th>
+                                                        <td>Issue 2</td>
 
-													</tr>
-													<tr>
-														<th>Erscheinungsort</th>
-														<td>Danzig</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Erscheinungsort</th>
+                                                        <td>Danzig</td>
 
-													</tr>
-													<tr>
-														<th>Verlag</th>
-														<td>DHI Wahrschau </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Verlag</th>
+                                                        <td>DHI Wahrschau </td>
 
-													</tr>
-													<tr>
-														<th>ISSN</th>
-														<td>9887-997-003-241</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>ISSN</th>
+                                                        <td>9887-997-003-241</td>
 
-													</tr>
-												</tbody></table>
-											</li>
-										</ul>
-	                                </ul>
-	                            </li>
-								<li><a class="trigger" style="display: block;" href="#" title="open/close">Others
-	                                </a><ul style="display: none;">
-	                                    <ul>
-											<table>
-												<tbody><tr>
-													<th>Textsprache der präsentierten Schrift</th>
-													<td>German</td>
+                                                    </tr>
+                                                </tbody></table>
+                                            </li>
+                                        </ul>
+                                    </ul>
+                                </li>
+                                <li><a class="trigger" style="display: block;" href="#" title="open/close">Others
+                                    </a><ul style="display: none;">
+                                        <ul>
+                                            <table>
+                                                <tbody><tr>
+                                                    <th>Textsprache der präsentierten Schrift</th>
+                                                    <td>German</td>
 
-												</tr>
-												<tr>
-													<th>Textsprache der Präsentation</th>
-													<td>German</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Textsprache der Präsentation</th>
+                                                    <td>German</td>
 
-												</tr>
-												<tr>
-													<th>Recensio ID</th>
-													<td>Lorem ipsum</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Recensio ID</th>
+                                                    <td>Lorem ipsum</td>
 
-												</tr>
-												<tr>
-													<th>Verbund ID</th>
-													<td>Dolor sit</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Verbund ID</th>
+                                                    <td>Dolor sit</td>
 
-												</tr>
-												<tr>
-													<th>ddc sach</th>
-													<td>Geschichte allgemein </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>ddc sach</th>
+                                                    <td>Geschichte allgemein </td>
 
-												</tr>
-												<tr>
-													<th>ddc zeit</th>
-													<td>20. Jahrhundert - 1930 - 1939</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>ddc zeit</th>
+                                                    <td>20. Jahrhundert - 1930 - 1939</td>
 
-												</tr>
-												<tr>
-													<th>ddc raum</th>
-													<td>DEUTSCHLAND 20. JAHRHUNDERT</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>ddc raum</th>
+                                                    <td>DEUTSCHLAND 20. JAHRHUNDERT</td>
 
-												</tr>
-												<tr>
-													<th>Stichworte</th>
-													<td>* Polen
-											        * Menschen
-											        * Deutschland
-											        * Religion
-											        * Geschichte
-											        * Danzig
-											        * Kirche
-											        * 19.Jahrhundert</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Stichworte</th>
+                                                    <td>* Polen
+                                                    * Menschen
+                                                    * Deutschland
+                                                    * Religion
+                                                    * Geschichte
+                                                    * Danzig
+                                                    * Kirche
+                                                    * 19.Jahrhundert</td>
 
-												</tr>
-												<tr>
-													<th>Zitation</th>
-													<td>Geschichtsbewusstsein</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Zitation</th>
+                                                    <td>Geschichtsbewusstsein</td>
 
-												</tr>
-											</tbody></table>
-										</ul>
-	                                </ul>
-	                            </li>
-	                        </ul>
-	                    </li>
-	                </ul>    
-	            </div>
-	        </div>
-		
-
+                                                </tr>
+                                            </tbody></table>
+                                        </ul>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
 
-
-<!--
-        <dl>
-          <tal:field repeat="field context/metadata_fields">
-            <dt tal:content="python:metadata[field]"></dt>
-            <dd tal:condition="python: field in view.review_journal_fields.keys()">
-              <tal:review_journal_field content="python: context[field]()" /></dd>
-            <dd tal:condition="python: not field in view.review_journal_fields.keys()">
-              <tal:widget metal:use-macro="python:context.widget(field)" />
-            </dd>
-          </tal:field>
-        </dl>
-        -->
         <dl tal:define="pdf context/get_review_pdf"
             tal:condition="pdf">
           <dt>Download</dt>
