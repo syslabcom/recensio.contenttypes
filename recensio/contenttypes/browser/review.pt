@@ -237,7 +237,7 @@
             <p class="download pdf"> 
               <a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
                  href="PartB.pdf">Download as <strong>PDF</strong><br />
-              <em class="discrete" tal:content="python:context.get_size()">(1.5 mb)</em></a> 
+              <em class="discrete">(<span tal:replace="python:context.getPdf().get_size()/1024" /> kb)</em></a> 
             </p> 
         </div>
     </metal:portlets>
