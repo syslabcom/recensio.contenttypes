@@ -23,7 +23,7 @@
     name="OAISuggestions"
     for="..interfaces.IReview"
     manager="plone.app.layout.viewlets.interfaces.IBelowContent"
-    template="templates/oaisuggestions.pt"
+    class=".viewlets.OAISuggestionsViewlet"
     permission="zope2.View"
     />
 
