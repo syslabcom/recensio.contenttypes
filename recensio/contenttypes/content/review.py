@@ -206,6 +206,28 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
                     pdf = generated_pdf
         return pdf
 
+    def get_page_image(self, no=1):
+        """
+        Return a page of the review text
+        """
+        images = getattr(self, 'pagePictures', None)
+        if images is None:
+            return None
+        if no > len(images):
+            no = 0
+        self.REQUEST.RESPONSE.setHeader('Content-Type', 'image/gif')
+        self.REQUEST.RESPONSE.setHeader('Content-Length', len(images[no - 1]))
+        
+        return images[no - 1]
+
+    def get_no_pages(self):
+        """
+        Return the number of pages that are stored as images
+        See get_page_image()
+        """
+        return len(getattr(self, 'pagePictures', None))
+
+
     def getAllAuthorData(self):
         retval = []
         field_values = list(getattr(self, 'authors', [])) + \

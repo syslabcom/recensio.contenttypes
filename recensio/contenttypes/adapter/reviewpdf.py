@@ -90,7 +90,7 @@ class ReviewPDF(object):
         pages = []
         status = 1
         while not 'Error:' in result and i < 12:
-            result, pageimg = self._getPageImage(i)
+            result, pageimg = self._getPageImage(i, (800,1131))
             if result and not 'Page number:' in result:
                 logger.warn("popen: %s" % (result))
                 if 'Error:' in result:
