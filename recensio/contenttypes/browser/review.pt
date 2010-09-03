@@ -234,11 +234,12 @@
     </div>
     
     <metal:portlets fill-slot="portlets_two_slot" tal:define="pdf python:context.getField('pdf')"  tal:condition="pdf">
-        <div class="portlet" id="portletDownload"> 
+        <div class="portlet" id="portletDownload"
+            tal:define="pdf_ob context/getPdf">
             <p class="download pdf"> 
               <a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
                  href="PartB.pdf">Download as <strong>PDF</strong><br />
-              <em class="discrete">(<span tal:replace="python:context.getPdf().get_size()/1024" /> kb)</em></a> 
+              <em class="discrete">(<span tal:replace="python: pdf_ob and pdf_ob.get_size()/1024 or 0" /> kb)</em></a> 
             </p> 
         </div>
     </metal:portlets>
