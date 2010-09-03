@@ -18,6 +18,10 @@ class IReviewPDF(Interface):
 
     def generateImage(self):
         """
-        return a cover image generated from pdf data
+        generate a cover image from pdf data
         """
 
+    def generatePageImages(self):
+        """
+        generate an image for each page of the pdf
+        """
