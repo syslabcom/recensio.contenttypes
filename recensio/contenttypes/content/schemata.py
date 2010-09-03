@@ -13,6 +13,9 @@ from Products.DataGridField.SelectColumn import SelectColumn
 from Products.validation.interfaces.IValidator import IValidator
 from plone.app.blob.field import BlobField
 from plone.app.blob.field import ImageField
+from zope.i18n import translate
+from zope.app.component.hooks import getSite
+from Products.CMFCore.utils import getToolByName
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
@@ -70,7 +73,11 @@ class isTrue:
     def __call__(self, value, *args, **kwargs):
         if value == True:
             return 1
-        return _(u"All submitted reviews must be published under the CC-BY licence.")
+        site = getSite()
+        language = getToolByName(site, 'portal_languages').getPreferredLanguage()
+        return translate(_(u'message_ccby_license', 
+            default=u"All submitted reviews must be published under the CC-BY licence."),
+            target_language=language)
 
 PresentationSchema = atapi.Schema((
     atapi.BooleanField(
@@ -79,8 +86,8 @@ PresentationSchema = atapi.Schema((
         value=False,
         validators=(isTrue(),),
         widget=atapi.BooleanWidget(
-            label=_(
-    u"Ich bin damit einverstanden, dass meine Präsentation von recensio.net"+\
+            label=_(u'text_ccby_license_approval',
+    default=u"Ich bin damit einverstanden, dass meine Präsentation von recensio.net"+\
     u"unter der Creative-Commons-Lizenz "+\
     u"Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung "+\
     u"(CC-BY-NC-ND) publiziert wird. Sie darf"+\
@@ -240,8 +247,8 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.TextAreaWidget(
             label=_(u"Citation"),
-            description=_(
-    u"A default citation is generated automatically. To use a custom "+\
+            description=_(u'description_custom_citation',
+    default=u"A default citation is generated automatically. To use a custom "+\
     u"citation instead, add the required text here"),
             rows=3,
             ),
