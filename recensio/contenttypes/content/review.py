@@ -225,7 +225,8 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         Return the number of pages that are stored as images
         See get_page_image()
         """
-        return len(getattr(self, 'pagePictures', None))
+        pagePictures = getattr(self, 'pagePictures', None)
+        return pagePictures and len(pagePictures) or 0
 
 
     def getAllAuthorData(self):
