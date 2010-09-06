@@ -295,11 +295,16 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
             containera = summera["issue-2"]
             if "issue-2" not in summerb.objectIds():
                 summerb.invokeFactory("Issue", id="issue-2", title="Issue 2")
+                containerb = summerb["issue-2"]
+                data = test_data()
+                data['title'] = 'test title'
+                data['languageReviewedText'] = 'de'
+                data['languageReview'] = 'fr'
+                addOneItem(containerb, rez_class, data)
+                item = containerb.objectValues()[0]
+                comment = createObject('plone.Comment')
+                IConversation(item).addComment(comment)
             containerb = summerb["issue-2"]
-            addOneItem(containerb, rez_class, {})
-            item = containerb.objectValues()[0]
-            comment = createObject('plone.Comment')
-            IConversation(item).addComment(comment)
             container = containera
         else:
             pm = portal.portal_membership
