@@ -128,4 +128,19 @@ class ReviewMonograph(BaseReview):
                           "{text_in} {publisher}, {series}, {seriesVol}"
                           "({yearOfPublication}), Pages {pages}")
 
+    def get_publication_title(self):
+        """ Equivalent of 'titleJournal'"""
+        return self.get_title_from_parent_of_type("Publication")
+
+    def get_publication_object(self):
+        return self.get_parent_object_of_type("Publication")
+
+    def get_volume_title(self):
+        """ Equivalent of 'volume'"""
+        return self.get_title_from_parent_of_type("Volume")
+
+    def get_issue_title(self):
+        """ Equivalent of 'issue'"""
+        return self.get_title_from_parent_of_type("Issue")
+
 atapi.registerType(ReviewMonograph, PROJECTNAME)

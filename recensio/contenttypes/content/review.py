@@ -6,6 +6,7 @@ import ho.pisa
 import re
 from DateTime import DateTime
 
+import Acquisition
 from ZODB.blob import Blob
 from zope.interface import implements
 from zope.component import getUtility
@@ -15,6 +16,7 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.Portal import PloneSite
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 from zope.app.schema.vocabulary import IVocabularyFactory
 from Products.Archetypes.utils import DisplayList
@@ -250,3 +252,25 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
     def Language(self):
         """ Reviews are NOT translatable. As such, they must remain neutral """
         return ''
+
+    def get_title_from_parent_of_type(self, meta_type):
+        """
+        Return the title of the first object of a particular type
+        which is a parent of the current object.
+        """
+        obj = self.get_parent_object_of_type(meta_type)
+        if obj:
+            return obj.Title()
+        return ''
+
+    def get_parent_object_of_type(self, meta_type):
+        """ Return the object of a particular type which is
+        the parent of the current object."""
+        obj = Acquisition.aq_inner(self)
+        while not isinstance(obj, PloneSite):
+            obj = Acquisition.aq_parent(obj)
+            if obj.meta_type == meta_type:
+                return obj
+        return None
+
+

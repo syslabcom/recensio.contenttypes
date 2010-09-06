@@ -136,30 +136,6 @@ class ReviewJournal(BaseReview):
                           "{yearOfPublication}) {text_pages} "
                           "{pageStart}/{pageEnd}")
 
-
-    def get_title_from_parent_of_type(self, meta_type):
-        """
-        Return the title of the first object of a particular type
-        which is a parent of the current object.
-        """
-        title = ""
-        parents = self.REQUEST.PARENTS
-        for parent in parents:
-            if parent.meta_type == meta_type:
-                title = parent.Title()
-                break
-        return title
-
-    def get_parent_object_of_type(self, meta_type):
-        """ Return the object of a particular type which is
-        the parent of the current object."""
-        obj = Acquisition.aq_inner(self)
-        while not isinstance(obj, PloneSite):
-            obj = Acquisition.aq_parent(obj)
-            if obj.meta_type == meta_type:
-                return obj
-        return None
-
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""
         return self.get_title_from_parent_of_type("Publication")

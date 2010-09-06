@@ -2,7 +2,7 @@
 from cStringIO import StringIO
 from csv import writer, reader
 from ConfigParser import ConfigParser
-from zope.component import adapts
+from zope.component import adapts, createObject
 from zope.interface import implements
 import os
 
@@ -20,6 +20,7 @@ from Products.Archetypes.event import ObjectInitializedEvent
 from Products.CMFCore.utils import getToolByName
 from Products.GenericSetup.interfaces import IFilesystemExporter, \
     IFilesystemImporter
+from plone.app.discussion.interfaces import IConversation
 
 from recensio.contenttypes.content.reviewmonograph import \
      ReviewMonograph
@@ -277,14 +278,29 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
         if rez_class.__doc__.startswith("Review"):
             if "newspapera" not in sample_reviews.objectIds():
                 sample_reviews.invokeFactory("Publication", id="newspapera",
-                                      title="NewspaperA")
+                                      title="Zeitschrift 1")
+            if "newspaperb" not in sample_reviews.objectIds():
+                sample_reviews.invokeFactory("Publication", id="newspaperb",
+                                      title="Zeitschrift 2")
             newspapera = sample_reviews["newspapera"]
+            newspaperb = sample_reviews["newspaperb"]
             if "summer" not in newspapera.objectIds():
                 newspapera.invokeFactory("Volume", id="summer", title="Summer")
-            summer = newspapera["summer"]
-            if "issue-2" not in summer.objectIds():
-                summer.invokeFactory("Issue", id="issue-2", title="Issue 2")
-            container = summer["issue-2"]
+            summera = newspapera["summer"]
+            if "summer" not in newspaperb.objectIds():
+                newspaperb.invokeFactory("Volume", id="summer", title="Summer")
+            summerb = newspaperb["summer"]
+            if "issue-2" not in summera.objectIds():
+                summera.invokeFactory("Issue", id="issue-2", title="Issue 2")
+            containera = summera["issue-2"]
+            if "issue-2" not in summerb.objectIds():
+                summerb.invokeFactory("Issue", id="issue-2", title="Issue 2")
+            containerb = summerb["issue-2"]
+            addOneItem(containerb, rez_class, {})
+            item = containerb.objectValues()[0]
+            comment = createObject('plone.Comment')
+            IConversation(item).addComment(comment)
+            container = containera
         else:
             pm = portal.portal_membership
             pm.addMember(id="fake_member", password="fake_member_pw",
