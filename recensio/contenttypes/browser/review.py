@@ -13,17 +13,7 @@ from Products.Archetypes.utils import contentDispositionHeader
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from wc.pageturner.settings import Settings
-from wc.pageturner.views import PageTurnerView
-from wc.pageturner.views import pdf2swf_subprocess
-
 from recensio.contenttypes import contenttypesMessageFactory as _
-
-
-try:
-    pdf2swf = pdf2swf_subprocess()
-except IOError:
-    pdf2swf = None
 
 
 class View(BrowserView):
@@ -54,51 +44,5 @@ class View(BrowserView):
         else:
             return False
 
-    def javascript(self):
-        """
-        Generates the block of javascript required to embed the flash
-        based pdf viewer from wc.pageturner
-        """
-        context = self.context
-        ptv = PageTurnerView(context, self.request)
-        ptv.settings = Settings(context)
-        return ptv.javascript()
-
     def __call__(self):
         return self.template()
-
-class DownloadSWFView(PageTurnerView):
-    """
-    Copied from wc.pageturner views.py since we need to display the
-    pdf attached to this review. wc.pageturner expects the context to
-    be a file
-    """
-
-    def render_blob_version(self):
-        context = self.context
-        request = self.request
-        pdf = context.get_review_pdf()
-        header_value = contentDispositionHeader(
-            disposition = 'inline',
-            filename = context.Title() +'.swf')
-
-        swf_blob = self.settings.data
-        if swf_blob:
-            blobfi = openBlob(swf_blob)
-            length = fstat(blobfi.fileno()).st_size
-            blobfi.close()
-
-            self.request.response.setHeader('Last-Modified',
-                                            rfc1123_date(context._p_mtime))
-            self.request.response.setHeader('Accept-Ranges', 'bytes')
-            self.request.response.setHeader('Content-Disposition', header_value)
-            self.request.response.setHeader("Content-Length", length)
-            self.request.response.setHeader('Content-Type',
-                                            'application/x-shockwave-flash')
-            range = handleRequestRange(context, length,
-                                       request, request.response)
-            return BlobStreamIterator(swf_blob, **range)
-
-    def __call__(self):
-        self.settings = Settings(self.context)
-        return self.render_blob_version()

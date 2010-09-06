@@ -12,13 +12,6 @@
      permission="zope2.View"
      />
 
-  <browser:page
-  	 name="converted.swf"
-  	 for="..interfaces.IReview"
-  	 class=".review.DownloadSWFView"
-  	 permission="zope2.View"
-     />
-
   <browser:viewlet
     name="OAISuggestions"
     for="..interfaces.IReview"

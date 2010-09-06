@@ -23,10 +23,6 @@ from Products.Archetypes.utils import DisplayList
 
 from plone.app.blob.utils import openBlob
 
-from wc.pageturner.views import pdf2swf_subprocess
-from wc.pageturner.settings import Settings
-from wc.pageturner.interfaces import IPageTurnerSettings
-
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.helperutilities import SimpleZpt
 from recensio.contenttypes.helperutilities import wvPDF
@@ -163,32 +159,6 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
                 pdf_blob_writer.close()
                 if not pdf.err:
                     self.generatedPdf = pdf_blob
-
-    def update_swf(self):
-        """
-        Update the swf version of the pdf version of the review
-        """
-        pdf_blob = self.get_review_pdf()
-        if pdf_blob:
-            settings = Settings(self)
-            if DateTime(settings.last_updated) < \
-                   DateTime(self.ModificationDate()):
-                swf = None
-                try:
-                    pdf = openBlob(pdf_blob)
-                    pdf2swf = pdf2swf_subprocess()
-                    swf = pdf2swf.convert(pdf.read())
-                    pdf.close()
-                    log.info("Converted pdf for %s" %self.absolute_url())
-                except Exception, e:
-                    log.error("Error converting pdf for %s : %s" \
-                         %(self.absolute_url(), e))
-                if swf:
-                    blob = Blob()
-                    blob.open("w").writelines(swf)
-                    settings.data = blob
-                    settings.last_updated = DateTime().pCommonZ()
-                    settings.successfully_converted = True
 
     def get_review_pdf(self):
         """
