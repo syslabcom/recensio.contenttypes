@@ -24,6 +24,7 @@ class ReviewPDF(object):
         tmp_pdfin = tmp_pdfout = tmp_gifin = None
         result = ''
         pageimg = None
+        logger.debug("Calling external tools for page image generation:")
         try:
             mainpub = self.context
             pdf = mainpub.get_review_pdf()
@@ -38,12 +39,13 @@ class ReviewPDF(object):
             fhout.write(data)
             fhout.close()
             cmd = "pdftk %s cat %i output %s" %(tmp_pdfout[1], n, tmp_pdfin[1])
-            logger.info(cmd)
+            logger.debug(cmd)
             _, _, res = os.popen3(cmd)
             result = res.read()
             if result:
                 logger.warn("popen: %s" % (result))
             cmd = "convert %s -resize %ix%i %s" %(tmp_pdfin[1], size[0], size[1], tmp_gifin[1])
+            logger.debug(cmd)
             _, _, res = os.popen3(cmd)
             result2 = res.read()
             result += result2
@@ -53,6 +55,7 @@ class ReviewPDF(object):
             logger.warn("generateImage: Could not autoconvert! %s: %s" % (e.__class__.__name__, e) )
 
         # try to clean up
+        
         if tmp_pdfin is not None:
             try: os.remove(tmp_pdfin[1])
             except: pass
@@ -65,6 +68,55 @@ class ReviewPDF(object):
         
         return result, pageimg
 
+    def _getAllPageImages(self, size=(320,452)):
+        tmp_pdfin = tmp_pdfout = tmp_gifin = None
+        result = ''
+        pageimg = None
+        pages = []
+        logger.debug("Calling external tools for page image generation:")
+        try:
+            mainpub = self.context
+            pdf = mainpub.get_review_pdf()
+            data = pdf.open().read()
+            if not data:
+                return 0
+            tmp_pdfin = tempfile.mkdtemp()
+            tmp_pdfout = tempfile.mkstemp(suffix='.pdf')
+            fhout = open(tmp_pdfout[1], "w")
+            fhout.write(data)
+            fhout.close()
+            tmp_prefix = os.path.join(tmp_pdfin, os.path.splitext(os.path.basename(tmp_pdfout[1]))[0])
+            cmd = "pdftk %s burst output %s_%%04d.pdf" %(tmp_pdfout[1], tmp_prefix)
+            logger.debug(cmd)
+            _, _, res = os.popen3(cmd)
+            result = res.read()
+            if result:
+                logger.warn("popen: %s" % (result))
+            cmd = "convert %s_*.pdf -resize %ix%i %s_%%04d.gif" %(tmp_prefix, size[0], size[1], tmp_prefix)
+            logger.debug(cmd)
+            _, _, res = os.popen3(cmd)
+            result2 = res.read()
+            result += result2
+            for img in [gif for gif in os.listdir(tmp_pdfin) if os.path.splitext(gif)[1] == '.gif']:
+                fhimg = open(os.path.join(tmp_pdfin, img), "r")
+                pageimg = fhimg.read()
+                pages.append(pageimg)
+                fhimg.close()
+        except Exception, e:
+            logger.warn("generateImage: Could not autoconvert! %s: %s" % (e.__class__.__name__, e) )
+
+        # try to clean up
+        if tmp_pdfin is not None:
+            for img in [gif for gif in os.listdir(tmp_pdfin)]:
+                try: os.remove(os.path.join(tmp_pdfin, img))
+                except: pass
+            try: os.removedirs(tmp_pdfin)
+            except: pass
+        if tmp_pdfout is not None:
+            try: os.remove(tmp_pdfout[1])
+            except: pass
+        
+        return result, pages
 
     def generateImage(self):
         """
@@ -92,17 +144,13 @@ class ReviewPDF(object):
         i = 1
         pages = []
         status = 1
-        while not 'Error:' in result and i < 12:
-            result, pageimg = self._getPageImage(i, (800,1131))
-            if result and not 'Page number:' in result:
-                logger.warn("popen: %s" % (result))
-                if 'Error:' in result:
-                    status = 0
-            if pageimg:
-                pages.append(pageimg)
-            i = i + 1
-        if pages:
-            setattr(self.context, 'pagePictures', pages)
+        result, pageimages = self._getAllPageImages((800,1131))
+        if result:
+            logger.warn("popen: %s" % (result))
+            if 'Error:' in result:
+                status = 0
+        if pageimages:
+            setattr(self.context, 'pagePictures', pageimages)
 
         return status
 
