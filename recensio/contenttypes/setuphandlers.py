@@ -133,6 +133,18 @@ def add_number_of_each_review_type(context, number_of_each):
     word_doc_obj = File(id="test-word-doc", title="Test Word Doc",
                    file=word_doc_file,
                    content_type='application/msword')
+    gif_file = open(os.path.join(
+        os.path.dirname(__file__), "tests", "test_content","Review.gif"),
+                    "r")
+    gif_obj = File(id="test-gif", title="Test coverImage", file=gif_file,
+        content_type='image/gif')
+    gif_file.close()
+    gif_file = open(os.path.join(
+        os.path.dirname(__file__), "tests", "test_content","Review.gif"),
+                    "r")
+    gif_data = gif_file.read()
+    gif_file.close()
+
     review_text = u"""
 TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT 
 
@@ -247,7 +259,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                'documenttypes_bibliographical':u'',
                'documenttypes_individual':u'',
                'documenttypes_referenceworks':u'',
-               'coverPicture':None,
+               'coverPicture': gif_obj,
                'existingOnlineReviews':[dict(name=u'Dzieje państwa', url='')],
                'publishedReviews':u'',
                'titleCollectedEdition':u'',
@@ -300,7 +312,9 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                 data['title'] = 'test title'
                 data['languageReviewedText'] = 'de'
                 data['languageReview'] = 'fr'
-                addOneItem(containerb, rez_class, data)
+                data['shortnameJournal'] = 'Zeitschrift 1'
+                obj = addOneItem(containerb, rez_class, data)
+                setattr(obj, 'pagePictures', [gif_data])
                 item = containerb.objectValues()[0]
                 comment = createObject('plone.Comment')
                 IConversation(item).addComment(comment)
@@ -321,8 +335,10 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
             elif i / (number_of_each / 3) == 2:
                 data['languageReviewedText'] = 'de'
                 data['languageReview'] = 'fr'
+            data['shortnameJournal'] = 'Zeitschrift 1'
             data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
-            addOneItem(container, rez_class, data)
+            obj = addOneItem(container, rez_class, data)
+            setattr(obj, 'pagePictures', [gif_data])
 
     request = TestRequest()
     class FakeResponse(object):
