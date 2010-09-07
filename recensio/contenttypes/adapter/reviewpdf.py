@@ -70,6 +70,9 @@ class ReviewPDF(object):
         """
         try safely to generate the cover image if pdftk and imagemagick are present
         """
+        coverPicture = self.context.getField('coverPicture')
+        if not coverPicture:
+            return 0
         result, coverdata = self._getPageImage(1)
         status = 1
         if result:
@@ -77,7 +80,7 @@ class ReviewPDF(object):
             if 'Error:' in result:
                 status = 0
         #fhimg.seek(0)
-        self.context.getField('coverPicture').getMutator(self.context)(coverdata)
+        coverPicture.getMutator(self.context)(coverdata)
 
         return status
 
