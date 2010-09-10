@@ -28,8 +28,8 @@ class RecensioContenttypes(PloneSandboxLayer):
         wftool = getToolByName(portal, 'portal_workflow')
         wftool.setDefaultChain('plone_workflow')
         applyProfile(portal, 'Products.CMFPlone:plone-content')
-        applyProfile(portal, 'recensio.policy:default')
-        applyProfile(portal, 'recensio.contenttypes:example_content')
+        applyProfile(portal, 'recensio.policy:test')
+        #applyProfile(portal, 'recensio.contenttypes:example_content')
 
 RECENSIO_FIXTURE = RecensioContenttypes()
 RECENSIO_INTEGRATION_TESTING = IntegrationTesting(bases=(RECENSIO_FIXTURE, ),

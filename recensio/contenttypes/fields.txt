@@ -1,0 +1,99 @@
+Felder unserer Contenttypen
+
+    >>> infoShower = lambda x: lambda y: (x[y].type, x[y].widget.label)
+    >>> from recensio.contenttypes.content.reviewjournal import ReviewJournalSchema
+    >>> schema = ReviewJournalSchema
+    >>> schema.keys()
+    ['coverPicture', 'issn', 'uri', 'pdf', 'doc', 'review', 'customCitation', 'reviewAuthorHonorific', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'reviewAuthorEmail', 'authors', 'languageReviewedText', 'languageReview', 'editor', 'title', 'subtitle', 'pageStart', 'pageEnd', 'yearOfPublication', 'officialYearOfPublication', 'placeOfPublication', 'publisher', 'description', 'searchresults', 'ddcPlace', 'ddcSubject', 'ddcTime', 'subject', 'id', 'recensioID', 'generatedPdf', 'idBvb', 'shortnameJournal', 'relatedItems', 'location', 'language', 'effectiveDate', 'expirationDate', 'creation_date', 'modification_date', 'creators', 'contributors', 'rights', 'allowDiscussion', 'excludeFromNav']
+    >>> schema = infoShower(schema)
+
+ISSN Nummer der Zeitschrift in der es den Review gab.
+
+    >>> schema('issn')
+    ('string', u'ISSN')
+
+Der Link zur Webseite auf der man die Rezension im Original lesen kann
+
+    >>> schema('uri')
+    ('string', u'URN')
+
+Das PDF mit der Rezension. Hier brauchen wir einen Link von Ihnen, von
+dem wir das PDF beziehen.
+
+    >>> schema('pdf')
+    ('blob', u'PDF')
+
+Name des Rezensenten, aufgeteilt nach Vorname, Nachname und Titel mit Anrede
+
+    >>> schema('reviewAuthorLastname')
+    ('string', u'Lastname')
+    >>> schema('reviewAuthorFirstname')
+    ('string', u'Firstname')
+    >>> schema('reviewAuthorHonorific')
+    ('string', u'Honorific Title')
+
+Der Honorific Teil wird nicht für die Suche verwendet.
+
+Die Autoren des rezensierten Werkes. Diesmal nur Vorname und Nachname, kann
+aber viele Werte enthalten
+
+    >>> schema('authors')
+    ('datagrid', u'Autor des Aufsatzes')
+
+Sprache des rezensierten Werkes.
+
+    >>> schema('languageReviewedText')
+    ('lines', u'Textsprache der pr\xe4sentierten Schrift')
+
+Sprache der Rezension.
+
+    >>> schema('languageReview')
+    ('lines', u'Textsprache der Pr\xe4sentation')
+
+In beiden Fällen speichern wir dort die 2 Buchstaben Schlüssel wie wir
+sie aus portal_languages bekommen
+
+Titel des rezensierten Werkes
+
+    >>> schema('title')
+    ('string', 'Title')
+
+Untertitel des rezensierten Werkes
+
+    >>> schema('subtitle')
+    ('string', u'Untertitel')
+
+Erscheinungsjahr des publizierten Werkes
+
+    >>> schema('yearOfPublication')
+    ('string', u'Erscheinungsjahr')
+
+Gezähltes Erscheinungsjahr des publizierten Werkes
+
+    >>> schema('officialYearOfPublication')
+    ('string', u'Gez\xe4hltes Jahr')
+
+Verlag des Zeitschrift der Rezension
+
+    >>> schema('publisher')
+    ('string', u'Verlag')
+
+Zitationsfeld nur für die Suche
+
+    >>> schema('searchresults')
+    ('string', u'Zitation')
+
+Schlagwörter
+
+    >>> schema('ddcPlace')
+    ('lines', u'ddc raum')
+    >>> schema('ddcSubject')
+    ('lines', u'ddc sach')
+    >>> schema('ddcTime')
+    ('lines', u'ddc zeit')
+
+Wir haben die Schlagwörter als Vocabularies und nur die Langform. Wir
+bekommen in nächster Zeit eine Tabelle mit offiziellen Codes für die
+Schlagwörter, so wie sie in Digitool verwendet werden. Wenn Digitool
+dann aber ausgetauscht wird, ändert sich das Mapping wieder.
+
