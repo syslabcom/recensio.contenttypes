@@ -148,6 +148,7 @@ SerialSchema = atapi.Schema((
     ))
 
 BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
+# TODO Add LabelWidget to show "Author (review)"
     atapi.StringField(
         'reviewAuthorHonorific',
         storage=atapi.AnnotationStorage(),
