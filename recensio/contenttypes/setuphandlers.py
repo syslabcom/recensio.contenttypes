@@ -243,7 +243,6 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                'subject':u'',
                'pages':u'',
                'title':u'Niemcy',
-               'searchresults':u'',
                'subtitle':u'Dzieje państwa i społeczeństwa 1890–1945',
                'uri': 'http://www.syslab.com',
                'idBvb':u'',
