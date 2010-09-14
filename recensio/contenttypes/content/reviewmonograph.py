@@ -15,6 +15,8 @@ from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import SerialSchema
+from recensio.contenttypes.content.schemata import hide_unused_fields
+
 
 ReviewMonographSchema = BookReviewSchema.copy() + \
                         CoverPictureSchema.copy() + \
@@ -31,7 +33,8 @@ schemata.finalizeATCTSchema(ReviewMonographSchema,
 
 # finalizeATCTSchema moves 'subject' into "categorization" which we
 # don't want
-ReviewMonographSchema.changeSchemataForField('subject', 'default')
+ReviewMonographSchema.changeSchemataForField('subject', 'reviewed text')
+hide_unused_fields(ReviewMonographSchema)
 
 
 class ReviewMonograph(BaseReview):

@@ -21,10 +21,21 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 
 
+def hide_unused_fields(schema):
+    """Move the default fields which we don't use to the"default"
+    schemata and hide them.
+    """
+    for field in ["allowDiscussion", "contributors", "creators", "description",
+                  "effectiveDate", "excludeFromNav", "expirationDate",
+                  "language", "location", "relatedItems", "rights", ]:
+        schema.changeSchemataForField(field, "default")
+        schema[field].widget.visible={"view":"hidden",
+                               "edit":"hidden"}
+
 AuthorsSchema = atapi.Schema((
     DataGridField(
         'authors',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         columns=("lastname", "firstname"),
         widget=DataGridWidget(
@@ -39,7 +50,7 @@ AuthorsSchema = atapi.Schema((
 CoverPictureSchema = atapi.Schema((
     ImageField(
         'coverPicture',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.ImageWidget(
             label=_(u"Cover picture"),
@@ -50,7 +61,7 @@ CoverPictureSchema = atapi.Schema((
 ReferenceAuthorsSchema = atapi.Schema((
     DataGridField(
         'referenceAuthors',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         columns=("lastname", "firstname", "email", "address", "phone"),
         widget=DataGridWidget(
@@ -85,7 +96,7 @@ class isTrue:
 PresentationSchema = atapi.Schema((
     atapi.BooleanField(
         'isLicenceApproved',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         value=False,
         validators=(isTrue(),),
@@ -110,7 +121,7 @@ PresentationSchema = atapi.Schema((
 PageStartEndSchema = atapi.Schema((
     atapi.StringField(
         'pageStart',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Page number (start)"),
@@ -118,7 +129,7 @@ PageStartEndSchema = atapi.Schema((
         ),
     atapi.StringField(
         'pageEnd',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Page number (end)"),
@@ -129,7 +140,7 @@ PageStartEndSchema = atapi.Schema((
 PagecountSchema = atapi.Schema((
     atapi.StringField(
         'pages',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Pages"),
@@ -140,6 +151,7 @@ PagecountSchema = atapi.Schema((
 SerialSchema = atapi.Schema((
     atapi.StringField(
         'series',
+        schemata=_(u"reviewed text"),
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Reihe"),
@@ -147,7 +159,7 @@ SerialSchema = atapi.Schema((
         ),
     atapi.StringField(
         'seriesVol',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Reihenvolume"),
@@ -159,7 +171,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 # TODO Add LabelWidget to show "Author (review)"
     atapi.StringField(
         'reviewAuthorHonorific',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         required=True,
         vocabulary=NamedVocabulary("honorifics"),
@@ -169,7 +181,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     atapi.StringField(
         'reviewAuthorLastname',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
@@ -178,7 +190,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     atapi.StringField(
         'reviewAuthorFirstname',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
@@ -187,7 +199,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     atapi.StringField(
         'reviewAuthorEmail',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
@@ -196,7 +208,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     atapi.LinesField(
         'languageReview',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
         widget=atapi.MultiSelectionWidget(
@@ -206,7 +218,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     atapi.LinesField(
         'languageReviewedText',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
         widget=atapi.MultiSelectionWidget(
@@ -234,6 +246,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     BlobField(
         'pdf',
+        schemata=_(u"review"),
         storage=atapi.AnnotationStorage(),
         widget=atapi.FileWidget(
             label=_(u"PDF"),
@@ -243,7 +256,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     BlobField(
         'doc',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         widget=atapi.FileWidget(
             label=_(u"Word Document"),
@@ -251,7 +264,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     atapi.TextField(
         'review',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         default_output_type="text/html",
         widget=atapi.RichWidget(
@@ -261,7 +274,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     atapi.TextField(
         'customCitation',
-        schemata=_(u"review"),
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         widget=atapi.TextAreaWidget(
             label=_(u"Citation"),
@@ -273,7 +286,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     atapi.StringField(
         'uri',
-        schemata=_(u"review"),
+        schemata="review", 
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"URN"),
@@ -285,7 +298,7 @@ BaseReviewSchema["title"].schemata = _(u"reviewed text")
 CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
     atapi.LinesField(
         'ddcPlace',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary("region_values"),
         widget=atapi.MultiSelectionWidget(
@@ -295,7 +308,7 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
         ),
     atapi.LinesField(
         'ddcSubject',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary("topic_values"),
         widget=atapi.MultiSelectionWidget(
@@ -306,7 +319,7 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
     # Q: DateTimeField ?
     atapi.LinesField(
         'ddcTime',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary("epoch_values"),
         widget=atapi.MultiSelectionWidget(
@@ -320,7 +333,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
                       CoverPictureSchema.copy() + atapi.Schema((
     atapi.StringField(
         'subtitle',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Untertitel"),
@@ -329,7 +342,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
     # Q: DateTimeField or perhaps IntegerField ?
     atapi.StringField(
         'yearOfPublication',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Erscheinungsjahr"),
@@ -337,7 +350,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
         ),
     atapi.StringField(
         'placeOfPublication',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Erscheinungsort"),
@@ -345,7 +358,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
         ),
     atapi.StringField(
         'publisher',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Verlag"),
@@ -368,7 +381,7 @@ BookReviewSchema = PrintedReviewSchema.copy() + \
                    atapi.Schema((
     atapi.StringField(
         'isbn',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"ISBN"),
@@ -383,7 +396,7 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
                          atapi.Schema((
     atapi.StringField(
         'shortnameJournal',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
@@ -392,7 +405,7 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
         ),
     atapi.StringField(
         'issn',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"ISSN"),
@@ -400,7 +413,7 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
         ),
     atapi.StringField(
         'officialYearOfPublication',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Gezähltes Jahr"),
