@@ -74,7 +74,6 @@ class ReviewMonograph(BaseReview):
     placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
     publisher = atapi.ATFieldProperty('publisher')
     idBvb = atapi.ATFieldProperty('idBvb')
-    searchresults = atapi.ATFieldProperty('searchresults')
 
     # Authors
     authors = atapi.ATFieldProperty('authors')
@@ -93,7 +92,7 @@ class ReviewMonograph(BaseReview):
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Reorder the fields as required for the edit view
-    ordered_fields = ["coverPicture", "isbn", "uri", "pdf", "doc", "review",
+    ordered_fields = ["isbn", "uri", "pdf", "doc", "review",
                       "customCitation", "coverPicture",
                       "reviewAuthorHonorific", "reviewAuthorLastname",
                       "reviewAuthorFirstname", "reviewAuthorEmail",
@@ -102,19 +101,19 @@ class ReviewMonograph(BaseReview):
                       "yearOfPublication", "placeOfPublication",
                       "publisher", "series", "seriesVol", "pages",
                       "ddcTime", "ddcPlace", "ddcSubject", "subject",
-                      "searchresults", "description"]
+                      "description"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
     # An ordered list of fields used for the metadata area of the view
     metadata_fields = ["authors", "languageReviewedText",
-                       "languageReview", "recensioID",
-                       "searchresults", "idBvb", "authors", "title",
-                       "subtitle", "yearOfPublication",
-                       "placeOfPublication", "publisher", "series",
-                       "seriesVol", "pages", "isbn", "ddcSubject",
-                       "ddcTime", "ddcPlace", "subject"]
+                       "languageReview", "recensioID", "idBvb",
+                       "authors", "title", "subtitle",
+                       "yearOfPublication", "placeOfPublication",
+                       "publisher", "series", "seriesVol", "pages",
+                       "isbn", "ddcSubject", "ddcTime", "ddcPlace",
+                       "subject"]
 
     #  Rezensent, review of: Autor, Titel. Untertitel,
     # Erscheinungsort: Verlag Jahr, in: Zs-Titel, Nummer, Heftnummer

@@ -104,7 +104,6 @@ class PresentationArticleReview(BaseReview):
     placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
     publisher = atapi.ATFieldProperty('publisher')
     idBvb = atapi.ATFieldProperty('idBvb')
-    searchresults = atapi.ATFieldProperty('searchresults')
 
     # Authors
     authors = atapi.ATFieldProperty('authors')
@@ -140,9 +139,8 @@ class PresentationArticleReview(BaseReview):
                       "shortnameJournal", "yearOfPublication",
                       "officialYearOfPublication", "volume", "issue",
                       "placeOfPublication", "publisher",
-                      "description", "searchresults", "ddcPlace",
-                      "ddcSubject", "ddcTime", "subject",
-                      "isLicenceApproved"]
+                      "description", "ddcPlace", "ddcSubject",
+                      "ddcTime", "subject", "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
@@ -150,9 +148,9 @@ class PresentationArticleReview(BaseReview):
     # An ordered list of fields used for the metadata area of the view
     metadata_fields = ["authors", "languageReviewedText",
                        "languageReview", "referenceAuthors",
-                       "recensioID", "uri", "searchresults",
-                       "authors", "title", "subtitle", "pageStart",
-                       "pageEnd", "titleJournal", "shortnameJournal",
+                       "recensioID", "uri", "authors", "title",
+                       "subtitle", "pageStart", "pageEnd",
+                       "titleJournal", "shortnameJournal",
                        "yearOfPublication",
                        "officialYearOfPublication", "volume", "issue",
                        "placeOfPublication", "publisher", "issn",

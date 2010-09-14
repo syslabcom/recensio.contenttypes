@@ -129,7 +129,6 @@ class PresentationMonograph(BaseReview):
     placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
     publisher = atapi.ATFieldProperty('publisher')
     idBvb = atapi.ATFieldProperty('idBvb')
-    searchresults = atapi.ATFieldProperty('searchresults')
 
     # Authors
     authors = atapi.ATFieldProperty('authors')
@@ -168,8 +167,7 @@ class PresentationMonograph(BaseReview):
                       "subtitle", "yearOfPublication",
                       "placeOfPublication", "publisher", "series",
                       "seriesVol", "pages", "ddcSubject",
-                      "ddcTime","ddcPlace", "subject",
-                      "searchresults", "description",
+                      "ddcTime","ddcPlace", "subject", "description",
                       "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
@@ -177,9 +175,9 @@ class PresentationMonograph(BaseReview):
 
     # An ordered list of fields used for the metadata area of the view
     metadata_fields = ["authors", "languageReviewedText",
-                       "languageReview", "referenceAuthors", "recensioID",
-                       "uri", "searchresults", "idBvb", "authors", "title",
-                       "subtitle", "yearOfPublication",
+                       "languageReview", "referenceAuthors",
+                       "recensioID", "uri", "idBvb", "authors",
+                       "title", "subtitle", "yearOfPublication",
                        "placeOfPublication", "publisher", "series",
                        "seriesVol", "pages", "isbn", "ddcSubject",
                        "ddcTime", "ddcPlace", "subject"]

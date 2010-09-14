@@ -77,7 +77,6 @@ class ReviewJournal(BaseReview):
     placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
     publisher = atapi.ATFieldProperty('publisher')
     idBvb = atapi.ATFieldProperty('idBvb')
-    searchresults = atapi.ATFieldProperty('searchresults')
 
     # Authors
     authors = atapi.ATFieldProperty('authors')
@@ -97,27 +96,26 @@ class ReviewJournal(BaseReview):
 
 
     # Reorder the fields as required
-    ordered_fields = ["coverPicture", "issn", "uri", "pdf", "doc", "review",
-                      "customCitation", "reviewAuthorHonorific",
-                      "reviewAuthorLastname", "reviewAuthorFirstname",
-                      "reviewAuthorEmail", "authors",
-                      "languageReviewedText", "languageReview",
-                      "editor", "title", "subtitle", "pageStart",
-                      "pageEnd", "yearOfPublication",
+    ordered_fields = ["issn", "uri", "pdf", "doc", "review",
+                      "customCitation", "coverPicture",
+                      "reviewAuthorHonorific", "reviewAuthorLastname",
+                      "reviewAuthorFirstname", "reviewAuthorEmail",
+                      "authors", "languageReviewedText",
+                      "languageReview", "editor", "title", "subtitle",
+                      "pageStart", "pageEnd", "yearOfPublication",
                       "officialYearOfPublication",
                       "placeOfPublication", "publisher",
-                      "description", "searchresults", "ddcPlace",
-                      "ddcSubject", "ddcTime", "subject"]
+                      "description", "ddcPlace", "ddcSubject",
+                      "ddcTime", "subject"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
     # An ordered list of fields used for the metadata area of the view
     metadata_fields = ["authors", "languageReviewedText",
-                       "languageReview", "recensioID",
-                       "searchresults", "idBvb", "editor",
-                       "get_publication_title", "shortnameJournal",
-                       "yearOfPublication",
+                       "languageReview", "recensioID", "idBvb",
+                       "editor", "get_publication_title",
+                       "shortnameJournal", "yearOfPublication",
                        "officialYearOfPublication",
                        "get_volume_title", "get_issue_title",
                        "placeOfPublication", "publisher", "issn",

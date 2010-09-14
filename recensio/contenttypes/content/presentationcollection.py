@@ -106,7 +106,6 @@ class PresentationCollection(BaseReview):
     placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
     publisher = atapi.ATFieldProperty('publisher')
     idBvb = atapi.ATFieldProperty('idBvb')
-    searchresults = atapi.ATFieldProperty('searchresults')
 
     # Authors
     authors = atapi.ATFieldProperty('authors')
@@ -143,8 +142,8 @@ class PresentationCollection(BaseReview):
                       "editorsCollectedEdition", "yearOfPublication",
                       "placeOfPublication", "publisher", "series",
                       "seriesVol", "ddcSubject", "ddcTime",
-                      "ddcPlace", "subject", "searchresults",
-                      "description", "isLicenceApproved"]
+                      "ddcPlace", "subject", "description",
+                      "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
@@ -154,11 +153,11 @@ class PresentationCollection(BaseReview):
                        "languageReview", "referenceAuthors",
                        "recensioID", "uri", "idBvb", "authors",
                        "title", "subtitle", "pageStart", "pageEnd",
-                       "searchresults", "editorsCollectedEdition",
+                       "editorsCollectedEdition",
                        "titleCollectedEdition", "yearOfPublication",
                        "placeOfPublication", "publisher", "series",
-                       "seriesVol", "isbn", "ddcSubject",
-                       "ddcTime", "ddcPlace", "subject"]
+                       "seriesVol", "isbn", "ddcSubject", "ddcTime",
+                       "ddcPlace", "subject"]
 
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:
     # Herausgeber, Titel. Untertitel, Erscheinungsort: Verlag Jahr,

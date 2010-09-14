@@ -5,7 +5,6 @@ import sys
 import os
 
 map = {
-"trefferdaten" : ("searchresults", ""),
 "bezugsautoren" : ("referenceAuthors","Reference Authors"),
 "ddcRaum" : ("ddcPlace","ddc place"),
 "ddcSach" : ("ddcSubject","ddc subject"),
