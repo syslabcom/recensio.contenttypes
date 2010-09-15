@@ -96,6 +96,25 @@ class isTrue:
             target_language=language)
 
 PresentationSchema = atapi.Schema((
+    atapi.StringField(
+        'reviewAuthorHonorific',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        vocabulary=NamedVocabulary("honorifics"),
+        widget=atapi.SelectionWidget(
+            label=_(u"Honorific Title"),
+            ),
+        ),
+    atapi.StringField(
+        'reviewAuthorEmail',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        widget=atapi.StringWidget(
+            label=_(u"Email"),
+            ),
+        ),
     atapi.BooleanField(
         'isLicenceApproved',
         schemata="review",
@@ -172,16 +191,6 @@ SerialSchema = atapi.Schema((
 BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 # TODO Add LabelWidget to show "Author (review)"
     atapi.StringField(
-        'reviewAuthorHonorific',
-        schemata="review",
-        storage=atapi.AnnotationStorage(),
-        required=True,
-        vocabulary=NamedVocabulary("honorifics"),
-        widget=atapi.SelectionWidget(
-            label=_(u"Honorific Title"),
-            ),
-        ),
-    atapi.StringField(
         'reviewAuthorLastname',
         schemata="review",
         storage=atapi.AnnotationStorage(),
@@ -197,15 +206,6 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         required=True,
         widget=atapi.StringWidget(
             label=_(u"Firstname"),
-            ),
-        ),
-    atapi.StringField(
-        'reviewAuthorEmail',
-        schemata="review",
-        storage=atapi.AnnotationStorage(),
-        required=True,
-        widget=atapi.StringWidget(
-            label=_(u"Email"),
             ),
         ),
     atapi.LinesField(
@@ -291,7 +291,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata="review", 
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"URN"),
+            label=_(u"URI"),
             ),
         ),
     ))

@@ -13,6 +13,7 @@ from recensio.contenttypes.interfaces import IReviewMonograph
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import CoverPictureSchema
+from recensio.contenttypes.content.schemata import PageStartEndSchema
 from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 from recensio.contenttypes.content.schemata import hide_unused_fields
@@ -20,6 +21,7 @@ from recensio.contenttypes.content.schemata import hide_unused_fields
 
 ReviewMonographSchema = BookReviewSchema.copy() + \
                         CoverPictureSchema.copy() + \
+                        PageStartEndSchema.copy() + \
                         PagecountSchema.copy() + \
                         SerialSchema.copy()
 
@@ -87,6 +89,10 @@ class ReviewMonograph(BaseReview):
     # Cover Picture
     coverPicture = atapi.ATFieldProperty('coverPicture')
 
+    # PageStartEnd
+    pageStart = atapi.ATFieldProperty('pageStart')
+    pageEnd = atapi.ATFieldProperty('pageEnd')
+
     # Pagecount
     pages = atapi.ATFieldProperty('pages')
 
@@ -95,16 +101,37 @@ class ReviewMonograph(BaseReview):
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Reorder the fields as required for the edit view
-    ordered_fields = ["isbn", "uri", "pdf", "doc", "review",
-                      "customCitation", "coverPicture",
-                      "reviewAuthorHonorific", "reviewAuthorLastname",
-                      "reviewAuthorFirstname", "reviewAuthorEmail",
-                      "authors", "languageReviewedText",
-                      "languageReview", "title", "subtitle",
-                      "yearOfPublication", "placeOfPublication",
-                      "publisher", "series", "seriesVol", "pages",
-                      "ddcTime", "ddcPlace", "ddcSubject", "subject",
-                      "description"]
+    ordered_fields = [
+        # Reviewed Text schemata
+        "isbn",
+        "languageReviewedText",
+        "authors",
+        "title",
+        "subtitle",
+        "yearOfPublication",
+        "placeOfPublication",
+        "publisher",
+        "series",
+        "seriesVol",
+        "pages",
+        "coverPicture",
+        "ddcSubject",
+        "ddcTime",
+        "ddcPlace",
+        "subject",
+
+        # Review schemata
+        "reviewAuthorLastname",
+        "reviewAuthorFirstname",
+        "languageReview",
+        "pdf",
+        "pageStart",
+        "pageEnd",
+        "doc",
+        "review",
+        "customCitation",
+        "uri",
+        ]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

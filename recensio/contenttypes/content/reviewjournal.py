@@ -51,10 +51,8 @@ class ReviewJournal(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthorHonorific = atapi.ATFieldProperty('reviewAuthorHonorific')
     reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
     reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
-    reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
@@ -98,8 +96,8 @@ class ReviewJournal(BaseReview):
     # Reorder the fields as required
     ordered_fields = ["issn", "uri", "pdf", "doc", "review",
                       "customCitation", "coverPicture",
-                      "reviewAuthorHonorific", "reviewAuthorLastname",
-                      "reviewAuthorFirstname", "reviewAuthorEmail",
+                       "reviewAuthorLastname",
+                      "reviewAuthorFirstname", 
                       "authors", "languageReviewedText",
                       "languageReview", "editor", "title", "subtitle",
                       "pageStart", "pageEnd", "yearOfPublication",
