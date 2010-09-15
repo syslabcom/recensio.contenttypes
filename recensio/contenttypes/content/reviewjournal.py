@@ -15,6 +15,7 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IReviewJournal
 
 ReviewJournalSchema = JournalReviewSchema.copy() + \
@@ -22,21 +23,19 @@ ReviewJournalSchema = JournalReviewSchema.copy() + \
                       atapi.Schema((
     atapi.StringField(
         'editor',
+        schemata=_(u"reviewed text"),
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Editor"),
+            label=_(u"Editor (name or institution)"),
             ),
         ),
 ))
 
 ReviewJournalSchema['title'].storage = atapi.AnnotationStorage()
-ReviewJournalSchema['description'].storage = atapi.AnnotationStorage()
 
-schemata.finalizeATCTSchema(ReviewJournalSchema,
-                            moveDiscussion=False)
-# finalizeATCTSchema moves 'subject' into "categorization" which we
-# don't want
-ReviewJournalSchema.changeSchemataForField('subject', 'default')
+ReviewJournalSchema['title'].widget.label = _(u"Title (journal)")
+ReviewJournalSchema['subtitle'].widget.label = _(u"Subtitle (journal)")
+finalize_recensio_schema(ReviewJournalSchema)
 
 class ReviewJournal(BaseReview):
     """Review Journal"""
@@ -45,8 +44,7 @@ class ReviewJournal(BaseReview):
     meta_type = "ReviewJournal"
     schema = ReviewJournalSchema
     title = atapi.ATFieldProperty('title')
-    description = atapi.ATFieldProperty('description')
-    # Journal = Printed + Authors +
+    # Journal = Printed 
     # Printed = Common +
     # Common = Base +
 
@@ -76,12 +74,11 @@ class ReviewJournal(BaseReview):
     publisher = atapi.ATFieldProperty('publisher')
     idBvb = atapi.ATFieldProperty('idBvb')
 
-    # Authors
-    authors = atapi.ATFieldProperty('authors')
-
     # Journal
     issn = atapi.ATFieldProperty('issn')
     shortnameJournal = atapi.ATFieldProperty('shortnameJournal')
+    volumeNumber = atapi.ATFieldProperty('volumeNumber')
+    issueNumber = atapi.ATFieldProperty('issueNumber')
     officialYearOfPublication = \
                               atapi.ATFieldProperty('officialYearOfPublication')
 
@@ -94,23 +91,44 @@ class ReviewJournal(BaseReview):
 
 
     # Reorder the fields as required
-    ordered_fields = ["issn", "uri", "pdf", "doc", "review",
-                      "customCitation", "coverPicture",
-                       "reviewAuthorLastname",
-                      "reviewAuthorFirstname", 
-                      "authors", "languageReviewedText",
-                      "languageReview", "editor", "title", "subtitle",
-                      "pageStart", "pageEnd", "yearOfPublication",
-                      "officialYearOfPublication",
-                      "placeOfPublication", "publisher",
-                      "description", "ddcPlace", "ddcSubject",
-                      "ddcTime", "subject"]
+    ordered_fields = [
+        # Reviewed Text schemata
+        "issn",
+        "languageReviewedText",
+        "editor",
+        "title", # Title of the journal
+        "subtitle", # Subtitle of the journal
+        "shortnameJournal",
+        "yearOfPublication",
+        "officialYearOfPublication",
+        "volumeNumber",
+        "issueNumber",
+        "placeOfPublication",
+        "publisher",
+        "coverPicture",
+        "ddcSubject",
+        "ddcTime",
+        "ddcPlace",
+        "subject",
+
+        # Review schemata
+        "reviewAuthorLastname",
+        "reviewAuthorFirstname",
+        "languageReview",
+        "pdf",
+        "pageStart",
+        "pageEnd",
+        "doc",
+        "review",
+        "customCitation",
+        "uri",
+        ]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 
     # An ordered list of fields used for the metadata area of the view
-    metadata_fields = ["authors", "languageReviewedText",
+    metadata_fields = ["languageReviewedText",
                        "languageReview", "recensioID", "idBvb",
                        "editor", "get_publication_title",
                        "shortnameJournal", "yearOfPublication",

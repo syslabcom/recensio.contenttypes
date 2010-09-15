@@ -9,14 +9,14 @@ from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.interfaces import IReviewMonograph
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
 from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import SerialSchema
-from recensio.contenttypes.content.schemata import hide_unused_fields
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.interfaces import IReviewMonograph
 
 
 ReviewMonographSchema = BookReviewSchema.copy() + \
@@ -26,17 +26,8 @@ ReviewMonographSchema = BookReviewSchema.copy() + \
                         SerialSchema.copy()
 
 ReviewMonographSchema['title'].storage = atapi.AnnotationStorage()
-ReviewMonographSchema['description'].storage = \
-                                                       atapi.AnnotationStorage()
 ReviewMonographSchema['yearOfPublication'].required = True
-
-schemata.finalizeATCTSchema(ReviewMonographSchema,
-                            moveDiscussion=False)
-
-# finalizeATCTSchema moves 'subject' into "categorization" which we
-# don't want
-ReviewMonographSchema.changeSchemataForField('subject', 'reviewed text')
-hide_unused_fields(ReviewMonographSchema)
+finalize_recensio_schema(ReviewMonographSchema)
 
 
 class ReviewMonograph(BaseReview):
@@ -53,10 +44,8 @@ class ReviewMonograph(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthorHonorific = atapi.ATFieldProperty('reviewAuthorHonorific')
     reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
     reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
-    reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')

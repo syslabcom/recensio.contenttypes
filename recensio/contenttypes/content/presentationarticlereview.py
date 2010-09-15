@@ -11,6 +11,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 
+from recensio.contenttypes.content.schemata import AuthorsSchema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
@@ -19,6 +20,7 @@ from recensio.contenttypes.interfaces import IPresentationArticleReview
 
 
 PresentationArticleReviewSchema = \
+                                AuthorsSchema.copy() + \
                                 JournalReviewSchema.copy() + \
                                 PresentationSchema.copy() + \
                                 ReferenceAuthorsSchema.copy() + \

@@ -17,22 +17,32 @@ from zope.i18n import translate
 from zope.app.component.hooks import getSite
 from Products.CMFCore.utils import getToolByName
 
+
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 
+def finalize_recensio_schema(schema):
+    """Custom replacement for schemata.finalizeATCTSchema
 
-def hide_unused_fields(schema):
-    """Move the default fields which we don't use to the"default"
-    schemata and hide them.
+    Move fields to the correct schemata and hide fields we don't need
+
     """
     for field in ["allowDiscussion", "contributors", "creators",
                   "description", "description", "effectiveDate",
                   "excludeFromNav", "expirationDate", "generatedPdf",
                   "id", "idBvb", "language", "location", "recensioID",
-                  "rights", "subject"]:
+                  "rights"]:
         schema.changeSchemataForField(field, "review")
         schema[field].widget.visible={"view":"hidden",
-                               "edit":"hidden"}
+                                      "edit":"hidden"}
+
+    # We can't just hide "relatedItems" as it leads to an error on save:
+    #    *  Module Products.Archetypes.ReferenceEngine, line 319, in addReference
+    #    ReferenceException: Invalid target UID
+    # However, we can delete it.
+    schema.delField("relatedItems")
+
+    schemata.marshall_register(schema)
 
 AuthorsSchema = atapi.Schema((
     DataGridField(
@@ -42,8 +52,8 @@ AuthorsSchema = atapi.Schema((
         columns=("lastname", "firstname"),
         widget=DataGridWidget(
             label = _(u"Authors"),
-            columns = {"lastname" : Column(_(u"Lastname")),
-                       "firstname" : Column(_(u"Firstname")),
+            columns = {"lastname" : Column(_(u"Last name")),
+                       "firstname" : Column(_(u"First name")),
                        }
             ),
         ),
@@ -146,6 +156,10 @@ PageStartEndSchema = atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Page number (start)"),
+            description=_(
+    u'description_page_number',
+    default=u"Please fill in only if the review is part of a larger pdf-file"
+    ),
             ),
         ),
     atapi.StringField(
@@ -175,7 +189,7 @@ SerialSchema = atapi.Schema((
         schemata=_(u"reviewed text"),
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Reihe"),
+            label=_(u"Series"),
             ),
         ),
     atapi.StringField(
@@ -183,7 +197,7 @@ SerialSchema = atapi.Schema((
         schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Reihenvolume"),
+            label=_(u"Series (vol.)"),
             ),
         ),
     ))
@@ -196,7 +210,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
-            label=_(u"Lastname"),
+            label=_(u"Last name author"),
             ),
         ),
     atapi.StringField(
@@ -205,7 +219,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
-            label=_(u"Firstname"),
+            label=_(u"First name author"),
             ),
         ),
     atapi.LinesField(
@@ -214,7 +228,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Textsprache der Präsentation"),
+            label=_(u"Language"),
             size=3,
             ),
         ),
@@ -224,7 +238,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Textsprache der präsentierten Schrift"),
+            label=_(u"Language"),
             size=3,
             ),
         ),
@@ -232,7 +246,6 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'recensioID',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Recensio ID"),
             visible={"view":"hidden",
                      "edit":"hidden"},
             ),
@@ -270,7 +283,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         default_output_type="text/html",
         widget=atapi.RichWidget(
-            label=_(u"Text"),
+            label=_(u"HTML"),
             rows=20,
             ),
         ),
@@ -279,23 +292,35 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         widget=atapi.TextAreaWidget(
-            label=_(u"Citation"),
-            description=_(u'description_custom_citation',
-    default=u"A default citation is generated automatically. To use a custom "+\
-    u"citation instead, add the required text here"),
+            label=_(u"Optional citation format"),
+            description=_(
+    u'description_custom_citation',
+    default=(u"Please fill in only if you wish to use a citation format "
+             "different from the platform's")
+    ),
             rows=3,
             ),
         ),
     atapi.StringField(
         'uri',
-        schemata="review", 
+        schemata="review",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"URI"),
+            label=_(u"Partner URL"),
+            description=_(
+    u'description_uri',
+    default=u"Please fill in only after consultation with the recensio.net team"
+    ),
+
             ),
         ),
     ))
 BaseReviewSchema["title"].schemata = _(u"reviewed text")
+BaseReviewSchema.changeSchemataForField('subject', 'reviewed text')
+BaseReviewSchema["subject"].schemata = _(u"reviewed text")
+BaseReviewSchema["subject"].widget.label = _(u"Subject heading")
+BaseReviewSchema["subject"].widget.description = ""
+
 
 CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
     atapi.LinesField(
@@ -304,7 +329,7 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary("region_values"),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"ddc raum"),
+            label=_(u"ddc place"),
             size=10,
             ),
         ),
@@ -314,7 +339,7 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary("topic_values"),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"ddc sach"),
+            label=_(u"ddc subject"),
             size=10,
             ),
         ),
@@ -325,7 +350,7 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary("epoch_values"),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"ddc zeit"),
+            label=_(u"ddc time"),
             size=10,
             ),
         ),
@@ -338,7 +363,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
         schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Untertitel"),
+            label=_(u"Subtitle"),
             ),
         ),
     # Q: DateTimeField or perhaps IntegerField ?
@@ -347,7 +372,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
         schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Erscheinungsjahr"),
+            label=_(u"Year of publication"),
             ),
         ),
     atapi.StringField(
@@ -355,7 +380,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
         schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Erscheinungsort"),
+            label=_(u"Place of publication"),
             ),
         ),
     atapi.StringField(
@@ -363,14 +388,13 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
         schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Verlag"),
+            label=_(u"Publisher"),
             ),
         ),
     atapi.StringField(
         'idBvb',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Verbund ID"),
             visible={"view":"hidden",
                      "edit":"hidden"},
             ),
@@ -387,30 +411,56 @@ BookReviewSchema = PrintedReviewSchema.copy() + \
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"ISBN"),
+            description=_(
+    u'description_isbn',
+    default=(u"With or without hyphens. In case of several numbers "
+             "please choose the hard cover edition.")
+    ),
             ),
         ),
     ))
-BookReviewSchema["authors"].widget.label=_(u"Autor des Buchs")
+BookReviewSchema["authors"].widget.label=_(u"Author (monograph)")
 
 JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
-                         AuthorsSchema.copy() + \
-                         PrintedReviewSchema.copy() + \
-                         atapi.Schema((
-    atapi.StringField(
-        'shortnameJournal',
-        schemata="reviewed text",
-        storage=atapi.AnnotationStorage(),
-        required=True,
-        widget=atapi.StringWidget(
-            label=_(u"Shortname (Journal)"),
-            ),
-        ),
+                      PrintedReviewSchema.copy() + \
+                      atapi.Schema((
     atapi.StringField(
         'issn',
         schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"ISSN"),
+            description=_(
+    u'description_issn',
+    default=(u"With or without hyphens. In case of several numbers please "
+             "choose the hard cover edition.")
+    ),
+
+            ),
+        ),
+    atapi.StringField(
+        'shortnameJournal',
+        schemata="reviewed text",
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        widget=atapi.StringWidget(
+            label=_(u"Shortname Journal"),
+            ),
+        ),
+    atapi.StringField(
+        'volumeNumber',
+        schemata="reviewed text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Vol."),
+            ),
+        ),
+    atapi.StringField(
+        'issueNumber',
+        schemata="reviewed text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Number"),
             ),
         ),
     atapi.StringField(
@@ -418,8 +468,10 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
         schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Gezähltes Jahr"),
+            label=_(u"Official year of publication"),
             ),
         ),
     ))
-JournalReviewSchema["authors"].widget.label=_(u"Autor des Aufsatzes")
+#JournalReviewSchema["authors"].widget.label=_(u"Autor des Aufsatzes")
+JournalReviewSchema['yearOfPublication'].widget.label = \
+  _(u"Actual year of publication")
