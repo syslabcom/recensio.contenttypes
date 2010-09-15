@@ -25,10 +25,12 @@ def hide_unused_fields(schema):
     """Move the default fields which we don't use to the"default"
     schemata and hide them.
     """
-    for field in ["allowDiscussion", "contributors", "creators", "description",
-                  "effectiveDate", "excludeFromNav", "expirationDate",
-                  "language", "location", "relatedItems", "rights", ]:
-        schema.changeSchemataForField(field, "default")
+    for field in ["allowDiscussion", "contributors", "creators",
+                  "description", "description", "effectiveDate",
+                  "excludeFromNav", "expirationDate", "generatedPdf",
+                  "id", "idBvb", "language", "location", "recensioID",
+                  "relatedItems", "rights", "subject"]:
+        schema.changeSchemataForField(field, "review")
         schema[field].widget.visible={"view":"hidden",
                                "edit":"hidden"}
 
