@@ -53,6 +53,8 @@ def finalize_recensio_schema(schema, review_type="review"):
         for field_name in schema_field_names:
             if schema[field_name].schemata == "review":
                 schema.changeSchemataForField(field_name, "presentation")
+            elif schema[field_name].schemata == "presentation":
+                pass
             else:
                 schema.changeSchemataForField(field_name, presented)
             if field_name in ["pageStart", "pageEnd"]:
@@ -88,6 +90,9 @@ def finalize_recensio_schema(schema, review_type="review"):
             )
         schema.changeSchemataForField("uri", presented)
         schema["uri"].widget.label = _(u"URL/URN")
+        schema["ddcSubject"].widget.label=_(u"Subject classification")
+        schema['ddcTime'].widget.label=_(u"Time classification")
+        schema['ddcPlace'].widget.label=_(u"Regional classification")
 
     schemata.marshall_register(schema)
 
@@ -403,7 +408,7 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary("topic_values"),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Subject classification"),
+            label=_(u"ddc subject"),
             size=10,
             ),
         ),
@@ -414,7 +419,7 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary("epoch_values"),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Time classification"),
+            label=_(u"ddc time"),
             size=10,
             ),
         ),
@@ -424,7 +429,7 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary("region_values"),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Regional classification"),
+            label=_(u"ddc place"),
             size=10,
             ),
         ),
