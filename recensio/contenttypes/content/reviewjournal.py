@@ -13,13 +13,17 @@ from Products.CMFPlone.Portal import PloneSite
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
+from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
+from recensio.contenttypes.content.schemata import ReviewSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IReviewJournal
 
 ReviewJournalSchema = JournalReviewSchema.copy() + \
+                      CoverPictureSchema.copy() + \
                       PageStartEndSchema.copy() + \
+                      ReviewSchema.copy() + \
                       atapi.Schema((
     atapi.StringField(
         'editor',

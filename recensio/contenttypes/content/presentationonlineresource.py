@@ -126,10 +126,7 @@ class PresentationOnlineResource(BaseReview):
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
     recensioID = atapi.ATFieldProperty('recensioID')
     subject = atapi.ATFieldProperty('subject')
-    pdf = atapi.ATFieldProperty('pdf')
-    doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
-    customCitation = atapi.ATFieldProperty('customCitation')
     uri = atapi.ATFieldProperty('uri')
 
 
@@ -157,8 +154,8 @@ class PresentationOnlineResource(BaseReview):
                          atapi.ATFieldProperty('documenttypes_fulltexts')
 
     # Reorder the fields as required
-    ordered_fields = ["title", "uri", "pdf", "doc", "review",
-                      "customCitation", "reviewAuthorHonorific",
+    ordered_fields = ["title", "uri", "review",
+                      "reviewAuthorHonorific",
                       "reviewAuthorLastname", "reviewAuthorFirstname",
                       "reviewAuthorEmail", "institution",
                       "documenttypes_institution",

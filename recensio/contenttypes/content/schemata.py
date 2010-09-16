@@ -21,7 +21,7 @@ from Products.CMFCore.utils import getToolByName
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 
-def finalize_recensio_schema(schema):
+def finalize_recensio_schema(schema, review_type="review"):
     """Custom replacement for schemata.finalizeATCTSchema
 
     Move fields to the correct schemata and hide fields we don't need
@@ -37,10 +37,52 @@ def finalize_recensio_schema(schema):
                                       "edit":"hidden"}
 
     # We can't just hide "relatedItems" as it leads to an error on save:
-    #    *  Module Products.Archetypes.ReferenceEngine, line 319, in addReference
-    #    ReferenceException: Invalid target UID
+    #   *  Module Products.Archetypes.ReferenceEngine, line 319, in addReference
+    #   ReferenceException: Invalid target UID
     # However, we can delete it.
     schema.delField("relatedItems")
+
+    # Rename the schemata for presentations
+    if review_type == "presentation":
+        for field in schema.fields():
+            field_name = field.getName()
+            if schema[field_name].schemata == "review":
+                schema.changeSchemataForField(field_name, "presentation")
+            else:
+                schema.changeSchemataForField(field_name, "presentated text")
+            if field_name in ["pageStart", "pageEnd"]:
+                schema.changeSchemataForField(field_name, "presentated text")
+
+        # Presentations have some addtional text for labels and descriptions
+        schema["title"].widget.description = _(
+            u'description_presentation_title',
+            default=u"Information on presented work"
+            )
+        schema["review"].widget.description = _(
+            u'description_presentation_html',
+            default=(u"Please give a brief and clear outline of your thesis "
+                     "statements, your methodology and/or your discussion of "
+                     "existing research approaches. We would kindly ask you "
+                     "to avoid a mere summary of your text. Don't be shy, "
+                     "however, of wording your statements in a provocative "
+                     "way. By separating out paragraphs you will make your "
+                     "statement more readable. You can increase the number of "
+                     "characters available for your own presentation from 4000 "
+                     "to 6000 by commenting on an already existing "
+                     "review/presentation on recensio.net. Please note that "
+                     "both comments and presentations will be checked by the "
+                     "editorial team before being published in order to "
+                     "prevent misuse. Because of this texts will be available "
+                     "online at the earliest after three working days."
+                     )
+            )
+        schema.changeSchemataForField("uri", "presentated text")
+        schema["uri"].widget.label = _(u"URL/URN")
+        schema["uri"].widget.description = _(
+            u'description_presentation_uri',
+            default=(u"Is the monograph you are presenting available free of "
+                     "charge online?")
+            )
 
     schemata.marshall_register(schema)
 
@@ -77,13 +119,30 @@ ReferenceAuthorsSchema = atapi.Schema((
         storage=atapi.AnnotationStorage(),
         columns=("lastname", "firstname", "email", "address", "phone"),
         widget=DataGridWidget(
-            label=_(u"Reference Authors"),
+            label=_(
+    u"label_reference_authors",
+    default=(u"Reference Authors (email address, postal address and phone "
+             "number are not publicly visible)"
+             )
+    ),
             columns = {"lastname" : Column(_(u"Lastname")),
                        "firstname" : Column(_(u"Firstname")),
-                       "email" : Column(_(u"Email")),
+                       "email" : Column(_(u"Email address")),
                        "address" : Column(_(u"Address")),
                        "phone" : Column(_(u"Phone")),
-                       }
+                       },
+            description=_(
+    u'description_reference_authors',
+    default=(u"Which scholarly author's work have you mainly engaged with in "
+             "your monograph? Please give us the most detailed information "
+             "possible on the &raquo;contemporary&laquo; names amongst them as "
+             "the recensio.net editorial team will usually try to inform these "
+             "authors of the existence of your monograph, your presentation, "
+             "and the chance to comment on it. Only the reference author's "
+             "name will be visible to the public. Please name historical "
+             "reference authors (e.g. Aristotle, Charles de Gaulle) further "
+             "below as subject heading.")
+    ),
             ),
         ),
     ))
@@ -105,6 +164,41 @@ class isTrue:
             default=u"All submitted reviews must be published under the CC-BY licence."),
             target_language=language)
 
+ReviewSchema = atapi.Schema((
+    BlobField(
+        'pdf',
+        schemata=_(u"review"),
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.FileWidget(
+            label=_(u"PDF"),
+            visible={"view":"hidden",
+                     "edit":"visible"},
+            ),
+        ),
+    BlobField(
+        'doc',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.FileWidget(
+            label=_(u"Word Document"),
+            ),
+        ),
+        atapi.TextField(
+        'customCitation',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.TextAreaWidget(
+            label=_(u"Optional citation format"),
+            description=_(
+    u'description_custom_citation',
+    default=(u"Please fill in only if you wish to use a citation format "
+             "different from the platform's")
+    ),
+            rows=3,
+            ),
+        ),
+    ))
+
 PresentationSchema = atapi.Schema((
     atapi.StringField(
         'reviewAuthorHonorific',
@@ -122,7 +216,7 @@ PresentationSchema = atapi.Schema((
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
-            label=_(u"Email"),
+            label=_(u"Email address (not publicly visible)"),
             ),
         ),
     atapi.BooleanField(
@@ -130,18 +224,25 @@ PresentationSchema = atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         value=False,
+        required=True,
         validators=(isTrue(),),
         widget=atapi.BooleanWidget(
-            label=_(u'text_ccby_license_approval',
-    default=u"Ich bin damit einverstanden, dass meine Präsentation von recensio.net"+\
-    u"unter der Creative-Commons-Lizenz "+\
-    u"Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung "+\
-    u"(CC-BY-NC-ND) publiziert wird. Sie darf"+\
-    u"unter diesen Bedingungen von Plattformnutzern elektronisch"+\
-    u"benutzt, übermittelt, ausgedruckt und zum Download bereitgestellt"+\
-    u"werden."),
-            ),
-        ),
+            label=_(u"Licence Agreement"),
+            description=_(
+    u'description_ccby_licence_approval',
+    default=(u"I agree that my presentation will be published by recensio.net "
+             "under the <a "
+             "href='http://creativecommons.org/licenses/by-nc-nd/2.0/deed.en' "
+             "target='_blank'>"
+             "creative-commons-licence Attribution-NonCommercial-"
+             "NoDerivs (CC-BY-NC-ND)</a>. Under these conditions, platform "
+             "users may use it electronically, distribute it, print it and "
+             "provide it for download. The editorial team reserves its right "
+             "to change incoming posts (see our user guidelines to this)."
+             )
+    ),
+            )
+        )
     ))
 
 # TODO find out how to have a link in the label:
@@ -228,7 +329,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Language"),
+            label=_(u"Language(s)"),
             size=3,
             ),
         ),
@@ -238,7 +339,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Language"),
+            label=_(u"Language(s)"),
             size=3,
             ),
         ),
@@ -259,24 +360,6 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
                      "edit":"hidden"},
             ),
         ),
-    BlobField(
-        'pdf',
-        schemata=_(u"review"),
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.FileWidget(
-            label=_(u"PDF"),
-            visible={"view":"hidden",
-                     "edit":"visible"},
-            ),
-        ),
-    BlobField(
-        'doc',
-        schemata="review",
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.FileWidget(
-            label=_(u"Word Document"),
-            ),
-        ),
     atapi.TextField(
         'review',
         schemata="review",
@@ -285,20 +368,6 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.RichWidget(
             label=_(u"HTML"),
             rows=20,
-            ),
-        ),
-    atapi.TextField(
-        'customCitation',
-        schemata="review",
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.TextAreaWidget(
-            label=_(u"Optional citation format"),
-            description=_(
-    u'description_custom_citation',
-    default=(u"Please fill in only if you wish to use a citation format "
-             "different from the platform's")
-    ),
-            rows=3,
             ),
         ),
     atapi.StringField(
@@ -324,22 +393,12 @@ BaseReviewSchema["subject"].widget.description = ""
 
 CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
     atapi.LinesField(
-        'ddcPlace',
-        schemata="reviewed text",
-        storage=atapi.AnnotationStorage(),
-        vocabulary=NamedVocabulary("region_values"),
-        widget=atapi.MultiSelectionWidget(
-            label=_(u"ddc place"),
-            size=10,
-            ),
-        ),
-    atapi.LinesField(
         'ddcSubject',
         schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary("topic_values"),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"ddc subject"),
+            label=_(u"Subject classification"),
             size=10,
             ),
         ),
@@ -350,14 +409,24 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary("epoch_values"),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"ddc time"),
+            label=_(u"Time classification"),
+            size=10,
+            ),
+        ),
+    atapi.LinesField(
+        'ddcPlace',
+        schemata="reviewed text",
+        storage=atapi.AnnotationStorage(),
+        vocabulary=NamedVocabulary("region_values"),
+        widget=atapi.MultiSelectionWidget(
+            label=_(u"Regional classification"),
             size=10,
             ),
         ),
     ))
 
 PrintedReviewSchema = CommonReviewSchema.copy() + \
-                      CoverPictureSchema.copy() + atapi.Schema((
+                      atapi.Schema((
     atapi.StringField(
         'subtitle',
         schemata="reviewed text",
@@ -444,7 +513,7 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
-            label=_(u"Shortname Journal"),
+            label=_(u"Shortname (journal)"),
             ),
         ),
     atapi.StringField(
@@ -473,5 +542,5 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
         ),
     ))
 #JournalReviewSchema["authors"].widget.label=_(u"Autor des Aufsatzes")
-JournalReviewSchema['yearOfPublication'].widget.label = \
-  _(u"Actual year of publication")
+JournalReviewSchema['yearOfPublication'].widget.label = _(
+    u"Actual year of publication")

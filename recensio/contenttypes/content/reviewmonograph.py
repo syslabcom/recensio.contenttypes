@@ -14,6 +14,7 @@ from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
 from recensio.contenttypes.content.schemata import PagecountSchema
+from recensio.contenttypes.content.schemata import ReviewSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IReviewMonograph
@@ -23,6 +24,7 @@ ReviewMonographSchema = BookReviewSchema.copy() + \
                         CoverPictureSchema.copy() + \
                         PageStartEndSchema.copy() + \
                         PagecountSchema.copy() + \
+                        ReviewSchema.copy() + \
                         SerialSchema.copy()
 
 ReviewMonographSchema['title'].storage = atapi.AnnotationStorage()

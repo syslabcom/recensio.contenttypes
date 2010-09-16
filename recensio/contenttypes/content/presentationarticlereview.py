@@ -53,10 +53,7 @@ PresentationArticleReviewSchema = \
         ),
 ))
 
-PresentationArticleReviewSchema['title'].storage = \
-                                                       atapi.AnnotationStorage()
-PresentationArticleReviewSchema['description'].storage = \
-                                                       atapi.AnnotationStorage()
+PresentationArticleReviewSchema['title'].storage = atapi.AnnotationStorage()
 
 schemata.finalizeATCTSchema(PresentationArticleReviewSchema,
                             moveDiscussion=False)
@@ -89,10 +86,7 @@ class PresentationArticleReview(BaseReview):
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
     recensioID = atapi.ATFieldProperty('recensioID')
     subject = atapi.ATFieldProperty('subject')
-    pdf = atapi.ATFieldProperty('pdf')
-    doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
-    customCitation = atapi.ATFieldProperty('customCitation')
     uri = atapi.ATFieldProperty('uri')
 
     # Common
@@ -131,18 +125,38 @@ class PresentationArticleReview(BaseReview):
     issue = atapi.ATFieldProperty('issue')
 
     # Reorder the fields as required
-    ordered_fields = ["issn", "uri", "pdf", "doc", "review",
-                      "customCitation", "reviewAuthorHonorific",
-                      "reviewAuthorLastname", "reviewAuthorFirstname",
-                      "reviewAuthorEmail", "authors",
-                      "languageReviewedText", "languageReview",
-                      "referenceAuthors", "title", "subtitle",
-                      "pageStart", "pageEnd", "titleJournal",
-                      "shortnameJournal", "yearOfPublication",
-                      "officialYearOfPublication", "volume", "issue",
-                      "placeOfPublication", "publisher",
-                      "description", "ddcPlace", "ddcSubject",
-                      "ddcTime", "subject", "isLicenceApproved"]
+    ordered_fields = [
+        # Presented Text
+        "issn",
+        "uri",
+        "authors",
+        "languageReviewedText",
+        "title",
+        "subtitle",
+        "pageStart",
+        "pageEnd",
+        "titleJournal",
+        "shortnameJournal",
+        "yearOfPublication",
+        "officialYearOfPublication",
+        "volume",
+        "issue",
+        "placeOfPublication",
+        "publisher",
+        "ddcSubject",
+        "ddcTime",
+        "ddcPlace",
+        "subject",
+        
+        # Presentation
+        "review",
+        "reviewAuthorHonorific",
+        "reviewAuthorLastname",
+        "reviewAuthorFirstname",
+        "reviewAuthorEmail",
+        "languageReview",
+        "referenceAuthors",
+        "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

@@ -11,16 +11,16 @@ from Products.DataGridField import DataGridField, DataGridWidget
 from Products.DataGridField.Column import Column
 
 from recensio.contenttypes import contenttypesMessageFactory as _
-from recensio.contenttypes.interfaces import IPresentationMonograph
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import CoverPictureSchema
-
 from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.content.schemata import SerialSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.interfaces import IPresentationMonograph
 
 PresentationMonographSchema = BookReviewSchema.copy() + \
                               CoverPictureSchema.copy() + \
@@ -29,13 +29,29 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
                               ReferenceAuthorsSchema.copy() + \
                               SerialSchema.copy() + \
                               atapi.Schema((
+    atapi.TextField(
+        'tableOfContents',
+        schemata="presentation text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.TextAreaWidget(
+            label=_(u"Table of contents of monograph you are presenting"),
+            rows=9,
+            ),
+        ),
+
     DataGridField(
         'existingOnlineReviews',
+        schemata=_(u"presentation"),
         storage=atapi.AnnotationStorage(),
         required=True,
         columns=("name", "url"),
         widget=DataGridWidget(
             label = _(u"Existing online reviews"),
+            description=_(
+    u'description_existing_online_reviews',
+    default=(u"Are there reviews on your text which are already available "
+             "online?")
+    ),
             columns = {"name" : Column(_(u"Name of the Journal")),
                        "url" : Column(_(u"URL")),
                        }
@@ -43,51 +59,32 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
         ),
         atapi.StringField(
         'publishedReviews',
+        schemata=_(u"presentation"),
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
             label=_(u"Published Reviews"),
+            description=_(
+    u'description_pubished_reviews',
+    default=(u"Insert here the place of publication of reviews on your text "
+             "that have already been published in print.")
+    ),
             rows=3,
             ),
         ),
 ))
 
 PresentationMonographSchema['title'].storage = atapi.AnnotationStorage()
-PresentationMonographSchema['description'].storage = atapi.AnnotationStorage()
 PresentationMonographSchema['authors'].widget.label = _(
-    u"Autor(en) der präsentierten Monographie")
+    u"Author(s) of presented monograph")
+PresentationMonographSchema['authors'].widget.description = _(
+    u'description_presentation_monograph_authors',
+    default=u"Author(s) of presented monograph"
+    )
 
-# Setting the descriptions like this throws an encoding error. When we
-# have the translations we can use the English text here instead, or
-# replace it with a proper msgid
 
-# PresentationMonographSchema['review'].widget.description=_(
-#     u"Bitte formulieren Sie hier kurz und übersichtlich die von Ihnen"+\
-#     u"erarbeiteten Thesen, Ihre Methodik und/oder Ihre"+\
-#     u"Auseinandersetzung mit bestehenden Forschungsansätzen.  Durch das"+\
-#     u"Einfügen von Absätzen erhöhen Sie die Lesbarkeit Ihrer"+\
-#     u"Ausführungen.  Durch das Kommentieren einer bereits vorhandenen"+\
-#     u"Rezension/Präsentation auf recensio.net erhöhen Sie die für Ihre"+\
-#     u"eigene Präsentation zur Verfügung stehende Zeichenzahl von 3000"+\
-#     u"auf 4000.")
-# PresentationMonographSchema['referenceAuthors'].widget.description=_(
-#     u"Mit welchen wissenschaftlichen Autoren haben Sie sich in Ihrer"+\
-#     u"Monographie verstärkt auseinandergesetzt?  Wir bitten Sie um"+\
-#     u"möglichst detaillierte Angaben zu den darunter befindlichen"+\
-#     u"„zeitgenössischen“ Namen, da die recensio.net-Redaktion"+\
-#     u"i.d.R. versuchen wird, diese Autoren über die Existenz Ihrer"+\
-#     u"Monographie, Ihrer Präsentation und über die Kommentarmöglichkeit"+\
-#     u"zu informieren.  Lediglich der Name des Bezugsautors wird"+\
-#     u"öffentlich sichtbar sein."+\
-#     u"Historische Bezugspersonen (Bsp.: Aristoteles, Charles de Gaulle)"+\
-#     u"bitten wir Sie, weiter unten als Schlagwörter zu vergeben.")
-
-schemata.finalizeATCTSchema(PresentationMonographSchema,
-                            moveDiscussion=False)
-
-# finalizeATCTSchema moves 'subject' into "categorization" which we
-# don't want
-PresentationMonographSchema.changeSchemataForField('subject', 'default')
+finalize_recensio_schema(PresentationMonographSchema,
+                         review_type="presentation")
 
 
 class PresentationMonograph(BaseReview):
@@ -112,10 +109,7 @@ class PresentationMonograph(BaseReview):
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
     recensioID = atapi.ATFieldProperty('recensioID')
     subject = atapi.ATFieldProperty('subject')
-    pdf = atapi.ATFieldProperty('pdf')
-    doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
-    customCitation = atapi.ATFieldProperty('customCitation')
     uri = atapi.ATFieldProperty('uri')
 
     # Common
@@ -135,6 +129,8 @@ class PresentationMonograph(BaseReview):
 
     # Book
     isbn = atapi.ATFieldProperty('isbn')
+
+    tableOfContents = atapi.ATFieldProperty('tableOfContents')
 
     # Cover Picture
     coverPicture = atapi.ATFieldProperty('coverPicture')
@@ -157,18 +153,40 @@ class PresentationMonograph(BaseReview):
     publishedReviews = atapi.ATFieldProperty('publishedReviews')
 
     # Reorder the fields as required
-    ordered_fields = ["isbn", "uri", "pdf", "doc", "review",
-                      "existingOnlineReviews", "publishedReviews",
-                      "customCitation", "coverPicture",
-                      "reviewAuthorHonorific", "reviewAuthorLastname",
-                      "reviewAuthorFirstname", "reviewAuthorEmail",
-                      "authors", "languageReviewedText",
-                      "languageReview", "referenceAuthors", "title",
-                      "subtitle", "yearOfPublication",
-                      "placeOfPublication", "publisher", "series",
-                      "seriesVol", "pages", "ddcSubject",
-                      "ddcTime","ddcPlace", "subject", "description",
-                      "isLicenceApproved"]
+    ordered_fields = [
+        # Presented text
+        "isbn",
+        "uri",
+        "tableOfContents",
+        "coverPicture",
+        "authors",
+        "languageReviewedText",
+        "title",
+        "subtitle",
+        "yearOfPublication",
+        "placeOfPublication",
+        "publisher",
+        "series",
+        "seriesVol",
+        "pages",
+        "ddcSubject",
+        "ddcTime",
+        "ddcPlace",
+        "subject",
+
+        # Presentation
+        "review",
+        "existingOnlineReviews",
+        "publishedReviews", # Name, url 
+        
+        "reviewAuthorHonorific",
+        "reviewAuthorLastname",
+        "reviewAuthorFirstname",
+        "reviewAuthorEmail",
+        "languageReview",
+        "referenceAuthors",
+        "isLicenceApproved",
+        ]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

@@ -14,14 +14,15 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
-
+from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.content.schemata import SerialSchema
-from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
 
 PresentationCollectionSchema = BookReviewSchema.copy() + \
+                               PagecountSchema.copy() + \
                                PresentationSchema.copy() + \
                                ReferenceAuthorsSchema.copy() + \
                                PageStartEndSchema.copy() + \
@@ -29,11 +30,15 @@ PresentationCollectionSchema = BookReviewSchema.copy() + \
                                atapi.Schema((
     atapi.StringField(
         'titleCollectedEdition',
+        schemata=_(u"presented text"),
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
-            label=_(u"Title Collected Edition"),
-            rows=3,
+            label=_(u"Title / Subtitle"),
+            description=_(
+    u'description_title_collected_edition',
+    default=u"Information on the associated edited volume"
+    ),
             ),
         ),
 
@@ -43,25 +48,21 @@ PresentationCollectionSchema = BookReviewSchema.copy() + \
         required=True,
         columns=("lastname", "firstname"),
         widget=DataGridWidget(
-            label = _(u"Editor(s) Collected Edition"),
-            columns = {"lastname" : Column(_(u"Lastname")),
-                       "firstname" : Column(_(u"Firstname")),
+            label = _(u"Editor(s)"),
+            columns = {"lastname" : Column(_(u"Last name")),
+                       "firstname" : Column(_(u"First name")),
                        }
             ),
         ),
 ))
 
 PresentationCollectionSchema['title'].storage = atapi.AnnotationStorage()
-PresentationCollectionSchema['description'].storage = \
-                                                       atapi.AnnotationStorage()
+PresentationCollectionSchema["authors"].widget.label=_(
+    "label_presentation_collection_authors",
+    default=u"Author(s) of presented article")
 
-schemata.finalizeATCTSchema(PresentationCollectionSchema,
-                            moveDiscussion=False)
-
-# finalizeATCTSchema moves 'subject' into "categorization" which we
-# don't want
-PresentationCollectionSchema.changeSchemataForField('subject', 'default')
-
+finalize_recensio_schema(PresentationCollectionSchema,
+                         review_type="presentation")
 
 class PresentationCollection(BaseReview):
     """Presentation Collection"""
@@ -86,12 +87,7 @@ class PresentationCollection(BaseReview):
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
     recensioID = atapi.ATFieldProperty('recensioID')
     subject = atapi.ATFieldProperty('subject')
-    pdf = atapi.ATFieldProperty('pdf')
-    def getPdf(self, *args, **kwargs):
-        return None
-    doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
-    customCitation = atapi.ATFieldProperty('customCitation')
     uri = atapi.ATFieldProperty('uri')
 
 
@@ -123,6 +119,9 @@ class PresentationCollection(BaseReview):
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
 
+    # Pagecount
+    pages = atapi.ATFieldProperty('pages')
+
     # Serial
     series = atapi.ATFieldProperty('series')
     seriesVol = atapi.ATFieldProperty('seriesVol')
@@ -132,18 +131,38 @@ class PresentationCollection(BaseReview):
     editorsCollectedEdition = atapi.ATFieldProperty('editorsCollectedEdition')
 
     # Reorder the fields as required
-    ordered_fields = ["isbn", "uri", "pdf", "doc", "review",
-                      "customCitation", "reviewAuthorHonorific",
-                      "reviewAuthorLastname", "reviewAuthorFirstname",
-                      "reviewAuthorEmail", "authors",
-                      "languageReviewedText", "languageReview",
-                      "referenceAuthors", "title", "subtitle",
-                      "pageStart", "pageEnd", "titleCollectedEdition",
-                      "editorsCollectedEdition", "yearOfPublication",
-                      "placeOfPublication", "publisher", "series",
-                      "seriesVol", "ddcSubject", "ddcTime",
-                      "ddcPlace", "subject", "description",
-                      "isLicenceApproved"]
+    ordered_fields = [
+        # Presented Text
+        "isbn",
+        "uri",
+        "authors",
+        "languageReviewedText",
+        "title",
+        "subtitle",
+        "pageStart",
+        "pageEnd",
+        "titleCollectedEdition",
+        "editorsCollectedEdition",
+        "yearOfPublication",
+        "placeOfPublication",
+        "publisher",
+        "series",
+        "seriesVol",
+        "pages",
+        "ddcSubject",
+        "ddcTime",
+        "ddcPlace",
+        "subject",
+
+        # Presentation
+        "review",
+        "reviewAuthorHonorific",
+        "reviewAuthorLastname",
+        "reviewAuthorFirstname",
+        "reviewAuthorEmail",
+        "languageReview",
+        "referenceAuthors",
+        "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

@@ -112,10 +112,11 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         If there's a custom one, return that, otherwise:
         Clean up the citation, removing empty sections
         """
-        if self.customCitation:
+        if self.get("customCitation"):
             return scrubHTML(self.customCitation)
         else:
-            citation_dict = self.get_citation_dict(self.citation_template, language)
+            citation_dict = self.get_citation_dict(self.citation_template,
+                                                   language)
             citation = self.citation_template.format(**citation_dict)
             # TODO replace all empty translation strings from text_*
             citation = citation.replace("Page(s) /", "")
