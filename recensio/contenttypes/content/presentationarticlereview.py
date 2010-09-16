@@ -16,6 +16,7 @@ from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IPresentationArticleReview
 
 
@@ -31,36 +32,21 @@ PresentationArticleReviewSchema = \
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
-            label=_(u"Title Journal"),
-            rows=3,
-            ),
-        ),
-    atapi.StringField(
-        'volume',
-        storage=atapi.AnnotationStorage(),
-        required=True,
-        widget=atapi.StringWidget(
-            label=_(u"Volume"),
-            ),
-        ),
-    atapi.StringField(
-        'issue',
-        storage=atapi.AnnotationStorage(),
-        required=True,
-        widget=atapi.StringWidget(
-            label=_(u"Issue"),
+            label=_(u"Title"),
+            description=_(
+    u'description_title_journal',
+    default=u"Information on the journal"
+    ),
             ),
         ),
 ))
 
 PresentationArticleReviewSchema['title'].storage = atapi.AnnotationStorage()
+PresentationArticleReviewSchema["volumeNumber"].widget.label = _(u"Volume")
+PresentationArticleReviewSchema["issueNumber"].widget.label = _(u"Number")
 
-schemata.finalizeATCTSchema(PresentationArticleReviewSchema,
-                            moveDiscussion=False)
-
-# finalizeATCTSchema moves 'subject' into "categorization" which we
-# don't want
-PresentationArticleReviewSchema.changeSchemataForField('subject', 'default')
+finalize_recensio_schema(PresentationArticleReviewSchema,
+                         review_type="presentation")
 
 
 class PresentationArticleReview(BaseReview):
@@ -121,8 +107,8 @@ class PresentationArticleReview(BaseReview):
     pageEnd = atapi.ATFieldProperty('pageEnd')
 
     titleJournal = atapi.ATFieldProperty('titleJournal')
-    volume = atapi.ATFieldProperty('volume')
-    issue = atapi.ATFieldProperty('issue')
+    volumeNumber = atapi.ATFieldProperty('volumeNumber')
+    issueNumber = atapi.ATFieldProperty('issueNumber')
 
     # Reorder the fields as required
     ordered_fields = [
@@ -139,8 +125,8 @@ class PresentationArticleReview(BaseReview):
         "shortnameJournal",
         "yearOfPublication",
         "officialYearOfPublication",
-        "volume",
-        "issue",
+        "volumeNumber",
+        "issueNumber",
         "placeOfPublication",
         "publisher",
         "ddcSubject",

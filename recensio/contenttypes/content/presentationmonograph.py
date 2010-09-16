@@ -81,6 +81,11 @@ PresentationMonographSchema['authors'].widget.description = _(
     u'description_presentation_monograph_authors',
     default=u"Author(s) of presented monograph"
     )
+PresentationMonographSchema["uri"].widget.description = _(
+    u'description_presentation_uri',
+    default=(u"Is the monograph you are presenting available free of "
+             "charge online?")
+    )
 
 
 finalize_recensio_schema(PresentationMonographSchema,

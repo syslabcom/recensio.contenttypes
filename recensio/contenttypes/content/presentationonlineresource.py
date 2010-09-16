@@ -18,7 +18,7 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import CommonReviewSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
-
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
 
 
 PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
@@ -30,18 +30,39 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         columns=("institution", "lastname", "firstname"),
         widget=DataGridWidget(
             label=_(u"Institution"),
-            columns = {"institution" : Column(_(u"Institution")),
-                       "lastname" : Column(_(u"Lastname")),
-                       "firstname" : Column(_(u"Firstname")),
-                       }
-        ),
+            description=_(
+    u'description_institution',
+    default=u"Provider of presented resource (name/institution)"
     ),
+            columns = {"institution" : Column(_(u"Institution")),
+                       "lastname" : Column(_(u"Last name")),
+                       "firstname" : Column(_(u"First name")),
+                       },
+            ),
+        ),
+    atapi.StringField(
+        'labelwidget_categories',
+        widget=atapi.LabelWidget(
+            label=_(
+    u"label_online_resource_categories",
+    default=(u"Please use the following menu to describe the contents and "
+             "services of the resource. In each menu you can choose several "
+             "categories.")
+    )
+            ),
+        ),
     atapi.StringField(
         'documenttypes_institution',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('institution_values'),
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Organisations"),
+            label=_(u"Institutions"),
+                        description=_(
+    u'description_documenttypes_institution',
+    default=(u"Classify here (if applicable) the institution supplying the "
+             "resource")
+    ),
+
             format="checkbox",
         ),
     ),
@@ -51,6 +72,11 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         vocabulary=NamedVocabulary('cooperations_and_communication_values'),
         widget=atapi.MultiSelectionWidget(
             label=_(u"Web Services and Communication"),
+            description=_(
+    u'description_documenttypes_cooperation',
+    default=u"Type of presented resource"
+    ),
+
             format="checkbox",
         ),
     ),
@@ -60,6 +86,11 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         vocabulary=NamedVocabulary('reference_values'),
         widget=atapi.MultiSelectionWidget(
             label=_(u"Factual Reference Works"),
+            description=_(
+    u'description_documenttypes_referenceworks',
+    default=u"Choose here (if applicable) the type of reference works supplied."
+    ),
+
             format="checkbox",
         ),
     ),
@@ -69,6 +100,11 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         vocabulary=NamedVocabulary('bibliographic_source_values'),
         widget=atapi.MultiSelectionWidget(
             label=_(u"Bibliographies, Catalogues, Directories"),
+            description=_(
+    u'description_documenttypes_bibliographical',
+    default=(u"Choose here (if applicable) the types of bibliographies, "
+             "catalogues, directories supplied.")
+    ),
             format="checkbox",
         ),
     ),
@@ -78,6 +114,11 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         vocabulary=NamedVocabulary('fulltexts_public_domain'),
         widget=atapi.MultiSelectionWidget(
             label=_(u"Fulltexts (public domain)"),
+            description=_(
+    u'description_documenttypes_fulltexts',
+    default=u"Describe here (if applicable) the full texts and data supplied."
+    ),
+
             format="checkbox",
         ),
     ),
@@ -87,22 +128,27 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         vocabulary=NamedVocabulary('periodicals_journals_magazines'),
         widget=atapi.MultiSelectionWidget(
             label=_(u"Periodicals (Journals, Magazines)"),
+            description=_(
+    u'description_documenttypes_periodicals',
+    default=u"Are there any periodicals supplied in full text?"
+    ),
+
             format="checkbox",
         ),
     ),
 ))
 
-PresentationOnlineResourceSchema['title'].storage = \
-                                                       atapi.AnnotationStorage()
-PresentationOnlineResourceSchema['description'].storage = \
-                                                       atapi.AnnotationStorage()
+PresentationOnlineResourceSchema['title'].widget.label = _(u"Name of resource")
+PresentationOnlineResourceSchema['title'].storage = atapi.AnnotationStorage()
+PresentationOnlineResourceSchema['ddcSubject'].widget.description = _(
+    u'description_presentation_online_resource_subject',
+    default=(u"Please classify what the online resource provides concerning "
+             "subjects, time and area")
+    )
+PresentationOnlineResourceSchema['uri'].widget.description = u""
 
-schemata.finalizeATCTSchema(PresentationOnlineResourceSchema,
-                            moveDiscussion=False)
-
-# finalizeATCTSchema moves 'subject' into "categorization" which we
-# don't want
-PresentationOnlineResourceSchema.changeSchemataForField('subject', 'default')
+finalize_recensio_schema(PresentationOnlineResourceSchema,
+                         review_type="presentation_online")
 
 
 class PresentationOnlineResource(BaseReview):
@@ -154,19 +200,31 @@ class PresentationOnlineResource(BaseReview):
                          atapi.ATFieldProperty('documenttypes_fulltexts')
 
     # Reorder the fields as required
-    ordered_fields = ["title", "uri", "review",
-                      "reviewAuthorHonorific",
-                      "reviewAuthorLastname", "reviewAuthorFirstname",
-                      "reviewAuthorEmail", "institution",
-                      "documenttypes_institution",
-                      "documenttypes_cooperation",
-                      "documenttypes_referenceworks",
-                      "documenttypes_bibliographical",
-                      "documenttypes_fulltexts",
-                      "documenttypes_periodicals",
-                      "languageReviewedText", "languageReview",
-                      "ddcSubject", "ddcTime", "ddcPlace", "subject",
-                      "description", "isLicenceApproved"]
+    ordered_fields=[
+        # Presented 
+        "title",
+        "uri",
+        "review",
+        "reviewAuthorHonorific",
+        "reviewAuthorLastname",
+        "reviewAuthorFirstname",
+        "reviewAuthorEmail",
+        "institution",
+        "labelwidget_categories",
+        "documenttypes_institution",
+        "documenttypes_cooperation",
+        "documenttypes_referenceworks",
+        "documenttypes_bibliographical",
+        "documenttypes_fulltexts",
+        "documenttypes_periodicals",
+        "languageReviewedText",
+        "languageReview",
+        "ddcSubject",
+        "ddcTime",
+        "ddcPlace",
+        "subject",
+        "description",
+        "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

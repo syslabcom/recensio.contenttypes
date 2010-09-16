@@ -27,11 +27,13 @@ def finalize_recensio_schema(schema, review_type="review"):
     Move fields to the correct schemata and hide fields we don't need
 
     """
-    for field in ["allowDiscussion", "contributors", "creators",
-                  "description", "description", "effectiveDate",
-                  "excludeFromNav", "expirationDate", "generatedPdf",
-                  "id", "idBvb", "language", "location", "recensioID",
-                  "rights"]:
+
+    hidden_fields = ["allowDiscussion", "contributors", "creators",
+                     "description", "description", "effectiveDate",
+                     "excludeFromNav", "expirationDate",
+                     "generatedPdf", "id", "language", "location",
+                     "recensioID", "rights"]
+    for field in hidden_fields:
         schema.changeSchemataForField(field, "review")
         schema[field].widget.visible={"view":"hidden",
                                       "edit":"hidden"}
@@ -43,21 +45,29 @@ def finalize_recensio_schema(schema, review_type="review"):
     schema.delField("relatedItems")
 
     # Rename the schemata for presentations
-    if review_type == "presentation":
-        for field in schema.fields():
-            field_name = field.getName()
+    if review_type in ["presentation", "presentation_online"]:
+        presented = _(u"presented text")
+        if review_type == "presentation_online":
+            presented = _(u"presented resource")
+        schema_field_names  = [i.getName() for i in schema.fields()]
+        for field_name in schema_field_names:
             if schema[field_name].schemata == "review":
                 schema.changeSchemataForField(field_name, "presentation")
             else:
-                schema.changeSchemataForField(field_name, "presentated text")
+                schema.changeSchemataForField(field_name, presented)
             if field_name in ["pageStart", "pageEnd"]:
-                schema.changeSchemataForField(field_name, "presentated text")
-
+                schema.changeSchemataForField(field_name, presented)
         # Presentations have some addtional text for labels and descriptions
-        schema["title"].widget.description = _(
-            u'description_presentation_title',
-            default=u"Information on presented work"
-            )
+        if review_type == "presentation":
+            schema["title"].widget.description = _(
+                u'description_presentation_title',
+                default=u"Information on presented work"
+                )
+        else:
+            schema["title"].widget.description = _(
+                u'description_presentation_title',
+                default=u""
+                )
         schema["review"].widget.description = _(
             u'description_presentation_html',
             default=(u"Please give a brief and clear outline of your thesis "
@@ -76,13 +86,8 @@ def finalize_recensio_schema(schema, review_type="review"):
                      "online at the earliest after three working days."
                      )
             )
-        schema.changeSchemataForField("uri", "presentated text")
+        schema.changeSchemataForField("uri", presented)
         schema["uri"].widget.label = _(u"URL/URN")
-        schema["uri"].widget.description = _(
-            u'description_presentation_uri',
-            default=(u"Is the monograph you are presenting available free of "
-                     "charge online?")
-            )
 
     schemata.marshall_register(schema)
 
@@ -462,6 +467,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
         ),
     atapi.StringField(
         'idBvb',
+        schemata=_(u"review"),
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             visible={"view":"hidden",
@@ -513,7 +519,7 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
-            label=_(u"Shortname (journal)"),
+            label=_(u"Shortname"),
             ),
         ),
     atapi.StringField(
@@ -537,7 +543,7 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
         schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Official year of publication"),
+            label=_(u"Official year of publication (if different)"),
             ),
         ),
     ))
