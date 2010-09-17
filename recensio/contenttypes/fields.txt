@@ -4,7 +4,7 @@ Felder unserer Contenttypen
     >>> from recensio.contenttypes.content.reviewjournal import ReviewJournalSchema
     >>> schema = ReviewJournalSchema
     >>> schema.keys()
-    ['coverPicture', 'issn', 'uri', 'pdf', 'doc', 'review', 'customCitation', 'reviewAuthorHonorific', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'reviewAuthorEmail', 'authors', 'languageReviewedText', 'languageReview', 'editor', 'title', 'subtitle', 'pageStart', 'pageEnd', 'yearOfPublication', 'officialYearOfPublication', 'placeOfPublication', 'publisher', 'description', 'searchresults', 'ddcPlace', 'ddcSubject', 'ddcTime', 'subject', 'id', 'recensioID', 'generatedPdf', 'idBvb', 'shortnameJournal', 'relatedItems', 'location', 'language', 'effectiveDate', 'expirationDate', 'creation_date', 'modification_date', 'creators', 'contributors', 'rights', 'allowDiscussion', 'excludeFromNav']
+    ['issn', 'languageReviewedText', 'editor', 'title', 'subtitle', 'shortnameJournal', 'yearOfPublication', 'officialYearOfPublication', 'volumeNumber', 'issueNumber', 'placeOfPublication', 'publisher', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'doc', 'review', 'customCitation', 'uri', 'creation_date', 'modification_date', 'idBvb', 'allowDiscussion', 'contributors', 'creators', 'description', 'effectiveDate', 'excludeFromNav', 'expirationDate', 'generatedPdf', 'id', 'language', 'location', 'recensioID', 'rights']
     >>> schema = infoShower(schema)
 
 ISSN Nummer der Zeitschrift in der es den Review gab.
@@ -15,7 +15,7 @@ ISSN Nummer der Zeitschrift in der es den Review gab.
 Der Link zur Webseite auf der man die Rezension im Original lesen kann
 
     >>> schema('uri')
-    ('string', u'URN')
+    ('string', u'Partner URL')
 
 Das PDF mit der Rezension. Hier brauchen wir einen Link von Ihnen, von
 dem wir das PDF beziehen.
@@ -26,29 +26,19 @@ dem wir das PDF beziehen.
 Name des Rezensenten, aufgeteilt nach Vorname, Nachname und Titel mit Anrede
 
     >>> schema('reviewAuthorLastname')
-    ('string', u'Lastname')
+    ('string', u'Last name author')
     >>> schema('reviewAuthorFirstname')
-    ('string', u'Firstname')
-    >>> schema('reviewAuthorHonorific')
-    ('string', u'Honorific Title')
-
-Der Honorific Teil wird nicht für die Suche verwendet.
-
-Die Autoren des rezensierten Werkes. Diesmal nur Vorname und Nachname, kann
-aber viele Werte enthalten
-
-    >>> schema('authors')
-    ('datagrid', u'Autor des Aufsatzes')
+    ('string', u'First name author')
 
 Sprache des rezensierten Werkes.
 
     >>> schema('languageReviewedText')
-    ('lines', u'Textsprache der pr\xe4sentierten Schrift')
+    ('lines', u'Language(s)')
 
 Sprache der Rezension.
 
     >>> schema('languageReview')
-    ('lines', u'Textsprache der Pr\xe4sentation')
+    ('lines', u'Language(s)')
 
 In beiden Fällen speichern wir dort die 2 Buchstaben Schlüssel wie wir
 sie aus portal_languages bekommen
@@ -56,41 +46,37 @@ sie aus portal_languages bekommen
 Titel des rezensierten Werkes
 
     >>> schema('title')
-    ('string', 'Title')
+    ('string', u'Title (journal)')
 
 Untertitel des rezensierten Werkes
 
     >>> schema('subtitle')
-    ('string', u'Untertitel')
+    ('string', u'Subtitle (journal)')
+
 
 Erscheinungsjahr des publizierten Werkes
 
     >>> schema('yearOfPublication')
-    ('string', u'Erscheinungsjahr')
+    ('string', u'Actual year of publication')
 
 Gezähltes Erscheinungsjahr des publizierten Werkes
 
     >>> schema('officialYearOfPublication')
-    ('string', u'Gez\xe4hltes Jahr')
+    ('string', u'Official year of publication (if different)')
 
 Verlag des Zeitschrift der Rezension
 
     >>> schema('publisher')
-    ('string', u'Verlag')
-
-Zitationsfeld nur für die Suche
-
-    >>> schema('searchresults')
-    ('string', u'Zitation')
+    ('string', u'Publisher')
 
 Schlagwörter
 
     >>> schema('ddcPlace')
-    ('lines', u'ddc raum')
+    ('lines', u'ddc place')
     >>> schema('ddcSubject')
-    ('lines', u'ddc sach')
+    ('lines', u'ddc subject')
     >>> schema('ddcTime')
-    ('lines', u'ddc zeit')
+    ('lines', u'ddc time')
 
 Wir haben die Schlagwörter als Vocabularies und nur die Langform. Wir
 bekommen in nächster Zeit eine Tabelle mit offiziellen Codes für die
