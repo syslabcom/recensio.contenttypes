@@ -44,6 +44,18 @@ PresentationArticleReviewSchema = \
 PresentationArticleReviewSchema['title'].storage = atapi.AnnotationStorage()
 PresentationArticleReviewSchema["volumeNumber"].widget.label = _(u"Volume")
 PresentationArticleReviewSchema["issueNumber"].widget.label = _(u"Number")
+PresentationArticleReviewSchema["referenceAuthors"].widget.description = _(
+    u'description_reference_authors',
+    default=(u"Which scholarly author's work have you mainly engaged with in "
+             "your article? Please give us the most detailed information "
+             "possible on the &raquo;contemporary&laquo; names amongst them as "
+             "the recensio.net editorial team will usually try to inform these "
+             "authors of the existence of your article, your presentation, "
+             "and the chance to comment on it. Only the reference author's "
+             "name will be visible to the public. Please name historical "
+             "reference authors (e.g. Aristotle, Charles de Gaulle) further "
+             "below as subject heading.")
+    )
 
 finalize_recensio_schema(PresentationArticleReviewSchema,
                          review_type="presentation")
@@ -67,6 +79,7 @@ class PresentationArticleReview(BaseReview):
     reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
     reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
+    reviewAuthorPersonalUrl = atapi.ATFieldProperty('reviewAuthorPersonalUrl')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
@@ -136,6 +149,7 @@ class PresentationArticleReview(BaseReview):
         
         # Presentation
         "review",
+        'reviewAuthorPersonalUrl',
         "reviewAuthorHonorific",
         "reviewAuthorLastname",
         "reviewAuthorFirstname",
@@ -154,16 +168,18 @@ class PresentationArticleReview(BaseReview):
                        "subtitle", "pageStart", "pageEnd",
                        "titleJournal", "shortnameJournal",
                        "yearOfPublication",
-                       "officialYearOfPublication", "volume", "issue",
-                       "placeOfPublication", "publisher", "issn",
-                       "ddcSubject", "ddcTime", "ddcPlace", "subject"]
+                       "officialYearOfPublication", "volumeNumber",
+                       "issueNumber", "placeOfPublication",
+                       "publisher", "issn", "ddcSubject", "ddcTime",
+                       "ddcPlace", "subject"]
 
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:
     # Zs-Titel, Nummer, Heftnummer (gezähltes Jahr/Erscheinungsjahr),
     # Seite von/bis, URL recensio.
+
     citation_template =  u"{reviewAuthorLastname}, {text_presentation_of} "+\
                         "{authors}, {title}, {subtitle}, {text_in} "+\
-                        "{shortnameJournal}, {volume}, {issue}, "+\
+                        "{shortnameJournal}, {volumeNumber}, {issueNumber}, "+\
                         "({officialYearOfPublication}/"+\
                         "{yearOfPublication}), "+\
                         "Page(s) {pageStart}/{pageEnd}"

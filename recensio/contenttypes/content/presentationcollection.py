@@ -14,8 +14,8 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
-from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
+from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.content.schemata import SerialSchema
@@ -60,6 +60,18 @@ PresentationCollectionSchema['title'].storage = atapi.AnnotationStorage()
 PresentationCollectionSchema["authors"].widget.label=_(
     "label_presentation_collection_authors",
     default=u"Author(s) of presented article")
+PresentationCollectionSchema["referenceAuthors"].widget.description = _(
+    u'description_reference_authors',
+    default=(u"Which scholarly author's work have you mainly engaged with in "
+             "your article? Please give us the most detailed information "
+             "possible on the &raquo;contemporary&laquo; names amongst them as "
+             "the recensio.net editorial team will usually try to inform these "
+             "authors of the existence of your article, your presentation, "
+             "and the chance to comment on it. Only the reference author's "
+             "name will be visible to the public. Please name historical "
+             "reference authors (e.g. Aristotle, Charles de Gaulle) further "
+             "below as subject heading.")
+    )
 
 finalize_recensio_schema(PresentationCollectionSchema,
                          review_type="presentation")
@@ -82,6 +94,7 @@ class PresentationCollection(BaseReview):
     reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
     reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
+    reviewAuthorPersonalUrl = atapi.ATFieldProperty('reviewAuthorPersonalUrl')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
@@ -156,6 +169,7 @@ class PresentationCollection(BaseReview):
 
         # Presentation
         "review",
+        'reviewAuthorPersonalUrl',
         "reviewAuthorHonorific",
         "reviewAuthorLastname",
         "reviewAuthorFirstname",

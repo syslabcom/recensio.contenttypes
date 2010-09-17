@@ -146,6 +146,20 @@ PresentationOnlineResourceSchema['ddcSubject'].widget.description = _(
              "subjects, time and area")
     )
 PresentationOnlineResourceSchema['uri'].widget.description = u""
+PresentationOnlineResourceSchema['review'].widget.description = _(
+    u'description_presentation_online_resource_review',
+    default=(u"What does the online resource provide? Please outline briefly "
+             "and clearly what kind of contents and services the online "
+             "resource you are presenting has got to offer. You can increase "
+             "the number of characters available for your own presentation "
+             "from 2000 to 3000 by commenting on an already existing "
+             "review/presentation on recensio.net. Please note that both "
+             "comments and presentations will be checked by the editorial "
+             "team before being published in order to prevent misuse. "
+             "Because of this texts will be availabe online at the earliest "
+             "after three working days. ")
+    ),
+
 
 finalize_recensio_schema(PresentationOnlineResourceSchema,
                          review_type="presentation_online")
@@ -159,7 +173,6 @@ class PresentationOnlineResource(BaseReview):
     schema = PresentationOnlineResourceSchema
 
     title = atapi.ATFieldProperty('title')
-    description = atapi.ATFieldProperty('description')
     # Common = Base +
 
     # Base
@@ -167,6 +180,7 @@ class PresentationOnlineResource(BaseReview):
     reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
     reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
+    reviewAuthorPersonalUrl = atapi.ATFieldProperty('reviewAuthorPersonalUrl')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
@@ -201,14 +215,9 @@ class PresentationOnlineResource(BaseReview):
 
     # Reorder the fields as required
     ordered_fields=[
-        # Presented 
+        # Presented Resource
         "title",
         "uri",
-        "review",
-        "reviewAuthorHonorific",
-        "reviewAuthorLastname",
-        "reviewAuthorFirstname",
-        "reviewAuthorEmail",
         "institution",
         "labelwidget_categories",
         "documenttypes_institution",
@@ -218,12 +227,19 @@ class PresentationOnlineResource(BaseReview):
         "documenttypes_fulltexts",
         "documenttypes_periodicals",
         "languageReviewedText",
-        "languageReview",
         "ddcSubject",
         "ddcTime",
         "ddcPlace",
         "subject",
-        "description",
+
+        # Presentation
+        "review",
+        'reviewAuthorPersonalUrl',
+        "reviewAuthorHonorific",
+        "reviewAuthorLastname",
+        "reviewAuthorFirstname",
+        "reviewAuthorEmail",
+        "languageReview",
         "isLicenceApproved"]
 
     for i, field in enumerate(ordered_fields):

@@ -43,7 +43,6 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
         'existingOnlineReviews',
         schemata=u"presentation",
         storage=atapi.AnnotationStorage(),
-        required=True,
         columns=("name", "url"),
         widget=DataGridWidget(
             label = _(u"Existing online reviews"),
@@ -62,9 +61,12 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
         'publishedReviews',
         schemata="presentation",
         storage=atapi.AnnotationStorage(),
-        required=True,
         widget=atapi.StringWidget(
-            label=_(u"Published Reviews"),
+            label=_(
+    u"label_published_reviews",
+    default=(u"Name of journal/newspaper/yearbook with volume, year and number "
+             "of pages")
+    ),
             description=_(
     u'description_pubished_reviews',
     default=(u"Insert here the place of publication of reviews on your text "
@@ -89,6 +91,19 @@ PresentationMonographSchema["uri"].widget.description = _(
     )
 PresentationMonographSchema["coverPicture"].widget.label = _(
     u"Upload of cover picture")
+PresentationMonographSchema["referenceAuthors"].widget.description = _(
+    u'description_reference_authors',
+    default=(u"Which scholarly author's work have you mainly engaged with in "
+             "your monograph? Please give us the most detailed information "
+             "possible on the &raquo;contemporary&laquo; names amongst them as "
+             "the recensio.net editorial team will usually try to inform these "
+             "authors of the existence of your monograph, your presentation, "
+             "and the chance to comment on it. Only the reference author's "
+             "name will be visible to the public. Please name historical "
+             "reference authors (e.g. Aristotle, Charles de Gaulle) further "
+             "below as subject heading.")
+    )
+
 
 finalize_recensio_schema(PresentationMonographSchema,
                          review_type="presentation")
@@ -112,6 +127,7 @@ class PresentationMonograph(BaseReview):
     reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
     reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
+    reviewAuthorPersonalUrl = atapi.ATFieldProperty('reviewAuthorPersonalUrl')
     languageReview = atapi.ATFieldProperty('languageReview')
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
     recensioID = atapi.ATFieldProperty('recensioID')
@@ -185,7 +201,7 @@ class PresentationMonograph(BaseReview):
         "review",
         "existingOnlineReviews",
         "publishedReviews", # Name, url 
-        
+        'reviewAuthorPersonalUrl',
         "reviewAuthorHonorific",
         "reviewAuthorLastname",
         "reviewAuthorFirstname",

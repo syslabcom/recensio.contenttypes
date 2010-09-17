@@ -90,6 +90,7 @@ def finalize_recensio_schema(schema, review_type="review"):
             )
         schema.changeSchemataForField("uri", presented)
         schema["uri"].widget.label = _(u"URL/URN")
+        schema["uri"].widget.description = ""
         schema["ddcSubject"].widget.label=_(u"Subject classification")
         schema['ddcTime'].widget.label=_(u"Time classification")
         schema['ddcPlace'].widget.label=_(u"Regional classification")
@@ -141,18 +142,6 @@ ReferenceAuthorsSchema = atapi.Schema((
                        "address" : Column(_(u"Address")),
                        "phone" : Column(_(u"Phone")),
                        },
-            description=_(
-    u'description_reference_authors',
-    default=(u"Which scholarly author's work have you mainly engaged with in "
-             "your monograph? Please give us the most detailed information "
-             "possible on the &raquo;contemporary&laquo; names amongst them as "
-             "the recensio.net editorial team will usually try to inform these "
-             "authors of the existence of your monograph, your presentation, "
-             "and the chance to comment on it. Only the reference author's "
-             "name will be visible to the public. Please name historical "
-             "reference authors (e.g. Aristotle, Charles de Gaulle) further "
-             "below as subject heading.")
-    ),
             ),
         ),
     ))
@@ -212,7 +201,7 @@ ReviewSchema = atapi.Schema((
 PresentationSchema = atapi.Schema((
     atapi.StringField(
         'reviewAuthorHonorific',
-        schemata="review",
+        schemata="presentation",
         storage=atapi.AnnotationStorage(),
         required=True,
         vocabulary=NamedVocabulary("honorifics"),
@@ -222,11 +211,26 @@ PresentationSchema = atapi.Schema((
         ),
     atapi.StringField(
         'reviewAuthorEmail',
-        schemata="review",
+        schemata="presentation",
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
             label=_(u"Email address (not publicly visible)"),
+            ),
+        ),
+    atapi.StringField(
+        'reviewAuthorPersonalUrl',
+        schemata="presentation",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Personal webpage"),
+            description=_(
+    u'description_personal_webpage',
+    default=(u"Here you can link to your personal website (e.g. within a "
+             "network of historians, a university or research institution). "
+             "It should preferably be persistent or be corrected by you in "
+             "case of changes (e.g. change of university).")
+    ),
             ),
         ),
     atapi.BooleanField(
@@ -314,7 +318,8 @@ SerialSchema = atapi.Schema((
     ))
 
 BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
-# TODO Add LabelWidget to show "Author (review)"
+# TODO for presentations check that last name and first name are also
+# in the authors field
     atapi.StringField(
         'reviewAuthorLastname',
         schemata="review",
