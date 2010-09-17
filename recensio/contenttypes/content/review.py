@@ -140,7 +140,9 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         """
         has_custom_pdf = hasattr(self, "pdf") and self.pdf.get_size() > 0
         if not has_custom_pdf:
-            doc = self.getDoc()
+            doc = None
+            if hasattr(self, "doc"):
+                doc = self.getDoc()
             if doc:
                 pdf_blob = Blob()
                 pdf_blob.open("w").writelines(wvPDF(doc.data))
