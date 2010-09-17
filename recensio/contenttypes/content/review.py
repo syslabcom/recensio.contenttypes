@@ -211,8 +211,7 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
         for data in field_values:
             retval.append(('%s %s' % (data['firstname'], data['lastname'])).decode('utf-8').encode('utf-8'))
         try:
-           review_author = ('%s %s %s' % (\
-               self.reviewAuthorHonorific
+           review_author = ('%s %s' % (\
               ,self.reviewAuthorFirstname
               ,self.reviewAuthorLastname
               )).decode('utf-8').encode('utf-8')
