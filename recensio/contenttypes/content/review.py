@@ -212,7 +212,7 @@ class BaseReview(base.ATCTMixin, atapi.BaseContent):
             retval.append(('%s %s' % (data['firstname'], data['lastname'])).decode('utf-8').encode('utf-8'))
         try:
            review_author = ('%s %s' % (\
-              ,self.reviewAuthorFirstname
+               self.reviewAuthorFirstname
               ,self.reviewAuthorLastname
               )).decode('utf-8').encode('utf-8')
            if review_author.strip():
