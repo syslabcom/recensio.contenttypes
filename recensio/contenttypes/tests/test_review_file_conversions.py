@@ -32,7 +32,9 @@ class TestReviewFileConversions(unittest.TestCase):
         sample_presentations = pm.getMembersFolder().get("fake_member")
         review = sample_presentations[sample_presentations.objectIds()[0]]
         # The sample reviews have both a pdf and a word doc attached
-        if "Review" in self.portal_type:
+        # TODO add tests for Presentations only have html which is
+        # converted to pdf
+        if review.portal_type.startswith("Review"):
             self.assertTrue(review.pdf.get_size() > 0,
                             msg=("Review: %s "
                                  "doesn't have a pdf file attached."
