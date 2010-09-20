@@ -13,8 +13,9 @@
   <property name="global_allow">True</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
-    <element value="Volume"/>
     <element value="Document"/>
+    <element value="Volume"/>
+    <element value="Review Monograph"/>
   </property>
   <property name="allow_discussion">False</property>
   <property name="default_view">base_view</property>
