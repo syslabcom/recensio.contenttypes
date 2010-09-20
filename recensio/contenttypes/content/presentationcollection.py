@@ -166,6 +166,7 @@ class PresentationCollection(BaseReview):
         "ddcTime",
         "ddcPlace",
         "subject",
+        "idBvb",
 
         # Presentation
         "review",

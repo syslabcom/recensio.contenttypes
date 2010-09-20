@@ -114,6 +114,7 @@ class ReviewJournal(BaseReview):
         "ddcTime",
         "ddcPlace",
         "subject",
+        "idBvb",
 
         # Review schemata
         "reviewAuthorLastname",

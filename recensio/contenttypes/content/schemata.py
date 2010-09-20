@@ -477,11 +477,11 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
         ),
     atapi.StringField(
         'idBvb',
-        schemata=_(u"review"),
+        schemata="reviewed text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             visible={"view":"hidden",
-                     "edit":"hidden"},
+                     "edit":"visible"},
             ),
         ),
     ))

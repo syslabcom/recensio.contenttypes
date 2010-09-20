@@ -196,6 +196,7 @@ class PresentationMonograph(BaseReview):
         "ddcTime",
         "ddcPlace",
         "subject",
+        "idBvb",
 
         # Presentation
         "review",

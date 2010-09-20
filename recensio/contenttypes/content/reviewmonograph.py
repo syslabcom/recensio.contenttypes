@@ -110,6 +110,7 @@ class ReviewMonograph(BaseReview):
         "ddcTime",
         "ddcPlace",
         "subject",
+        "idBvb",
 
         # Review schemata
         "reviewAuthorLastname",

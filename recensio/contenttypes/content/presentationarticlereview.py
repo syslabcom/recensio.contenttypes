@@ -146,7 +146,8 @@ class PresentationArticleReview(BaseReview):
         "ddcTime",
         "ddcPlace",
         "subject",
-        
+        "idBvb",
+
         # Presentation
         "review",
         'reviewAuthorPersonalUrl',
