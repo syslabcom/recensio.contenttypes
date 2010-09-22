@@ -20,6 +20,7 @@ from Products.CMFPlone.Portal import PloneSite
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 from zope.app.schema.vocabulary import IVocabularyFactory
 from Products.Archetypes.utils import DisplayList
+from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
 
 from plone.app.blob.utils import openBlob
 
@@ -31,7 +32,7 @@ from recensio.contenttypes.interfaces.review import IReview
 import logging
 log = logging.getLogger('recensio.contentypes/content/review.py')
 
-class BaseReview(base.ATCTMixin, atapi.BaseContent):
+class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     implements(IReview)
 
     def listSupportedLanguages(self):

@@ -51,7 +51,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
     )
             ),
         ),
-    atapi.StringField(
+    atapi.LinesField(
         'documenttypes_institution',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('institution_values'),
@@ -66,7 +66,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
             format="checkbox",
         ),
     ),
-    atapi.StringField(
+    atapi.LinesField(
         'documenttypes_cooperation',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('cooperations_and_communication_values'),
@@ -80,7 +80,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
             format="checkbox",
         ),
     ),
-    atapi.StringField(
+    atapi.LinesField(
         'documenttypes_referenceworks',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('reference_values'),
@@ -94,7 +94,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
             format="checkbox",
         ),
     ),
-    atapi.StringField(
+    atapi.LinesField(
         'documenttypes_bibliographical',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('bibliographic_source_values'),
@@ -108,7 +108,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
             format="checkbox",
         ),
     ),
-    atapi.StringField(
+    atapi.LinesField(
         'documenttypes_fulltexts',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('fulltexts_public_domain'),
@@ -122,7 +122,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
             format="checkbox",
         ),
     ),
-    atapi.StringField(
+    atapi.LinesField(
         'documenttypes_periodicals',
         storage=atapi.AnnotationStorage(),
         vocabulary=NamedVocabulary('periodicals_journals_magazines'),
