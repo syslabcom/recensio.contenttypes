@@ -37,7 +37,7 @@ from recensio.contenttypes.content.presentationcollection import \
      PresentationCollection
 from recensio.contenttypes.interfaces.publication import IPublication
 from swiss.tabular import XlsReader
-import random
+from random import Random
 
 mdfile = os.path.join(os.path.dirname(__file__), 'profiles', 'exampledata',
     'metadata.xml')
@@ -197,7 +197,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
 
     ddcTime = voc.getVocabularyByName('epoch_values')
     ddcTime_list = ddcTime.getDisplayList(ddcTime).keys()
-
+    random = Random()
     random.seed('recensio.syslab.com')
     def test_data():
         """Randomise the values in certain fields
