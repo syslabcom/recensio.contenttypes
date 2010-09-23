@@ -97,7 +97,9 @@ class ReviewPDF(object):
             _, _, res = os.popen3(cmd)
             result2 = res.read()
             result += result2
-            for img in [gif for gif in os.listdir(tmp_pdfin) if os.path.splitext(gif)[1] == '.gif']:
+            imgfiles = [gif for gif in os.listdir(tmp_pdfin) if os.path.splitext(gif)[1] == '.gif']
+            imgfiles.sort()
+            for img in imgfiles:
                 fhimg = open(os.path.join(tmp_pdfin, img), "r")
                 pageimg = fhimg.read()
                 pages.append(pageimg)
