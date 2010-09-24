@@ -9,9 +9,20 @@
   <metal:js fill-slot="javascript_head_slot">
     <script type="text/javascript">
       jq(document).ready(function(){
-         $("#metadata_accordion").accordion({initShow : "ul.current"});
-      });
+         $("#review-metadata").accordion({initShow : "ul.current"});
+         $("a[rel=contactSheet]").fancybox({
+            'transitionIn'      : 'elastic',
+            'transitionOut'     : 'elastic',
+            'titlePosition'     : 'over',
+            'overlayOpacity'    :   0.7,
+            'overlayColor'      :   '#000',
+            'titleFormat'       : function(title, currentArray, currentIndex, currentOpts) {
+                return 'Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? '  ' + title : '') + '';
+                }
+            });
+        });
     </script>
+
   </metal:js>
   <body>
     <div metal:fill-slot="content-title" tal:define="global sr python:True">
@@ -42,13 +53,64 @@
             <li>
                 <h2 tal:content="context/Title"></h2>
                 <p class="previews">
-                    <img src="get_page_image" tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=1" alt="Review page 1" class="page-1">
-                    <img src="get_page_image" tal:condition="python:context.get_no_pages() >= 2" tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=2" alt="Review page 2" class="page-2">
-                    <img src="get_page_image" tal:condition="python:context.get_no_pages() >= 3" tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=3" alt="Review page 3" class="page-3">
+                  <a rel="contactSheet" 
+                     href="#" 
+                     tal:attributes="href string:${here/absolute_url}/get_page_image?no:int=1">
+                    <img src="get_page_image" 
+                         tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=1" 
+                         alt="Review page 1" 
+                         class="page-1" />
+                  </a>
+                  <a rel="contactSheet" 
+                     tal:condition="python:context.get_no_pages() >= 2" 
+                     href="#" 
+                     tal:attributes="href string:${here/absolute_url}/get_page_image?no:int=2">
+                    <img src="get_page_image" 
+                         tal:condition="python:context.get_no_pages() >= 2" 
+                         tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=2" 
+                         alt="Review page 2" 
+                         class="page-2" />
+                  </a>
+                  <a rel="contactSheet" 
+                     href="#" 
+                     tal:condition="python:context.get_no_pages() >= 3" 
+                     tal:attributes="href string:${here/absolute_url}/get_page_image?no:int=3">
+                    <img src="get_page_image" 
+                         tal:condition="python:context.get_no_pages() >= 3" 
+                         tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=3" 
+                         alt="Review page 3" 
+                         class="page-3" />
+                  </a>
                 </p>
+                <h3>
+                    About
+                </h3>
+                <dl>
+                    <dt>Author</dt>
+                    <dd><tal:b replace="context/getReviewAuthorFirstname" /> 
+                        <tal:b replace="context/getReviewAuthorLastname" /></dd>
+                    <dt tal:condition="context/getAuthors |nothing">Authors</dt>
+                    <dd tal:condition="context/getAuthors |nothing">
+                        <tal:r repeat="author context/getAuthors"> 
+                        <tal:b replace="author/firstname" />
+                        <tal:b replace="author/lastname" /><tal:c condition="not:repeat/author/end">,</tal:c> 
+                        </tal:r>
+                    </dd>
+                    <dt>URI</dt>
+                    <dd><tal:b replace="context/getUri" /></dd>
+                    <dt>Published</dt>
+                    <dd><tal:b replace="context/getPlaceOfPublication" />, 
+                        <tal:b replace="context/getYearOfPublication" />
+                        by <tal:b replace="context/getPublisher" /></dd>
+                    <dt tal:condition="context/getIsbn |nothing">ISBN</dt>
+                    <dd tal:condition="context/getIsbn |nothing"><tal:b replace="context/getIsbn" /></dd>
+                    <dt tal:condition="context/getIssn |nothing">ISSN</dt>
+                    <dd tal:condition="context/getIssn |nothing"><tal:b replace="context/getIssn" /></dd>
+                    <dt tal:condition="context/getReferenceAuthors |nothing">Reference Authors</dt>
+                    <dd tal:condition="context/getReferenceAuthors |nothing"><tal:b replace="context/getReferenceAuthors" /></dd>
+                </dl>
             </li>
         </ul>
-        <div class="visualClear"><!-- --></div>    
       </div>
 
       <div id="facebook-like"
@@ -57,143 +119,7 @@
         <iframe tal:attributes="src url; scrolling string:no; frameborder string:0; allowTransparency string:true"></iframe>
       </div>
       
-      <div id="review-metadata" tal:define="metadata view/get_metadata">
-        <h2>Metadata</h2>
-        <!--dl tal:condition="python:context.meta_type == 'ReviewJournal'">
-          <dt>Publication Title</dt>
-          <dd tal:content="context/get_publication_title"></dd>
-          <dt>Volume Title</dt>
-          <dd tal:content="context/get_volume_title"></dd>
-        </dl-->
-
-        <div class="shown" id="metadata_content">
-            <div id="metadata_accordion"> 
-                <ul class="accordion">
-                    <li><a class="trigger" style="display: block;" href="#" title="open/close">Publications
-                        </a><ul style="display: none;">
-                            <ul>
-                                <li>
-                                    <table>
-                                        <tbody><tr>
-                                            <th>Publication Title</th>
-                                            <td>NewspaperA</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Volume Title</th>
-                                            <td>Summer</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Autor des Aufsatzes</th>
-                                            <td>Frank Severin</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Shortname (Journal)</th>
-                                            <td>Danzig </td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Erscheinungsjahr</th>
-                                            <td>2004</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Gezähltes Jahr</th>
-                                            <td>2010 </td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Issue Title</th>
-                                            <td>Issue 2</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Erscheinungsort</th>
-                                            <td>Danzig</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Verlag</th>
-                                            <td>DHI Wahrschau </td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>ISSN</th>
-                                            <td>9887-997-003-241</td>
-
-                                        </tr>
-                                    </tbody></table>
-                                </li>
-                            </ul>
-                        </ul>
-                    </li>
-                    <li><a class="trigger" style="display: block;" href="#" title="open/close">Others
-                        </a><ul style="display: none;">
-                            <ul>
-                                <table>
-                                    <tbody><tr>
-                                        <th>Textsprache der präsentierten Schrift</th>
-                                        <td>German</td>
-
-                                    </tr>
-                                    <tr>
-                                        <th>Textsprache der Präsentation</th>
-                                        <td>German</td>
-
-                                    </tr>
-                                    <tr>
-                                        <th>Recensio ID</th>
-                                        <td>Lorem ipsum</td>
-
-                                    </tr>
-                                    <tr>
-                                        <th>Verbund ID</th>
-                                        <td>Dolor sit</td>
-
-                                    </tr>
-                                    <tr>
-                                        <th>ddc sach</th>
-                                        <td>Geschichte allgemein </td>
-
-                                    </tr>
-                                    <tr>
-                                        <th>ddc zeit</th>
-                                        <td>20. Jahrhundert - 1930 - 1939</td>
-
-                                    </tr>
-                                    <tr>
-                                        <th>ddc raum</th>
-                                        <td>DEUTSCHLAND 20. JAHRHUNDERT</td>
-
-                                    </tr>
-                                    <tr>
-                                        <th>Stichworte</th>
-                                        <td>* Polen
-                                        * Menschen
-                                        * Deutschland
-                                        * Religion
-                                        * Geschichte
-                                        * Danzig
-                                        * Kirche
-                                        * 19.Jahrhundert</td>
-
-                                    </tr>
-                                    <tr>
-                                        <th>Zitation</th>
-                                        <td>Geschichtsbewusstsein</td>
-
-                                    </tr>
-                                </tbody></table>
-                            </ul>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-      </div>
-      
+      <div class="visualClear"><!-- --></div>
       <div id="review-citation" class="message notice">
         <h2>Zitierhinweise</h2>
         <p tal:content="structure context/get_citation_string"></p>
@@ -201,9 +127,7 @@
         <a tal:attributes="href context/absolute_url"
            tal:content="context/absolute_url"></a>
       </div>
-      
-      
-      
+
 
     </div>
     
@@ -216,6 +140,134 @@
               <em class="discrete">(<span tal:replace="python: pdf_ob and pdf_ob.get_size()/1024 or 0" /> kb)</em></a> 
             </p> 
         </div>
+        
+        <div id="review-metadata" tal:define="metadata view/get_metadata">
+         
+         <h2>Metadata</h2>
+
+         <ul id="metadata_accordion" class="accordion">
+         <li>
+             <a class="trigger" style="display: block;" href="#" title="open/close">Publications</a>
+             <ul>
+                 <li>
+                     <table>
+                         <tbody><tr>
+                             <th>Publication Title</th>
+                             <td>NewspaperA</td>
+
+                         </tr>
+                         <tr>
+                             <th>Volume Title</th>
+                             <td>Summer</td>
+
+                         </tr>
+                         <tr>
+                             <th>Autor des Aufsatzes</th>
+                             <td>Frank Severin</td>
+
+                         </tr>
+                         <tr>
+                             <th>Shortname (Journal)</th>
+                             <td>Danzig </td>
+
+                         </tr>
+                         <tr>
+                             <th>Erscheinungsjahr</th>
+                             <td>2004</td>
+
+                         </tr>
+                         <tr>
+                             <th>Gezähltes Jahr</th>
+                             <td>2010 </td>
+
+                         </tr>
+                         <tr>
+                             <th>Issue Title</th>
+                             <td>Issue 2</td>
+
+                         </tr>
+                         <tr>
+                             <th>Erscheinungsort</th>
+                             <td>Danzig</td>
+
+                         </tr>
+                         <tr>
+                             <th>Verlag</th>
+                             <td>DHI Wahrschau </td>
+
+                         </tr>
+                         <tr>
+                             <th>ISSN</th>
+                             <td>9887-997-003-241</td>
+
+                         </tr>
+                     </tbody></table>
+                 </li>
+             </ul>
+         </li>
+         <li>
+             <a class="trigger" style="display: block;" href="#" title="open/close">Others</a>
+             <ul>
+                 <table>
+                     <tbody><tr>
+                         <th>Textsprache der präsentierten Schrift</th>
+                         <td>German</td>
+
+                     </tr>
+                     <tr>
+                         <th>Textsprache der Präsentation</th>
+                         <td>German</td>
+
+                     </tr>
+                     <tr>
+                         <th>Recensio ID</th>
+                         <td>Lorem ipsum</td>
+
+                     </tr>
+                     <tr>
+                         <th>Verbund ID</th>
+                         <td>Dolor sit</td>
+
+                     </tr>
+                     <tr>
+                         <th>ddc sach</th>
+                         <td>Geschichte allgemein </td>
+
+                     </tr>
+                     <tr>
+                         <th>ddc zeit</th>
+                         <td>20. Jahrhundert - 1930 - 1939</td>
+
+                     </tr>
+                     <tr>
+                         <th>ddc raum</th>
+                         <td>DEUTSCHLAND 20. JAHRHUNDERT</td>
+
+                     </tr>
+                     <tr>
+                         <th>Stichworte</th>
+                         <td>* Polen
+                         * Menschen
+                         * Deutschland
+                         * Religion
+                         * Geschichte
+                         * Danzig
+                         * Kirche
+                         * 19.Jahrhundert</td>
+
+                     </tr>
+                     <tr>
+                         <th>Zitation</th>
+                         <td>Geschichtsbewusstsein</td>
+                     </tr>
+                 </tbody>
+                 </table>
+             </ul>
+         </li>
+         </ul>
+       </div>
+        
+        
     </metal:portlets>
     
   </body>
