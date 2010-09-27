@@ -214,6 +214,7 @@ PresentationSchema = atapi.Schema((
         schemata="presentation",
         storage=atapi.AnnotationStorage(),
         required=True,
+        default_method="get_user_email",
         widget=atapi.StringWidget(
             label=_(u"Email address (not publicly visible)"),
             ),
@@ -222,6 +223,7 @@ PresentationSchema = atapi.Schema((
         'reviewAuthorPersonalUrl',
         schemata="presentation",
         storage=atapi.AnnotationStorage(),
+        default_method="get_user_home_page",
         widget=atapi.StringWidget(
             label=_(u"Personal webpage"),
             description=_(

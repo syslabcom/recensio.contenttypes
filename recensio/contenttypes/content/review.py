@@ -269,3 +269,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     def get_user_firstname(self):
         return self.get_user_property("firstname")
+
+    def get_user_email(self):
+        return self.get_user_property("email")
+
+    def get_user_home_page(self):
+        return self.get_user_property("home_page")
