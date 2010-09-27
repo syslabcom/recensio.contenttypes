@@ -481,7 +481,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             visible={"view":"hidden",
-                     "edit":"visible"},
+                     "edit":"hidden"},
             ),
         ),
     ))
