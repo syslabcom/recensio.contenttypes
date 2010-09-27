@@ -1,35 +1,41 @@
 # -*- CODING: utf-8 -*-
+""" BaseReview is a base class all Recensio Review and Presentation
+content types inherit from.
+"""
+from DateTime import DateTime
 from os import fstat
 from string import Formatter
 import cStringIO as StringIO
-import ho.pisa
+import logging
 import re
-from DateTime import DateTime
+
+import ho.pisa
 
 import Acquisition
 from ZODB.blob import Blob
-from zope.interface import implements
+from zope.app.component.hooks import getSite
+from zope.app.schema.vocabulary import IVocabularyFactory
 from zope.component import getUtility
 from zope.i18n import translate
+from zope.interface import implements
 
-from Products.Archetypes import atapi
+from plone.app.blob.utils import openBlob
+
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
+from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
+from Products.Archetypes import atapi
+from Products.Archetypes.utils import DisplayList
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.Portal import PloneSite
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
-from zope.app.schema.vocabulary import IVocabularyFactory
-from Products.Archetypes.utils import DisplayList
-from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
-
-from plone.app.blob.utils import openBlob
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.helperutilities import SimpleZpt
 from recensio.contenttypes.helperutilities import wvPDF
 from recensio.contenttypes.interfaces.review import IReview
 
-import logging
+
 log = logging.getLogger('recensio.contentypes/content/review.py')
 
 class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
@@ -250,4 +256,16 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 return obj
         return None
 
+    # The following get_user_... methods are used as default_methods
+    # for various fields
+    def get_user_property(self, property):
+        portal = getSite()
+        pm = portal.portal_membership
+        user = pm.getAuthenticatedMember()
+        return user.getProperty(property)
 
+    def get_user_lastname(self):
+        return self.get_user_property("lastname")
+
+    def get_user_firstname(self):
+        return self.get_user_property("firstname")

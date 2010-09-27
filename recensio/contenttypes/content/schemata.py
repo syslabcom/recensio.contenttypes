@@ -17,9 +17,9 @@ from zope.i18n import translate
 from zope.app.component.hooks import getSite
 from Products.CMFCore.utils import getToolByName
 
-
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
+
 
 def finalize_recensio_schema(schema, review_type="review"):
     """Custom replacement for schemata.finalizeATCTSchema
@@ -317,6 +317,7 @@ SerialSchema = atapi.Schema((
         ),
     ))
 
+
 BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 # TODO for presentations check that last name and first name are also
 # in the authors field
@@ -325,6 +326,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         required=True,
+        default_method="get_user_lastname",
         widget=atapi.StringWidget(
             label=_(u"Last name author"),
             ),
@@ -334,6 +336,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         required=True,
+        default_method="get_user_firstname",
         widget=atapi.StringWidget(
             label=_(u"First name author"),
             ),
