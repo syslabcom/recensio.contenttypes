@@ -1,0 +1,65 @@
+id: index_html
+title: RSS-Feeds
+description: 
+subject: 
+relatedItems: 
+location: 
+language: de
+effectiveDate: 2010/09/28 16:50:00 GMT+2
+expirationDate: None
+creation_date: 2010/09/28 16:33:24.845700 GMT+2
+modification_date: 2010/09/28 16:58:1.788647 GMT+2
+creators: admin
+contributors: 
+rights: 
+allowDiscussion: False
+excludeFromNav: False
+presentation: False
+tableContents: False
+allow_ratings: True
+Content-Type: text/html
+
+<p>Über den traditionellen Newsletter hinaus haben Sie mit RSS-Feeds die Möglichkeit, sich zugeschnitten auf Ihre speziellen Interessen regelmäßig über Neuerscheinungen auf recensio.net informieren zu lassen. Voraussetzung für das (kostenlose) Abonnement Ihres Feeds ist ein sogenannter <a href="http://de.wikipedia.org/wiki/Feedreader">Feedreader</a>.</p>
+<p> </p>
+<ol>
+<li>News-Feed
+<p>Lassen Sie sich über <a href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">alle Neuerscheinungen auf der Plattform</a> informieren.</p>
+</li>
+<li>Epochen-Feed
+<p>Filtern Sie hier die Ihnen gelieferten News nach Epochen.</p>
+<ul>
+<li><a href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;sort_on=created&amp;ddcTime:list=e507dfa2a397f993a3438f334c0528a4&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Alte Geschichte</a></li>
+<li><a href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;sort_on=created&amp;ddcTime:list=2fa092b3e57caffeb1dbf5b1877c88cb&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Mittelalter</a></li>
+<li><a href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;sort_on=created&amp;ddcTime:list=4b758e32be2d61648a06bdc2e3cd1fed&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Neuzeit bis 1900</a></li>
+<li><a href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;sort_on=created&amp;ddcTime:list=64935f140dc6204bb1c4ecb080a988b1&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">20. Jahrhundert</a></li>
+<li><a href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;sort_on=created&amp;ddcTime:list=a84ad19e3b7c07a858e47c5b2c7db9e7&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">21. Jahrhundert</a></li>
+</ul>
+</li>
+<li>Zeitschriften-Feed
+<p>Hier können Sie sich über die Publikation von Rezensionsteilen bestimmter Zeitschriften informieren lassen</p>
+<ul>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/berichte-und-forschungen.-jahrbuch-des-bundesinstituts-fur-kultur-und-geschichte-der-deutschen-im-ostlichen-europa&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Berichte und Forschungen. Jahrbuch des Bundesinstituts für Kultur und Geschichte der Deutschen im östlichen Europa</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/bohemia.-zeitschrift-fur-geschichte-und-kultur-der-bohmischen-lander&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Bohemia. Zeitschrift für Geschichte und Kultur der böhmischen Länder</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/bulletin-des-dhi-london&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Bulletin des DHI London</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/francia-recensio&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Francia-Recensio</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/historiallinen-aikakauskirja&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Historiallinen Aikakauskirja</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/jahrbucher-fur-geschichte-osteuropas&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Jahrbücher für Geschichte Osteuropas</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/lietuvos-istorijos-metrastis&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Lietuvos Istorijos Metraštis</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/lithuanian-historical-studies&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Lithuanian Historical Studies</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/sehepunkte&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">sehepunkte</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/sudosteuropa.-zeitschrift-fur-politik-und-gesellschaft&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Südosteuropa. Zeitschrift für Politik und Gesellschaft</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/sudost-forschungen.-internationale-zeitschrift-fur-geschichte-kultur-und-landeskunde-sudosteuropas&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Südost-Forschungen. Internationale Zeitschrift für Geschichte, Kultur und Landeskunde Südosteuropas</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/ungarn-jahrbuch.-zeitschrift-fur-interdisziplinare-hungarologie&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Ungarn-Jahrbuch. Zeitschrift für interdisziplinäre Hungarologie</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/zeitschrift-fur-balkanologie&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Zeitschrift für Balkanologie</a></li>
+<li><a class="state-private external-link" href="search_rss?modified_usage=range%3Amin&amp;isbn=&amp;series=&amp;sort_order=descending&amp;year=&amp;path:list=/recensio/rezensionen/zeitschriften/zeitschrift-fur-ostmitteleuropa-forschung-zfo&amp;sort_on=created&amp;titleOrShortname=&amp;publisher=&amp;created:date:list=1970/02/01&amp;b_size:int=30&amp;Creator=&amp;modified:date:list=1970/02/01&amp;submit=Suche&amp;SearchableText=&amp;place=&amp;authorsFulltext=&amp;created_usage=range%3Amin&amp;recensio_id=">Zeitschrift für Ostmitteleuropa-Forschung (ZfO)</a></li>
+</ul>
+</li>
+<li>Genre-Feed
+<p>Wählen Sie die Textart, die Sie am meisten interessiert. Mit der Wahl von „Kommentaren“ bleiben Sie über aktuelle Diskussionen auf dem Laufenden.</p>
+<ul>
+<li><a class="internal-link" href="RSS-feeds/new_reviews/RSS">Rezensionen</a></li>
+<li><a class="internal-link" href="RSS-feeds/new_presentations/RSS">Präsentationen</a></li>
+<li><a class="internal-link" href="RSS-feeds/new_discussions/RSS">Kommentare</a></li>
+</ul>
+</li>
+</ol>
