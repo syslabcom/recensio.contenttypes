@@ -113,12 +113,6 @@
         </ul>
       </div>
 
-      <div id="facebook-like"
-        tal:define="url_quote_plus python:modules['Products.PythonScripts.standard'].url_quote_plus;
-                    url python:'http://www.facebook.com/plugins/like.php?href=' + url_quote_plus(context.absolute_url()) + '&amp;layout=standard&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35';">
-        <iframe tal:attributes="src url; scrolling string:no; frameborder string:0; allowTransparency string:true"></iframe>
-      </div>
-      
       <div class="visualClear"><!-- --></div>
       <div id="review-citation" class="message notice">
         <h2>Zitierhinweise</h2>
@@ -141,6 +135,12 @@
             </p> 
         </div>
         
+      <div id="facebook-like"
+        tal:define="url_quote_plus python:modules['Products.PythonScripts.standard'].url_quote_plus;
+                    url python:'http://www.facebook.com/plugins/like.php?href=' + url_quote_plus(context.absolute_url()) + '&amp;layout=standard&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35';">
+        <iframe tal:attributes="src url; scrolling string:no; frameborder string:0; allowTransparency string:true"></iframe>
+      </div>
+      
         <div id="review-metadata" tal:define="metadata view/get_metadata">
          
          <h2>Metadata</h2>
