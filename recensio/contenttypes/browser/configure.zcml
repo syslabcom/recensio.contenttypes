@@ -20,4 +20,11 @@
     permission="zope2.View"
     />
 
+  <browser:page
+     for="..interfaces.IReview"
+     name="pageviewer"
+     class=".pageviewer.Pageviewer"
+     permission="zope2.View"
+     />
+
 </configure>

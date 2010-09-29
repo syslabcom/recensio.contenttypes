@@ -16,6 +16,8 @@
             'titlePosition'     : 'over',
             'overlayOpacity'    :   0.7,
             'overlayColor'      :   '#000',
+            'width'             : 850,
+            'height'            : 1000,
             'titleFormat'       : function(title, currentArray, currentIndex, currentOpts) {
                 return 'Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? '  ' + title : '') + '';
                 }
@@ -55,26 +57,16 @@
                 <p class="previews">
                   <a rel="contactSheet" 
                      href="#" 
-                     tal:attributes="href string:${here/absolute_url}/get_page_image?no:int=1">
+                     tal:attributes="href string:${here/absolute_url}/@@pageviewer; class string:iframe">
                     <img src="get_page_image" 
                          tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=1" 
                          alt="Review page 1" 
                          class="page-1" />
-                  </a>
-                  <a rel="contactSheet" 
-                     tal:condition="python:context.get_no_pages() >= 2" 
-                     href="#" 
-                     tal:attributes="href string:${here/absolute_url}/get_page_image?no:int=2">
                     <img src="get_page_image" 
                          tal:condition="python:context.get_no_pages() >= 2" 
                          tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=2" 
                          alt="Review page 2" 
                          class="page-2" />
-                  </a>
-                  <a rel="contactSheet" 
-                     href="#" 
-                     tal:condition="python:context.get_no_pages() >= 3" 
-                     tal:attributes="href string:${here/absolute_url}/get_page_image?no:int=3">
                     <img src="get_page_image" 
                          tal:condition="python:context.get_no_pages() >= 3" 
                          tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=3" 
@@ -137,7 +129,7 @@
         
       <div id="facebook-like"
         tal:define="url_quote_plus python:modules['Products.PythonScripts.standard'].url_quote_plus;
-                    url python:'http://www.facebook.com/plugins/like.php?href=' + url_quote_plus(context.absolute_url()) + '&amp;layout=standard&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35';">
+                    url python:'http://www.facebook.com/plugins/like.php?locale=de_DE&href=' + url_quote_plus(context.absolute_url()) + '&amp;layout=standard&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35';">
         <iframe tal:attributes="src url; scrolling string:no; frameborder string:0; allowTransparency string:true"></iframe>
       </div>
       
