@@ -267,11 +267,11 @@ PresentationSchema = atapi.Schema((
 
 
 PageStartEndSchema = atapi.Schema((
-    atapi.StringField(
+    atapi.IntegerField(
         'pageStart',
         schemata="review",
         storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
+        widget=atapi.IntegerWidget(
             label=_(u"Page number (start)"),
             description=_(
     u'description_page_number',
@@ -279,11 +279,11 @@ PageStartEndSchema = atapi.Schema((
     ),
             ),
         ),
-    atapi.StringField(
+    atapi.IntegerField(
         'pageEnd',
         schemata="review",
         storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
+        widget=atapi.IntegerWidget(
             label=_(u"Page number (end)"),
             ),
         ),
