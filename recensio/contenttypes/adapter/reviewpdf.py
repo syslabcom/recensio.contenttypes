@@ -68,7 +68,7 @@ class ReviewPDF(object):
         
         return result, pageimg
 
-    def _getAllPageImages(self, size=(320,452)):
+    def _getAllPageImages(self, size=(320,452), start=0, end=0):
         tmp_pdfin = tmp_pdfout = tmp_gifin = None
         result = ''
         pageimg = None
@@ -82,11 +82,27 @@ class ReviewPDF(object):
                 return 0
             tmp_pdfin = tempfile.mkdtemp()
             tmp_pdfout = tempfile.mkstemp(suffix='.pdf')
+            tmp_pdfpart = tempfile.mkstemp(suffix='.pdf')
             fhout = open(tmp_pdfout[1], "w")
             fhout.write(data)
             fhout.close()
             tmp_prefix = os.path.join(tmp_pdfin, os.path.splitext(os.path.basename(tmp_pdfout[1]))[0])
-            cmd = "pdftk %s burst output %s_%%04d.pdf" %(tmp_pdfout[1], tmp_prefix)
+            if start or end:
+                if not start:
+                    start = 1
+                if end:
+                    cmd = "pdftk %s cat %d-%d output %s" % (tmp_pdfout[1], start, end, tmp_pdfpart[1])
+                else:
+                    cmd = "pdftk %s cat %d-end output %s" % (tmp_pdfout[1], start, tmp_pdfpart[1])
+                
+                logger.debug(cmd)
+                _, _, res = os.popen3(cmd)
+                result = res.read()
+                if result:
+                    logger.warn("popen: %s" % (result))
+            else:
+                tmp_pdfpart = tmp_pdfout
+            cmd = "pdftk %s burst output %s_%%04d.pdf" %(tmp_pdfpart[1], tmp_prefix)
             logger.debug(cmd)
             _, _, res = os.popen3(cmd)
             result = res.read()
@@ -117,6 +133,8 @@ class ReviewPDF(object):
         if tmp_pdfout is not None:
             try: os.remove(tmp_pdfout[1])
             except: pass
+            try: os.remove(tmp_pdfpart[1])
+            except: pass
         
         return result, pages
 
@@ -138,7 +156,7 @@ class ReviewPDF(object):
 
         return status
 
-    def generatePageImages(self):
+    def generatePageImages(self, start=0, end=0):
         """
         generate an image for each page of the pdf
         """
@@ -146,7 +164,7 @@ class ReviewPDF(object):
         i = 1
         pages = []
         status = 1
-        result, pageimages = self._getAllPageImages((800,1131))
+        result, pageimages = self._getAllPageImages((800,1131), start=start, end=end)
         if result:
             logger.warn("popen: %s" % (result))
             if 'Error:' in result:

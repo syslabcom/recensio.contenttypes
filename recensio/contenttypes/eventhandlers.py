@@ -9,8 +9,19 @@ def review_pdf_updated_eventhandler(obj, evt):
     cover image of the pdf if necessary.
     """
     obj.update_generated_pdf()
-    if obj.REQUEST.get('pdf_file'):
-        interfaces.IReviewPDF(obj).generatePageImages()
+    if obj.REQUEST and obj.REQUEST.get('pdf_file'):
+        start = obj.REQUEST.get('pageStart', '0')
+        end = obj.REQUEST.get('pageEnd', '0')
+        try:
+            start = int(start)
+        except:
+            start = 0
+        try:
+            end = int(end)
+        except:
+            end = 0
+        
+        interfaces.IReviewPDF(obj).generatePageImages(start=start, end=end)
         if not obj.REQUEST.get('coverPicture_file'):
             status = interfaces.IReviewPDF(obj).generateImage()
             if status == 0:
