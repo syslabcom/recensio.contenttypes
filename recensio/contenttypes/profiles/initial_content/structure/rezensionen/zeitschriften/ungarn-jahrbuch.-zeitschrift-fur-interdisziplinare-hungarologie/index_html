@@ -8,70 +8,13 @@ language: de
 effectiveDate: None
 expirationDate: None
 creation_date: 2010/09/04 20:29:38.081166 GMT+2
-modification_date: 2010/09/04 20:29:38.535400 GMT+2
+modification_date: 2010/09/29 13:04:57.339015 GMT+2
 creators: admin
 contributors: 
 rights: 
-allowDiscussion: False
+allowDiscussion: True
 excludeFromNav: False
 presentation: False
 tableContents: False
-allow_ratings: True
 Content-Type: text/html
-<!-- p { margin-bottom: 0.08in; }a:link { color: rgb(0, 0, 255); } -->
-  
-  <table>
-  
-  <tbody>
-  
-  <tr>
-  
-  <td>Herausgeber</td>
-  
-  <td>Zsolt K. Lengyel</td>
-  
-  </tr>
-  
-  <tr>
-  
-  <td>Verlag</td>
-  
-  <td>Verlag Ungarisches Institut</td>
-  
-  </tr>
-  
-  <tr>
-  
-  <td>ISSN</td>
-  
-  <td>0082–755X (Zeitschriftennummer)</td>
-  
-  </tr>
-  
-  <tr>
-  
-  <td>ISBN</td>
-  
-  <td>3–929906–60–0 (Buchnummer)</td>
-  
-  </tr>
-  
-  <tr>
-  
-  <td>Erscheinungsweise    <br /></td>
-  
-  <td>jährlich</td>
-  
-  </tr>
-  
-  </tbody>
-  
-  </table>
-  
-  <p>Zweck der Zeitschrift ist es, einschlägige Arbeiten ungarischer und nichtungarischer Autorinnen und Autoren über die Geschichte, Kultur, Politik, Gesellschaft und Wirtschaft Ungarns sowie der mit Ungarn über mannigfaltige Beziehungen verbundenen Räume in deutscher oder einer anderen westlichen Sprache der internationalen Fachwelt zugänglich zu machen. Damit soll sie die grenzüberschreitende Zusammenarbeit zwischen den verschiedenen Zweigen der interdisziplinären Regionalwissenschaft Hungarologie fördern. Ihr zeitlicher Rahmen erstreckt sich vom Mittelalter bis in die Gegenwart. Das <i>Ungarn-Jahrbuch</i> besteht – je nach Gattung der zur Publikation eingesandten Beiträge – aus den Rubriken »Abhandlungen«, »Forschungsberichte«, »Mitteilungen«, »Vorträge«, »Besprechungen« sowie »Chronik«.</p>
-  
-  <p><b>Kontakt</b><span style="text-decoration: underline;"><a href="mailto:lengyel@ungarisches-institut.de"><br />Zsolt K. Lengyel</a></span><br />mit <span style="text-decoration: underline;"><a href="mailto:busa@ungarisches-institut.de">Krisztina Busa</a></span><br />Ralf Thomas Göllner und Adalbert Toth</p>
-  
-  <p>Ungarisches Institut<br />Beichstraße 3<br />80802 München<br />(Postfach, 80752 München)<br />Germany<br />Telefon +49 (0)89 / 34 81 71<br />Fax +49 (0)89 / 39 19 41<br />E-Mail <span style="text-decoration: underline;"><a href="mailto:uim@ungarisches-institut.de">uim@ungarisches-institut.de</a></span></p>
-  
-  <p><span>URL </span><span style="text-decoration: underline;"><a href="http://www.ungarisches-institut.de/institut/katalog-ub.htm"><span>http://www.ungarisches-institut.de/institut/verlag.htm<br />http://www.ungarisches-institut.de/institut/katalog-ub.htm</span></a></span></p>
+

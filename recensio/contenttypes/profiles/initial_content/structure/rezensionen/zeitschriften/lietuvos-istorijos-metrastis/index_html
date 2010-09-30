@@ -8,60 +8,13 @@ language: de
 effectiveDate: None
 expirationDate: None
 creation_date: 2010/09/04 20:29:38.081166 GMT+2
-modification_date: 2010/09/04 20:29:38.535400 GMT+2
+modification_date: 2010/09/29 13:04:55.359988 GMT+2
 creators: admin
 contributors: 
 rights: 
-allowDiscussion: False
+allowDiscussion: True
 excludeFromNav: False
 presentation: False
 tableContents: False
-allow_ratings: True
 Content-Type: text/html
-<!-- p { margin-bottom: 0.08in; }a:link { color: rgb(0, 0, 255); } --> 
-  
-  <table>
-  
-  <tbody>
-  
-  <tr>
-  
-  <td>Herausgeber</td>
-  
-  <td>Lietuvos istorijos institutas [Litauisches Institut für Geschichte]<br /> Redaktion: Egidijus Aleksandravi, <span>Alfonso Eidintas (Vorsitzender), </span>Ceslovas  Laurinavičius, Inge Lukšaité, Bronius Makauskas, Edmund RIMS, Jolita  Sarcevičiene (Sekretärin), Vlad Sirutavičius, Saul Sužiedėlis</td>
-  
-  </tr>
-  
-  <tr>
-  
-  <td>Verlag</td>
-  
-  <td>XXX</td>
-  
-  </tr>
-  
-  <tr>
-  
-  <td>ISSN</td>
-  
-  <td>0202-3342</td>
-  
-  </tr>
-  
-  <tr>
-  
-  <td>Erscheinungsweise   <br /></td>
-  
-  <td>zweimal jährlich</td>
-  
-  </tr>
-  
-  </tbody>
-  
-  </table>
-  
-  <p><span>Das </span><i><span>Jahrbuch für litauische Geschichte</span></i><span> veröffentlicht Werke litauischer Historiker, historische Ressourcen, Publikationen, Rezensionen, Tagungsberichte und Berichte ethnologischer und archäologischer Expeditionen. </span><span>Die Beiträge sind in</span> litauischer Sprache mit englischen oder deutschen Abstracts.</p>
-  
-  <p><b>Kontakt</b><span style="text-decoration: underline;"><a href="mailto:sarcevia@takas.lt"><br />Jolita Sarcevičiene</a></span><br />Kražių Street 5<br />2001 Vilnius<br />Litauen</p>
-  
-  <p><span>URL</span><span> </span><span style="text-decoration: underline;"><a href="http://www.istorija.lt/lim/index.html"><span>http://www.istorija.lt/lim/index.html</span></a></span></p>
+
