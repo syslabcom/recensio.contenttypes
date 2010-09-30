@@ -44,8 +44,8 @@ def finalize_recensio_schema(schema, review_type="review"):
     # However, we can delete it.
     schema.delField("relatedItems")
 
-    # Rename the schemata for presentations
     if review_type in ["presentation", "presentation_online"]:
+        # Rename the schemata for presentations
         presented = _(u"presented text")
         if review_type == "presentation_online":
             presented = _(u"presented resource")
@@ -94,6 +94,9 @@ def finalize_recensio_schema(schema, review_type="review"):
         schema["ddcSubject"].widget.label=_(u"Subject classification")
         schema['ddcTime'].widget.label=_(u"Time classification")
         schema['ddcPlace'].widget.label=_(u"Regional classification")
+        # fill in the review author first name and last name by default
+        schema['reviewAuthorLastname'].default_method="get_user_lastname"
+        schema['reviewAuthorFirstname'].default_method="get_user_firstname"
 
     schemata.marshall_register(schema)
 
@@ -328,7 +331,6 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         required=True,
-        default_method="get_user_lastname",
         widget=atapi.StringWidget(
             label=_(u"Last name author"),
             ),
@@ -338,7 +340,6 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         required=True,
-        default_method="get_user_firstname",
         widget=atapi.StringWidget(
             label=_(u"First name author"),
             ),
