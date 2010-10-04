@@ -1,0 +1,24 @@
+id: index_html
+title: Auteurs
+description: 
+subject: 
+relatedItems: 
+location: 
+language: fr
+effectiveDate: None
+expirationDate: None
+creation_date: 2010/09/08 12:08:22.723979 GMT+2
+modification_date: 2010/09/28 15:11:2.446700 GMT+2
+creators: admin
+contributors: 
+rights: 
+allowDiscussion: False
+excludeFromNav: False
+presentation: False
+tableContents: False
+allow_ratings: True
+Content-Type: text/html
+
+<p>Nous vous proposons ici un index des auteurs des recensions, des présentations (d’articles, de monographies et ressources Internet) et des commentaires publiés sur <i>recensio.net</i>, ainsi que les auteurs des travaux commentés sur la plateforme.</p>
+<p>Chaque type de document est représenté par un icône, placé devant le nom de l’auteur, afin de préciser le type d’ouvrage qu'il a écrit.</p>
+<p>En cliquant sur le nom d’un auteur, vous pourrez également voir tous les textes et commentaires qu’il a publiés sur recensio.net. Un clic sur l’une des icônes vous permettra d’obtenir tous les documents du même type par auteur.</p>

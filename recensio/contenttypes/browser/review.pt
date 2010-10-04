@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="here/main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="recensio">
 
   <metal:js fill-slot="javascript_head_slot">
     <script type="text/javascript">
@@ -112,6 +112,12 @@
         URL:
         <a tal:attributes="href context/absolute_url"
            tal:content="context/absolute_url"></a>
+      </div>
+
+      <div id="review-license" class="message notice">
+        <h2 i18n:translate="license-note-heading">Lizenzhinweis:</h2>
+        <p i18n:translate="license-note">Dieser Beitrag unterliegt der Creative-Commons-Lizenz Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung (CC-BY-NC-ND), darf also unter diesen Bedingungen elektronisch benutzt, übermittelt, ausgedruckt und zum Download bereitgestellt werden. Den Text der Lizenz erreichen Sie hier:</p>
+        <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/de">http://creativecommons.org/licenses/by-nc-nd/3.0/de</a>
       </div>
 
 

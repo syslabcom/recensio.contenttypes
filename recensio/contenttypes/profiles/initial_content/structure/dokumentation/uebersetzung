@@ -1,0 +1,36 @@
+id: uebersetzung
+title: Übersetzung
+description: 
+subject: 
+relatedItems: 
+location: 
+language: de
+effectiveDate: None
+expirationDate: None
+creation_date: 2010/09/08 13:39:29.460112 GMT+2
+modification_date: 2010/09/08 15:07:7.156340 GMT+2
+creators: admin
+contributors: 
+rights: 
+allowDiscussion: False
+excludeFromNav: False
+presentation: False
+tableContents: False
+allow_ratings: True
+Content-Type: text/html
+
+<p>So übersetzt man:</p>
+<ol>
+<li>Gehen Sie auf eine zu übersetzende Seite, zum Beispiel "<a class="internal-link" href="../konzept">Konzept</a>"</li>
+<li>Prüfen Sie, das Sie wirklich auf der richtigen Seite sind. Wenn sie in einem Ordner sind, hat die grüne Menüleiste einen Reiter Inhalte.<br /><img alt="A Folder" class="image-inline" height="263" src="screenshot.jpg" width="331" /></li>
+<li>Der Ordner zeigt standardmäßig, eine der Seiten an, die er beinhaltet. Dadurch haben auch Ordner wie hier Konzept gleich sinnvolle Inhalte. In diesem Beispiel klicken Sie also auf Inhalte um zu sehen, welches Dokument übersetzt werden muss. Der Text, der auf dem Ordner angezeigt wurde ist in dieser Ansicht <strong>Fett</strong> markiert.<br /><img alt="A Folder Listing" class="image-inline" src="screenshot2.png" /><br />Klicken Sie darauf.</li>
+<li>Klicken sie in der grünen Menüleiste nun auf Übersetzen in und wählen Sie eine Sprache aus.<br /><img alt="Translate to" class="image-inline" src="screenshot3.png" /><br />In diesem Beispiel fehlt französisch, weil es schon eine französische Version gibt. In dem Fall klickt man auf Übersetzungen verwalten...<br /><img alt="Translation center" class="image-inline" src="screenshot4.png" /><br />Im Bereich der zu entfernenden Übersetzungen gibt es auch links auf die Übersetzungen, auf die man klicken kann.</li>
+<li>Sie kommen auf eine Editieroberfläche, in der Sie für jedes Feld eine Übersetzung eintragen können. Wenn sie mit der Übersetzung fertig sind, können sie auf speichern klicken, und sie sehen direkt  die Übersetzung.</li>
+</ol>
+<h2>Hinweis zu speziellen Funktionen</h2>
+<p><br />Einige Seiten, wie zum Beispiel <a class="internal-link" href="../konzept/mitmachen-bei-recensio.net">die mitmachen bei recensio.net Seite</a> haben Texte, die standardmäßig versteckt sind.<br /><br />Damit das funktioniert, sind zwei Dinge nötig.</p>
+<ol>
+<li>Ein kurzer Text, der beim drauf klicken den Text ausklappt</li>
+<li>Der zu versteckende Text.</li>
+</ol>
+<p>In der Bearbeitungsansicht sieht man immer beide Texte, der<br />zu versteckende Text wird dort NICHT versteckt.<br /><br />Beide Texte bekommen einen bestimmten Style.<br /><br />Dazu markiert man den gesamten Text, um im Drop Down Menü der Menüleiste wählt mein "HideTitle", oder "HideContent" aus.<br /><br />Der Text, der beim drauf klicken den Text ausklappen soll, benötigt den Style "HideTitle". Der Text, der versteckt werden soll, benötigt den Style "HideContent". <br /><br />Wenn man die Seite in der normalen Ansicht aufruft, bekommt der Text mit dem Style "HideTitle" automatisch die Grafik, die anzeigt  das hier Text expandiert werden kann. Ausserdem erhält der Text hier die Logik, hier beim Anklicken den nächsten Abschnitt aufzuklappen.<br /><br />Achtung: Die Text mit dem Style "HideTitle" versteckt beziehungsweise zeigt immer den nächsten Textabschnitt an. Wenn sie Text zwischen "HideTitle" und "HideContent" schreiben, funktioniert die Funktionalität nicht mehr wie erwartet.</p>

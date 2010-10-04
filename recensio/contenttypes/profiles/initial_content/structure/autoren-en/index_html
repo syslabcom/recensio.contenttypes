@@ -1,0 +1,23 @@
+id: index_html
+title: Authors
+description: 
+subject: 
+relatedItems: 
+location: 
+language: en
+effectiveDate: None
+expirationDate: None
+creation_date: 2010/09/08 12:08:22.723979 GMT+2
+modification_date: 2010/09/28 15:11:2.446700 GMT+2
+creators: admin
+contributors: 
+rights: 
+allowDiscussion: False
+excludeFromNav: False
+presentation: False
+tableContents: False
+allow_ratings: True
+Content-Type: text/html
+
+<p>Here you can find the authors of reviews, presentations (articles, monographs, online resources) and comments published on <i>recensio.net</i> as well as the authors of works reviewed here. Each of the three genres is assigned to an icon indicating in front of the respective author’s name which type of text he/she has written.</p>
+<p>With a click on the author’s name you will get all texts published by this author. Clicking on one of the icons will show you specifically the hits of a certain text type.</p>
