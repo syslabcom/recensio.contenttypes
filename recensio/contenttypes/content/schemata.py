@@ -97,11 +97,12 @@ def finalize_recensio_schema(schema, review_type="review"):
         schema["ddcSubject"].widget.label=_(u"Subject classification")
         schema['ddcTime'].widget.label=_(u"Time classification")
         schema['ddcPlace'].widget.label=_(u"Regional classification")
-        # Only presentations have a character limit
-        # schema["review"].validators=characterLimit()
         # fill in the review author first name and last name by default
         schema['reviewAuthorLastname'].default_method="get_user_lastname"
         schema['reviewAuthorFirstname'].default_method="get_user_firstname"
+        # Note: The characterLimit validator checks the portal_type to
+        # see if it should be applied or not. Setting it here didn't
+        # seem to work
 
     schemata.marshall_register(schema)
 
@@ -147,7 +148,10 @@ class characterLimit():
         html = fromstring(value)
         text = etree.tostring(html, method="text")
         character_count = len(text)
-        if character_count <= 4000:
+        # TODO: setting the validator via the finalize_recensio_schema
+        # method didn't work so I'm setting it here manually.
+        is_review = kwargs["instance"]["portal_type"].startswith("Review")
+        if is_review or character_count <= 4000:
             return 1
         else:
             return translate(
@@ -416,6 +420,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         default_output_type="text/html",
+        validators=(characterLimit(),),
         widget=atapi.RichWidget(
             label=_(u"HTML"),
             rows=20,
