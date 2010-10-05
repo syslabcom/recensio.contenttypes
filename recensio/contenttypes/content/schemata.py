@@ -2,7 +2,7 @@
 """Definition of the base Review Schemata
 """
 from lxml import etree
-from lxml.html fromstring
+from lxml.html import fromstring
 
 from zope.interface import implements
 
@@ -97,6 +97,8 @@ def finalize_recensio_schema(schema, review_type="review"):
         schema["ddcSubject"].widget.label=_(u"Subject classification")
         schema['ddcTime'].widget.label=_(u"Time classification")
         schema['ddcPlace'].widget.label=_(u"Regional classification")
+        # Only presentations have a character limit
+        # schema["review"].validators=characterLimit()
         # fill in the review author first name and last name by default
         schema['reviewAuthorLastname'].default_method="get_user_lastname"
         schema['reviewAuthorFirstname'].default_method="get_user_firstname"
@@ -148,10 +150,13 @@ class characterLimit():
         if character_count <= 4000:
             return 1
         else:
-            return translate(_(u"message_exceeded_characters",
-                               default =(
+            return translate(
+                _(u"message_characters_exceeded",
+                  default =(
                 u"You have exceeded the maximum number of characters you are "
-                "permitted to use.")))
+                "permitted to use.")
+                  )
+                )
 
 
 CoverPictureSchema = atapi.Schema((
@@ -411,7 +416,6 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         default_output_type="text/html",
-        validators=(characterLimit(),),
         widget=atapi.RichWidget(
             label=_(u"HTML"),
             rows=20,
