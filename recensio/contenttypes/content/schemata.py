@@ -1,6 +1,10 @@
 #-*- coding: utf-8 -*-
 """Definition of the base Review Schemata
 """
+from StringIO import StringIO
+
+from lxml import etree
+
 from zope.interface import implements
 
 from Products.ATContentTypes.content import base
@@ -115,6 +119,42 @@ AuthorsSchema = atapi.Schema((
         ),
     ))
 
+class isTrue:
+    """
+    Custom validator to ensure that the isLicenceApproved box is checked
+    """
+    implements(IValidator)
+    name = "is_true_validator"
+
+    def __call__(self, value, *args, **kwargs):
+        if value == True:
+            return 1
+        site = getSite()
+        language = getToolByName(site, 'portal_languages').getPreferredLanguage()
+        return translate(_(u'message_ccby_license', 
+            default=u"All submitted reviews must be published under the CC-BY licence."),
+            target_language=language)
+
+class characterLimit():
+    """
+    Limit the number of characters of text, ignoring html markup
+    """
+    implements(IValidator)
+    name = ""
+
+    def __call__(self, value, *args, **kwargs):
+        html = etree.parse(StringIO(value))
+        text = etree.tostring(html, method="text")
+        character_count = len(text)
+        if character_count <= 4000:
+            return 1
+        else:
+            return translate(_(u"message_exceeded_characters",
+                               default =(
+                u"You have exceeded the maximum number of characters you are "
+                "permitted to use.")))
+
+
 CoverPictureSchema = atapi.Schema((
     ImageField(
         'coverPicture',
@@ -149,22 +189,6 @@ ReferenceAuthorsSchema = atapi.Schema((
         ),
     ))
 
-
-class isTrue:
-    """
-    Custom validator to ensure that the isLicenceApproved box is checked
-    """
-    implements(IValidator)
-    name = "is_true_validator"
-
-    def __call__(self, value, *args, **kwargs):
-        if value == True:
-            return 1
-        site = getSite()
-        language = getToolByName(site, 'portal_languages').getPreferredLanguage()
-        return translate(_(u'message_ccby_license', 
-            default=u"All submitted reviews must be published under the CC-BY licence."),
-            target_language=language)
 
 ReviewSchema = atapi.Schema((
     BlobField(
@@ -274,6 +298,7 @@ PageStartEndSchema = atapi.Schema((
         'pageStart',
         schemata="review",
         storage=atapi.AnnotationStorage(),
+        validators="isInt",
         widget=atapi.IntegerWidget(
             label=_(u"Page number (start)"),
             description=_(
@@ -286,6 +311,7 @@ PageStartEndSchema = atapi.Schema((
         'pageEnd',
         schemata="review",
         storage=atapi.AnnotationStorage(),
+        validators="isInt",
         widget=atapi.IntegerWidget(
             label=_(u"Page number (end)"),
             ),
@@ -386,9 +412,11 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         default_output_type="text/html",
+        validators=(characterLimit(),),
         widget=atapi.RichWidget(
             label=_(u"HTML"),
             rows=20,
+            maxlength=4000,
             ),
         ),
     atapi.StringField(
