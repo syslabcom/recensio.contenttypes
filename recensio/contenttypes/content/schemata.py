@@ -1,9 +1,8 @@
 #-*- coding: utf-8 -*-
 """Definition of the base Review Schemata
 """
-from StringIO import StringIO
-
 from lxml import etree
+from lxml.html fromstring
 
 from zope.interface import implements
 
@@ -143,7 +142,7 @@ class characterLimit():
     name = ""
 
     def __call__(self, value, *args, **kwargs):
-        html = etree.parse(StringIO(value))
+        html = fromstring(value)
         text = etree.tostring(html, method="text")
         character_count = len(text)
         if character_count <= 4000:
