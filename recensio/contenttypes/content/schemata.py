@@ -146,7 +146,7 @@ class characterLimit():
 
     def __call__(self, value, *args, **kwargs):
         html = fromstring(value)
-        text = etree.tostring(html, method="text")
+        text = etree.tostring(html, encoding="utf-8",  method="text")
         character_count = len(text)
         # TODO: setting the validator via the finalize_recensio_schema
         # method didn't work so I'm setting it here manually.
