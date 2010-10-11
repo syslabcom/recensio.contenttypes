@@ -74,14 +74,14 @@
                          class="page-3" />
                   </a>
                 </p>
-                <h3>
+                <h3 i18n:translate="about">
                     About
                 </h3>
                 <dl>
-                    <dt>Author</dt>
+                    <dt i18n:translate="author">Author</dt>
                     <dd><tal:b replace="context/getReviewAuthorFirstname" /> 
                         <tal:b replace="context/getReviewAuthorLastname" /></dd>
-                    <dt tal:condition="context/getAuthors |nothing">Authors</dt>
+                    <dt tal:condition="context/getAuthors |nothing" i18n:translate="authors">Authors</dt>
                     <dd tal:condition="context/getAuthors |nothing">
                         <tal:r repeat="author context/getAuthors"> 
                         <tal:b replace="author/firstname" />
@@ -90,15 +90,15 @@
                     </dd>
                     <dt>URI</dt>
                     <dd><tal:b replace="context/getUri" /></dd>
-                    <dt>Published</dt>
+                    <dt i18n:translate="published">Published</dt>
                     <dd><tal:b replace="context/getPlaceOfPublication" />, 
                         <tal:b replace="context/getYearOfPublication" />
-                        by <tal:b replace="context/getPublisher" /></dd>
+                        <span  i18n:translate="by">by</span> <tal:b replace="context/getPublisher" /></dd>
                     <dt tal:condition="context/getIsbn |nothing">ISBN</dt>
                     <dd tal:condition="context/getIsbn |nothing"><tal:b replace="context/getIsbn" /></dd>
                     <dt tal:condition="context/getIssn |nothing">ISSN</dt>
                     <dd tal:condition="context/getIssn |nothing"><tal:b replace="context/getIssn" /></dd>
-                    <dt tal:condition="context/getReferenceAuthors |nothing">Reference Authors</dt>
+                    <dt tal:condition="context/getReferenceAuthors |nothing" i18n:translate="reference_authors">Reference Authors</dt>
                     <dd tal:condition="context/getReferenceAuthors |nothing"><tal:b replace="context/getReferenceAuthors" /></dd>
                 </dl>
             </li>
@@ -107,7 +107,7 @@
 
       <div class="visualClear"><!-- --></div>
       <div id="review-citation" class="message notice">
-        <h2>Zitierhinweise</h2>
+        <h2 i18n:translate="citation_note">Zitierhinweise</h2>
         <p tal:content="structure context/get_citation_string"></p>
         URL:
         <a tal:attributes="href context/absolute_url"
@@ -128,7 +128,7 @@
             tal:define="pdf_ob context/getPdf">
             <p class="download pdf"> 
               <a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
-                 href="PartB.pdf">Download as <strong>PDF</strong><br />
+                 href="PartB.pdf" i18n:translate="download_as">Download as <strong>PDF</strong><br />
               <em class="discrete">(<span tal:replace="python: pdf_ob and pdf_ob.get_size()/1024 or 0" /> kb)</em></a> 
             </p> 
         </div>
