@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <object name="Issue"
    meta_type="Factory-based Type Information with dynamic views"
-   i18n:domain="recensio.contenttypes" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-  <property name="title" i18n:translate="">Issue</property>
+   i18n:domain="recensio" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <property name="title" i18n:translate="title_issue">Issue</property>
   <property name="description"
     i18n:translate="">A container for Publication issues</property>
   <property name="content_meta_type">Issue</property>

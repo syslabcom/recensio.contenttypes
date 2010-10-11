@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <object name="Presentation Monograph"
    meta_type="Factory-based Type Information with dynamic views"
-   i18n:domain="recensio.contenttypes" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-  <property name="title" i18n:translate="">Presentation Monograph</property>
+   i18n:domain="recensio" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <property name="title" i18n:translate="title_presentation_monograph">Presentation Monograph</property>
   <property name="description"
     i18n:translate="description_presentation_monograph">
 Please fill in the following form in order to present your monograph on recensio.net. All fields marked with * are required.
