@@ -1,4 +1,4 @@
-id: index_html
+id: konzept
 title: Concept
 description: 
 subject: 
@@ -25,7 +25,7 @@ Content-Type: text/html
 <h2><i>recensio.net brings together »classical« reviews</i></h2>
 <p><b> </b></p>
 <p class="Pa0">Editorial offices of journals or institutes who have only published in print so far will be able to prominently publish their review sections online – be it exclusively online or in a »hybrid« form as either a pre- or post-print. In doing so, it is irrelevant whether the reviews are already accessible online. recensio.net makes no claim to the exclusivity of its contents but wants to offer editorial staff a maximum degree of visibility and users a central starting point in their search for reviews of scholarly literature by bringing together scattered and often scarcely visible reviews.</p>
-<p>The co-operating editorial staffs will continue working independently. The review sections of the different journals will remain separate and enable targeted access. »Classical« reviews are usually published as pdf-files so that the usual visual appearance of every journal remains intact, too. Apart from that, every published review will be detectable separately: by means of the content <span style="text-decoration: underline;">browsing</span> or the cross-platform <span style="text-decoration: underline;">search</span>.</p>
+<p>The co-operating editorial staffs will continue working independently. The review sections of the different journals will remain separate and enable targeted access. »Classical« reviews are usually published as pdf-files so that the usual visual appearance of every journal remains intact, too. Apart from that, every published review will be detectable separately: by means of the <a class="internal-link" href="browse-topics">content browsing</a> or the cross-platform <a class="internal-link" href="search">search</a>.</p>
 <h2><i>recensio.net en route to web 2.0</i></h2>
 <p><b> </b></p>
 <p>Authors are able to present the core statements of their publications (monographs or articles) on recensio.net. Gradually, moderated user comments will create »live reviews« based on these presentations. Academic online resources can also be presented and reviewed here to allow for the continuous development of the resources.</p>
