@@ -83,3 +83,93 @@ bekommen in nächster Zeit eine Tabelle mit offiziellen Codes für die
 Schlagwörter, so wie sie in Digitool verwendet werden. Wenn Digitool
 dann aber ausgetauscht wird, ändert sich das Mapping wieder.
 
+    >>> from recensio.contenttypes.content.reviewmonograph import ReviewMonographSchema
+    >>> schema = ReviewMonographSchema
+    >>> schema.keys()
+    ['isbn', 'languageReviewedText', 'authors', 'title', 'subtitle', 'yearOfPublication', 'placeOfPublication', 'publisher', 'series', 'seriesVol', 'pages', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'idBvb', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'doc', 'review', 'customCitation', 'uri', 'creation_date', 'modification_date', 'allowDiscussion', 'contributors', 'creators', 'description', 'effectiveDate', 'excludeFromNav', 'expirationDate', 'generatedPdf', 'id', 'language', 'location', 'recensioID', 'rights']
+    >>> schema = infoShower(schema)
+
+ISBN Nummer des Buches für das es den Review gab.
+
+    >>> schema('isbn')
+    ('string', u'ISBN')
+
+Anzahl der Seiten des Buches.
+
+    >>> schema('pages')
+    ('string', u'Pages')
+
+Der Link zur Webseite auf der man die Rezension im Original lesen kann
+
+    >>> schema('uri')
+    ('string', u'Partner URL')
+
+Die Ausgabe des rezensierten Buches
+
+    >>> schema('series')
+    ('string', u'Series')
+    >>> schema('seriesVol')
+    ('string', u'Series (vol.)')
+
+Die Autoren des Buches
+
+    >>> schema('authors')
+    ('datagrid', u'Author (monograph)')
+
+Das PDF mit der Rezension. Hier brauchen wir einen Link von Ihnen, von
+dem wir das PDF beziehen.
+
+    >>> schema('pdf')
+    ('blob', u'PDF')
+
+Name des Rezensenten, aufgeteilt nach Vorname, Nachname und Titel mit Anrede
+
+    >>> schema('reviewAuthorLastname')
+    ('string', u'Last name author')
+    >>> schema('reviewAuthorFirstname')
+    ('string', u'First name author')
+
+Sprache des rezensierten Werkes.
+
+    >>> schema('languageReviewedText')
+    ('lines', u'Language(s)')
+
+Sprache der Rezension.
+
+    >>> schema('languageReview')
+    ('lines', u'Language(s)')
+
+In beiden Fällen speichern wir dort die 2 Buchstaben Schlüssel wie wir
+sie aus portal_languages bekommen
+
+Titel des rezensierten Werkes
+
+    >>> schema('title')
+    ('string', 'Title')
+
+Untertitel des rezensierten Werkes
+
+    >>> schema('subtitle')
+    ('string', u'Subtitle')
+
+
+Erscheinungsjahr des publizierten Werkes
+
+    >>> schema('yearOfPublication')
+    ('string', u'Year of publication')
+
+Verlag des Zeitschrift der Rezension
+
+    >>> schema('publisher')
+    ('string', u'Publisher')
+
+Schlagwörter
+
+    >>> schema('ddcPlace')
+    ('lines', u'ddc place')
+    >>> schema('ddcSubject')
+    ('lines', u'ddc subject')
+    >>> schema('ddcTime')
+    ('lines', u'ddc time')
+
+
