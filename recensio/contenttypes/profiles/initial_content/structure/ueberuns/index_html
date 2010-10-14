@@ -20,7 +20,9 @@ allow_ratings: True
 Content-Type: text/html
 
 <!-- p { margin-bottom: 0.08in; } -->
-<p>[<i>Logo mit Untertitel</i>]</p>
+<p><img src="logo_recensio.png" /></p>
+<p><span class="logo-text">Rezensionsplattform für die europäische Geschichtswissenschaft</span></p>
+<p> </p>
 <p>Mit recensio.net entsteht eine europaweit ausgerichtete, mehrsprachige Plattform für Rezensionen geschichtswissenschaftlicher Literatur. recensio.net ist ein von der Deutschen Forschungsgemeinschaft gefördertes Gemeinschaftsprojekt der Bayerischen Staatsbibliothek (BSB) München, des Deutschen Historischen Instituts Paris (DHIP) und des Instituts für Europäische Geschichte (IEG) Mainz.</p>
 <p>recensio.net ist dem Open-Access-Gedanken verpflichtet. Alle Inhalte sind dauerhaft kostenfrei zugänglich. Im Fokus der auf der Plattform publizierten Rezensionen und Präsentationen stehen in Europa erschienene Publikationen zu europäischen Themen. Die Navigationssprachen der Plattform sind Englisch, Deutsch und Französisch, während die Rezensionen selbst in allen europäischen Sprachen verfasst sein können.</p>
 <p>Die Plattform fußt auf zwei Grundideen:</p>
@@ -40,4 +42,4 @@ Content-Type: text/html
 <p>Die Bayerische Staatsbibliothek garantiert die Anreicherung der Rezensionen mit Metadaten, ihre Anbindung an den Bibliothekskatalog (OPAC) des Bibliotheksverbunds Bayern sowie ihre Langzeitarchivierung.</p>
 <p>Sie haben die Möglichkeit, <a class="internal-link" href="mitmachen-bei-recensio.net">recensio.net mitzugestalten</a> – wir freuen uns, mit Ihnen in Kontakt zu treten.</p>
 <p>Bitte beachten Sie die <a class="internal-link" href="benutzerrichtlinien">Benutzerrichtlinien</a>.</p>
-<p>Haben Sie Fragen oder Anregungen? Hier finden Sie den passenden <a class="internal-link" href="ansprechpartner">Ansprechpartner</a>.</p>
+<p>Haben Sie Fragen oder Anregungen? Hier finden Sie den passenden <a class="internal-link" href="kontakt">Ansprechpartner</a>.</p>

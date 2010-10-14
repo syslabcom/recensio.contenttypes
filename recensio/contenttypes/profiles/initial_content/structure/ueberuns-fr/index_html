@@ -19,6 +19,9 @@ tableContents: False
 allow_ratings: True
 Content-Type: text/html
 
+<p><img src="logo_recensio.png" /></p>
+<p><span class="logo-text">Rezensionsplattform für die europäische Geschichtswissenschaft</span></p>
+<p> </p>
 <p><i>recensio.net</i> est conçu comme une plateforme plurilingue d’envergure européenne destinée à héberger des recensions d’ouvrages d’histoire scientifiques. Financé par l’Agence allemande pour le financement de la recherche universitaire (DFG), recensio.net est une initiative conjointe de la Bibliothèque d’État de Bavière à Munich (BSB), l’Institut historique allemand de Paris (IHA) et l’Institut d’histoire européenne de Mayence (IEG).</p>
 <p><i>recensio.net</i> suit le principe du libre accès. Tous les contenus sont accessibles gratuitement sans limite de durée. Les comptes-rendus critiques publiés sur <i>recensio.net</i> se concentrent sur les ouvrages publiés en Europe portant sur un ou des pays d’Europe. Les langues de navigation sur la plateforme sont l’anglais, l’allemand et le français. Les recensions peuvent être rédigées dans toute langue européenne.</p>
 <p>Le projet repose sur deux axes fondamentaux :</p>
@@ -41,4 +44,4 @@ Content-Type: text/html
 <p>La Bibliothèque d’État de Bavière se charge d’enrichir les recensions par l’ajout de métadonnées et garantit le lien avec le catalogue OPAC de la Fédération des bibliothèques de Bavière (BVB) ainsi qu’un archivage pérenne des documents mis en ligne.</p>
 <p>Vous pouvez dès à présent <a class="internal-link" href="mitmachen-bei-recensio.net">participer au projet</a> recensio.net. N’hésitez pas à nous contacter !</p>
 <p>Nous vous invitons à prendre connaissance de nos <a class="internal-link" href="benutzerrichtlinien">conditions d’utilisation</a>.</p>
-<p>Des questions ou des suggestions ? Trouvez ici votre <a class="internal-link" href="ansprechpartner">interlocuteur</a>.</p>
+<p>Des questions ou des suggestions ? Trouvez ici votre <a class="internal-link" href="kontakt">interlocuteur</a>.</p>

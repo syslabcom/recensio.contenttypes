@@ -19,6 +19,9 @@ tableContents: False
 allow_ratings: True
 Content-Type: text/html
 
+<p><img src="logo_recensio.png" /></p>
+<p><span class="logo-text">Rezensionsplattform für die europäische Geschichtswissenschaft</span></p>
+<p> </p>
 <p>recensio.net will create a Europe-wide, multi-language platform for reviews of historical literature. recensio.net is a joint project of the Bavarian State Library (BSB) Munich, the German Historical Institute Paris (DHIP) and the Institute for European History (IEG) Mainz – funded by the German Research Foundation (DFG).</p>
 <p>recensio.net is committed to the principles of Open Access. All content will be permanently accessible free of charge. The reviews and publications on the platform focus on work published in Europe and featuring European topics. The platform’s navigational languages are English, German and French, while the reviews may be written in any European language.</p>
 <p>The platform is based on two main ideas:</p>
@@ -40,4 +43,4 @@ Content-Type: text/html
 </ul>
 <p>You have the chance to <a class="internal-link" href="mitmachen-bei-recensio.net">play an active role</a> in recensio.net – we are looking forward to getting in touch with you.</p>
 <p>Please pay attention to our <a class="internal-link" href="benutzerrichtlinien">user guidelines</a>.</p>
-<p>Do you have any questions or suggestions? Here you can find the right <a class="internal-link" href="ansprechpartner">contact person</a>.</p>
+<p>Do you have any questions or suggestions? Here you can find the right <a class="internal-link" href="kontakt">contact person</a>.</p>
