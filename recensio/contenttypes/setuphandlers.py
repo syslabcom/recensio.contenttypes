@@ -21,6 +21,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.GenericSetup.interfaces import IFilesystemExporter, \
     IFilesystemImporter
 from plone.app.discussion.interfaces import IConversation
+from plone.portlets.constants import CONTEXT_CATEGORY
+from plone.app.portlets.utils import assignment_mapping_from_key
 
 from recensio.contenttypes.content.reviewmonograph import \
      ReviewMonograph
@@ -415,3 +417,25 @@ def hideAllFolders(context):
         if ob:
             ob.setExcludeFromNav(True)
             ob.reindexObject()
+
+from plone.app.portlets.portlets import classic
+
+@guard(['initial_content'])
+def addSecondaryNavPortlets(context):
+    """ Add and configure the Classic portlet for secondary navigation
+    """
+    portal = getSite()
+    objs = (portal.get("ueberuns"),
+            portal.get("ueberuns-en"),
+            portal.get("ueberuns-fr")
+            )
+    for obj in objs:
+        if obj:
+            path = "/".join(obj.getPhysicalPath())
+            left_portlet_assignment_mapping = assignment_mapping_from_key(
+                obj, 'plone.leftcolumn', CONTEXT_CATEGORY, path)
+            if not left_portlet_assignment_mapping.has_key(
+                "secondarynavportlet"):
+                left_portlet_assignment_mapping["secondarynavportlet"] = \
+                    classic.Assignment(template="secondarynavportlets",
+                                       macro="ueberuns")

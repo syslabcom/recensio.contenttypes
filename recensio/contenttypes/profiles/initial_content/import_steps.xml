@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<import-steps>
+  <import-step id="recensio_contenttypes_add_secondary_nav_portlets"
+               version="20101014-01"
+               handler="recensio.contenttypes.setuphandlers.addSecondaryNavPortlets"
+               title="Configure the secondary navigation portlets"
+               description="The secondary navigation e.g. for /ueberuns is generated from a portlet in the left hand portlet manager and put in place with xdv" 
+               />
+</import-steps>
