@@ -1,5 +1,6 @@
-front-page-fr,Document
 front-page,Document
+front-page-en,Document
+front-page-fr,Document
 images,Folder
 rezensionen,Folder
 ueberuns,Folder
@@ -9,8 +10,12 @@ autoren,Folder
 autoren-en,Folder
 autoren-fr,Folder
 themen-epochen-regionen,Folder
+themen-epochen-regionen-en,Folder
+themen-epochen-regionen-fr,Folder
 RSS-feeds,Folder
+RSS-feeds-en,Folder
 beste-kommentare,Document
+beste-kommentare-en,Document
 dokumentation,Folder
 events,Folder
 internal views,Folder
