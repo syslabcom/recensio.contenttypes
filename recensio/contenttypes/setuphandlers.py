@@ -439,3 +439,16 @@ def addSecondaryNavPortlets(context):
                 left_portlet_assignment_mapping["secondarynavportlet"] = \
                     classic.Assignment(template="secondarynavportlets",
                                        macro="ueberuns")
+
+    objs = (portal.get("rezensionen"),
+            )
+    for obj in objs:
+        if obj:
+            path = "/".join(obj.getPhysicalPath())
+            left_portlet_assignment_mapping = assignment_mapping_from_key(
+                obj, 'plone.leftcolumn', CONTEXT_CATEGORY, path)
+            if not left_portlet_assignment_mapping.has_key(
+                "secondarynavportlet"):
+                left_portlet_assignment_mapping["secondarynavportlet"] = \
+                    classic.Assignment(template="secondarynavportlets",
+                                       macro="rezensionen")
