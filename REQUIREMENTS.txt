@@ -1,0 +1,6 @@
+The following external command line tools are required:
+=======================================================
+
+- convert: (imagemagick) http://www.imagemagick.org
+- pdftk: http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/
+- wvPDF: http://wvware.sourceforge.net/

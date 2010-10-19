@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 This module contains the tool of recensio.contenttypes
+
 """
 import os
 from setuptools import setup, find_packages
@@ -13,6 +14,11 @@ version = '0.1'
 
 long_description = (
     read('README.txt')
+    + '\n' +
+    'Requirements\n'
+    '************\n'
+    + '\n' +
+    read('REQUIREMENTS.txt')
     + '\n' +
     'Change history\n'
     '**************\n'
