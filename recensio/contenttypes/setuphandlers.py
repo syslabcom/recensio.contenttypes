@@ -141,11 +141,6 @@ def add_number_of_each_review_type(context, number_of_each):
     gif_obj = File(id="test-gif", title="Test coverImage", file=gif_file,
         content_type='image/gif')
     gif_file.close()
-    gif_file = open(os.path.join(
-        os.path.dirname(__file__), "tests", "test_content","Review.gif"),
-                    "r")
-    gif_data = gif_file.read()
-    gif_file.close()
 
     review_text = u"""
 TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT 
@@ -315,7 +310,6 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                 data['languageReview'] = 'fr'
                 data['shortnameJournal'] = 'Zeitschrift 1'
                 obj = addOneItem(containerb, rez_class, data)
-                setattr(obj, 'pagePictures', [gif_data])
                 item = containerb.objectValues()[0]
                 comment = createObject('plone.Comment')
                 IConversation(item).addComment(comment)
@@ -339,7 +333,6 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
             data['shortnameJournal'] = 'Zeitschrift 1'
             data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
             obj = addOneItem(container, rez_class, data)
-            setattr(obj, 'pagePictures', [gif_data])
 
     request = TestRequest()
     class FakeResponse(object):

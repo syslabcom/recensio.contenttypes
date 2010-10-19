@@ -29,58 +29,72 @@ class TestReviewFileConversions(unittest.TestCase):
         """
         portal = self.layer["portal"]
         pm = portal.portal_membership
-        sample_presentations = pm.getMembersFolder().get("fake_member")
-        review = sample_presentations[sample_presentations.objectIds()[0]]
+        #sample_presentations = pm.getMembersFolder().get("fake_member")
         # The sample reviews have both a pdf and a word doc attached
         # TODO add tests for Presentations only have html which is
         # converted to pdf
-        if review.portal_type.startswith("Review"):
-            self.assertTrue(review.pdf.get_size() > 0,
-                            msg=("Review: %s "
-                                 "doesn't have a pdf file attached."
-                                 %review.absolute_url()))
-            self.assertTrue(review.doc.get_size() > 0,
-                            msg=("Review: %s "
-                                 "doesn't have a doc file attached."
-                                 %review.absolute_url()))
-            self.assertFalse(hasattr(review, "generatedPdf"),
-                            msg=("Review: %s "
-                                 "A pdf has been generated, even though this "
-                                 "review has a custom pdf (this is wrong)."
-                                 %review.absolute_url()))
-            self.assertTrue(review.pdf.blob == review.get_review_pdf()["blob"],
-                            msg=("Review: %s "
-                                 "get_review_pdf doesn't return the custom pdf."
-                                 %review.absolute_url()))
-            # Remove the custom pdf and trigger the ObjectEditedEvent
-            # This should cause the pdf to be generated from the Word doc
-            review.setPdf(None)
-            self.assertTrue(review.getPdf().get_size() == 0,
-                            msg=("Review: %s "
-                                 "still has an attached custom pdf file, "
-                                 "this should have been removed."
-                                 %review.absolute_url()))
-            request = makerequest.makerequest(review)
-            event = ObjectEditedEvent(review, request)
-            zope.event.notify(event)
-            self.assertTrue(hasattr(review, "generatedPdf"),
-                            msg=("Review: %s "
-                                 "A pdf has not successfully been generated."
-                                 %review.absolute_url()))
-            self.assertTrue(
-                review.generatedPdf == review.get_review_pdf()["blob"],
-                msg=("Review: %s get_review_pdf "
-                     "is not returning the correct pdf."
-                     %review.absolute_url()))
 
-            # Remove the Word doc and the review html content should be
-            # used instead to create the pdf version
-            review.setDoc(None)
-            self.assertTrue(review.getDoc().get_size() == 0,
-                            msg=("Review: %s "
-                                 "The attached doc file has not been "
-                                 "successfully removed."
-                                 %review.absolute_url()))
-            request = makerequest.makerequest(review)
-            event = ObjectEditedEvent(review, request)
-            zope.event.notify(event)
+        # Get a ReviewMonograph
+        issue = portal["sample-reviews"].newspaperb.summer["issue-2"]
+        review_id = issue.objectIds()[0]
+        review = issue[review_id]
+
+        # The default sample content has a custom pdf to start with
+        self.assertTrue(review.pdf.get_size() > 0,
+                        msg=("Review: %s "
+                             "doesn't have a pdf file attached."
+                             %review.absolute_url()))
+        self.assertTrue(review.doc.get_size() > 0,
+                        msg=("Review: %s "
+                             "doesn't have a doc file attached."
+                             %review.absolute_url()))
+        self.assertFalse(hasattr(review, "generatedPdf"),
+                        msg=("Review: %s "
+                             "A pdf has been generated, even though this "
+                             "review has a custom pdf (this is wrong)."
+                             %review.absolute_url()))
+        self.assertTrue(review.pdf.blob == review.get_review_pdf()["blob"],
+                        msg=("Review: %s "
+                             "get_review_pdf doesn't return the custom pdf."
+                             %review.absolute_url()))
+        self.assertTrue(len(review.pagePictures) > 0 and \
+                        len(review.pagePictures[0]) > 1000,
+                        msg=("Review: %s "
+                             "The generated images for previewing the review "
+                             "haven't been generated"
+                             %(review.absolute_url()
+                               )
+                             )
+                        )
+        # Remove the custom pdf and trigger the ObjectEditedEvent
+        # This should cause the pdf to be generated from the Word doc
+        review.setPdf(None)
+        self.assertTrue(review.getPdf().get_size() == 0,
+                        msg=("Review: %s "
+                             "still has an attached custom pdf file, "
+                             "this should have been removed."
+                             %review.absolute_url()))
+        request = makerequest.makerequest(review)
+        event = ObjectEditedEvent(review, request)
+        zope.event.notify(event)
+        self.assertTrue(hasattr(review, "generatedPdf"),
+                        msg=("Review: %s "
+                             "A pdf has not successfully been generated."
+                             %review.absolute_url()))
+        self.assertTrue(
+            review.generatedPdf == review.get_review_pdf()["blob"],
+            msg=("Review: %s get_review_pdf "
+                 "is not returning the correct pdf."
+                 %review.absolute_url()))
+
+        # Remove the Word doc and the review html content should be
+        # used instead to create the pdf version
+        review.setDoc(None)
+        self.assertTrue(review.getDoc().get_size() == 0,
+                        msg=("Review: %s "
+                             "The attached doc file has not been "
+                             "successfully removed."
+                             %review.absolute_url()))
+        request = makerequest.makerequest(review)
+        event = ObjectEditedEvent(review, request)
+        zope.event.notify(event)
