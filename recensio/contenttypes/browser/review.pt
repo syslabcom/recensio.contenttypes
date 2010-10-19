@@ -94,9 +94,9 @@
               <dt i18n:translate="uri">URI</dt>
               <dd><tal:b replace="context/getUri" /></dd>
               <dt i18n:translate="published">Published</dt>
-              <dd><tal:b replace="context/getPlaceOfPublication" />, 
-                <tal:b replace="context/getYearOfPublication" />
-                <span i18n:translate="by">by</span> <tal:b replace="context/getPublisher" /></dd>
+              <dd><tal:b replace="context/getPlaceOfPublication | nothing" />, 
+                <tal:b replace="context/getYearOfPublication | nothing" />
+                <span i18n:translate="by">by</span> <tal:b replace="context/getPublisher | nothing" /></dd>
               <dt tal:condition="context/getIsbn |nothing">ISBN</dt>
               <dd tal:condition="context/getIsbn |nothing"><tal:b replace="context/getIsbn" /></dd>
               <dt tal:condition="context/getIssn |nothing">ISSN</dt>
