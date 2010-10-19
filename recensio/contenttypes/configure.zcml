@@ -35,8 +35,8 @@
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
-  <!-- if a Review has been edited or updated, check if the pdf has
-       been changed and update the swf version of it if necessary -->
+  <!-- if a Review or Presentation has been edited or updated, update
+       the pdf version of it if necessary -->
   <subscriber 
      for=".interfaces.review.IReview
           Products.Archetypes.interfaces.IObjectEditedEvent"
