@@ -9,34 +9,34 @@
   <metal:js fill-slot="javascript_head_slot">
     <script type="text/javascript">
       jq(document).ready(function(){
-         $("#review-metadata").accordion({initShow : "ul.current"});
-         $("a[rel=contactSheet]").fancybox({
-            'transitionIn'      : 'elastic',
-            'transitionOut'     : 'elastic',
-            'titlePosition'     : 'over',
-            'overlayOpacity'    :   0.7,
-            'overlayColor'      :   '#000',
-            'width'             : 850,
-            'height'            : 1000,
-            'titleFormat'       : function(title, currentArray, currentIndex, currentOpts) {
-                return 'Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? '  ' + title : '') + '';
-                }
-            });
-        });
+      $("#review-metadata").accordion({initShow : "ul.current"});
+      $("a[rel=contactSheet]").fancybox({
+      'transitionIn'      : 'elastic',
+      'transitionOut'     : 'elastic',
+      'titlePosition'     : 'over',
+      'overlayOpacity'    :   0.7,
+      'overlayColor'      :   '#000',
+      'width'             : 850,
+      'height'            : 1000,
+      'titleFormat'       : function(title, currentArray, currentIndex, currentOpts) {
+      return 'Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? '  ' + title : '') + '';
+      }
+      });
+      });
     </script>
 
   </metal:js>
   <body>
     <div metal:fill-slot="content-title" tal:define="global sr python:True">
-        <h2 tal:condition="python: context.portal_type == 'Presentation Online Resource'">
-          <tal:title content="context/Title" />
-        </h2>
-        <h2 tal:condition="python: context.portal_type != 'Presentation Online Resource'">
-          <tal:firstname content="context/getReviewAuthorLastname" />,
-          <tal:lastname content="context/getReviewAuthorFirstname" />:
-          <tal:title content="context/Title" />,
-          <tal:title content="context/getSubtitle" />
-        </h2>
+      <h2 tal:condition="python: context.portal_type == 'Presentation Online Resource'">
+        <tal:title content="context/Title" />
+      </h2>
+      <h2 tal:condition="python: context.portal_type != 'Presentation Online Resource'">
+        <tal:firstname content="context/getReviewAuthorLastname" />,
+        <tal:lastname content="context/getReviewAuthorFirstname" />:
+        <tal:title content="context/Title" />,
+        <tal:title content="context/getSubtitle" />
+      </h2>
     </div>
     
     
@@ -52,59 +52,59 @@
           (s. dazu am Ende der Metadaten)]
         </p>
         <ul id="pubSchwusch">
-            <li>
-                <h2 tal:content="context/Title"></h2>
-                <p class="previews">
-                  <a rel="contactSheet" 
-                     href="#" 
-                     tal:attributes="href string:${here/absolute_url}/@@pageviewer; class string:iframe">
-                    <img src="get_page_image" 
-                         tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=1" 
-                         i18n:attributes="alt review_page_1"
-                         alt="Review page 1" 
-                         class="page-1" />
-                    <img src="get_page_image" 
-                         tal:condition="python:context.get_no_pages() >= 2" 
-                         tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=2" 
-                         i18n:attributes="alt review_page_2"
-                         alt="Review page 2" 
-                         class="page-2" />
-                    <img src="get_page_image" 
-                         tal:condition="python:context.get_no_pages() >= 3" 
-                         tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=3" 
-                         i18n:attributes="alt review_page_3"
-                         alt="Review page 3" 
-                         class="page-3" />
-                  </a>
-                </p>
-                <h3 i18n:translate="about">
-                    About
-                </h3>
-                <dl>
-                    <dt i18n:translate="author">Author</dt>
-                    <dd><tal:b replace="context/getReviewAuthorFirstname" /> 
-                        <tal:b replace="context/getReviewAuthorLastname" /></dd>
-                    <dt tal:condition="context/getAuthors |nothing" i18n:translate="authors">Authors</dt>
-                    <dd tal:condition="context/getAuthors |nothing">
-                        <tal:r repeat="author context/getAuthors"> 
-                        <tal:b replace="author/firstname" />
-                        <tal:b replace="author/lastname" /><tal:c condition="not:repeat/author/end">,</tal:c> 
-                        </tal:r>
-                    </dd>
-                    <dt i18n:translate="uri">URI</dt>
-                    <dd><tal:b replace="context/getUri" /></dd>
-                    <dt i18n:translate="published">Published</dt>
-                    <dd><tal:b replace="context/getPlaceOfPublication" />, 
-                        <tal:b replace="context/getYearOfPublication" />
-                        <span i18n:translate="by">by</span> <tal:b replace="context/getPublisher" /></dd>
-                    <dt tal:condition="context/getIsbn |nothing">ISBN</dt>
-                    <dd tal:condition="context/getIsbn |nothing"><tal:b replace="context/getIsbn" /></dd>
-                    <dt tal:condition="context/getIssn |nothing">ISSN</dt>
-                    <dd tal:condition="context/getIssn |nothing"><tal:b replace="context/getIssn" /></dd>
-                    <dt tal:condition="context/getReferenceAuthors |nothing" i18n:translate="reference_authors">Reference Authors</dt>
-                    <dd tal:condition="context/getReferenceAuthors |nothing"><tal:b replace="context/getReferenceAuthors" /></dd>
-                </dl>
-            </li>
+          <li>
+            <h2 tal:content="context/Title"></h2>
+            <p class="previews">
+              <a rel="contactSheet" 
+                 href="#" 
+                 tal:attributes="href string:${here/absolute_url}/@@pageviewer; class string:iframe">
+                <img src="get_page_image" 
+                     tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=1" 
+                     i18n:attributes="alt review_page_1"
+                     alt="Review page 1" 
+                     class="page-1" />
+                <img src="get_page_image" 
+                     tal:condition="python:context.get_no_pages() >= 2" 
+                     tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=2" 
+                     i18n:attributes="alt review_page_2"
+                     alt="Review page 2" 
+                     class="page-2" />
+                <img src="get_page_image" 
+                     tal:condition="python:context.get_no_pages() >= 3" 
+                     tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=3" 
+                     i18n:attributes="alt review_page_3"
+                     alt="Review page 3" 
+                     class="page-3" />
+              </a>
+            </p>
+            <h3 i18n:translate="about">
+              About
+            </h3>
+            <dl>
+              <dt i18n:translate="author">Author</dt>
+              <dd><tal:b replace="context/getReviewAuthorFirstname" /> 
+                <tal:b replace="context/getReviewAuthorLastname" /></dd>
+              <dt tal:condition="context/getAuthors |nothing" i18n:translate="authors">Authors</dt>
+              <dd tal:condition="context/getAuthors |nothing">
+                <tal:r repeat="author context/getAuthors"> 
+                  <tal:b replace="author/firstname" />
+                  <tal:b replace="author/lastname" /><tal:c condition="not:repeat/author/end">,</tal:c> 
+                </tal:r>
+              </dd>
+              <dt i18n:translate="uri">URI</dt>
+              <dd><tal:b replace="context/getUri" /></dd>
+              <dt i18n:translate="published">Published</dt>
+              <dd><tal:b replace="context/getPlaceOfPublication" />, 
+                <tal:b replace="context/getYearOfPublication" />
+                <span i18n:translate="by">by</span> <tal:b replace="context/getPublisher" /></dd>
+              <dt tal:condition="context/getIsbn |nothing">ISBN</dt>
+              <dd tal:condition="context/getIsbn |nothing"><tal:b replace="context/getIsbn" /></dd>
+              <dt tal:condition="context/getIssn |nothing">ISSN</dt>
+              <dd tal:condition="context/getIssn |nothing"><tal:b replace="context/getIssn" /></dd>
+              <dt tal:condition="context/getReferenceAuthors |nothing" i18n:translate="reference_authors">Reference Authors</dt>
+              <dd tal:condition="context/getReferenceAuthors |nothing"><tal:b replace="context/getReferenceAuthors" /></dd>
+            </dl>
+          </li>
         </ul>
       </div>
 
@@ -127,149 +127,66 @@
     </div>
     
     <metal:portlets fill-slot="portlets_two_slot" tal:define="pdf python:context.getField('pdf')"  tal:condition="pdf">
-        <div class="portlet" id="portletDownload"
-            tal:define="pdf_ob context/getPdf">
-            <p class="download pdf"> 
-              <a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
-                 href="PartB.pdf" i18n:translate="download_as">Download as <strong>PDF</strong><br />
-              <em class="discrete">(<span tal:replace="python: pdf_ob and pdf_ob.get_size()/1024 or 0" /> kb)</em></a> 
-            </p> 
-        </div>
-        
+      <div class="portlet" id="portletDownload"
+           tal:define="pdf_ob context/getPdf">
+        <p class="download pdf"> 
+          <a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
+             href="PartB.pdf" i18n:translate="download_as">Download as <strong>PDF</strong><br />
+            <em class="discrete">(<span tal:replace="python: pdf_ob and pdf_ob.get_size()/1024 or 0" /> kb)</em></a> 
+        </p> 
+      </div>
+      
       <div id="facebook-like"
-        tal:define="url_quote_plus python:modules['Products.PythonScripts.standard'].url_quote_plus;
-                    locale python:{'de':'de_DE', 'en':'en_GB', 'fr':'fr_FR'}[context.portal_languages.getPreferredLanguage()];
-                    url python:'http://www.facebook.com/plugins/like.php?locale=' + locale + '&href=' + url_quote_plus(context.absolute_url()) + '&amp;layout=standard&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35';">
+           tal:define="url_quote_plus python:modules['Products.PythonScripts.standard'].url_quote_plus;
+                       locale python:{'de':'de_DE', 'en':'en_GB', 'fr':'fr_FR'}[context.portal_languages.getPreferredLanguage()];
+                       url python:'http://www.facebook.com/plugins/like.php?locale=' + locale + '&href=' + url_quote_plus(context.absolute_url()) + '&amp;layout=standard&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35';">
         <iframe tal:attributes="src url; scrolling string:no; frameborder string:0; allowTransparency string:true"></iframe>
       </div>
       
-        <div id="review-metadata" tal:define="metadata view/get_metadata">
-         
-         <h2 i18n:translate="metadata">Metadata</h2>
-
-         <ul id="metadata_accordion" class="accordion">
-         <li>
-             <a class="trigger" style="display: block;" href="#" title="open/close" i18n:translate="metadata_publications">Publications</a>
-             <ul>
-                 <li>
-                     <table>
-                         <tbody><tr>
-                             <th i18n:translate="publication_title">Publication Title</th>
-                             <td>NewspaperA</td>
-
-                         </tr>
-                         <tr>
-                             <th i18n:translate="volume_title">Volume Title</th>
-                             <td>Summer</td>
-
-                         </tr>
-                         <tr>
-                             <th i18n:translate="autor_des_aufsatzes">Autor des Aufsatzes</th>
-                             <td>Frank Severin</td>
-
-                         </tr>
-                         <tr>
-                             <th i18n:translate="shortname_journal">Shortname (Journal)</th>
-                             <td>Danzig </td>
-
-                         </tr>
-                         <tr>
-                             <th i18n:translate="erscheinungsjahr">Erscheinungsjahr</th>
-                             <td>2004</td>
-
-                         </tr>
-                         <tr>
-                             <th i18n:translate="gezaehltes_jahr">Gezähltes Jahr</th>
-                             <td>2010 </td>
-
-                         </tr>
-                         <tr>
-                             <th i18n:translate="issue_title">Issue Title</th>
-                             <td>Issue 2</td>
-
-                         </tr>
-                         <tr>
-                             <th i18n:translate="erscheinungsort">Erscheinungsort</th>
-                             <td>Danzig</td>
-
-                         </tr>
-                         <tr>
-                             <th i18n:translate="verlag">Verlag</th>
-                             <td>DHI Wahrschau </td>
-
-                         </tr>
-                         <tr>
-                             <th i18n:translate="issn">ISSN</th>
-                             <td>9887-997-003-241</td>
-
-                         </tr>
-                     </tbody></table>
-                 </li>
-             </ul>
-         </li>
-         <li>
-             <a class="trigger" style="display: block;" href="#" title="open/close" i18n:translate="metadata_others">Others</a>
-             <ul>
-                 <table>
-                     <tbody><tr>
-                         <th i18n:translate="textsprache_der_praesentierten_schrift">Textsprache der präsentierten Schrift</th>
-                         <td>German</td>
-
-                     </tr>
-                     <tr>
-                         <th i18n:translate="textsprache_der_praesentation">Textsprache der Präsentation</th>
-                         <td>German</td>
-
-                     </tr>
-                     <tr>
-                         <th i18n:translate="label_recensio_id">Recensio ID</th>
-                         <td>Lorem ipsum</td>
-
-                     </tr>
-                     <tr>
-                         <th i18n:translate="verbund_id">Verbund ID</th>
-                         <td>Dolor sit</td>
-
-                     </tr>
-                     <tr>
-                         <th i18n:translate="ddc_subject">ddc sach</th>
-                         <td>Geschichte allgemein </td>
-
-                     </tr>
-                     <tr>
-                         <th i18n:translate="ddc_time">ddc zeit</th>
-                         <td>20. Jahrhundert - 1930 - 1939</td>
-
-                     </tr>
-                     <tr>
-                         <th i18n:translate="ddc_place">ddc raum</th>
-                         <td>DEUTSCHLAND 20. JAHRHUNDERT</td>
-
-                     </tr>
-                     <tr>
-                         <th i18n:translate="tags">Stichworte</th>
-                         <td>* Polen
-                         * Menschen
-                         * Deutschland
-                         * Religion
-                         * Geschichte
-                         * Danzig
-                         * Kirche
-                         * 19.Jahrhundert</td>
-
-                     </tr>
-                     <tr>
-                         <th i18n:translate="citation">Zitation</th>
-                         <td>Geschichtsbewusstsein</td>
-                     </tr>
-                 </tbody>
-                 </table>
-             </ul>
-         </li>
-         </ul>
-       </div>
+      <div id="review-metadata" 
+           tal:define="metadata_field_names context/metadata_fields;
+                       metadata view/get_metadata">
         
-        
+        <h2 i18n:translate="metadata">Metadata</h2>
+
+        <ul id="metadata_accordion" class="accordion">
+          <li>
+            <a class="trigger" style="display: block;" href="#" title="open/close" i18n:translate="metadata_publications">Publications</a>
+            <ul>
+              <li>
+                <table>
+                  <tbody>
+                    <tal:field_names repeat="field_name metadata_field_names">
+                      <tr tal:condition="python:metadata[field_name]['value']">
+                        <th tal:content="python:metadata[field_name]['label']">
+                          Editor (name or institution)</th>
+   
+                        <td tal:condition="python:
+                                           metadata[field_name]['is_macro']">
+                          <metal:val 
+                             use-macro="python:
+                                        context.widget(field_name, mode='view')" 
+                                     />
+                        </td>
+                        <td tal:condition="python:
+                                           not metadata[field_name]['is_macro']" 
+                            tal:content="python:
+                                         metadata[field_name]['value']">
+                          Frank Severin
+                        </td>
+
+                      </tr>
+
+                    </tal:field_names>
+                  </tbody>
+                </table>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      
+      
     </metal:portlets>
     
   </body>

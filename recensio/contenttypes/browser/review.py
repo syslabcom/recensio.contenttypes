@@ -31,10 +31,19 @@ class View(BrowserView):
         fields = self.context.Schema()._fields
         meta = {}
         for field in context.metadata_fields:
-            if field in self.review_journal_fields.keys():
-                meta[field] = self.review_journal_fields[field]
+            if field.startswith("get_"):
+                label = self.review_journal_fields[field]
+                value = context[field]()
+                is_macro = False
             else:
-                meta[field] = fields[field].widget.label
+                label = fields[field].widget.label
+                # The macro is used in the template, the value is
+                # used to determine whether to display that row or not
+                value = context[field] and True or False
+                is_macro = True
+            meta[field] = {'label': label,
+                           'value': value,
+                           'is_macro': is_macro}
         return meta
 
     def has_coverpicture(self):
