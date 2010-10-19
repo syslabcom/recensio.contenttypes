@@ -29,10 +29,21 @@ class TestReviewFileConversions(unittest.TestCase):
         """
         portal = self.layer["portal"]
         pm = portal.portal_membership
-        #sample_presentations = pm.getMembersFolder().get("fake_member")
+        fake_member_folder = pm.getMembersFolder().get("fake_member")
+        online_resource = fake_member_folder.listFolderContents(
+            contentFilter={"portal_type" : "Presentation Online Resource"}
+            )[0]
+        self.assertTrue(len(online_resource.pagePictures) > 0 and \
+                        len(online_resource.pagePictures[0]) > 1000,
+                        msg=("Presentation Online Resource: %s "
+                             "The generated images for previewing the "
+                             "online resource haven't been generated"
+                             %(online_resource.absolute_url()
+                               )
+                             )
+                        )
+
         # The sample reviews have both a pdf and a word doc attached
-        # TODO add tests for Presentations only have html which is
-        # converted to pdf
 
         # Get a ReviewMonograph
         issue = portal["sample-reviews"].newspaperb.summer["issue-2"]
