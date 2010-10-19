@@ -48,7 +48,7 @@ class TestReviewFileConversions(unittest.TestCase):
                                  "A pdf has been generated, even though this "
                                  "review has a custom pdf (this is wrong)."
                                  %review.absolute_url()))
-            self.assertTrue(review.pdf.blob == review.get_review_pdf(),
+            self.assertTrue(review.pdf.blob == review.get_review_pdf()["blob"],
                             msg=("Review: %s "
                                  "get_review_pdf doesn't return the custom pdf."
                                  %review.absolute_url()))
@@ -67,10 +67,11 @@ class TestReviewFileConversions(unittest.TestCase):
                             msg=("Review: %s "
                                  "A pdf has not successfully been generated."
                                  %review.absolute_url()))
-            self.assertTrue(review.generatedPdf == review.get_review_pdf(),
-                            msg=("Review: %s get_review_pdf "
-                                 "is not returning the correct pdf."
-                                 %review.absolute_url()))
+            self.assertTrue(
+                review.generatedPdf == review.get_review_pdf()["blob"],
+                msg=("Review: %s get_review_pdf "
+                     "is not returning the correct pdf."
+                     %review.absolute_url()))
 
             # Remove the Word doc and the review html content should be
             # used instead to create the pdf version

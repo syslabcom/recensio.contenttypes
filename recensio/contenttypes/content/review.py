@@ -171,22 +171,30 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                     self.generatedPdf = pdf_blob
 
     def get_review_pdf(self):
-        """
-        Return the uploaded pdf or if that doesn't exist return the
+        """ Return the uploaded pdf if that doesn't exist return the
         generatedPdf Blob object otherwise return None
+
+        Also return the size since it is not easy to get this from the
+        blob directly
         """
-        pdf = None
+        pdf = {}
         if hasattr(self, "pdf"):
-            if self.pdf.get_size() > 0:
-                pdf = self.pdf.blob
-            elif hasattr(self, "generatedPdf"):
-                generated_pdf = self.generatedPdf
-                pdf_blob = openBlob(generated_pdf)
-                size = fstat(pdf_blob.fileno()).st_size
-                pdf_blob.close()
-                if size > 0:
-                    pdf = generated_pdf
-        return pdf
+            size = self.pdf.get_size()
+            if size > 0:
+                pdf["size"] = size
+                pdf["blob"] = self.pdf.blob
+        elif hasattr(self, "generatedPdf"):
+            generated_pdf = self.generatedPdf
+            pdf_blob = openBlob(generated_pdf)
+            size = fstat(pdf_blob.fileno()).st_size
+            pdf_blob.close()
+            if size > 0:
+                pdf["size"] = size
+                pdf["blob"] = generated_pdf
+        if pdf == {}:
+            return None
+        else:
+            return pdf
 
     def get_page_image(self, no=1):
         """

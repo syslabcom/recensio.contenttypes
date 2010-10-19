@@ -27,7 +27,7 @@ class ReviewPDF(object):
         logger.debug("Calling external tools for page image generation:")
         try:
             mainpub = self.context
-            pdf = mainpub.get_review_pdf()
+            pdf = mainpub.get_review_pdf()["blob"]
             data = pdf.open().read()
             if not data:
                 return 0
@@ -76,7 +76,7 @@ class ReviewPDF(object):
         logger.debug("Calling external tools for page image generation:")
         try:
             mainpub = self.context
-            pdf = mainpub.get_review_pdf()
+            pdf = mainpub.get_review_pdf()["blob"]
             data = pdf.open().read()
             if not data:
                 return 0

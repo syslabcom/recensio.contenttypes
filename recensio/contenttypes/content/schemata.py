@@ -100,6 +100,9 @@ def finalize_recensio_schema(schema, review_type="review"):
         # fill in the review author first name and last name by default
         schema['reviewAuthorLastname'].default_method="get_user_lastname"
         schema['reviewAuthorFirstname'].default_method="get_user_firstname"
+        schema['languageReview'].widget.label=_(u"Language(s) of presentation")
+        schema['languageReviewedText'].widget.label = _(
+            u"Language(s) of presented work")
         # Note: The characterLimit validator checks the portal_type to
         # see if it should be applied or not. Setting it here didn't
         # seem to work
@@ -384,7 +387,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Language(s)"),
+            label=_(u"Language(s) (review)"),
             size=3,
             ),
         ),
@@ -394,7 +397,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary="listSupportedLanguages",
         widget=atapi.MultiSelectionWidget(
-            label=_(u"Language(s)"),
+            label=_(u"Language(s) (text)"),
             size=3,
             ),
         ),

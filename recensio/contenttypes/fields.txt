@@ -33,12 +33,12 @@ Name des Rezensenten, aufgeteilt nach Vorname, Nachname und Titel mit Anrede
 Sprache des rezensierten Werkes.
 
     >>> schema('languageReviewedText')
-    ('lines', u'Language(s)')
+    ('lines', u'Language(s) (text)')
 
 Sprache der Rezension.
 
     >>> schema('languageReview')
-    ('lines', u'Language(s)')
+    ('lines', u'Language(s) (review)')
 
 In beiden Fällen speichern wir dort die 2 Buchstaben Schlüssel wie wir
 sie aus portal_languages bekommen
@@ -132,12 +132,12 @@ Name des Rezensenten, aufgeteilt nach Vorname, Nachname und Titel mit Anrede
 Sprache des rezensierten Werkes.
 
     >>> schema('languageReviewedText')
-    ('lines', u'Language(s)')
+    ('lines', u'Language(s) (text)')
 
 Sprache der Rezension.
 
     >>> schema('languageReview')
-    ('lines', u'Language(s)')
+    ('lines', u'Language(s) (review)')
 
 In beiden Fällen speichern wir dort die 2 Buchstaben Schlüssel wie wir
 sie aus portal_languages bekommen
