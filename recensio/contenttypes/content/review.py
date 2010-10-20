@@ -224,12 +224,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             return None
         retval = []
         for author in self.getAuthors():
-            authors_list.append(u'%s %s' % (author['firstname'].decode('utf8'), author['lastname'].decode('utf8')))
+            retval.append(u'%s %s' % (author['firstname'].decode('utf8'), author['lastname'].decode('utf8')))
         if listEditors:
             if not getattr(self, 'getEditorsCollectedEdition', None):
-                return authors_list
+                return retval
             for editor in self.getEditorsCollectedEdition():
-                authors_list.append(u'%s %s' % (editor['firstname'].decode('utf8'), editor['lastname'].decode('utf8')))
+                retval.append(u'%s %s' % (editor['firstname'].decode('utf8'), editor['lastname'].decode('utf8')))
         return retval
 
 
