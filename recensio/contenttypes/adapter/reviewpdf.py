@@ -108,7 +108,7 @@ class ReviewPDF(object):
             result = res.read()
             if result:
                 logger.warn("popen: %s" % (result))
-            cmd = "convert %s_*.pdf -resize %ix%i %s_%%04d.gif" %(tmp_prefix, size[0], size[1], tmp_prefix)
+            cmd = "convert -density 400 %s_*.pdf -resize %ix%i %s_%%04d.gif" %(tmp_prefix, size[0], size[1], tmp_prefix)
             logger.debug(cmd)
             _, _, res = os.popen3(cmd)
             result2 = res.read()
