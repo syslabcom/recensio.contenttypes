@@ -169,7 +169,7 @@ class ReviewMonograph(BaseReview):
     def getDecoratedTitle(self):
         return ReviewMonographNoMagic(self).getDecoratedTitle()
 
-    def get_citation_string(real_self):
+    def get_citation_string(self):
         return ReviewMonographNoMagic(self).get_citation_string()
 
 class ReviewMonographNoMagic(object):
@@ -188,13 +188,21 @@ class ReviewMonographNoMagic(object):
         >>> review = ReviewMonographNoMagic(at_mock)
         >>> review.getDecoratedTitle()
         u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (reviewed by Cillian de Roiste)'
+
+        Original Spec:
+        [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel] (reviewed by [Rezensent Vorname] [Rezensent Nachname])
+
+        Analog, Werkautoren kann es mehrere geben (Siehe Citation)
+
+        Hans Meier: Geschichte des Abendlandes. Ein Abriss (reviewed by Klaus Müller)
+
         """
         self = real_self.magic
-        authors_string = ' / '.join([' '.join((x['firstname'], x['lastname']))
+        authors_string = ' / '.join([getFormatter(' ')(x['firstname'], x['lastname'])
              for x in self.authors])
-        titles_string = '. '.join((self.title, self.subtitle))
-        rezensent_string = ' '.join((self.reviewAuthorFirstname, \
-                                     self.reviewAuthorLastname))
+        titles_string = getFormatter('. ')(self.title, self.subtitle)
+        rezensent_string = getFormatter(' ')(self.reviewAuthorFirstname, \
+                                     self.reviewAuthorLastname)
         rezensent_string = rezensent_string and "(reviewed by " + rezensent_string + ")" or ""
         full_citation = getFormatter(': ', ' ')
         return full_citation(authors_string, titles_string, rezensent_string)
@@ -220,6 +228,17 @@ class ReviewMonographNoMagic(object):
         >>> review = ReviewMonographNoMagic(at_mock)
         >>> review.get_citation_string()
         u'de Roiste, Cillian: review of: Gerken, Patrick / Pilz, Alexander, Plone 4.0. Das Benutzerhandbuch, M\\xc3\\xbcnchen: SYSLAB.COM GmbH, 2009, in: Open Source, Open Source Mag Vol 1, Open Source Mag 1 (2009), http://www.syslab.com'
+
+        Original Spec:
+
+        [Rezensent Nachname], [Rezensent Vorname]: review of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], [Erscheinungsort]: [Verlag], [Jahr], in: [Zs-Titel], [Nummer], [Heftnummer (Erscheinungsjahr)], URL recensio.
+
+        Werkautoren kann es mehrere geben, die werden dann durch ' / ' getrennt alle aufgelistet.
+        Note: gezähltes Jahr entfernt.
+        Da es die Felder Zs-Titel, Nummer und Heftnummer werden die Titel der Objekte magazine, volume, issue genommen, in dem der Review liegt
+
+        Müller, Klaus: review of: Meier, Hans, Geschichte des Abendlandes. Ein Abriss, München: Oldenbourg, 2010, in: Zeitschrift für Geschichte, 39, 3 (2008/2009), www.recensio.net/##
+
         """
         self = real_self.magic
         if self.get('customCitation'):
@@ -230,7 +249,7 @@ class ReviewMonographNoMagic(object):
         full_citation_inner = getFormatter(u': review of: ', u', in: ', u', ')
         rezensent_string = rezensent(self.reviewAuthorLastname, \
                                      self.reviewAuthorFirstname)
-        authors_string = u' / '.join([u', '.join((x['lastname'], x['firstname']))
+        authors_string = u' / '.join([getFormatter(', ')(x['lastname'], x['firstname'])
                                     for x in self.authors])
         item_string = item(authors_string,
                            self.title,

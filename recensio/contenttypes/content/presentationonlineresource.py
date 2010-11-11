@@ -14,6 +14,7 @@ from Products.DataGridField.Column import Column
 from recensio.contenttypes.interfaces import \
      IPresentationOnlineResource
 from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import CommonReviewSchema
@@ -260,5 +261,60 @@ class PresentationOnlineResource(BaseReview):
     # Präsentator, presentation of: Titel, URL Ressource, URL recensio.
     citation_template =  u"{reviewAuthorLastname}, {text_presentation_of} "+\
                         "{title}, {uri}"
+
+    def getDecoratedTitle(self):
+        return PresentationOnlineResourceNoMagic(self).getDecoratedTitle()
+
+    def get_citation_string(self):
+        return PresentationOnlineResourceNoMagic(self).get_citation_string()
+
+class PresentationOnlineResourceNoMagic(object):
+    def __init__(self, at_object):
+        self.magic = at_object
+
+    def getDecoratedTitle(real_self):
+        """
+        >>> from mock import Mock
+        >>> at_mock = Mock()
+        >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH'
+        >>> presentation = PresentationOnlineResourceNoMagic(at_mock)
+        >>> presentation.getDecoratedTitle()
+        'Homepage of SYSLAB.COM GmbH'
+
+        Original Specification
+
+        [Titel online resource]
+
+        perspectivia.net – Publikationsplattform für die Geisteswissenschaften
+        """
+        self = real_self.magic
+        return self.title
+
+    def get_citation_string(real_self):
+        """
+        >>> from mock import Mock
+        >>> at_mock = Mock()
+        >>> at_mock.reviewAuthorFirstname = 'Manuel'
+        >>> at_mock.reviewAuthorLastname = 'Reinhard'
+        >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH'
+        >>> at_mock.absolute_url = lambda : 'http://www.syslab.com'
+        >>> at_mock.uri = 'http://www.syslab.com/home'
+        >>> review = PresentationOnlineResourceNoMagic(at_mock)
+        >>> review.get_citation_string()
+        u'Reinhard, Manuel: presentation of: Homepage of SYSLAB.COM GmbH, http://www.syslab.com/home, http://www.syslab.com'
+
+        Original Specification
+
+        [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Titel online resource], [URL online resource], URL recensio.
+
+        Meier, Hans: presentation of:  perspectivia.net – Publikationsplattform für die Geisteswissenschaften, www.perspectivia.net, www.recensio.net/##
+        """
+        self = real_self.magic
+        rezensent = getFormatter(u', ')
+        item = getFormatter(u', ', u', ')
+        full_citation = getFormatter(': presentation of: ')
+        rezensent_string = rezensent(self.reviewAuthorLastname, self.reviewAuthorFirstname)
+        item_string = item(self.title, self.uri, self.absolute_url())
+        return full_citation(rezensent_string, item_string)
 
 atapi.registerType(PresentationOnlineResource, PROJECTNAME)

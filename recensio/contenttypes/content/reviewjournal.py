@@ -223,11 +223,11 @@ class ReviewJournalNoMagic(object):
         self = real_self.magic
         if self.get('customCitation'):
             return scrubHTML(self.customCitation)
-        rezensent_string = ', '.join((self.reviewAuthorLastname, \
-                                      self.reviewAuthorFirstname))
+        rezensent_string = getFormatter(', ')(self.reviewAuthorLastname, \
+                                      self.reviewAuthorFirstname)
         item = getFormatter(', ', ', ', ' ')
-        mag_year = '/'.join((self.officialYearOfPublication, \
-                             self.yearOfPublication))
+        mag_year = getFormatter('/')(self.officialYearOfPublication, \
+                             self.yearOfPublication)
         mag_year = mag_year and '(' + mag_year + ')' or None
         item_string = item(self.title, self.volumeNumber, \
                            self.issueNumber, mag_year)
@@ -255,13 +255,13 @@ class ReviewJournalNoMagic(object):
         """
         self = real_self.magic
         item = getFormatter(', ', ', ', ' ')
-        mag_year = '/'.join((self.officialYearOfPublication, \
-                             self.yearOfPublication))
+        mag_year = getFormatter('/')(self.officialYearOfPublication, \
+                             self.yearOfPublication)
         mag_year = mag_year and '(' + mag_year + ')' or None
         item_string = item(self.title, self.volumeNumber, \
                            self.issueNumber, mag_year)
-        reviewer_string = ' '.join((self.reviewAuthorFirstname, \
-                                    self.reviewAuthorLastname))
+        reviewer_string = getFormatter(' ')(self.reviewAuthorFirstname, \
+                                    self.reviewAuthorLastname)
         reviewer_string = reviewer_string and '(reviewed by ' \
             + reviewer_string + ')' or None
         return ' '.join((item_string, reviewer_string))
