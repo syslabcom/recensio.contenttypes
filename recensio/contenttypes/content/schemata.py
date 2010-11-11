@@ -6,6 +6,8 @@ from lxml.html import fromstring
 
 from zope.interface import implements
 
+from PIL import Image
+
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
@@ -140,6 +142,20 @@ class isTrue:
             default=u"All submitted reviews must be published under the CC-BY licence."),
             target_language=language)
 
+class ImageValidator():
+    """
+    Check that the upload really is an image
+    """
+    implements(IValidator)
+    name=""
+
+    def __call__(self, value, *args, **kwargs):
+        try:
+            Image.open(value)
+            return True
+        except IOError:
+            return False
+
 class characterLimit():
     """
     Limit the number of characters of text, ignoring html markup
@@ -170,6 +186,7 @@ CoverPictureSchema = atapi.Schema((
     ImageField(
         'coverPicture',
         schemata="reviewed_text",
+        validators=(ImageValidator(),),
         storage=atapi.AnnotationStorage(),
         widget=atapi.ImageWidget(
             label=_(u"Cover picture"),
