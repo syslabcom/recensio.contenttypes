@@ -18,6 +18,7 @@ from recensio.contenttypes.content.schemata import ReviewSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IReviewMonograph
+from recensio.contenttypes.citation import getFormatter
 
 
 ReviewMonographSchema = BookReviewSchema.copy() + \
@@ -164,4 +165,42 @@ class ReviewMonograph(BaseReview):
         """ Equivalent of 'issue'"""
         return self.get_title_from_parent_of_type("Issue")
 
+    def get_citation_string(self):
+        """
+        Either return the custom citation or the generated one
+        """
+        if self.get('customCitation'):
+            return scrubHTML(self.customCitation)
+        rezensent = getFormatter(', ')
+        item = getFormatter(', ', '. ', ', ', ': ', ', ')
+        mag_number_and_year = getFormatter(', ', ', ', ' ')
+        full_citation_inner = getFormatter(': review of: ', ', in: ', ', ')
+        rezensent_string = rezensent(self.reviewAuthorLastname, \
+                                     self.reviewAuthorFirstname)
+        authors_string = ', '.join([' / '.join((x['lastname'], x['firstname']))
+                                    for x in self.authors])
+        item_string = item(authors_string,
+                           self.title,
+                           self.subtitle,
+                           self.placeOfPublication,
+                           self.publisher,
+                           self.yearOfPublication)
+        mag_year_string = self.yearOfPublication
+        mag_year_string = mag_year_string and '(' + mag_year_string + ')' \
+            or None
+        mag_number_and_year_string = mag_number_and_year(\
+            self.get_publication_title(), \
+            self.get_volume_title(), self.get_issue_title(), mag_year_string)
+        return full_citation_inner(rezensent_string, item_string, \
+            mag_number_and_year_string, self.absolute_url())
+
+    def getDecoratedTitle(self):
+        authors_string = ' / '.join([' '.join((x['firstname'], x['lastname']))
+             for x in self.authors])
+        titles_string = '. '.join((self.title, self.subtitle))
+        rezensent_string = ' '.join((self.reviewAuthorFirstname, \
+                                     self.reviewAuthorLastname))
+        rezensent_string = rezensent_string and "(reviewed by " + rezensent_string + ")" or ""
+        full_citation = getFormatter(': ', ' ')
+        return full_citation(authors_string, titles_string, rezensent_string)
 atapi.registerType(ReviewMonograph, PROJECTNAME)
