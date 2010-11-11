@@ -206,6 +206,7 @@ class PresentationArticleReviewNoMagic(object):
         >>> review = PresentationArticleReviewNoMagic(at_mock)
         >>> review.getDecoratedTitle()
         u'Patrick Gerken / Alexander Pilz: Das neue Plone 4.0. Alles neu in 2010'
+
         Original Specification
 
         [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel]
