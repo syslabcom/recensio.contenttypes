@@ -7,7 +7,7 @@ from recensio.contenttypes.content.schemata import ImageValidator
 class TestImageChecker(unittest.TestCase):
     def testWithInvalidImages(self):
         no_image = file(pkg_resources.resource_filename(__name__, 'test.txt'))
-        self.assertFalse(ImageValidator()(no_image))
+        self.assertFalse(ImageValidator()(no_image) == True)
 
     def testWithValidImage(self):
         image = file(pkg_resources.resource_filename(__name__, 'test.jpg'))
