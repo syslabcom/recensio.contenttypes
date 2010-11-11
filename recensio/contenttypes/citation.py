@@ -65,7 +65,7 @@ def getFormatter(*specification):
             args = list(args)
             for index, arg in enumerate(args):
                 if not isinstance(arg, unicode):
-                    args[index] = arg.encode('utf-8')
+                    args[index] = arg.decode('utf-8')
             return args
         args = archetypesIsAPITA(args)
         data_to_reduce = [args[0]] + zip(specification, args[1:])

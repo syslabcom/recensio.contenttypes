@@ -187,7 +187,7 @@ class ReviewMonographNoMagic(object):
         >>> at_mock.reviewAuthorLastname = 'de Roiste'
         >>> review = ReviewMonographNoMagic(at_mock)
         >>> review.getDecoratedTitle()
-        'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (reviewed by Cillian de Roiste)'
+        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (reviewed by Cillian de Roiste)'
         """
         self = real_self.magic
         authors_string = ' / '.join([' '.join((x['firstname'], x['lastname']))

@@ -212,7 +212,7 @@ class ReviewJournalNoMagic(object):
         >>> at_mock.absolute_url = lambda :'http://www.syslab.com'
         >>> review = ReviewJournalNoMagic(at_mock)
         >>> review.get_citation_string()
-        'de Roiste, Cillian: review of: Plone Mag, 1, 3 (2010/2009), in: Open Source, Open Source Mag Vol 1, Open Source Mag 1, http://www.syslab.com'
+        u'de Roiste, Cillian: review of: Plone Mag, 1, 3 (2010/2009), in: Open Source, Open Source Mag Vol 1, Open Source Mag 1, http://www.syslab.com'
 
         Return the citation according to this schema:
         [Rezensent Nachname], [Rezensent Vorname]: review of: [Zs-Titel der rez. Zs.], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], in: [Zs-Titel], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], URL recensio.
@@ -251,7 +251,7 @@ class ReviewJournalNoMagic(object):
         >>> at_mock.issueNumber = '3'
         >>> review = ReviewJournalNoMagic(at_mock)
         >>> review.getDecoratedTitle()
-        'Plone Mag, 1, 3 (2010/2009) (reviewed by Cillian de Roiste)'
+        u'Plone Mag, 1, 3 (2010/2009) (reviewed by Cillian de Roiste)'
         """
         self = real_self.magic
         item = getFormatter(', ', ', ', ' ')
