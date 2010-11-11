@@ -29,7 +29,7 @@ ReviewJournalSchema = JournalReviewSchema.copy() + \
                       atapi.Schema((
     atapi.StringField(
         'editor',
-        schemata=_(u"reviewed text"),
+        schemata="reviewed_text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Editor (name or institution)"),

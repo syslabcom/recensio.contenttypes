@@ -462,7 +462,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     ))
 BaseReviewSchema["title"].schemata = "reviewed_text"
-BaseReviewSchema.changeSchemataForField('subject', 'reviewed text')
+BaseReviewSchema.changeSchemataForField('subject', 'reviewed_text')
 BaseReviewSchema["subject"].schemata = "reviewed_text"
 BaseReviewSchema["subject"].widget.label = _(u"Subject heading")
 BaseReviewSchema["subject"].widget.description = ""
