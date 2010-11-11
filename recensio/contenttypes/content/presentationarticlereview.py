@@ -11,6 +11,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 
+from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.content.schemata import AuthorsSchema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
@@ -185,6 +186,76 @@ class PresentationArticleReview(BaseReview):
                         "{yearOfPublication}), "+\
                         "Page(s) {pageStart}/{pageEnd}"
 
+    def getDecoratedTitle(self):
+        return PresentationArticleReviewNoMagic(self).getDecoratedTitle()
 
+    def get_citation_string(self):
+        return PresentationArticleReviewNoMagic(self).get_citation_string()
+
+class PresentationArticleReviewNoMagic(object):
+    def __init__(self, at_object):
+        self.magic = at_object
+
+    def getDecoratedTitle(real_self):
+        """
+        >>> from mock import Mock
+        >>> at_mock = Mock()
+        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
+        >>> at_mock.title = "Das neue Plone 4.0"
+        >>> at_mock.subtitle = "Alles neu in 2010"
+        >>> review = PresentationArticleReviewNoMagic(at_mock)
+        >>> review.getDecoratedTitle()
+        'Patrick Gerken / Alexander Pilz: Das neue Plone 4.0. Alles neu in 2010'
+        """
+        self = real_self.magic
+        authors_string = ' / '.join([' '.join((x['firstname'], x['lastname']))
+             for x in self.authors])
+        titles_string = '. '.join((self.title, self.subtitle))
+        return ": ".join((authors_string, titles_string))
+
+    def get_citation_string(real_self):
+        """
+        Either return the custom citation or the generated one
+        >>> from mock import Mock
+        >>> at_mock = Mock()
+        >>> at_mock.get = lambda x: None
+        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
+        >>> at_mock.title = "Das neue Plone 4.0"
+        >>> at_mock.subtitle = "Alles neu in 2010"
+        >>> at_mock.reviewAuthorFirstname = 'Cillian'
+        >>> at_mock.reviewAuthorLastname = 'de Roiste'
+        >>> at_mock.yearOfPublication = '2009'
+        >>> at_mock.publisher = 'SYSLAB.COM GmbH'
+        >>> at_mock.placeOfPublication = u'München'
+        >>> at_mock.get_issue_title = lambda :'Open Source Mag 1'
+        >>> at_mock.get_volume_title = lambda :'Open Source Mag Vol 1'
+        >>> at_mock.get_publication_title = lambda :'Open Source'
+        >>> at_mock.absolute_url = lambda :'http://www.syslab.com'
+        >>> presentation = PresentationArticleReviewNoMagic(at_mock)
+        >>> presentation.get_citation_string()
+        u'de Roiste, Cillian: presentation of: Gerken, Patrick / Pilz, Alexander, Das neue Plone 4.0. Alles neu in 2010, in: Open Source, Open Source Mag Vol 1, Open Source Mag 1 (2009), http://www.syslab.com'
+        """
+        self = real_self.magic
+        if self.get('customCitation'):
+            return scrubHTML(self.customCitation)
+        rezensent = getFormatter(u', ')
+        item = getFormatter(u', ', u'. ')
+        mag_number_and_year = getFormatter(u', ', u', ', u' ')
+        full_citation_inner = getFormatter(u': presentation of: ', u', in: ', u', ')
+        rezensent_string = rezensent(self.reviewAuthorLastname, \
+                                     self.reviewAuthorFirstname)
+        authors_string = u' / '.join([u', '.join((x['lastname'], x['firstname']))
+                                    for x in self.authors])
+        item_string = item(authors_string,
+                           self.title,
+                           self.subtitle)
+        mag_year_string = self.yearOfPublication
+        mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
+            or None
+        mag_number_and_year_string = mag_number_and_year(\
+            self.get_publication_title(), \
+            self.get_volume_title(), self.get_issue_title(), mag_year_string)
+        return full_citation_inner(rezensent_string, item_string, \
+            mag_number_and_year_string, self.absolute_url())
 atapi.registerType(PresentationArticleReview, PROJECTNAME)
 
