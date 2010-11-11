@@ -153,8 +153,8 @@ class ImageValidator():
         try:
             Image.open(value)
             return True
-        except IOError:
-            return False
+        except IOError, e:
+            return _(str(e))
 
 class characterLimit():
     """
