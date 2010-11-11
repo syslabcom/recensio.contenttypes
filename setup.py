@@ -38,7 +38,7 @@ long_description = (
     'Download\n'
     '********\n')
 
-tests_require = ['zope.testing']
+tests_require = ['zope.testing', 'mock']
 
 setup(name='recensio.contenttypes',
       version=version,

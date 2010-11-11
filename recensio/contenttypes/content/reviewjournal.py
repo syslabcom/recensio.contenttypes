@@ -1,3 +1,4 @@
+from Products.PortalTransforms.transforms.safe_html import scrubHTML
 # -*- coding: utf-8 -*-
 """Definition of the Review Journal content type
 """
@@ -11,6 +12,7 @@ from Products.ATContentTypes.content import schemata
 from Products.CMFPlone.Portal import PloneSite
 
 from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import CoverPictureSchema
@@ -170,4 +172,97 @@ class ReviewJournal(BaseReview):
         """ Equivalent of 'issue'"""
         return self.get_title_from_parent_of_type("Issue")
 
+    def get_citation_string(self):
+        """
+
+        Return the citation according to this schema:
+        [Rezensent Nachname], [Rezensent Vorname]: review of: [Zs-Titel der rez. Zs.], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], in: [Zs-Titel], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], URL recensio.
+
+        The years of the magazine article reviewing the other magazine does
+        not exist.
+        """
+        return ReviewJournalNoMagic(self).get_citation_string()
+
+    def getDecoratedTitle(self):
+        """
+        """
+        return ReviewJournalNoMagic(self).getDecoratedTitle()
+
+class ReviewJournalNoMagic(object):
+    def __init__(self, at_object):
+        self.magic = at_object
+
+    def get_citation_string(real_self):
+        """
+        >>> from mock import Mock
+        >>> at_mock = Mock()
+        >>> at_mock.get = lambda x: None
+        >>> at_mock.title = "Plone Mag"
+        >>> at_mock.reviewAuthorFirstname = 'Cillian'
+        >>> at_mock.reviewAuthorLastname = 'de Roiste'
+        >>> at_mock.yearOfPublication = '2009'
+        >>> at_mock.officialYearOfPublication = '2010'
+        >>> at_mock.publisher = 'SYSLAB.COM GmbH'
+        >>> at_mock.placeOfPublication = u'München'
+        >>> at_mock.volumeNumber = '1'
+        >>> at_mock.issueNumber = '3'
+        >>> at_mock.get_issue_title = lambda :'Open Source Mag 1'
+        >>> at_mock.get_volume_title = lambda :'Open Source Mag Vol 1'
+        >>> at_mock.get_publication_title = lambda :'Open Source'
+        >>> at_mock.absolute_url = lambda :'http://www.syslab.com'
+        >>> review = ReviewJournalNoMagic(at_mock)
+        >>> review.get_citation_string()
+        'de Roiste, Cillian: review of: Plone Mag, 1, 3 (2010/2009), in: Open Source, Open Source Mag Vol 1, Open Source Mag 1, http://www.syslab.com'
+
+        Return the citation according to this schema:
+        [Rezensent Nachname], [Rezensent Vorname]: review of: [Zs-Titel der rez. Zs.], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], in: [Zs-Titel], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], URL recensio.
+
+        The years of the magazine article reviewing the other magazine does
+        not exist.
+        """
+        self = real_self.magic
+        if self.get('customCitation'):
+            return scrubHTML(self.customCitation)
+        rezensent_string = ', '.join((self.reviewAuthorLastname, \
+                                      self.reviewAuthorFirstname))
+        item = getFormatter(', ', ', ', ' ')
+        mag_year = '/'.join((self.officialYearOfPublication, \
+                             self.yearOfPublication))
+        mag_year = mag_year and '(' + mag_year + ')' or None
+        item_string = item(self.title, self.volumeNumber, \
+                           self.issueNumber, mag_year)
+        reference_mag = getFormatter(', ',  ', ')
+        reference_mag_string = reference_mag(self.get_publication_title(), \
+            self.get_volume_title(), self.get_issue_title())
+        full_citation  = getFormatter(': review of: ', ', in: ', ', ')
+        return full_citation(rezensent_string, item_string, \
+            reference_mag_string, self.absolute_url())
+
+    def getDecoratedTitle(real_self):
+        """
+        >>> from mock import Mock
+        >>> at_mock = Mock()
+        >>> at_mock.title = "Plone Mag"
+        >>> at_mock.reviewAuthorFirstname = 'Cillian'
+        >>> at_mock.reviewAuthorLastname = 'de Roiste'
+        >>> at_mock.yearOfPublication = '2009'
+        >>> at_mock.officialYearOfPublication = '2010'
+        >>> at_mock.volumeNumber = '1'
+        >>> at_mock.issueNumber = '3'
+        >>> review = ReviewJournalNoMagic(at_mock)
+        >>> review.getDecoratedTitle()
+        'Plone Mag, 1, 3 (2010/2009) (reviewed by Cillian de Roiste)'
+        """
+        self = real_self.magic
+        item = getFormatter(', ', ', ', ' ')
+        mag_year = '/'.join((self.officialYearOfPublication, \
+                             self.yearOfPublication))
+        mag_year = mag_year and '(' + mag_year + ')' or None
+        item_string = item(self.title, self.volumeNumber, \
+                           self.issueNumber, mag_year)
+        reviewer_string = ' '.join((self.reviewAuthorFirstname, \
+                                    self.reviewAuthorLastname))
+        reviewer_string = reviewer_string and '(reviewed by ' \
+            + reviewer_string + ')' or None
+        return ' '.join((item_string, reviewer_string))
 atapi.registerType(ReviewJournal, PROJECTNAME)

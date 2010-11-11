@@ -1,4 +1,5 @@
 #-*- coding: utf-8 -*-
+from Products.PortalTransforms.transforms.safe_html import scrubHTML
 """Definition of the Review Monograph content type
 """
 
@@ -165,36 +166,30 @@ class ReviewMonograph(BaseReview):
         """ Equivalent of 'issue'"""
         return self.get_title_from_parent_of_type("Issue")
 
-    def get_citation_string(self):
-        """
-        Either return the custom citation or the generated one
-        """
-        if self.get('customCitation'):
-            return scrubHTML(self.customCitation)
-        rezensent = getFormatter(', ')
-        item = getFormatter(', ', '. ', ', ', ': ', ', ')
-        mag_number_and_year = getFormatter(', ', ', ', ' ')
-        full_citation_inner = getFormatter(': review of: ', ', in: ', ', ')
-        rezensent_string = rezensent(self.reviewAuthorLastname, \
-                                     self.reviewAuthorFirstname)
-        authors_string = ', '.join([' / '.join((x['lastname'], x['firstname']))
-                                    for x in self.authors])
-        item_string = item(authors_string,
-                           self.title,
-                           self.subtitle,
-                           self.placeOfPublication,
-                           self.publisher,
-                           self.yearOfPublication)
-        mag_year_string = self.yearOfPublication
-        mag_year_string = mag_year_string and '(' + mag_year_string + ')' \
-            or None
-        mag_number_and_year_string = mag_number_and_year(\
-            self.get_publication_title(), \
-            self.get_volume_title(), self.get_issue_title(), mag_year_string)
-        return full_citation_inner(rezensent_string, item_string, \
-            mag_number_and_year_string, self.absolute_url())
-
     def getDecoratedTitle(self):
+        return ReviewMonographNoMagic(self).getDecoratedTitle()
+
+    def get_citation_string(real_self):
+        return ReviewMonographNoMagic(self).get_citation_string()
+
+class ReviewMonographNoMagic(object):
+    def __init__(self, at_object):
+        self.magic = at_object
+
+    def getDecoratedTitle(real_self):
+        """
+        >>> from mock import Mock
+        >>> at_mock = Mock()
+        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
+        >>> at_mock.title = "Plone 4.0"
+        >>> at_mock.subtitle = "Das Benutzerhandbuch"
+        >>> at_mock.reviewAuthorFirstname = 'Cillian'
+        >>> at_mock.reviewAuthorLastname = 'de Roiste'
+        >>> review = ReviewMonographNoMagic(at_mock)
+        >>> review.getDecoratedTitle()
+        'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (reviewed by Cillian de Roiste)'
+        """
+        self = real_self.magic
         authors_string = ' / '.join([' '.join((x['firstname'], x['lastname']))
              for x in self.authors])
         titles_string = '. '.join((self.title, self.subtitle))
@@ -203,4 +198,57 @@ class ReviewMonograph(BaseReview):
         rezensent_string = rezensent_string and "(reviewed by " + rezensent_string + ")" or ""
         full_citation = getFormatter(': ', ' ')
         return full_citation(authors_string, titles_string, rezensent_string)
+
+    def get_citation_string(real_self):
+        """
+        Either return the custom citation or the generated one
+        >>> from mock import Mock
+        >>> at_mock = Mock()
+        >>> at_mock.get = lambda x: None
+        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
+        >>> at_mock.title = "Plone 4.0"
+        >>> at_mock.subtitle = "Das Benutzerhandbuch"
+        >>> at_mock.reviewAuthorFirstname = 'Cillian'
+        >>> at_mock.reviewAuthorLastname = 'de Roiste'
+        >>> at_mock.yearOfPublication = '2009'
+        >>> at_mock.publisher = 'SYSLAB.COM GmbH'
+        >>> at_mock.placeOfPublication = u'München'
+        >>> at_mock.get_issue_title = lambda :'Open Source Mag 1'
+        >>> at_mock.get_volume_title = lambda :'Open Source Mag Vol 1'
+        >>> at_mock.get_publication_title = lambda :'Open Source'
+        >>> at_mock.absolute_url = lambda :'http://www.syslab.com'
+        >>> review = ReviewMonographNoMagic(at_mock)
+        >>> review.get_citation_string()
+        u'de Roiste, Cillian: review of: Gerken, Patrick / Pilz, Alexander, Plone 4.0. Das Benutzerhandbuch, M\\xc3\\xbcnchen: SYSLAB.COM GmbH, 2009, in: Open Source, Open Source Mag Vol 1, Open Source Mag 1 (2009), http://www.syslab.com'
+        """
+        self = real_self.magic
+        if self.get('customCitation'):
+            return scrubHTML(self.customCitation)
+        rezensent = getFormatter(u', ')
+        item = getFormatter(u', ', u'. ', u', ', u': ', u', ')
+        mag_number_and_year = getFormatter(u', ', u', ', u' ')
+        full_citation_inner = getFormatter(u': review of: ', u', in: ', u', ')
+        rezensent_string = rezensent(self.reviewAuthorLastname, \
+                                     self.reviewAuthorFirstname)
+        authors_string = u' / '.join([u', '.join((x['lastname'], x['firstname']))
+                                    for x in self.authors])
+        item_string = item(authors_string,
+                           self.title,
+                           self.subtitle,
+                           self.placeOfPublication,
+                           self.publisher,
+                           self.yearOfPublication)
+        mag_year_string = self.yearOfPublication
+        mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
+            or None
+        mag_number_and_year_string = mag_number_and_year(\
+            self.get_publication_title(), \
+            self.get_volume_title(), self.get_issue_title(), mag_year_string)
+        return full_citation_inner(rezensent_string, item_string, \
+            mag_number_and_year_string, self.absolute_url())
+
+
+
+
 atapi.registerType(ReviewMonograph, PROJECTNAME)
+
