@@ -176,6 +176,9 @@ class ReviewMonograph(BaseReview):
     def getLicense(self):
         return ReviewMonographNoMagic(self).getLicense()
 
+    def getFirstPublicationData(self):
+        return ReviewMonographNoMagic(self).getFirstPublicationData()
+
 class ReviewMonographNoMagic(object):
     def __init__(self, at_object):
         self.magic = at_object
@@ -273,6 +276,18 @@ class ReviewMonographNoMagic(object):
     def getLicense(real_self):
         self = real_self.magic
         return _('license-note-review')
+
+    def getFirstPublicationData(real_self):
+        self = real_self.magic
+        retval = []
+        reference_mag = getFormatter(', ',  ', ')
+        reference_mag_string = reference_mag(self.get_publication_title(), \
+            self.get_volume_title(), self.get_issue_title())
+        if reference_mag_string:
+            retval.append(reference_mag_string)
+        if self.uri:
+            retval.append(self.uri)
+        return retval
 
 atapi.registerType(ReviewMonograph, PROJECTNAME)
 
