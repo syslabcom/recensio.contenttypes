@@ -210,6 +210,12 @@ class PresentationCollection(BaseReview):
     def get_citation_string(self):
         return PresentationCollectionNoMagic(self).get_citation_string()
 
+    def getLicense(self):
+        return PresentationCollectionNoMagic(self).getLicense()
+
+    def getLicenseURL(self):
+        return PresentationCollectionNoMagic(self).getLicenseURL()
+
 class PresentationCollectionNoMagic(object):
     def __init__(self, at_object):
         self.magic = at_object
@@ -301,5 +307,14 @@ class PresentationCollectionNoMagic(object):
         hrsg_string = hrsg(hrsg_person_string, hrsg_book_string)
         return full_citation(rezensent_string, item_string, \
             hrsg_string, self.absolute_url())
+
+    def getLicense(real_self):
+        self = real_self.magic
+        return _('license-note-presentation')
+
+    def getLicenseURL(real_self):
+        self = real_self.magic
+        return {'msg' : _('license-note-presentation-url-text'),
+                'url' : _('license-note-presentation-url-url')}
 
 atapi.registerType(PresentationCollection, PROJECTNAME)

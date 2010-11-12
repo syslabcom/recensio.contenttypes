@@ -188,6 +188,9 @@ class ReviewJournal(BaseReview):
         """
         return ReviewJournalNoMagic(self).getDecoratedTitle()
 
+    def getLicense(self):
+        return ReviewJournalNoMagic(self).getLicense()
+
 class ReviewJournalNoMagic(object):
     def __init__(self, at_object):
         self.magic = at_object
@@ -265,4 +268,9 @@ class ReviewJournalNoMagic(object):
         reviewer_string = reviewer_string and '(reviewed by ' \
             + reviewer_string + ')' or None
         return ' '.join((item_string, reviewer_string))
+
+    def getLicense(real_self):
+        self = real_self.magic
+        return _('license-note-review')
+
 atapi.registerType(ReviewJournal, PROJECTNAME)

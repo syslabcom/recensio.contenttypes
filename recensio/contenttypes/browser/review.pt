@@ -111,8 +111,9 @@
 
       <div id="review-license" class="message notice">
         <h2 i18n:translate="license-note-heading">Lizenzhinweis:</h2>
-        <p i18n:translate="license-note">Dieser Beitrag unterliegt der Creative-Commons-Lizenz Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung (CC-BY-NC-ND), darf also unter diesen Bedingungen elektronisch benutzt, übermittelt, ausgedruckt und zum Download bereitgestellt werden. Den Text der Lizenz erreichen Sie hier:</p>
-        <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/de">http://creativecommons.org/licenses/by-nc-nd/3.0/de</a>
+        <p tal:content="context/getLicense">Dieser Beitrag unterliegt der Creative-Commons-Lizenz Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung (CC-BY-NC-ND), darf also unter diesen Bedingungen elektronisch benutzt, übermittelt, ausgedruckt und zum Download bereitgestellt werden. Den Text der Lizenz erreichen Sie hier:</p>
+        <a tal:condition="context/getLicenseURL | nothing" tal:attributes="href python: context.getLicenseURL()['url']"
+           tal:content="python: context.getLicenseURL()['msg']">Licence msg</a>
       </div>
 
 

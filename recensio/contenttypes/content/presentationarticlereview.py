@@ -192,6 +192,12 @@ class PresentationArticleReview(BaseReview):
     def get_citation_string(self):
         return PresentationArticleReviewNoMagic(self).get_citation_string()
 
+    def getLicense(self):
+        return PresentationArticleReviewNoMagic(self).getLicense()
+
+    def getLicenseURL(self):
+        return PresentationArticleReviewNoMagic(self).getLicenseURL()
+
 class PresentationArticleReviewNoMagic(object):
     def __init__(self, at_object):
         self.magic = at_object
@@ -274,5 +280,15 @@ Note: gezähltes Jahr entfernt.
             self.volumeNumber, self.issueNumber, mag_year_string)
         return full_citation_inner(rezensent_string, item_string, \
             mag_number_and_year_string, self.absolute_url())
+
+    def getLicense(real_self):
+        self = real_self.magic
+        return _('license-note-presentation')
+
+    def getLicenseURL(real_self):
+        self = real_self.magic
+        return {'msg' : _('license-note-presentation-url-text'),
+                'url' : _('license-note-presentation-url-url')}
+
 atapi.registerType(PresentationArticleReview, PROJECTNAME)
 
