@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <object name="Review Monograph"
    meta_type="Factory-based Type Information with dynamic views"
-   i18n:domain="recensio" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+   i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
   <property name="title" i18n:translate="title_review_monograph">Review Monograph</property>
   <property name="description"
-    i18n:translate="">Review Monograph</property>
+    i18n:translate="">description_review_monograph</property>
   <property name="content_meta_type">ReviewMonograph</property>
   <property name="content_icon">++resource++recensio.theme.images/Aufsaetze.png</property>
   <property name="product">recensio.contenttypes</property>

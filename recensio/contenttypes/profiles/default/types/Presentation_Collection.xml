@@ -1,14 +1,10 @@
 <?xml version="1.0"?>
 <object name="Presentation Collection"
    meta_type="Factory-based Type Information with dynamic views"
-   i18n:domain="recensio" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+   i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
   <property name="title" i18n:translate="">Presentation Article edited Volume</property>
   <property name="description"
-    i18n:translate="description_presentation_collection">
-Please fill in the following form in order to present your contribution to an edited volume on recensio.net. All fields marked with * are required.
-Please keep in mind that you may present your core statements in nearly all European languages but that we would advise you to choose one of the main academic languages. This way your presentation will attract much more attention and discussion of your statements is much more likely.
-You can make changes or additions to all data at a later date.
-</property>
+    i18n:translate="description_presentation_collection">description_presentation_collection</property>
   <property name="content_meta_type">PresentationCollection</property>
   <property name="content_icon">++resource++recensio.theme.images/InternetResource.png</property>
   <property name="product">recensio.contenttypes</property>
