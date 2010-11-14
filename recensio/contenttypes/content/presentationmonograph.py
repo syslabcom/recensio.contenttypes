@@ -205,6 +205,7 @@ class PresentationMonograph(BaseReview):
         "existingOnlineReviews",
         "publishedReviews", # Name, url 
         'reviewAuthorPersonalUrl',
+        'labelPresentationAuthor',
         "reviewAuthorHonorific",
         "reviewAuthorLastname",
         "reviewAuthorFirstname",

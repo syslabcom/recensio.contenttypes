@@ -255,6 +255,16 @@ ReviewSchema = atapi.Schema((
 
 PresentationSchema = atapi.Schema((
     atapi.StringField(
+        'labelPresentationAuthor',
+        schemata="presentation",
+        widget=atapi.LabelWidget(
+            label=_(
+    u"label_presentation_author",
+    default=(u"")
+    )
+            ),
+        ),
+    atapi.StringField(
         'reviewAuthorHonorific',
         schemata="presentation",
         storage=atapi.AnnotationStorage(),

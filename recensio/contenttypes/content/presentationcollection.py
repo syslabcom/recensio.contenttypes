@@ -172,6 +172,7 @@ class PresentationCollection(BaseReview):
         # Presentation
         "review",
         'reviewAuthorPersonalUrl',
+        'labelPresentationAuthor',
         "reviewAuthorHonorific",
         "reviewAuthorLastname",
         "reviewAuthorFirstname",
