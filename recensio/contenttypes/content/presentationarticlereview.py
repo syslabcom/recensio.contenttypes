@@ -43,6 +43,9 @@ PresentationArticleReviewSchema = \
 ))
 
 PresentationArticleReviewSchema['title'].storage = atapi.AnnotationStorage()
+PresentationArticleReviewSchema["authors"].widget.label=_(
+    "label_presentation_article_authors",
+    default=u"Author(s) of presented article")
 PresentationArticleReviewSchema["volumeNumber"].widget.label = _(u"Volume")
 PresentationArticleReviewSchema["issueNumber"].widget.label = _(u"Number")
 PresentationArticleReviewSchema["referenceAuthors"].widget.description = _(

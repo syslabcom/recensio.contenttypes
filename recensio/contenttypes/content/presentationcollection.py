@@ -59,7 +59,7 @@ PresentationCollectionSchema = BookReviewSchema.copy() + \
 
 PresentationCollectionSchema['title'].storage = atapi.AnnotationStorage()
 PresentationCollectionSchema["authors"].widget.label=_(
-    "label_presentation_collection_authors",
+    "label_presentation_article_authors",
     default=u"Author(s) of presented article")
 PresentationCollectionSchema["referenceAuthors"].widget.description = _(
     u'description_reference_authors',

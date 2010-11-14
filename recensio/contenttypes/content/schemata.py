@@ -71,10 +71,7 @@ def finalize_recensio_schema(schema, review_type="review"):
                 default=u"Information on presented work"
                 )
         else:
-            schema["title"].widget.description = _(
-                u'description_presentation_title',
-                default=u""
-                )
+            schema["title"].widget.description = ""
         schema["review"].widget.description = _(
             u'description_presentation_html',
             default=(u"Please give a brief and clear outline of your thesis "
