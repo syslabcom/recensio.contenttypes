@@ -12,7 +12,3 @@ def review_pdf_updated_eventhandler(obj, evt):
         obj.update_generated_pdf()
 
     interfaces.IReviewPDF(obj).generatePageImages()
-    if not obj.REQUEST.get('coverPicture_file'):
-        status = interfaces.IReviewPDF(obj).generateImage()
-        if status == 0:
-                log.warn('No cover picture could be generated for %s' % obj.getId())
