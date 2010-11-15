@@ -25,7 +25,6 @@ from Products.CMFCore.utils import getToolByName
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 
-
 def finalize_recensio_schema(schema, review_type="review"):
     """Custom replacement for schemata.finalizeATCTSchema
 

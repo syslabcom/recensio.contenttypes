@@ -34,6 +34,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.helperutilities import SimpleZpt
 from recensio.contenttypes.helperutilities import wvPDF
 from recensio.contenttypes.interfaces.review import IReview
+from recensio.policy.pdf_cut import cutPDF
 
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
@@ -219,3 +220,14 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     def get_user_home_page(self):
         return self.get_user_property("home_page")
+
+    def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
+        pdf, start, end = [self.REQUEST.get(x, None) for x in \
+            ['pdf_file', 'pageStart', 'pageEnd']]
+        if all((pdf, start != 0, end)):
+            new_file_upload = cutPDF(pdf, start, end)
+            new_file_upload.filename = pdf.filename
+            self.REQUEST.set('pdf_file', new_file_upload)
+            self.REQUEST.form['pdf_file'] = new_file_upload
+        return super(BaseReview, self).processForm(data, metadata, REQUEST, \
+            values)
