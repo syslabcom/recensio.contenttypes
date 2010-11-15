@@ -98,6 +98,7 @@
             </dl>
           </li>
         </ul>
+        <span id="review_html" tal:content="structure context/review" />
       </div>
 
       <div class="visualClear"><!-- --></div>
@@ -144,11 +145,9 @@
            tal:define="metadata_field_names context/metadata_fields;
                        metadata view/get_metadata">
         
-        <h2 i18n:translate="metadata">Metadata</h2>
-
         <ul id="metadata_accordion" class="accordion">
           <li>
-            <a class="trigger" style="display: block;" href="#" title="open/close" i18n:translate="metadata_publications">Publications</a>
+            <a class="trigger" style="display: block;" href="#" title="open/close" i18n:translate="metadata">Metadata</a>
             <ul>
               <li>
                 <table>
