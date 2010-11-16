@@ -144,18 +144,20 @@ class isTrue:
 
 class ImageValidator():
     """
-    Check that the upload really is an image
+    Check that an image upload value is either an image or the command
+    to delete the current image
     """
     implements(IValidator)
     name=""
 
     def __call__(self, value, *args, **kwargs):
-        try:
-            Image.open(value)
-            value.seek(0)
-            return True
-        except IOError, e:
-            return _(str(e))
+        if value != "DELETE_IMAGE":
+            try:
+                Image.open(value)
+                value.seek(0)
+                return True
+            except IOError, e:
+                return _(str(e))
 
 class characterLimit():
     """
