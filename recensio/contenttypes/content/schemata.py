@@ -148,6 +148,7 @@ class ImageValidator():
     def __call__(self, value, *args, **kwargs):
         try:
             Image.open(value)
+            value.seek(0)
             return True
         except IOError, e:
             return _(str(e))
