@@ -342,8 +342,7 @@ PageStartEndSchema = atapi.Schema((
         validators="isInt",
         widget=atapi.IntegerWidget(
             label=_(u"Page number (start)"),
-            description=_(
-    u'description_page_number',
+            description = _(u'description_page_number',
     default=u"Please fill in only if the review is part of a larger pdf-file"
     ),
             ),
@@ -355,6 +354,15 @@ PageStartEndSchema = atapi.Schema((
         validators="isInt",
         widget=atapi.IntegerWidget(
             label=_(u"Page number (end)"),
+            description='''<script type="text/javascript">
+    jq(document).ready(function(){
+        var my_elements = '#archetypes-fieldname-pageStart, #archetypes-fieldname-pageEnd';
+        if(jq('#pdf_upload').length){
+            jq(my_elements).hide();
+            jq("#pdf_upload").click(function(){jq(my_elements).show();});
+        }
+    });
+</script>'''
             ),
         ),
     ))
