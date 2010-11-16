@@ -133,9 +133,13 @@ class isTrue:
         if value == True:
             return 1
         site = getSite()
-        language = getToolByName(site, 'portal_languages').getPreferredLanguage()
-        return translate(_(u'message_ccby_license', 
-            default=u"All submitted reviews must be published under the CC-BY licence."),
+        language = getToolByName(site,
+                                 'portal_languages').getPreferredLanguage()
+        return translate(
+            _(u'message_ccby_license',
+              default=(u"All submitted reviews must be published under "
+                       "the CC-BY licence.")
+              ),
             target_language=language)
 
 class ImageValidator():
