@@ -100,7 +100,7 @@
         </ul>
         <img id="coverpicture" 
              tal:condition="view/has_coverpicture"
-             tal:attributes="src python:context.absolute_url()+'/coverPicture'"/>
+             tal:attributes="src python:context.absolute_url()+'/coverPicture_cover'"/>
         <div id="reviewhtml" tal:content="structure context/review" />
       </div>
 
