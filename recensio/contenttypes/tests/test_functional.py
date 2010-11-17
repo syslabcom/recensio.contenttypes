@@ -6,18 +6,17 @@ import datetime
 import os
 import unittest2 as unittest
 
-import zope.event
-import transaction
-
-from plone.testing.z2 import Browser
 from Testing import makerequest
-from plone.app.blob.utils import openBlob
-from Products.Archetypes.event import ObjectEditedEvent
+import transaction
+import zope.event
 
-from plone.app.testing import TEST_USER_NAME
+from Products.Archetypes.event import ObjectEditedEvent
+from plone.app.blob.utils import openBlob
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
+from plone.testing.z2 import Browser
 
 from recensio.contenttypes.tests.base import RECENSIO_FUNCTIONAL_TESTING
 
