@@ -191,6 +191,7 @@ CoverPictureSchema = atapi.Schema((
         schemata="reviewed_text",
         validators=(ImageValidator(),),
         storage=atapi.AnnotationStorage(),
+        sizes={"cover":(200,300)},
         widget=atapi.ImageWidget(
             label=_(u"Cover picture"),
             ),
