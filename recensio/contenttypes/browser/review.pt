@@ -98,7 +98,10 @@
             </dl>
           </li>
         </ul>
-        <span id="review_html" tal:content="structure context/review" />
+        <img id="coverpicture" 
+             tal:condition="view/has_coverpicture"
+             tal:attributes="src python:context.absolute_url()+'/coverPicture'"/>
+        <div id="reviewhtml" tal:content="structure context/review" />
       </div>
 
       <div class="visualClear"><!-- --></div>
