@@ -1,7 +1,6 @@
 <div xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-     i18n:domain="recensio"
     id="oaisuggestions" i18n:domain="recensio" tal:condition="view/show">
-    <div id="spinner-status" class="spinner">Loading...</div>
+    <div id="spinner-status" class="spinner" i18n:translate="">Loading...</div>
     <div i18n:translate="" style="display:none;" class="oaisuggestion" id="oaisuggestiontemplateempty">
         No results found
     </div>
@@ -76,7 +75,7 @@
             The hints below will be removed when you reload or safe the page.
         </div>
         <form>
-            <input type="button" class="useit" value="Take it over" />
+            <input type="button" class="useit" i18n:attributes="value" value="Take it over" />
         </form>
     </div>
     <div class="missing_explanation_2" id="missing_explanation_2_template" style="display:None">
