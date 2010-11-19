@@ -43,25 +43,56 @@ class View(BrowserView):
         else:
             return ""
 
+    def get_review_author(self):
+        lastname = self.context.reviewAuthorLastname
+        firstname = self.context.reviewAuthorFirstname
+        return "%s, %s" %(lastname, firstname)
+
+    def get_authors(self):
+        authors = self.context.authors
+        if authors:
+            authors_ul = "<ul id='authors_list'>"
+            for author in authors:
+                authors_ul += "<li>%s, %s</li>" %(
+                    author["lastname"], author["firstname"]
+                    )
+            authors_ul += "</ul>"
+            return authors_ul
+        else:
+            return ""
+
     def get_metadata(self):
         context = self.context
         fields = self.context.Schema()._fields
         meta = {}
         for field in context.metadata_fields:
+            is_macro = False
             if field.startswith("get_"):
                 label = self.review_journal_fields[field]
                 value = context[field]()
-                is_macro = False
+            elif field == "review_author":
+                label = _("metadata_review_author")
+                value = self.get_review_author()
+            elif field == "authors":
+                label = _("metadata_authors")
+                value = self.get_authors()
             elif field == "review_type_code":
-                label = _("label_review_type_code")
+                label = _("metadata_review_type_code")
                 value = self.get_review_type_code()
-                is_macro = False
             elif field == "recensioID":
-                label = _("label_recensio_id")
+                label = _("metadata_recensio_id")
                 value = "<a href='%s'>URL</a>" %context.absolute_url()
-                is_macro = False
             else:
-                label = fields[field].widget.label
+                if field == "review_author":
+                    label = _("metadata_review_author")
+                elif field == "ddcSubject":
+                    label = _("Subject classification")
+                elif field == "ddcTime":
+                    label = _("Time classification")
+                elif field == "ddcRegion":
+                    label = _("Regional classification")
+                else:
+                    label = fields[field].widget.label
                 # The macro is used in the template, the value is
                 # used to determine whether to display that row or not
                 value = context[field] and True or False
