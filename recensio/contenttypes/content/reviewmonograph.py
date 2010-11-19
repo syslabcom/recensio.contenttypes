@@ -132,7 +132,8 @@ class ReviewMonograph(BaseReview):
         schema.moveField(field, pos=i)
 
     # An ordered list of fields used for the metadata area of the view
-    metadata_fields = ["authors", "languageReviewedText",
+
+    metadata_fields = ["review_type_code", "authors", "languageReviewedText",
                        "languageReview", "recensioID", "idBvb",
                        "authors", "title", "subtitle",
                        "yearOfPublication", "placeOfPublication",

@@ -26,6 +26,23 @@ class View(BrowserView):
         "get_issue_title": _("Issue Title")
         }
 
+    def get_review_type_code(self):
+        """ Return the short Review Type code
+        """
+        rev_type_map = {
+            "ReviewMonograph":"rm",
+            "ReviewJournal":"rj",
+            "PresentationMonograph":"pm",
+            "PresentationCollection":"pace",
+            "PresentationArticleReview":"paj",
+            "PresentationOnlineResource":"por",
+            }
+        meta_type = self.context.meta_type
+        if rev_type_map.has_key(meta_type):
+            return rev_type_map[meta_type]
+        else:
+            return ""
+
     def get_metadata(self):
         context = self.context
         fields = self.context.Schema()._fields
@@ -34,6 +51,14 @@ class View(BrowserView):
             if field.startswith("get_"):
                 label = self.review_journal_fields[field]
                 value = context[field]()
+                is_macro = False
+            elif field == "review_type_code":
+                label = _("label_review_type_code")
+                value = self.get_review_type_code()
+                is_macro = False
+            elif field == "recensioID":
+                label = _("label_recensio_id")
+                value = "<a href='%s'>URL</a>" %context.absolute_url()
                 is_macro = False
             else:
                 label = fields[field].widget.label

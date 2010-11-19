@@ -169,7 +169,7 @@
                         </td>
                         <td tal:condition="python:
                                            not metadata[field_name]['is_macro']" 
-                            tal:content="python:
+                            tal:content="structure python:
                                          metadata[field_name]['value']">
                           Frank Severin
                         </td>
