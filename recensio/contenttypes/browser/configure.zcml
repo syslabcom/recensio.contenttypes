@@ -12,13 +12,13 @@
      permission="zope2.View"
      />
 
-  <!-- <browser:viewlet -->
-  <!--   name="OAISuggestions" -->
-  <!--   for="..interfaces.IReview" -->
-  <!--   manager="plone.app.layout.viewlets.interfaces.IBelowContent" -->
-  <!--   class=".viewlets.OAISuggestionsViewlet" -->
-  <!--   permission="zope2.View" -->
-  <!--   /> -->
+   <browser:viewlet
+     name="OAISuggestions"
+     for="..interfaces.IReview"
+     manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+     class=".viewlets.OAISuggestionsViewlet"
+     permission="zope2.View"
+     />
 
   <browser:page
      for="..interfaces.IReview"
