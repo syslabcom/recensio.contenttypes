@@ -133,13 +133,14 @@ class ReviewMonograph(BaseReview):
 
     # An ordered list of fields used for the metadata area of the view
 
-    metadata_fields = ["review_type_code", "review_author",
+    metadata_fields = ["metadata_review_type_code",
+                       "metadata_review_author",
                        "languageReviewedText", "languageReview",
-                       "recensioID", "idBvb", "authors", "title",
-                       "subtitle", "yearOfPublication",
-                       "placeOfPublication", "publisher", "series",
-                       "seriesVol", "pages", "isbn", "ddcSubject",
-                       "ddcTime", "ddcPlace", "subject"]
+                       "authors", "title", "subtitle",
+                       "yearOfPublication", "placeOfPublication",
+                       "publisher", "series", "seriesVol", "pages",
+                       "isbn", "ddcSubject", "ddcTime", "ddcPlace",
+                       "subject", "metadata_recensioID", "idBvb"]
 
     #  Rezensent, review of: Autor, Titel. Untertitel,
     # Erscheinungsort: Verlag Jahr, in: Zs-Titel, Nummer, Heftnummer

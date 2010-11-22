@@ -248,16 +248,17 @@ class PresentationOnlineResource(BaseReview):
         schema.moveField(field, pos=i)
 
     # An ordered list of fields used for the metadata area of the view
-    metadata_fields = ["title", "institution", "uri",
-                      "documenttypes_institution",
-                      "documenttypes_cooperation",
-                      "documenttypes_referenceworks",
-                      "documenttypes_bibliographical",
-                      "documenttypes_fulltexts",
-                      "documenttypes_periodicals",
-                      "languageReviewedText", "languageReview",
-                      "recensioID", "ddcSubject", "ddcTime",
-                      "ddcPlace", "subject"]
+    metadata_fields = ["metadata_review_type_code",
+                       "metadata_review_author","title", "uri",
+                       "institution", "languageReviewedText",
+                       "languageReview", "documenttypes_institution",
+                       "documenttypes_cooperation",
+                       "documenttypes_referenceworks",
+                       "documenttypes_bibliographical",
+                       "documenttypes_fulltexts",
+                       "documenttypes_periodicals", "ddcSubject",
+                       "ddcTime", "ddcPlace", "subject",
+                       "metadata_recensioID"]
 
     # Präsentator, presentation of: Titel, URL Ressource, URL recensio.
     citation_template =  u"{reviewAuthorLastname}, {text_presentation_of} "+\

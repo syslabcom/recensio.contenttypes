@@ -70,29 +70,27 @@ class View(BrowserView):
             if field.startswith("get_"):
                 label = self.review_journal_fields[field]
                 value = context[field]()
-            elif field == "review_author":
-                label = _("metadata_review_author")
+            elif field == "metadata_review_author":
+                label = _("author")
                 value = self.get_review_author()
             elif field == "authors":
-                label = _("metadata_authors")
+                label = _(fields[field].widget.label)
                 value = self.get_authors()
-            elif field == "review_type_code":
+            elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
                 value = self.get_review_type_code()
-            elif field == "recensioID":
+            elif field == "metadata_recensioID":
                 label = _("metadata_recensio_id")
                 value = "<a href='%s'>URL</a>" %context.absolute_url()
             else:
-                if field == "review_author":
-                    label = _("metadata_review_author")
-                elif field == "ddcSubject":
+                if field == "ddcSubject":
                     label = _("Subject classification")
                 elif field == "ddcTime":
                     label = _("Time classification")
-                elif field == "ddcRegion":
+                elif field == "ddcPlace":
                     label = _("Regional classification")
                 else:
-                    label = fields[field].widget.label
+                    label = _(fields[field].widget.label)
                 # The macro is used in the template, the value is
                 # used to determine whether to display that row or not
                 value = context[field] and True or False

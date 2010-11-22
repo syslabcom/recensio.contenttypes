@@ -185,15 +185,18 @@ class PresentationCollection(BaseReview):
         schema.moveField(field, pos=i)
 
     # An ordered list of fields used for the metadata area of the view
-    metadata_fields = ["authors", "languageReviewedText",
-                       "languageReview", "referenceAuthors",
-                       "recensioID", "uri", "idBvb", "authors",
-                       "title", "subtitle", "pageStart", "pageEnd",
+    metadata_fields = ["metadata_review_type_code",
+                       "metadata_review_author",
+                       "languageReviewedText", "languageReview",
+                       "authors", "authors", "title", "subtitle",
+                       "pageStart", "pageEnd",
                        "editorsCollectedEdition",
                        "titleCollectedEdition", "yearOfPublication",
                        "placeOfPublication", "publisher", "series",
-                       "seriesVol", "isbn", "ddcSubject", "ddcTime",
-                       "ddcPlace", "subject"]
+                       "seriesVol", "pages", "isbn", "ddcSubject",
+                       "ddcTime", "ddcPlace", "subject",
+                       "referenceAuthors", "uri",
+                       "metadata_recensioID", "idBvb"]
 
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:
     # Herausgeber, Titel. Untertitel, Erscheinungsort: Verlag Jahr,

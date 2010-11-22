@@ -33,7 +33,10 @@ PresentationArticleReviewSchema = \
         storage=atapi.AnnotationStorage(),
         required=True,
         widget=atapi.StringWidget(
-            label=_(u"Title"),
+            label=_(
+    u"title_journal",
+    default=u"Title (Journal)"
+    ),
             description=_(
     u'description_title_journal',
     default=u"Information on the journal"
@@ -168,16 +171,18 @@ class PresentationArticleReview(BaseReview):
         schema.moveField(field, pos=i)
 
     # An ordered list of fields used for the metadata area of the view
-    metadata_fields = ["authors", "languageReviewedText",
-                       "languageReview", "referenceAuthors",
-                       "recensioID", "uri", "authors", "title",
-                       "subtitle", "pageStart", "pageEnd",
-                       "titleJournal", "shortnameJournal",
+
+    metadata_fields = ["metadata_review_type_code",
+                       "metadata_review_author",
+                       "languageReviewedText", "languageReview",
+                       "authors", "title", "subtitle", "pageStart",
+                       "pageEnd", "titleJournal", "shortnameJournal",
                        "yearOfPublication",
                        "officialYearOfPublication", "volumeNumber",
                        "issueNumber", "placeOfPublication",
                        "publisher", "issn", "ddcSubject", "ddcTime",
-                       "ddcPlace", "subject"]
+                       "ddcPlace", "subject", "referenceAuthors",
+                       "uri", "metadata_recensioID", "idBvb"]
 
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:
     # Zs-Titel, Nummer, Heftnummer (gezähltes Jahr/Erscheinungsjahr),
