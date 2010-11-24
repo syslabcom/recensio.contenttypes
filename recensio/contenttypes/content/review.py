@@ -144,7 +144,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     def listAuthors(self, listEditors = False):
         if not getattr(self, 'getAuthors', None):
-            return None
+            return []
         retval = []
         for author in self.getAuthors():
             retval.append(u'%s %s' % (author['firstname'].decode('utf8'), author['lastname'].decode('utf8')))
