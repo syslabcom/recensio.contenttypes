@@ -138,7 +138,7 @@
             <a class="trigger" style="display: block;" href="#" title="open/close" i18n:translate="metadata">Metadata</a>
             <ul>
               <li>
-                <dl id="metadata">
+                <dl id="metadata" class="accordion_item">
                   <tal:field_names repeat="field_name metadata_field_names">
                     <tal:has_value
                        condition="python:metadata[field_name]['value']">
@@ -171,7 +171,7 @@
             <a class="trigger" style="display: block;" 
                href="#" title="open/close"
                i18n:translate="citation_note">Zitierhinweise</a>
-            <ul>
+            <ul class="accordion_item">
               <li>
                 <p tal:content="structure context/get_citation_string"></p>
                 <span i18n:translate="url">URL</span>:
@@ -185,7 +185,7 @@
             <a class="trigger" style="display: block;" 
                href="#" title="open/close" 
                i18n:translate="license-note-heading">Lizenzhinweis:</a>
-            <ul>
+            <ul class="accordion_item">
               <li>
                 <p tal:content="context/getLicense">Dieser Beitrag
                 unterliegt der Creative-Commons-Lizenz
