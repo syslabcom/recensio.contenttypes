@@ -252,8 +252,8 @@ class ReviewMonographNoMagic(object):
 
         """
         self = real_self.magic
-        if self.get('customCitation'):
-            return scrubHTML(self.customCitation)
+        if self.customCitation:
+            return scrubHTML(self.customCitation).decode('utf8')
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u'. ', u', ', u': ', u', ')
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
@@ -289,8 +289,8 @@ class ReviewMonographNoMagic(object):
             self.get_volume_title(), self.get_issue_title())
         if reference_mag_string:
             retval.append(reference_mag_string)
-        if self.uri:
-            retval.append(self.uri)
+        if self.canonical_uri:
+            retval.append('<a href="%s">Link</a>' % self.canonical_uri)
         return retval
 
 atapi.registerType(ReviewMonograph, PROJECTNAME)

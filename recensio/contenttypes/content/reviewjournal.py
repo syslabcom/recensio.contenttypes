@@ -229,8 +229,8 @@ class ReviewJournalNoMagic(object):
         not exist.
         """
         self = real_self.magic
-        if self.get('customCitation'):
-            return scrubHTML(self.customCitation)
+        if self.customCitation:
+            return scrubHTML(self.customCitation).decode('utf8')
         rezensent_string = getFormatter(', ')(self.reviewAuthorLastname, \
                                       self.reviewAuthorFirstname)
         item = getFormatter(', ', ', ', ' ')
@@ -286,8 +286,8 @@ class ReviewJournalNoMagic(object):
             self.get_volume_title(), self.get_issue_title())
         if reference_mag_string:
             retval.append(reference_mag_string)
-        if self.uri:
-            retval.append(self.uri)
+        if self.canonical_uri:
+            retval.append('<a href="%s">Link</a>' % self.canonical_uri)
         return retval
 
 atapi.registerType(ReviewJournal, PROJECTNAME)
