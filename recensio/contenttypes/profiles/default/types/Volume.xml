@@ -17,7 +17,7 @@
     <element value="Review Journal"/>
   </property>
   <property name="allow_discussion">True</property>
-  <property name="default_view">index_html</property>
+  <property name="default_view">folder_listing</property>
   <property name="view_methods">
     <element value="base_view" />
   </property>
