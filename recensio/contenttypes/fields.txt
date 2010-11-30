@@ -4,7 +4,7 @@ Felder unserer Contenttypen
     >>> from recensio.contenttypes.content.reviewjournal import ReviewJournalSchema
     >>> schema = ReviewJournalSchema
     >>> schema.keys()
-    ['issn', 'languageReviewedText', 'editor', 'title', 'subtitle', 'shortnameJournal', 'yearOfPublication', 'officialYearOfPublication', 'volumeNumber', 'issueNumber', 'placeOfPublication', 'publisher', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'idBvb', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'doc', 'review', 'customCitation', 'uri', 'creation_date', 'modification_date', 'allowDiscussion', 'contributors', 'creators', 'description', 'effectiveDate', 'excludeFromNav', 'expirationDate', 'generatedPdf', 'id', 'language', 'location', 'recensioID', 'rights']
+    ['issn', 'languageReviewedText', 'editor', 'title', 'subtitle', 'shortnameJournal', 'yearOfPublication', 'officialYearOfPublication', 'volumeNumber', 'issueNumber', 'placeOfPublication', 'publisher', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'idBvb', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'doc', 'review', 'customCitation', 'uri', 'creation_date', 'modification_date', 'canonical_uri', 'allowDiscussion', 'contributors', 'creators', 'description', 'effectiveDate', 'excludeFromNav', 'expirationDate', 'generatedPdf', 'id', 'language', 'location', 'recensioID', 'rights']
     >>> schema = infoShower(schema)
 
 ISSN Nummer der Zeitschrift in der es den Review gab.
@@ -86,7 +86,7 @@ dann aber ausgetauscht wird, ändert sich das Mapping wieder.
     >>> from recensio.contenttypes.content.reviewmonograph import ReviewMonographSchema
     >>> schema = ReviewMonographSchema
     >>> schema.keys()
-    ['isbn', 'languageReviewedText', 'authors', 'title', 'subtitle', 'yearOfPublication', 'placeOfPublication', 'publisher', 'series', 'seriesVol', 'pages', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'idBvb', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'doc', 'review', 'customCitation', 'uri', 'creation_date', 'modification_date', 'allowDiscussion', 'contributors', 'creators', 'description', 'effectiveDate', 'excludeFromNav', 'expirationDate', 'generatedPdf', 'id', 'language', 'location', 'recensioID', 'rights']
+    ['isbn', 'languageReviewedText', 'authors', 'title', 'subtitle', 'yearOfPublication', 'placeOfPublication', 'publisher', 'series', 'seriesVol', 'pages', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'idBvb', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'doc', 'review', 'customCitation', 'uri', 'creation_date', 'modification_date', 'canonical_uri', 'allowDiscussion', 'contributors', 'creators', 'description', 'effectiveDate', 'excludeFromNav', 'expirationDate', 'generatedPdf', 'id', 'language', 'location', 'recensioID', 'rights']
     >>> schema = infoShower(schema)
 
 ISBN Nummer des Buches für das es den Review gab.
