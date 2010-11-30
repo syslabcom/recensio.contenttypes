@@ -46,7 +46,6 @@
         </p>
         <ul id="pubSchwusch">
           <li>
-            <h2 tal:content="context/Title"></h2>
             <p class="previews">
               <a rel="contactSheet" 
                  href="#" 
@@ -70,38 +69,11 @@
                      class="page-3" />
               </a>
             </p>
-            <h3 i18n:translate="about">
-              About
-            </h3>
-            <dl>
-              <dt i18n:translate="author">Author</dt>
-              <dd><tal:b replace="context/getReviewAuthorFirstname" /> 
-                <tal:b replace="context/getReviewAuthorLastname" /></dd>
-              <dt tal:condition="context/getAuthors |nothing" i18n:translate="authors">Authors</dt>
-              <dd tal:condition="context/getAuthors |nothing">
-                <tal:r repeat="author context/getAuthors"> 
-                  <tal:b replace="author/firstname" />
-                  <tal:b replace="author/lastname" /><tal:c condition="not:repeat/author/end">,</tal:c> 
-                </tal:r>
-              </dd>
-              <dt i18n:translate="uri">URI</dt>
-              <dd><tal:b replace="context/getUri" /></dd>
-              <dt i18n:translate="published">Published</dt>
-              <dd><tal:b replace="context/getPlaceOfPublication | nothing" />, 
-                <tal:b replace="context/getYearOfPublication | nothing" />
-                <span i18n:translate="by">by</span> <tal:b replace="context/getPublisher | nothing" /></dd>
-              <dt tal:condition="context/getIsbn |nothing">ISBN</dt>
-              <dd tal:condition="context/getIsbn |nothing"><tal:b replace="context/getIsbn" /></dd>
-              <dt tal:condition="context/getIssn |nothing">ISSN</dt>
-              <dd tal:condition="context/getIssn |nothing"><tal:b replace="context/getIssn" /></dd>
-              <dt tal:condition="context/getReferenceAuthors |nothing" i18n:translate="reference_authors">Reference Authors</dt>
-              <dd tal:condition="context/getReferenceAuthors |nothing"><tal:b replace="context/getReferenceAuthors" /></dd>
-            </dl>
           </li>
         </ul>
-        <img id="coverpicture" 
-             tal:condition="view/has_coverpicture"
-             tal:attributes="src python:context.absolute_url()+'/coverPicture_cover'"/>
+        <!-- <img id="coverpicture"  -->
+        <!--      tal:condition="view/has_coverpicture" -->
+        <!--      tal:attributes="src python:context.absolute_url()+'/coverPicture_cover'"/> -->
         <div id="reviewhtml" tal:content="structure context/review" />
       </div>
 
