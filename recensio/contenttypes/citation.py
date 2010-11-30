@@ -64,7 +64,7 @@ def getFormatter(*specification):
         def archetypesIsAPITA(args):
             args = list(args)
             for index, arg in enumerate(args):
-                if not isinstance(arg, unicode):
+                if arg and not isinstance(arg, unicode):
                     args[index] = arg.decode('utf-8')
             return args
         args = archetypesIsAPITA(args)
