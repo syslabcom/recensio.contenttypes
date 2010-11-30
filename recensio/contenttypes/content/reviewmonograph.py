@@ -60,6 +60,7 @@ class ReviewMonograph(BaseReview):
     doc = atapi.ATFieldProperty('doc')
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
+    canonical_uri = atapi.ATFieldProperty('canonical_uri')
     uri = atapi.ATFieldProperty('uri')
 
     # Common
@@ -140,7 +141,8 @@ class ReviewMonograph(BaseReview):
                        "yearOfPublication", "placeOfPublication",
                        "publisher", "series", "seriesVol", "pages",
                        "isbn", "ddcSubject", "ddcTime", "ddcPlace",
-                       "subject", "metadata_recensioID", "idBvb"]
+                       "subject", "metadata_recensioID", "idBvb",
+                       "canonical_uri"]
 
     #  Rezensent, review of: Autor, Titel. Untertitel,
     # Erscheinungsort: Verlag Jahr, in: Zs-Titel, Nummer, Heftnummer

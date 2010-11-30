@@ -478,11 +478,24 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(
     u'description_uri',
     default=u"Please fill in only after consultation with the recensio.net team"
-    ),
-
             ),
+
         ),
-    ))
+    ),
+    atapi.StringField(
+        'canonical_uri',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Original Source URL"),
+            description=_(
+    u'description_uri',
+    default=u"Please fill in only after consultation with the recensio.net team"
+            ),
+
+        ),
+    ),
+))
 BaseReviewSchema["title"].schemata = "reviewed_text"
 BaseReviewSchema.changeSchemataForField('subject', 'reviewed_text')
 BaseReviewSchema["subject"].schemata = "reviewed_text"

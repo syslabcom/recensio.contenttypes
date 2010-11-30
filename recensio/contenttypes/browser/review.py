@@ -82,6 +82,9 @@ class View(BrowserView):
             elif field == "metadata_recensioID":
                 label = _("metadata_recensio_id")
                 value = "<a href='%s'>URL</a>" %context.absolute_url()
+            elif field == 'canonical':
+                label = _(fields[field].widget.label)
+                value = '<a rel="canonical" href="%s">URL</a>' % context.canonical
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
