@@ -284,8 +284,6 @@ class PresentationCollectionNoMagic(object):
         Meier, Hans: presentation of: Meier, Hans, Geschichte des Abendlandes. Ein Abriss, in: Müller, Hans (ed.), Geschichte des Morgen- und Abendlandes. Eine Übersicht, München: Oldenbourg, 2010, www.recensio.net/##
         """
         self = real_self.magic
-        if self.customCitation:
-            return scrubHTML(self.customCitation).decode('utf8')
         gf = getFormatter
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u'. ')

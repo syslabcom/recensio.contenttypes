@@ -270,8 +270,6 @@ Note: gezähltes Jahr entfernt.
 
         """
         self = real_self.magic
-        if self.customCitation:
-            return scrubHTML(self.customCitation).decode('utf8')
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u'. ')
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
