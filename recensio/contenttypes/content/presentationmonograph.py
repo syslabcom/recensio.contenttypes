@@ -263,6 +263,7 @@ class PresentationMonographNoMagic(object):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
+        >>> at_mock.customCitation = ''
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
         >>> at_mock.title = "Plone 4.0"
         >>> at_mock.subtitle = "Das Benutzerhandbuch"
@@ -294,6 +295,7 @@ class PresentationMonographNoMagic(object):
         Either return the custom citation or the generated one
         >>> from mock import Mock
         >>> at_mock = Mock()
+        >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
         >>> at_mock.title = "Plone 4.0"

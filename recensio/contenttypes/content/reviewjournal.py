@@ -205,6 +205,7 @@ class ReviewJournalNoMagic(object):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.get = lambda x: None
+        >>> at_mock.customCitation = ''
         >>> at_mock.title = "Plone Mag"
         >>> at_mock.reviewAuthorFirstname = 'Cillian'
         >>> at_mock.reviewAuthorLastname = 'de Roiste'

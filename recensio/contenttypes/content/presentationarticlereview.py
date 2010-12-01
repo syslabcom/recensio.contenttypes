@@ -215,6 +215,7 @@ class PresentationArticleReviewNoMagic(object):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
+        >>> at_mock.customCitation = ''
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
         >>> at_mock.title = "Das neue Plone 4.0"
         >>> at_mock.subtitle = "Alles neu in 2010"
@@ -241,6 +242,7 @@ class PresentationArticleReviewNoMagic(object):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.get = lambda x: None
+        >>> at_mock.customCitation = ''
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
         >>> at_mock.title = "Das neue Plone 4.0"
         >>> at_mock.subtitle = "Alles neu in 2010"

@@ -284,6 +284,7 @@ class PresentationOnlineResourceNoMagic(object):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
+        >>> at_mock.customCitation = ''
         >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH'
         >>> presentation = PresentationOnlineResourceNoMagic(at_mock)
         >>> presentation.getDecoratedTitle()
