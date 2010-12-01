@@ -14,8 +14,10 @@
       $("a[rel=contactSheet]").fancybox({
       'transitionIn'      : 'elastic',
       'transitionOut'     : 'elastic',
+      'speedIn'           : 800, 
+      'speedOut'          : 300,
       'titlePosition'     : 'over',
-      'overlayOpacity'    :   0.7,
+      'overlayOpacity'    :   0.3,
       'overlayColor'      :   '#000',
       'width'             : 850,
       'height'            : 1000,
@@ -47,10 +49,11 @@
         <ul id="pubSchwusch">
           <li>
             <p class="previews">
-              <a rel="contactSheet" 
+              <a rel="contactSheet"
                  href="#" 
                  tal:attributes="href string:${here/absolute_url}/@@pageviewer; class string:iframe">
                 <img src="get_page_image" 
+                tal:condition="python:context.get_no_pages() >= 1" 
                      tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=1" 
                      i18n:attributes="alt review_page_1"
                      alt="Review page 1" 
@@ -71,9 +74,6 @@
             </p>
           </li>
         </ul>
-        <!-- <img id="coverpicture"  -->
-        <!--      tal:condition="view/has_coverpicture" -->
-        <!--      tal:attributes="src python:context.absolute_url()+'/coverPicture_cover'"/> -->
         <div id="reviewhtml" tal:content="structure context/review" />
       </div>
 
