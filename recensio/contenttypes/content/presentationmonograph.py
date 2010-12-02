@@ -36,7 +36,7 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
         schemata="presentation text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.TextAreaWidget(
-            label=_(u"Table of contents of monograph you are presenting"),
+            label=_(u"Table of contents of the monograph you are presenting"),
             rows=9,
             ),
         ),
