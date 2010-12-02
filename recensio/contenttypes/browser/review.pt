@@ -10,11 +10,12 @@
     <link rel="canonical" href="#" tal:attributes="href context/uri" tal:condition="context/uri | nothing" />
     <script type="text/javascript">
       jq(document).ready(function(){
-      $("#review-metadata").accordion({initShow : "ul.current"});
+      $("#accordion-container").accordion({
+      head:"h2",el:".h", initShow:"li.opened-on-load"});
       $("a[rel=contactSheet]").fancybox({
       'transitionIn'      : 'elastic',
       'transitionOut'     : 'elastic',
-      'speedIn'           : 800, 
+      'speedIn'           : 800,
       'speedOut'          : 300,
       'titlePosition'     : 'over',
       'overlayOpacity'    :   0.3,
@@ -27,21 +28,21 @@
       });
       });
     </script>
-
   </metal:js>
   <body>
+
     <div metal:fill-slot="content-title" tal:define="global sr python:True">
       <h2 tal:content="context/getDecoratedTitle">username: Title</h2>
     </div>
-    
-    
+
+
     <div metal:fill-slot="content-core">
       <div id="review"
            tal:define="searchresults context/getSearchresults | nothing;"
            >
         <p tal:condition="searchresults" tal:content="searchresults">
           Presentation Online Resources don't have this field
-          
+
           [Infos aus dem „freien Feld“, das sich im Fall von
           Präsentationen automatisch aus den Metadaten befüllt
           (s. dazu am Ende der Metadaten)]
@@ -50,25 +51,25 @@
           <li>
             <p class="previews">
               <a rel="contactSheet"
-                 href="#" 
+                 href="#"
                  tal:attributes="href string:${here/absolute_url}/@@pageviewer; class string:iframe">
-                <img src="get_page_image" 
-                tal:condition="python:context.get_no_pages() >= 1" 
-                     tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=1" 
+                <img src="get_page_image"
+                     tal:condition="python:context.get_no_pages() >= 1"
+                     tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=1"
                      i18n:attributes="alt review_page_1"
-                     alt="Review page 1" 
+                     alt="Review page 1"
                      class="page-1" />
-                <img src="get_page_image" 
-                     tal:condition="python:context.get_no_pages() >= 2" 
-                     tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=2" 
+                <img src="get_page_image"
+                     tal:condition="python:context.get_no_pages() >= 2"
+                     tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=2"
                      i18n:attributes="alt review_page_2"
-                     alt="Review page 2" 
+                     alt="Review page 2"
                      class="page-2" />
-                <img src="get_page_image" 
-                     tal:condition="python:context.get_no_pages() >= 3" 
-                     tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=3" 
+                <img src="get_page_image"
+                     tal:condition="python:context.get_no_pages() >= 3"
+                     tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=3"
                      i18n:attributes="alt review_page_3"
-                     alt="Review page 3" 
+                     alt="Review page 3"
                      class="page-3" />
               </a>
             </p>
@@ -81,104 +82,99 @@
 
 
     </div>
-    
-    <metal:portlets fill-slot="portlets_two_slot" 
+
+    <metal:portlets fill-slot="portlets_two_slot"
                     tal:define="pdf python:context.get_review_pdf()"
                     tal:condition="pdf">
       <div class="portlet" id="portletDownload"
            tal:define="pdf_ob python:pdf['blob']">
-        <p class="download pdf"> 
+        <p class="download pdf">
           <a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
-             href="PartB.pdf" 
+             href="PartB.pdf"
              i18n:translate="download_as"
              >Download as <strong>PDF</strong><br />
-            <em class="discrete">(<span i18n:name="download_size" tal:replace="python: pdf_ob and pdf['size']/1024 or 0" /> kb)</em></a> 
-        </p> 
+            <em class="discrete">(<span i18n:name="download_size" tal:replace="python: pdf_ob and pdf['size']/1024 or 0" /> kb)</em></a>
+        </p>
       </div>
-      
+
       <div id="facebook-like"
            tal:define="url_quote_plus python:modules['Products.PythonScripts.standard'].url_quote_plus;
                        locale python:{'de':'de_DE', 'en':'en_GB', 'fr':'fr_FR'}[context.portal_languages.getPreferredLanguage()];
                        url python:'http://www.facebook.com/plugins/like.php?locale=' + locale + '&amp;href=' + url_quote_plus(context.absolute_url()) + '&amp;layout=standard&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35';">
         <iframe tal:attributes="src url; scrolling string:no; frameborder string:0; allowTransparency string:true"></iframe>
       </div>
-      
-      <div id="review-metadata" 
-           tal:define="metadata_field_names context/metadata_fields;
+
+      <div tal:define="metadata_field_names context/metadata_fields;
                        metadata view/get_metadata">
-        <ul id="metadata_accordion" class="accordion">
-          <li>
-            <a class="trigger" style="display: block;" href="#" title="open/close" i18n:translate="metadata">Metadata</a>
-            <ul>
-              <li>
-                <dl id="metadata" class="accordion_item">
-                  <tal:field_names repeat="field_name metadata_field_names">
-                    <tal:has_value
-                       condition="python:metadata[field_name]['value']">
-                      <dt tal:content="python:metadata[field_name]['label']">
-                        Editor (name or institution)</dt>
-                      
-                      <dd tal:condition="python:
-                                         metadata[field_name]['is_macro']">
-                        <metal:val 
-                           use-macro="python:
-                                      context.widget(field_name, mode='view')" 
-                           />
-                      </dd>
-                      <dd tal:condition="python:
-                                         not metadata[field_name]['is_macro']" 
-                          tal:content="structure python:
-                                       metadata[field_name]['value']">
-                        Frank Severin
-                      </dd>
-                    </tal:has_value>
-                  </tal:field_names>
-                </dl>
 
+        <div id="accordion-container">
+          <ul class="accordion">
+            <li>
+              <h2 i18n:translate="metadata">Metadata</h2>
+              <ul>
+                <li class="opened-on-load">
 
-              </li>
-            </ul>
-          </li>
+                  <dl>
+                    <tal:field_names repeat="field_name metadata_field_names">
+                      <tal:has_value
+                         condition="python:metadata[field_name]['value']">
+                        <dt tal:content="python:metadata[field_name]['label']">
+                          Editor (name or institution)</dt>
 
-          <li>
-            <a class="trigger" style="display: block;" 
-               href="#" title="open/close"
-               i18n:translate="citation_note">Zitierhinweise</a>
-            <ul class="accordion_item">
-              <li>
-                <p tal:content="structure context/get_citation_string"></p>
-                <span i18n:translate="url">URL</span>:
-                <a tal:attributes="href context/absolute_url"
-                   tal:content="context/absolute_url"></a>
-              </li>
-            </ul>
-          </li>
+                        <dd tal:condition="python:
+                                           metadata[field_name]['is_macro']">
+                          <metal:val
+                             use-macro="python:
+                                        context.widget(field_name, mode='view')"
+                             />
+                        </dd>
+                        <dd tal:condition="python:
+                                           not metadata[field_name]['is_macro']"
+                            tal:content="structure python:
+                                         metadata[field_name]['value']">
+                          Frank Severin
+                        </dd>
+                      </tal:has_value>
+                    </tal:field_names>
+                  </dl>
 
-          <li>
-            <a class="trigger" style="display: block;" 
-               href="#" title="open/close" 
-               i18n:translate="license-note-heading">Lizenzhinweis:</a>
-            <ul class="accordion_item">
-              <li>
-                <p tal:content="context/getLicense">Dieser Beitrag
-                unterliegt der Creative-Commons-Lizenz
-                Namensnennung-Keine kommerzielle Nutzung-Keine
-                Bearbeitung (CC-BY-NC-ND), darf also unter diesen
-                Bedingungen elektronisch benutzt, übermittelt,
-                ausgedruckt und zum Download bereitgestellt
-                werden. Den Text der Lizenz erreichen Sie hier:</p>
-                <a tal:condition="context/getLicenseURL | nothing"
-                   tal:attributes="href python: context.getLicenseURL()['url']"
-                   tal:content="python: context.getLicenseURL()['msg']">
-                  Licence msg</a>
-              </li>
-            </ul>
-          </li>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <h2 i18n:translate="citation_note">Zitierhinweise</h2>
+              <ul>
+                <li>
+                  <p tal:content="structure context/get_citation_string"></p>
+                  <span i18n:translate="url">URL</span>:
+                  <a tal:attributes="href context/absolute_url"
+                     tal:content="context/absolute_url"></a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <h2 i18n:translate="license-note-heading">Lizenzhinweis:</h2>
+              <ul>
+                <li>
+                  <p tal:content="context/getLicense">Dieser Beitrag
+                    unterliegt der Creative-Commons-Lizenz
+                    Namensnennung-Keine kommerzielle Nutzung-Keine
+                    Bearbeitung (CC-BY-NC-ND), darf also unter diesen
+                    Bedingungen elektronisch benutzt, übermittelt,
+                    ausgedruckt und zum Download bereitgestellt
+                    werden. Den Text der Lizenz erreichen Sie hier:</p>
+                  <a tal:condition="context/getLicenseURL | nothing"
+                     tal:attributes="href python:
+                                     context.getLicenseURL()['url']"
+                     tal:content="python: context.getLicenseURL()['msg']">
+                    Licence msg</a>
+                </li>
+              </ul>
+            </li>
 
-        </ul>
+          </ul>
+        </div>
       </div>
-
-
 
     </metal:portlets>
 
