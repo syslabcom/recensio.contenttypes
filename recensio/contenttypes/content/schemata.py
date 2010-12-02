@@ -464,7 +464,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         default_output_type="text/html",
         validators=(characterLimit(),),
         widget=atapi.RichWidget(
-            label=_(u"HTML"),
+            label=_(u"Core Statements"),
             rows=20,
             maxlength=4000,
             ),
