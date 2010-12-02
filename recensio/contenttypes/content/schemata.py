@@ -214,8 +214,8 @@ ReferenceAuthorsSchema = atapi.Schema((
             columns = {"lastname" : Column(_(u"Lastname")),
                        "firstname" : Column(_(u"Firstname")),
                        "email" : Column(_(u"Email address")),
-                       "address" : Column(_(u"Address")),
-                       "phone" : Column(_(u"Phone")),
+                       "address" : Column(_(u"Postal Address")),
+                       "phone" : Column(_(u"Phone number")),
                        },
             ),
         ),
@@ -294,7 +294,7 @@ PresentationSchema = atapi.Schema((
         storage=atapi.AnnotationStorage(),
         default_method="get_user_home_page",
         widget=atapi.StringWidget(
-            label=_(u"Personal webpage"),
+            label=_(u"Personal webpage URL/URN"),
             description=_(
     u'description_personal_webpage',
     default=(u"Here you can link to your personal website (e.g. within a "
@@ -595,8 +595,7 @@ BookReviewSchema = PrintedReviewSchema.copy() + \
             label=_(u"ISBN"),
             description=_(
     u'description_isbn',
-    default=(u"With or without hyphens. In case of several numbers "
-             "please choose the hard cover edition.")
+    default=(u"With or without hyphens.")
     ),
             ),
         ),
