@@ -86,8 +86,9 @@
 
     <script type="text/javascript">
         jq(document).ready(function(){
-            /*jq('#isbn').after('<input type="button" rel="oaisuggestions" value="query opac" id="opac_query"/>').next().click(function(){getDataFromOAI(jq('#isbn').val());})*/
-            jq('#isbn').after('<input type="button" rel="#oaisuggestions" value="query opac" id="opac_query"/>')
+            /*jq('#isbn').after('<input type="button" rel="oaisuggestions" value="OPAC" id="opac_query"/>').next().click(function(){getDataFromOAI(jq('#isbn').val());})*/
+            jq('#isbn').after('<span class="discreet"> automatischer Metadatenimport - automatic import of metadata - import automatique des métadonnées');
+            jq('#isbn').after('<input type="button" rel="#oaisuggestions" value="OPAC" id="opac_query"/>');
             jq('#opac_query[rel]').overlay({
                 left: '200px',
                 onBeforeLoad: function(){
