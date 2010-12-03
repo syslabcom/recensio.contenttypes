@@ -35,6 +35,7 @@ from recensio.contenttypes.helperutilities import SimpleZpt
 from recensio.contenttypes.helperutilities import wvPDF
 from recensio.contenttypes.interfaces.review import IReview
 from recensio.policy.pdf_cut import cutPDF
+from ZODB.POSException import ConflictError
 
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
@@ -231,3 +232,22 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             self.REQUEST.form['pdf_file'] = new_file_upload
         return super(BaseReview, self).processForm(data, metadata, REQUEST, \
             values)
+
+    def SearchableText(self):
+        data = super(BaseReview, self).SearchableText()
+        f = self.get_review_pdf()['blob'].open().read()
+        transforms = getToolByName(self, 'portal_transforms')
+        datastream = ""
+        try:
+            datastream = transforms.convertTo(
+                "text/plain",
+                str(f),
+                mimetype = 'application/pdf',
+                )
+        except (ConflictError, KeyboardInterrupt):
+            raise
+        except Exception, e:
+            log("Error while trying to convert file contents to 'text/plain' "
+                "in %r.getIndexable(): %s" % (self, e))
+        value = " ".join([data, str(datastream)])
+        return value
