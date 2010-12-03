@@ -109,9 +109,9 @@
 
         <div id="accordion-container">
           <ul class="accordion">
-            <li>
+            <li class="accordion-item">
               <h2 i18n:translate="metadata">Metadata</h2>
-              <ul>
+              <ul class="accordion-content">
                 <li class="opened-on-load">
 
                   <dl>
@@ -141,9 +141,9 @@
                 </li>
               </ul>
             </li>
-            <li>
+            <li class="accordion-item">
               <h2 i18n:translate="citation_note">Zitierhinweise</h2>
-              <ul>
+              <ul class="accordion-content">
                 <li>
                   <p tal:content="structure context/get_citation_string"></p>
                   <span i18n:translate="url">URL</span>:
@@ -152,9 +152,9 @@
                 </li>
               </ul>
             </li>
-            <li>
+            <li class="accordion-item">
               <h2 i18n:translate="license-note-heading">Lizenzhinweis:</h2>
-              <ul>
+              <ul class="accordion-content">
                 <li>
                   <p tal:content="context/getLicense">Dieser Beitrag
                     unterliegt der Creative-Commons-Lizenz
