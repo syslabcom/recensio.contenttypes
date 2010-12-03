@@ -235,7 +235,10 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     def SearchableText(self):
         data = super(BaseReview, self).SearchableText()
-        f = self.get_review_pdf()['blob'].open().read()
+        if self.get_review_pdf():
+            f = self.get_review_pdf()['blob'].open().read()
+        else:
+            f = ''
         transforms = getToolByName(self, 'portal_transforms')
         datastream = ""
         try:
