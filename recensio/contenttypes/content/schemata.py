@@ -119,6 +119,7 @@ AuthorsSchema = atapi.Schema((
                        "firstname" : Column(_(u"First name")),
                        }
             ),
+        searchable=True,
         ),
     ))
 
@@ -232,6 +233,8 @@ ReviewSchema = atapi.Schema((
             visible={"view":"hidden",
                      "edit":"visible"},
             ),
+        default_content_type='application/pdf',
+        searchable=True,
         ),
     BlobField(
         'doc',
@@ -267,6 +270,7 @@ PresentationSchema = atapi.Schema((
     default=(u"")
     )
             ),
+        searchable=True,
         ),
     atapi.StringField(
         'reviewAuthorHonorific',
@@ -387,6 +391,7 @@ SerialSchema = atapi.Schema((
         widget=atapi.StringWidget(
             label=_(u"Series"),
             ),
+        searchable=True,
         ),
     atapi.StringField(
         'seriesVol',
@@ -410,6 +415,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.StringWidget(
             label=_(u"Last name author"),
             ),
+        searchable=True,
         ),
     atapi.StringField(
         'reviewAuthorFirstname',
@@ -419,6 +425,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.StringWidget(
             label=_(u"First name author"),
             ),
+        searchable=True,
         ),
     atapi.LinesField(
         'languageReview',
@@ -456,6 +463,8 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             visible={"view":"hidden",
                      "edit":"hidden"},
             ),
+        default_content_type='application/pdf',
+        searchable=True,
         ),
     atapi.TextField(
         'review',
@@ -571,6 +580,7 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
         widget=atapi.StringWidget(
             label=_(u"Publisher"),
             ),
+        searchable=True,
         ),
     atapi.StringField(
         'idBvb',
