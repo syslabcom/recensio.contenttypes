@@ -234,7 +234,6 @@ ReviewSchema = atapi.Schema((
                      "edit":"visible"},
             ),
         default_content_type='application/pdf',
-        searchable=True,
         ),
     BlobField(
         'doc',
@@ -464,7 +463,6 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
                      "edit":"hidden"},
             ),
         default_content_type='application/pdf',
-        searchable=True,
         ),
     atapi.TextField(
         'review',
