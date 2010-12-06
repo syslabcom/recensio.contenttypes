@@ -107,7 +107,7 @@
                 jq('#missing-required-fields'));
 
             function hasMissingRequiredFields(){
-                return !!jq(".required").parent().find('input').filter(function(){return !jq(this).val();}).length;
+                return !!jq(".required").parent().find('input').filter(function(){return !jq(this).val() && !!jq(this).parents('.datagrid-empty-row').length;}).length;
             };
 
             function updateSaveButton(){
