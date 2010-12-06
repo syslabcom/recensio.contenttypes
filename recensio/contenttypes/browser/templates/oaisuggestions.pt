@@ -1,6 +1,10 @@
 <div xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     id="oaisuggestions" i18n:domain="recensio" tal:condition="view/show">
-    <div id="spinner-status" class="spinner" i18n:translate="">Loading...</div>
+    <div id="spinner-status" class="spinner" style="display:None;" i18n:translate="">Loading...</div>
+    <div id="missing-required-fields" style="display:None;" i18n:translate="missing_required_fields">
+        Some required fields are empty. Please check both grey tabs
+    </div>
+        
     <div i18n:translate="" style="display:none;" class="oaisuggestion" id="oaisuggestiontemplateempty">
         No results found
     </div>
@@ -87,7 +91,6 @@
 
     <script type="text/javascript">
         jq(document).ready(function(){
-            /*jq('#isbn').after('<input type="button" rel="oaisuggestions" value="OPAC" id="opac_query"/>').next().click(function(){getDataFromOAI(jq('#isbn').val());})*/
             jq('#isbn').after('<input type="button" rel="#oaisuggestions" value="OPAC" id="opac_query"/>').next().after(jq('#automatic_import_note').show());
             jq('#opac_query[rel]').overlay({
                 left: '200px',
@@ -98,5 +101,25 @@
                 onClose: function(){jq('div.oaisuggestion:not(#oaisuggestiontemplate)').remove();},
             });
         });
+        jq(document).ready(function(){
+            var missing=false;
+            jq('form.enableFormTabbing input[name="form.button.save"]').before(
+                jq('#missing-required-fields'));
+
+            function hasMissingRequiredFields(){
+                return !!jq(".required").parent().find('input').filter(function(){return !jq(this).val();}).length;
+            };
+
+            function updateSaveButton(){
+                if (hasMissingRequiredFields() ^ missing){
+                    jq('form.enableFormTabbing input[name="form.button.save"]').toggle();
+                    jq('#missing-required-fields').toggle();
+                    missing = !missing;
+                }
+            };
+            updateSaveButton();
+            jq('form.enableFormTabbing').change(updateSaveButton);
+        });
+
     </script>
 </div>
