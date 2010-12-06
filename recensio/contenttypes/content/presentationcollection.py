@@ -75,7 +75,7 @@ PresentationCollectionSchema["referenceAuthors"].widget.description = _(
     )
 
 finalize_recensio_schema(PresentationCollectionSchema,
-                         review_type="presentation")
+                         review_type="presentation_collection")
 
 class PresentationCollection(BaseReview):
     """Presentation Collection"""

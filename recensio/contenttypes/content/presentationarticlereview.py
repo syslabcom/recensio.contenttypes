@@ -65,7 +65,7 @@ PresentationArticleReviewSchema["referenceAuthors"].widget.description = _(
     )
 
 finalize_recensio_schema(PresentationArticleReviewSchema,
-                         review_type="presentation")
+                         review_type="presentation_article_review")
 
 
 class PresentationArticleReview(BaseReview):

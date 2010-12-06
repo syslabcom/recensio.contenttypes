@@ -48,7 +48,9 @@ def finalize_recensio_schema(schema, review_type="review"):
     # However, we can delete it.
     schema.delField("relatedItems")
 
-    if review_type in ["presentation", "presentation_online"]:
+    if review_type in ["presentation", "presentation_online",
+                       "presentation_article_review",
+                       "presentation_collection"]:
         # Rename the schemata for presentations
         presented = "presented_text"
         if review_type == "presentation_online":
@@ -63,6 +65,28 @@ def finalize_recensio_schema(schema, review_type="review"):
                 schema.changeSchemataForField(field_name, presented)
             if field_name in ["pageStart", "pageEnd"]:
                 schema.changeSchemataForField(field_name, presented)
+        # Third schemata for presentations with assocatied publications
+        if review_type in ["presentation_article_review",
+                           "presentation_collection"]:
+            if review_type == "presentation_article_review":
+                associated_publication = "associated_journal"
+            else:
+                associated_publication = "associated_edited_volume"
+            for field_name in schema_field_names:
+
+                if field_name in ["issn", "isbn",
+                                  "titleCollectedEdition",
+                                  "titleJournal", "shortnameJournal",
+                                  "editorsCollectedEdition",
+                                  "yearOfPublication",
+                                  "officialYearOfPublication",
+                                  "volumeNumber", "issueNumber",
+                                  "series", "seriesVol", "pages",
+                                  "placeOfPublication", "publisher",
+                                  "idBvb"]:
+                    schema.changeSchemataForField(field_name,
+                                                  associated_publication)
+
         # Presentations have some addtional text for labels and descriptions
         if review_type == "presentation":
             schema["title"].widget.description = _(
