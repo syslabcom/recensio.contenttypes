@@ -37,6 +37,7 @@ from recensio.contenttypes.interfaces.review import IReview
 from recensio.policy.pdf_cut import cutPDF
 from ZODB.POSException import ConflictError
 
+from plone.app.discussion.interfaces import IConversation
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
 
@@ -235,6 +236,8 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     def SearchableText(self):
         data = super(BaseReview, self).SearchableText()
+
+        # get text from pdf
         if self.get_review_pdf():
             f = self.get_review_pdf()['blob'].open().read()
         else:
@@ -253,4 +256,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             log("Error while trying to convert file contents to 'text/plain' "
                 "in %r.getIndexable(): %s" % (self, e))
         value = " ".join([data, str(datastream)])
+
+        # get text from comments
+        conversation = IConversation(self)
+        # wf = getToolByName(self, 'portal_workflow')
+        for comment in conversation.getComments():
+            # if wf.getInfoFor(comment, 'review_state') == 'published':
+                value = " ".join([data, comment.getText().encode('utf8')])
+
         return value
