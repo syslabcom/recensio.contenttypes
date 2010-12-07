@@ -20,7 +20,7 @@ from plone.testing.z2 import Browser
 
 from recensio.contenttypes.tests.base import RECENSIO_FUNCTIONAL_TESTING
 
-def raising(self, info)
+def raising(self, info):
     import traceback
     traceback.print_tb(info[2])
     print info[1]
