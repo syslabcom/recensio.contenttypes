@@ -111,7 +111,7 @@
                             ':has(>.required) :input[type="checkbox"]:not(:checked)').filter(
                     function(){
                         return !jq(this).parents('.datagridwidget-empty-row').length;
-                    });
+                    }).length;
             };
 
             function updateSaveButton(){
