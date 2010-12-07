@@ -20,6 +20,14 @@ from plone.testing.z2 import Browser
 
 from recensio.contenttypes.tests.base import RECENSIO_FUNCTIONAL_TESTING
 
+def raising(self, info)
+    import traceback
+    traceback.print_tb(info[2])
+    print info[1]
+
+from Products.SiteErrorLog.SiteErrorLog import SiteErrorLog
+SiteErrorLog.raising = raising
+
 class TestCoverPicture(unittest.TestCase):
     """ Test adding, replacing and deleting a cover picture
     """
@@ -28,6 +36,8 @@ class TestCoverPicture(unittest.TestCase):
     def get_manager_browser(self, portal):
         setRoles(portal, TEST_USER_ID, ['Manager'])
         self.browser = Browser(portal)
+        self.browser.handleErrors = False
+        self.portal.error_log._ignored_exceptions = ()
         portalURL = portal.absolute_url()
         self.browser.open(portalURL + '/login_form')
         self.browser.getControl(name='__ac_name').value = TEST_USER_NAME
