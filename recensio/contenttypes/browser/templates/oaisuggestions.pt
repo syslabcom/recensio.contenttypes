@@ -107,7 +107,11 @@
                 jq('#missing-required-fields'));
 
             function hasMissingRequiredFields(){
-                return !!jq(".required").parent().find('input').filter(function(){return !jq(this).val() && !!jq(this).parents('.datagrid-empty-row').length;}).length;
+                return !!jq(':has(>.required) :input[type!=hidden][value=""], '+
+                            ':has(>.required) :input[type="checkbox"]:not(:checked)').filter(
+                    function(){
+                        return !jq('this').parents('.datagridwidget-empty-row').length;
+                    });
             };
 
             function updateSaveButton(){
