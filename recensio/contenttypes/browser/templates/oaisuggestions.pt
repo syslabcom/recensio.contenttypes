@@ -110,7 +110,7 @@
                 return !!jq(':has(>.required) :input[type!=hidden][value=""], '+
                             ':has(>.required) :input[type="checkbox"]:not(:checked)').filter(
                     function(){
-                        return !jq('this').parents('.datagridwidget-empty-row').length;
+                        return !jq(this).parents('.datagridwidget-empty-row').length;
                     });
             };
 
