@@ -59,7 +59,6 @@ class View(BrowserView):
             return rows_ul
         else:
             return ""
-        
 
     def get_label(self, fields, field, meta_type):
         """ Return the metadata label for a field of a particular
@@ -85,14 +84,14 @@ class View(BrowserView):
                 value = self.get_review_author()
             elif field == "authors":
                 label = _(fields[field].widget.label)
-                value = self.list_rows(context.authors, "firstname", "lastname")
+                value = self.list_rows(context.authors, "lastname", "firstname")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
                 value = self.get_review_type_code()
             elif field == "referenceAuthors":
                 label = _("label_metadata_reference_authors")
                 value = self.list_rows(context.referenceAuthors,
-                                       "firstname", "lastname")
+                                       "lastname", "firstname")
             elif field == "metadata_recensioID":
                 label = _("metadata_recensio_id")
                 value = context.UID()
