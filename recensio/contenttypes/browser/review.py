@@ -78,6 +78,15 @@ class View(BrowserView):
             if field == "languageReviewedText":
                 return _(u"label_metadata_language_article",
                          default=u"Language (article)")
+            if field == "authors":
+                return _(u"label_metadata_author_article",
+                         default=u"Author (article)")
+            if field == "title":
+                return _(u"label_metadata_title_article",
+                         default=u"Title (article)")
+            if field == "titleCollectedEdition":
+                return _(u"label_metadata_title_edited_volume",
+                         default=u"Title (edited volume)")
         return _(fields[field].widget.label)
 
     def get_metadata(self):
@@ -96,7 +105,7 @@ class View(BrowserView):
                 label = _("label_metadata_presentation_author")
                 value = self.get_review_author()
             elif field == "authors":
-                label = _(fields[field].widget.label)
+                label = self.get_label(fields, field, context.meta_type)
                 value = self.list_rows(context.authors, "lastname", "firstname")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
@@ -109,7 +118,7 @@ class View(BrowserView):
                 label = _("metadata_recensio_id")
                 value = context.UID()
             elif field == 'canonical':
-                label = _(fields[field].widget.label)
+                label = self.get_label(fields, field, context.meta_type)
                 value = '<a rel="canonical" href="%s">URL</a>'\
                         % context.canonical
             else:
