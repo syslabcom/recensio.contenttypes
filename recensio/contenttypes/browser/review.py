@@ -64,8 +64,11 @@ class View(BrowserView):
         """ Return the metadata label for a field of a particular
         portal_type
         """
-        if field == "languageReviewedText":
-            if meta_type == "ReviewMonograph":
+        if meta_type in ["ReviewMonograph",]:
+            if field == "languageReview":
+                return _(u"label_metadata_language_review",
+                         default=u"Language (review)")
+            if field == "languageReviewedText":
                 return _(u"label_metadata_language_monograph",
                          default=u"Language (monograph)")
         return _(fields[field].widget.label)
