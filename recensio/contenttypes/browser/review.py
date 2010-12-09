@@ -33,7 +33,7 @@ class View(BrowserView):
             "ReviewMonograph":"rm",
             "ReviewJournal":"rj",
             "PresentationMonograph":"pm",
-            "PresentationCollection":"pace",
+            "PresentationCollection":"paev",
             "PresentationArticleReview":"paj",
             "PresentationOnlineResource":"por",
             }
@@ -61,6 +61,16 @@ class View(BrowserView):
         else:
             return ""
 
+    def get_label(self, fields, field, meta_type):
+        """ Return the metadata label for a field of a particular
+        portal_type
+        """
+        if field == "languageReviewedText":
+            if meta_type == "ReviewMonograph":
+                return _(u"label_metadata_language_monograph",
+                         default=u"Language (monograph)")
+        return _(fields[field].widget.label)
+
     def get_metadata(self):
         context = self.context
         fields = self.context.Schema()._fields
@@ -71,7 +81,7 @@ class View(BrowserView):
                 label = self.review_journal_fields[field]
                 value = context[field]()
             elif field == "metadata_review_author":
-                label = _("author")
+                label = _("label_metadata_review_author")
                 value = self.get_review_author()
             elif field == "authors":
                 label = _(fields[field].widget.label)
@@ -84,7 +94,8 @@ class View(BrowserView):
                 value = context.UID()
             elif field == 'canonical':
                 label = _(fields[field].widget.label)
-                value = '<a rel="canonical" href="%s">URL</a>' % context.canonical
+                value = '<a rel="canonical" href="%s">URL</a>'\
+                        % context.canonical
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
@@ -93,7 +104,7 @@ class View(BrowserView):
                 elif field == "ddcPlace":
                     label = _("Regional classification")
                 else:
-                    label = _(fields[field].widget.label)
+                    label = self.get_label(fields, field, context.meta_type)
                 # The macro is used in the template, the value is
                 # used to determine whether to display that row or not
                 value = context[field] and True or False

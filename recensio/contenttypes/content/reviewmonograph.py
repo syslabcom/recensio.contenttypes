@@ -136,7 +136,7 @@ class ReviewMonograph(BaseReview):
 
     metadata_fields = ["metadata_review_type_code",
                        "metadata_review_author",
-                       "languageReviewedText", "languageReview",
+                       "languageReview", "languageReviewedText",
                        "authors", "title", "subtitle",
                        "yearOfPublication", "placeOfPublication",
                        "publisher", "series", "seriesVol", "pages",

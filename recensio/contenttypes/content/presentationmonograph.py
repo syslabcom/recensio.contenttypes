@@ -41,6 +41,18 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
             ),
         ),
 
+    atapi.StringField(
+        'monographUrl',
+        schemata="presentation",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(
+    u"label_monograph_url",
+    default=(u"Is the monograph you are presenting available online?")
+    ),
+            ),
+        ),
+
     DataGridField(
         'existingOnlineReviews',
         schemata=u"presentation",
@@ -59,11 +71,12 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
                        }
             ),
         ),
-        atapi.StringField(
+    DataGridField(
         'publishedReviews',
         schemata="presentation",
         storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
+        columns=("details",),
+        widget=DataGridWidget(
             label=_(
     u"label_published_reviews",
     default=(u"Name of journal/newspaper/yearbook with volume, year and number "
@@ -74,7 +87,9 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
     default=(u"Insert here the place of publication of reviews on your text "
              "that have already been published in print.")
     ),
-            rows=3,
+            columns = {"details" :
+                       Column(_(u"Name of journal/newspaper/yearbook"))
+                       }
             ),
         ),
 ))
@@ -174,6 +189,7 @@ class PresentationMonograph(BaseReview):
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Presentation Monograph
+    monographUrl = atapi.ATFieldProperty('monographUrl')
     existingOnlineReviews = atapi.ATFieldProperty('existingOnlineReviews')
     publishedReviews = atapi.ATFieldProperty('publishedReviews')
 
@@ -202,6 +218,7 @@ class PresentationMonograph(BaseReview):
 
         # Presentation
         "review",
+        "monographUrl",
         "existingOnlineReviews",
         "publishedReviews", # Name, url 
         'reviewAuthorPersonalUrl',

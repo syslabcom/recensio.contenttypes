@@ -257,7 +257,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                'documenttypes_referenceworks':u'',
                'coverPicture': gif_obj,
                'existingOnlineReviews':[dict(name=u'Dzieje państwa', url='')],
-               'publishedReviews':u'',
+               'publishedReviews':[dict(details=u'Journal A, 2008',)],
                'titleCollectedEdition':u'',
                'editorsCollectedEdition':[random.choice(authors_list)],
                'urn': u'testing-data-urn'}
