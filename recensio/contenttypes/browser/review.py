@@ -48,18 +48,18 @@ class View(BrowserView):
         firstname = self.context.reviewAuthorFirstname
         return "%s, %s" %(lastname, firstname)
 
-    def get_authors(self):
-        authors = self.context.authors
-        if authors:
-            authors_ul = "<ul id='authors_list'>"
-            for author in authors:
-                authors_ul += "<li>%s, %s</li>" %(
-                    author["lastname"], author["firstname"]
+    def list_rows(self, rows, *keys):
+        if rows:
+            rows_ul = "<ul class='rows_list'>"
+            for row in rows:
+                rows_ul += "<li>%s</li>" %(
+                    ",".join([row[key] for key in keys])
                     )
-            authors_ul += "</ul>"
-            return authors_ul
+            rows_ul += "</ul>"
+            return rows_ul
         else:
             return ""
+        
 
     def get_label(self, fields, field, meta_type):
         """ Return the metadata label for a field of a particular
@@ -85,10 +85,14 @@ class View(BrowserView):
                 value = self.get_review_author()
             elif field == "authors":
                 label = _(fields[field].widget.label)
-                value = self.get_authors()
+                value = self.list_rows(context.authors, "firstname", "lastname")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
                 value = self.get_review_type_code()
+            elif field == "referenceAuthors":
+                label = _("label_metadata_reference_authors")
+                value = self.list_rows(context.referenceAuthors,
+                                       "firstname", "lastname")
             elif field == "metadata_recensioID":
                 label = _("metadata_recensio_id")
                 value = context.UID()
