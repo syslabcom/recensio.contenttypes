@@ -71,6 +71,13 @@ class View(BrowserView):
             if field == "languageReviewedText":
                 return _(u"label_metadata_language_monograph",
                          default=u"Language (monograph)")
+        if meta_type in ["PresentationCollection",]:
+            if field == "languageReview":
+                return _(u"label_metadata_language_presentation",
+                         default=u"Language (presentation)")
+            if field == "languageReviewedText":
+                return _(u"label_metadata_language_article",
+                         default=u"Language (article)")
         return _(fields[field].widget.label)
 
     def get_metadata(self):
@@ -84,6 +91,9 @@ class View(BrowserView):
                 value = context[field]()
             elif field == "metadata_review_author":
                 label = _("label_metadata_review_author")
+                value = self.get_review_author()
+            elif field == "metadata_presentation_author":
+                label = _("label_metadata_presentation_author")
                 value = self.get_review_author()
             elif field == "authors":
                 label = _(fields[field].widget.label)
