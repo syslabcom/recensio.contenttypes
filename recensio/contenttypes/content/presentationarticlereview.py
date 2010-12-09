@@ -254,10 +254,10 @@ class PresentationArticleReviewNoMagic(object):
         >>> at_mock.issueNumber = '3'
         >>> at_mock.volumeNumber = '1'
         >>> at_mock.titleJournal = 'Open Source Mag'
-        >>> at_mock.absolute_url = lambda :'http://www.syslab.com'
+        >>> at_mock.UID = lambda :'sillynumber'
         >>> presentation = PresentationArticleReviewNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste, Cillian: presentation of: Gerken, Patrick / Pilz, Alexander, Das neue Plone 4.0. Alles neu in 2010, in: Open Source Mag, 1, 3 (2009), http://www.syslab.com'
+        u'de Roiste, Cillian: presentation of: Gerken, Patrick / Pilz, Alexander, Das neue Plone 4.0. Alles neu in 2010, in: Open Source Mag, 1, 3 (2009), sillynumber'
 
         Original Specification
 
@@ -288,7 +288,7 @@ Note: gezähltes Jahr entfernt.
             self.titleJournal, \
             self.volumeNumber, self.issueNumber, mag_year_string)
         return full_citation_inner(rezensent_string, item_string, \
-            mag_number_and_year_string, self.absolute_url())
+            mag_number_and_year_string, self.UID())
 
     def getLicense(real_self):
         self = real_self.magic
