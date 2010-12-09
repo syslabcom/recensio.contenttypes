@@ -94,6 +94,9 @@
                        url python:'http://www.facebook.com/plugins/like.php?locale=' + locale + '&amp;href=' + url_quote_plus(context.absolute_url()) + '&amp;layout=standard&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35';">
         <iframe tal:attributes="src url; scrolling string:no; frameborder string:0; allowTransparency string:true"></iframe>
       </div>
+      <div id="twitter-it">
+        <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+      </div>
 
       <div tal:define="metadata_field_names context/metadata_fields;
                        metadata view/get_metadata">
