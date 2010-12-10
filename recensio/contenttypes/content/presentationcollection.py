@@ -48,6 +48,7 @@ PresentationCollectionSchema = BookReviewSchema.copy() + \
         storage=atapi.AnnotationStorage(),
         required=True,
         columns=("lastname", "firstname"),
+        default={'lastname':'', 'firstname':''}
         widget=DataGridWidget(
             label = _(u"Editor(s)"),
             columns = {"lastname" : Column(_(u"Last name")),
