@@ -99,6 +99,20 @@ class View(BrowserView):
             if field == "titleCollectedEdition":
                 return _(u"label_metadata_title_edited_volume",
                          default=u"Title (edited volume)")
+        elif meta_type == "PresentationOnlineResource":
+            if field == "title":
+                return _(u"label_metadata_name_resource",
+                         default=u"Name (Internet resource)")
+            if field == "languageReviewedText":
+                return _(u"label_metadata_language_internet_resource",
+                         default=u"Language (Internet resource)")
+        elif meta_type == "ReviewJournal":
+            if field == "languageReviewedText":
+                return _(u"label_metadata_language_review_journal",
+                         default=u"Language (Journal)")
+            if field == "editor":
+                return _(u"label_metadata_editor",
+                         default=u"Editor")
 
         return _(fields[field].widget.label)
 
