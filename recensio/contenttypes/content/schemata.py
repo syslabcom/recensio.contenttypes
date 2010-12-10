@@ -232,7 +232,7 @@ ReferenceAuthorsSchema = atapi.Schema((
         storage=atapi.AnnotationStorage(),
         columns=("lastname", "firstname", "email", "address", "phone"),
         default={'lastname':'', 'firstname':'', 'email':'', 'address':'',
-                 'phone':''}
+                 'phone':''},
         widget=DataGridWidget(
             label=_(
     u"label_reference_authors",

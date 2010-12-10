@@ -29,7 +29,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         'institution',
         storage=atapi.AnnotationStorage(),
         columns=("institution", "lastname", "firstname"),
-        default={'institution', 'lastname':'', 'firstname':''}
+        default={'institution':'', 'lastname':'', 'firstname':''},
         widget=DataGridWidget(
             label=_(u"Institution"),
             description=_(

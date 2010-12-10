@@ -38,7 +38,7 @@ PresentationCollectionSchema = BookReviewSchema.copy() + \
             label=_(u"Title / Subtitle"),
             description=_(
     u'description_title_collected_edition',
-    default=u"Information on the associated edited volume"
+    default=u"Information on the associated edited volume",
     ),
             ),
         ),
@@ -48,7 +48,7 @@ PresentationCollectionSchema = BookReviewSchema.copy() + \
         storage=atapi.AnnotationStorage(),
         required=True,
         columns=("lastname", "firstname"),
-        default={'lastname':'', 'firstname':''}
+        default={'lastname':'', 'firstname':''},
         widget=DataGridWidget(
             label = _(u"Editor(s)"),
             columns = {"lastname" : Column(_(u"Last name")),
