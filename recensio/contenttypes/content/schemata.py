@@ -64,6 +64,7 @@ def finalize_recensio_schema(schema, review_type="review"):
             else:
                 schema.changeSchemataForField(field_name, presented)
             if field_name in ["pageStart", "pageEnd"]:
+                schema[field_name].widget.description = ""
                 schema.changeSchemataForField(field_name, presented)
         # Third schemata for presentations with assocatied publications
         if review_type in ["presentation_article_review",
