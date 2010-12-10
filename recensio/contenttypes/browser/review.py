@@ -64,6 +64,11 @@ class View(BrowserView):
         """ Return the metadata label for a field of a particular
         portal_type
         """
+
+        if field == "officialYearOfPublication":
+                return _(u"label_metadata_official_year_of_publication",
+                         default=u"Official year of publication")
+
         if meta_type.startswith("Review"):
             if field == "languageReview":
                 return _(u"label_metadata_language_review",
@@ -77,6 +82,9 @@ class View(BrowserView):
             if field == "languageReviewedText":
                 return _(u"label_metadata_language_monograph",
                          default=u"Language (monograph)")
+            if field == "authors":
+                return _(u"Author (monograph)",
+                         default=u"Author (monograph)")
         elif meta_type in ["PresentationArticleReview",
                            "PresentationCollection"]:
             if field == "languageReviewedText":
@@ -91,6 +99,7 @@ class View(BrowserView):
             if field == "titleCollectedEdition":
                 return _(u"label_metadata_title_edited_volume",
                          default=u"Title (edited volume)")
+
         return _(fields[field].widget.label)
 
     def get_metadata(self):
@@ -119,8 +128,12 @@ class View(BrowserView):
                 value = self.get_review_type_code()
             elif field == "referenceAuthors":
                 label = _("label_metadata_reference_authors")
-                value = self.list_rows(context.referenceAuthors,
+                value = self.list_rows(context[field],
                                        "lastname", "firstname")
+            elif field == "institution":
+                label = _("label_metadata_institution")
+                value = self.list_rows(context[field],
+                                       "institution", "lastname", "firstname")
             elif field == "metadata_recensioID":
                 label = _("metadata_recensio_id")
                 value = context.UID()

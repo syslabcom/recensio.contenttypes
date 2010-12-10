@@ -174,7 +174,7 @@ class PresentationArticleReview(BaseReview):
 
     metadata_fields = ["metadata_review_type_code",
                        "metadata_presentation_author",
-                       "languageReviewedText", "languageReview",
+                       "languageReview", "languageReviewedText",
                        "authors", "title", "subtitle", "pageStart",
                        "pageEnd", "titleJournal", "shortnameJournal",
                        "yearOfPublication",
