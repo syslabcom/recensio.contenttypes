@@ -53,7 +53,7 @@ class View(BrowserView):
             rows_ul = "<ul class='rows_list'>"
             for row in rows:
                 rows_ul += "<li>%s</li>" %(
-                    ",".join([row[key] for key in keys])
+                    ", ".join([row[key] for key in keys])
                     )
             rows_ul += "</ul>"
             return rows_ul
@@ -64,17 +64,21 @@ class View(BrowserView):
         """ Return the metadata label for a field of a particular
         portal_type
         """
-        if meta_type in ["ReviewMonograph",]:
+        if meta_type.startswith("Review"):
             if field == "languageReview":
                 return _(u"label_metadata_language_review",
                          default=u"Language (review)")
-            if field == "languageReviewedText":
-                return _(u"label_metadata_language_monograph",
-                         default=u"Language (monograph)")
-        if meta_type in ["PresentationCollection",]:
+        elif meta_type.startswith("Presentation"):
             if field == "languageReview":
                 return _(u"label_metadata_language_presentation",
                          default=u"Language (presentation)")
+
+        if meta_type in ["ReviewMonograph", "PresentationMonograph"]:
+            if field == "languageReviewedText":
+                return _(u"label_metadata_language_monograph",
+                         default=u"Language (monograph)")
+        elif meta_type in ["PresentationArticleReview",
+                           "PresentationCollection"]:
             if field == "languageReviewedText":
                 return _(u"label_metadata_language_article",
                          default=u"Language (article)")
@@ -106,7 +110,10 @@ class View(BrowserView):
                 value = self.get_review_author()
             elif field == "authors":
                 label = self.get_label(fields, field, context.meta_type)
-                value = self.list_rows(context.authors, "lastname", "firstname")
+                value = self.list_rows(context[field], "lastname", "firstname")
+            elif field == "editorsCollectedEdition":
+                label = self.get_label(fields, field, context.meta_type)
+                value = self.list_rows(context[field], "lastname", "firstname")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
                 value = self.get_review_type_code()
