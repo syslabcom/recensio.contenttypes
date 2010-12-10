@@ -138,7 +138,7 @@ AuthorsSchema = atapi.Schema((
         schemata="reviewed_text",
         storage=atapi.AnnotationStorage(),
         columns=("lastname", "firstname"),
-        default={'lastname':'', 'firstname':''},
+        default=[{'lastname':'', 'firstname':''}],
         widget=DataGridWidget(
             label = _(u"Authors"),
             columns = {"lastname" : Column(_(u"Last name")),
@@ -231,8 +231,8 @@ ReferenceAuthorsSchema = atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         columns=("lastname", "firstname", "email", "address", "phone"),
-        default={'lastname':'', 'firstname':'', 'email':'', 'address':'',
-                 'phone':''},
+        default=[{'lastname':'', 'firstname':'', 'email':'', 'address':'',
+                 'phone':''}],
         widget=DataGridWidget(
             label=_(
     u"label_reference_authors",
