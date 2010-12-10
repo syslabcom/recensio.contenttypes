@@ -66,6 +66,8 @@
             </p>
           </li>
         </ul>
+        <pre id="reviewtoc" tal:condition="python:hasattr(context, 'tableOfContents')" tal:content="structure context/tableOfContents" />
+        
         <div id="reviewhtml" tal:content="structure context/review" />
       </div>
 
