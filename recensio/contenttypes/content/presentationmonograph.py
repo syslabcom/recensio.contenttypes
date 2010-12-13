@@ -78,7 +78,7 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
              "that have already been published in print.")
     ),
             columns = {"details" :
-                       Column(_(u"Name of journal/newspaper/yearbook"))
+                       Column("")
                        }
             ),
         ),
@@ -91,7 +91,7 @@ PresentationMonographSchema['authors'].widget.description = _(
     u'description_presentation_monograph_authors',
     default=u"Author(s) of presented monograph"
     )
-PresentationMonographSchema["uri"].widget.description = _(
+PresentationMonographSchema["uri"].widget.label = _(
     u'description_presentation_uri',
     default=(u"Is the monograph you are presenting available free of "
              "charge online?")
@@ -186,6 +186,7 @@ class PresentationMonograph(BaseReview):
     ordered_fields = [
         # Presented text
         "isbn",
+        "uri",
         "tableOfContents",
         "coverPicture",
         "authors",
@@ -206,7 +207,6 @@ class PresentationMonograph(BaseReview):
 
         # Presentation
         "review",
-        "uri",
         "existingOnlineReviews",
         "publishedReviews", # Name, url 
         'reviewAuthorPersonalUrl',

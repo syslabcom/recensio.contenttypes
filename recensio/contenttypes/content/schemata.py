@@ -94,10 +94,11 @@ def finalize_recensio_schema(schema, review_type="review"):
                 u'description_presentation_title',
                 default=u"Information on presented work"
                 )
+            schema["uri"].widget.description = _(u"URL")
         else:
             schema["title"].widget.description = ""
+            schema["uri"].widget.label = _(u"URL/URN")
             schema["uri"].widget.description = ""
-            schema.changeSchemataForField("uri", presented)
         schema["review"].widget.description = _(
             u'description_presentation_html',
             default=(u"Please give a brief and clear outline of your thesis "
@@ -116,7 +117,7 @@ def finalize_recensio_schema(schema, review_type="review"):
                      "online at the earliest after three working days."
                      )
             )
-        schema["uri"].widget.label = _(u"URL/URN")
+        schema.changeSchemataForField("uri", presented)
         schema["ddcSubject"].widget.label=_(u"Subject classification")
         schema['ddcTime'].widget.label=_(u"Time classification")
         schema['ddcPlace'].widget.label=_(u"Regional classification")
