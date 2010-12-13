@@ -41,18 +41,6 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
             ),
         ),
 
-    atapi.StringField(
-        'monographUrl',
-        schemata="presentation",
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(
-    u"label_monograph_url",
-    default=(u"Is the monograph you are presenting available online?"),
-    ),
-            ),
-        ),
-
     DataGridField(
         'existingOnlineReviews',
         schemata=u"presentation",
