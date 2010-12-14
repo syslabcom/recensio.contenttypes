@@ -20,6 +20,7 @@ from zope.i18n import translate
 from zope.interface import implements
 
 from plone.app.blob.utils import openBlob
+from plone.i18n.locales.languages import _languagelist
 
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
@@ -41,15 +42,23 @@ from plone.app.discussion.interfaces import IConversation
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
 
+class BaseReviewNoMagic(object):
+    def __init__(self, at_self):
+        self.magic = at_self
+
+    def listSupportedLanguages(real_self):
+        self = real_self.magic
+        util = getUtility(IVocabularyFactory,
+            u"recensio.policy.vocabularies.available_content_languages")
+        vocab = util(self)
+        terms = [(x.value, _languagelist[x.value][u'native']) for x in vocab]
+        return DisplayList(terms)
+
 class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     implements(IReview)
 
     def listSupportedLanguages(self):
-        util = getUtility(IVocabularyFactory,
-            u"recensio.policy.vocabularies.available_content_languages")
-        vocab = util(self)
-        terms = [(x.value, x.title) for x in vocab]
-        return DisplayList(terms)
+        return BaseReviewNoMagic(self).listSupportedLanguages()
 
     def setIsLicenceApproved(self, value):
         """
