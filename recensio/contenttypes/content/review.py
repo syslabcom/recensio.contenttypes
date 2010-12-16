@@ -247,24 +247,27 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         data = super(BaseReview, self).SearchableText()
 
         # get text from pdf
-        if self.get_review_pdf():
-            f = self.get_review_pdf()['blob'].open().read()
-        else:
-            f = ''
-        transforms = getToolByName(self, 'portal_transforms')
         datastream = ""
-        try:
-            datastream = transforms.convertTo(
-                "text/plain",
-                str(f),
-                mimetype = 'application/pdf',
-                )
-        except (ConflictError, KeyboardInterrupt):
-            raise
-        except Exception, e:
-            log("Error while trying to convert file contents to 'text/plain' "
-                "in %r.getIndexable(): %s" % (self, e))
-        value = " ".join([data, str(datastream)])
+        pdfdata = ""
+        pdf = self.get_review_pdf()
+        if pdf:
+            f = pdf['blob'].open().read()
+            transforms = getToolByName(self, 'portal_transforms')
+            try:
+                datastream = transforms.convertTo(
+                    "text/plain",
+                    str(f),
+                    mimetype = 'application/pdf',
+                    )
+            except (ConflictError, KeyboardInterrupt):
+                raise
+            except Exception, e:
+                log("Error while trying to convert file contents to 'text/plain' "
+                    "in %r.getIndexable(): %s" % (self, e))
+            pdfdata = str(datastream)
+        #if pdf and not pdf.has_key('blob'):
+        #    import pdb; pdb.set_trace()
+        value = " ".join([data, pdfdata])
 
         # get text from comments
         conversation = IConversation(self)
