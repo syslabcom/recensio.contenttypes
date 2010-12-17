@@ -632,7 +632,8 @@ BookReviewSchema = PrintedReviewSchema.copy() + \
             label=_(u"ISBN"),
             description=_(
     u'description_isbn',
-    default=(u"With or without hyphens.")
+    default=(u"With or without hyphens. In case of several numbers please "
+             "choose the hard cover edition.")
     ),
             ),
         ),
@@ -650,10 +651,8 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
             label=_(u"ISSN"),
             description=_(
     u'description_issn',
-    default=(u"With or without hyphens. In case of several numbers please "
-             "choose the hard cover edition.")
+    default=(u"With or without hyphens.")
     ),
-
             ),
         ),
     atapi.StringField(
