@@ -32,7 +32,7 @@
   <body>
 
     <div metal:fill-slot="content-title" tal:define="global sr python:True">
-      <h2 tal:content="context/getDecoratedTitle">username: Title</h2>
+      <h2 tal:content="structure context/getDecoratedTitle">username: Title</h2>
     </div>
 
 
