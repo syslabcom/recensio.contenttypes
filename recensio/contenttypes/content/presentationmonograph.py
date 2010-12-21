@@ -311,7 +311,7 @@ class PresentationMonographNoMagic(object):
         >>> at_mock.absolute_url = lambda :'http://www.syslab.com'
         >>> presentation = PresentationMonographNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste, Cillian: review of: Gerken, Patrick / Pilz, Alexander, Plone 4.0. Das Benutzerhandbuch, M\\xc3\\xbcnchen: SYSLAB.COM GmbH, 2009, http://www.syslab.com'
+        u'de Roiste, Cillian: presentation of: Gerken, Patrick / Pilz, Alexander, Plone 4.0. Das Benutzerhandbuch, M\\xc3\\xbcnchen: SYSLAB.COM GmbH, 2009, http://www.syslab.com'
 
         [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], [Erscheinungsort]: [Verlag], [Jahr], URL recensio.
 
@@ -324,7 +324,7 @@ class PresentationMonographNoMagic(object):
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u'. ', u', ', u': ', u', ')
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
-        full_citation_inner = getFormatter(u': review of: ', u', ')
+        full_citation_inner = getFormatter(u': presentation of: ', u', ')
         rezensent_string = rezensent(self.reviewAuthorLastname, \
                                      self.reviewAuthorFirstname)
         authors_string = u' / '.join([getFormatter(u', ')(x['lastname'], x['firstname'])
