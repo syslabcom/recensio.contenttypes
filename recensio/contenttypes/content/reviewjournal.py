@@ -67,6 +67,7 @@ class ReviewJournal(BaseReview):
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
     uri = atapi.ATFieldProperty('uri')
+    canonical_uri = atapi.ATFieldProperty('canonical_uri')
 
     # Common
     ddcPlace = atapi.ATFieldProperty('ddcPlace')
@@ -144,7 +145,7 @@ class ReviewJournal(BaseReview):
                        "issueNumber", "placeOfPublication",
                        "publisher", "issn", "ddcSubject", "ddcTime",
                        "ddcPlace", "subject", "metadata_recensioID",
-                       "idBvb"]
+                       "idBvb", "canonical_uri"]
 
     # Rezensent, review of: Zs-Titel, Nummer, Heftnummer (gezähltes
     # Jahr/Erscheinungsjahr), in: Zs-Titel, Nummer, Heftnummer
