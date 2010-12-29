@@ -7,6 +7,7 @@ from lxml.html import fromstring
 from zope.interface import implements
 
 from PIL import Image
+from unidecode import unidecode
 
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
@@ -197,7 +198,7 @@ class characterLimit():
     def __call__(self, value, *args, **kwargs):
         html = fromstring(value)
         text = etree.tostring(html, encoding="utf-8",  method="text")
-        character_count = len(text)
+        character_count = len(unidecode(text))
         # TODO: setting the validator via the finalize_recensio_schema
         # method didn't work so I'm setting it here manually.
         is_review = kwargs["instance"]["portal_type"].startswith("Review")
