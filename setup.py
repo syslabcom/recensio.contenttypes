@@ -68,7 +68,6 @@ setup(name='recensio.contenttypes',
                         'html5lib',
                         'pyPdf',
                         'reportlab',
-                        'Unidecode'
                         ],
       tests_require=tests_require,
       extras_require=dict(test=tests_require),

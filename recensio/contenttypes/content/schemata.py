@@ -1,27 +1,23 @@
 #-*- coding: utf-8 -*-
 """Definition of the base Review Schemata
 """
-from lxml import etree
 from lxml.html import fromstring
-
-from zope.interface import implements
-
 from PIL import Image
-from unidecode import unidecode
 
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
 from Products.Archetypes import atapi
+from Products.CMFCore.utils import getToolByName
 from Products.DataGridField import DataGridField, DataGridWidget
 from Products.DataGridField.Column import Column
 from Products.DataGridField.SelectColumn import SelectColumn
 from Products.validation.interfaces.IValidator import IValidator
 from plone.app.blob.field import BlobField
 from plone.app.blob.field import ImageField
-from zope.i18n import translate
 from zope.app.component.hooks import getSite
-from Products.CMFCore.utils import getToolByName
+from zope.i18n import translate
+from zope.interface import implements
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
@@ -196,9 +192,13 @@ class characterLimit():
     name = ""
 
     def __call__(self, value, *args, **kwargs):
-        html = fromstring(value)
-        text = etree.tostring(html, encoding="utf-8",  method="text")
-        character_count = len(unidecode(text))
+        # "value" is a byte string. We need to decode it before we can
+        # count the number of chars. We make the assumption that it is
+        # utf-8 encoded
+        html = fromstring(value.decode("utf-8"))
+        # extract the text from the html
+        text = html.xpath("//text()")
+        character_count = text and len(text[0]) or 0
         # TODO: setting the validator via the finalize_recensio_schema
         # method didn't work so I'm setting it here manually.
         is_review = kwargs["instance"]["portal_type"].startswith("Review")
