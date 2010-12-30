@@ -187,6 +187,9 @@ class ImageValidator():
 class characterLimit():
     """
     Limit the number of characters of text, ignoring html markup
+
+    NOTE: the TinyMCE character count may include html markup e.g. if
+    pasted from a Word document. #2418
     """
     implements(IValidator)
     name = ""
@@ -197,8 +200,10 @@ class characterLimit():
         # utf-8 encoded
         html = fromstring(value.decode("utf-8"))
         # extract the text from the html
-        text = html.xpath("//text()")
-        character_count = text and len(text[0]) or 0
+        textblocks = html.xpath("//text()")
+        # join the textblocks except for line breaks (empty p tags)
+        text = "".join([i for i in textblocks if i != "\r\n"])
+        character_count = len(text)
         # TODO: setting the validator via the finalize_recensio_schema
         # method didn't work so I'm setting it here manually.
         is_review = kwargs["instance"]["portal_type"].startswith("Review")
