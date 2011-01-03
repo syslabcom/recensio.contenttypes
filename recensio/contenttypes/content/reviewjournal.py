@@ -1,8 +1,8 @@
-from Products.PortalTransforms.transforms.safe_html import scrubHTML
 # -*- coding: utf-8 -*-
 """Definition of the Review Journal content type
 """
 
+from cgi import escape
 from zope.interface import implements
 import Acquisition
 
@@ -10,6 +10,7 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.CMFPlone.Portal import PloneSite
+from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
@@ -286,10 +287,10 @@ class ReviewJournalNoMagic(object):
         reference_mag = getFormatter(', ',  ', ')
         reference_mag_string = reference_mag(self.get_publication_title(), \
             self.get_volume_title(), self.get_issue_title())
-        if reference_mag_string:
-            retval.append(reference_mag_string)
         if self.canonical_uri:
             retval.append('<a href="%s">Link</a>' % self.canonical_uri)
+        elif reference_mag_string:
+            retval.append(escape(reference_mag_string))
         return retval
 
 atapi.registerType(ReviewJournal, PROJECTNAME)

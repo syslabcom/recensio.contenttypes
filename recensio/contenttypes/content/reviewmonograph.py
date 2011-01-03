@@ -3,6 +3,7 @@ from Products.PortalTransforms.transforms.safe_html import scrubHTML
 """Definition of the Review Monograph content type
 """
 
+from cgi import escape
 from zope.interface import implements
 
 from Products.Archetypes import atapi
@@ -289,10 +290,10 @@ class ReviewMonographNoMagic(object):
         reference_mag = getFormatter(', ',  ', ')
         reference_mag_string = reference_mag(self.get_publication_title(), \
             self.get_volume_title(), self.get_issue_title())
-        if reference_mag_string:
-            retval.append(reference_mag_string)
         if self.canonical_uri:
             retval.append('<a href="%s">Link</a>' % self.canonical_uri)
+        elif reference_mag_string:
+            retval.append(escape(reference_mag_string))
         return retval
 
 atapi.registerType(ReviewMonograph, PROJECTNAME)
