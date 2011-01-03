@@ -275,7 +275,7 @@ class PresentationMonographNoMagic(object):
         >>> at_mock.reviewAuthorLastname = 'de Roiste'
         >>> review = PresentationMonographNoMagic(at_mock)
         >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (reviewed by Cillian de Roiste)'
+        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (presented by Cillian de Roiste)'
 
         Original Specification
 
@@ -289,7 +289,7 @@ class PresentationMonographNoMagic(object):
         titles_string = getFormatter('. ')(self.title, self.subtitle)
         rezensent_string = getFormatter(' ')(self.reviewAuthorFirstname, \
                                      self.reviewAuthorLastname)
-        rezensent_string = rezensent_string and "(reviewed by " + rezensent_string + ")" or ""
+        rezensent_string = rezensent_string and "(presented by " + rezensent_string + ")" or ""
         full_citation = getFormatter(': ', ' ')
         return full_citation(authors_string, titles_string, rezensent_string)
 
