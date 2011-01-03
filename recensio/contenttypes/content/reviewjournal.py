@@ -288,7 +288,7 @@ class ReviewJournalNoMagic(object):
         reference_mag_string = reference_mag(self.get_publication_title(), \
             self.get_volume_title(), self.get_issue_title())
         if self.canonical_uri:
-            retval.append('<a href="%s">Link</a>' % self.canonical_uri)
+            retval.append('<a href="%s">%s</a>' % (self.canonical_uri, self.canonical_uri))
         elif reference_mag_string:
             retval.append(escape(reference_mag_string))
         return retval
