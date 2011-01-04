@@ -46,6 +46,12 @@ class BaseNoMagic(object):
     def __init__(self, at_object):
         self.magic = at_object
 
+    def directTranslate(self, msgid):
+        site = getSite()
+        language = getToolByName(site, \
+            'portal_languages').getPreferredLanguage()
+        return translate(msgid, target_language = language)
+
 class BaseReviewNoMagic(BaseNoMagic):
     def getLicense(real_self):
         self = real_self.magic

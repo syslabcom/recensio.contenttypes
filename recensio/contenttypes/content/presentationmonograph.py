@@ -291,7 +291,9 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         titles_string = getFormatter('. ')(self.title, self.subtitle)
         rezensent_string = getFormatter(' ')(self.reviewAuthorFirstname, \
                                      self.reviewAuthorLastname)
-        rezensent_string = rezensent_string and "(presented by " + rezensent_string + ")" or ""
+        rezensent_string = rezensent_string and "(" + \
+            self.directTranslate('presented by' + " " + rezensent_string + \
+            ")" or ""
         full_citation = getFormatter(': ', ' ')
         return full_citation(authors_string, titles_string, rezensent_string)
 
@@ -342,11 +344,5 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
                            self.yearOfPublication)
         return full_citation_inner(rezensent_string, item_string, \
             self.absolute_url())
-
-    def directTranslate(self, msgid):
-        site = getSite()
-        language = getToolByName(site, \
-            'portal_languages').getPreferredLanguage()
-        return translate(msgid, target_language = language)
 
 atapi.registerType(PresentationMonograph, PROJECTNAME)

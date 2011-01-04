@@ -214,7 +214,9 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         titles_string = getFormatter('. ')(self.title, self.subtitle)
         rezensent_string = getFormatter(' ')(self.reviewAuthorFirstname, \
                                      self.reviewAuthorLastname)
-        rezensent_string = rezensent_string and "(reviewed by " + rezensent_string + ")" or ""
+        rezensent_string = rezensent_string and "(" +\
+             self.directTranslate('reviewed by') + " " +\
+             rezensent_string + ")" or ""
         full_citation = getFormatter(': ', ' ')
         return full_citation(authors_string, titles_string, rezensent_string)
 

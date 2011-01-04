@@ -274,8 +274,9 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
                            self.issueNumber, mag_year)
         reviewer_string = getFormatter(' ')(self.reviewAuthorFirstname, \
                                     self.reviewAuthorLastname)
-        reviewer_string = reviewer_string and '(reviewed by ' \
-            + reviewer_string + ')' or None
+        reviewer_string = reviewer_string and '(' + \
+            self.directTranslate('reviewed by') + ' ' + \
+            reviewer_string + ')' or None
         return ' '.join((item_string, reviewer_string))
 
 atapi.registerType(ReviewJournal, PROJECTNAME)
