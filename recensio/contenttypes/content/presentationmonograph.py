@@ -276,6 +276,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> at_mock.reviewAuthorFirstname = 'Cillian'
         >>> at_mock.reviewAuthorLastname = 'de Roiste'
         >>> review = PresentationMonographNoMagic(at_mock)
+        >>> review.directTranslate = lambda a: a
         >>> review.getDecoratedTitle()
         u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (presented by Cillian de Roiste)'
 
@@ -292,7 +293,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         rezensent_string = getFormatter(' ')(self.reviewAuthorFirstname, \
                                      self.reviewAuthorLastname)
         rezensent_string = rezensent_string and "(" + \
-            self.directTranslate('presented by' + " " + rezensent_string + \
+            real_self.directTranslate('presented by') + " " + rezensent_string + \
             ")" or ""
         full_citation = getFormatter(': ', ' ')
         return full_citation(authors_string, titles_string, rezensent_string)
@@ -330,8 +331,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
         if False:
             _("presentation of")
-        full_citation_inner = getFormatter(u': ' + \
-            self.directTranslate('presentation of' + ': ', u', ')
+        full_citation_inner = getFormatter(u': presentation of: ', u', ')
         rezensent_string = rezensent(self.reviewAuthorLastname, \
                                      self.reviewAuthorFirstname)
         authors_string = u' / '.join([getFormatter(u', ')(x['lastname'], x['firstname'])

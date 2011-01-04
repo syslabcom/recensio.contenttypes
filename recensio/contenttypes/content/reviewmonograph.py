@@ -197,6 +197,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock.reviewAuthorFirstname = 'Cillian'
         >>> at_mock.reviewAuthorLastname = 'de Roiste'
         >>> review = ReviewMonographNoMagic(at_mock)
+        >>> review.directTranslate = lambda a: a
         >>> review.getDecoratedTitle()
         u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (reviewed by Cillian de Roiste)'
 
@@ -215,7 +216,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         rezensent_string = getFormatter(' ')(self.reviewAuthorFirstname, \
                                      self.reviewAuthorLastname)
         rezensent_string = rezensent_string and "(" +\
-             self.directTranslate('reviewed by') + " " +\
+             real_self.directTranslate('reviewed by') + " " +\
              rezensent_string + ")" or ""
         full_citation = getFormatter(': ', ' ')
         return full_citation(authors_string, titles_string, rezensent_string)

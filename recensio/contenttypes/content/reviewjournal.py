@@ -262,6 +262,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> at_mock.volumeNumber = '1'
         >>> at_mock.issueNumber = '3'
         >>> review = ReviewJournalNoMagic(at_mock)
+        >>> review.directTranslate = lambda a: a
         >>> review.getDecoratedTitle()
         u'Plone Mag, 1, 3 (2010/2009) (reviewed by Cillian de Roiste)'
         """
@@ -275,7 +276,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         reviewer_string = getFormatter(' ')(self.reviewAuthorFirstname, \
                                     self.reviewAuthorLastname)
         reviewer_string = reviewer_string and '(' + \
-            self.directTranslate('reviewed by') + ' ' + \
+            real_self.directTranslate('reviewed by') + ' ' + \
             reviewer_string + ')' or None
         return ' '.join((item_string, reviewer_string))
 
