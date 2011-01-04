@@ -42,7 +42,38 @@ from plone.app.discussion.interfaces import IConversation
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
 
-class BaseReviewNoMagic(object):
+class BaseNoMagic(object):
+    def __init__(self, at_object):
+        self.magic = at_object
+
+class BaseReviewNoMagic(BaseNoMagic):
+    def getLicense(real_self):
+        self = real_self.magic
+        return _('license-note-review')
+
+    def getFirstPublicationData(real_self):
+        self = real_self.magic
+        retval = []
+        reference_mag = getFormatter(', ',  ', ')
+        reference_mag_string = reference_mag(self.get_publication_title(), \
+            self.get_volume_title(), self.get_issue_title())
+        if self.canonical_uri:
+            retval.append('<a href="%s">%s</a>' % (self.canonical_uri, self.canonical_uri))
+        elif reference_mag_string:
+            retval.append(escape(reference_mag_string))
+        return retval
+
+class BasePresentationNoMagic(BaseNoMagic):
+    def getLicense(real_self):
+        self = real_self.magic
+        return _('license-note-presentation')
+
+    def getLicenseURL(real_self):
+        self = real_self.magic
+        return {'msg' : _('license-note-presentation-url-text'),
+                'url' : _('license-note-presentation-url-url')}
+
+class BaseBaseReviewNoMagic(object):
     def __init__(self, at_self):
         self.magic = at_self
 
@@ -58,7 +89,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     implements(IReview)
 
     def listSupportedLanguages(self):
-        return BaseReviewNoMagic(self).listSupportedLanguages()
+        return BaseBaseReviewNoMagic(self).listSupportedLanguages()
 
     def setIsLicenceApproved(self, value):
         """

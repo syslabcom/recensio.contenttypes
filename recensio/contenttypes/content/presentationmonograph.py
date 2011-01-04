@@ -3,6 +3,8 @@ from Products.PortalTransforms.transforms.safe_html import scrubHTML
 """Definition of the Presentation Monograph content type
 """
 
+from zope.app.component.hooks import getSite
+from zope.i18n import translate
 from zope.interface import implements
 
 from Products.Archetypes import atapi
@@ -10,11 +12,13 @@ from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.DataGridField import DataGridField, DataGridWidget
 from Products.DataGridField.Column import Column
+from Products.CMFCore.utils import getToolByName
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BaseReview
+from recensio.contenttypes.content.review import BaseReview,\
+    BasePresentationNoMagic
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import PagecountSchema
@@ -260,9 +264,7 @@ class PresentationMonograph(BaseReview):
     def getLicenseURL(self):
         return PresentationMonographNoMagic(self).getLicenseURL()
 
-class PresentationMonographNoMagic(object):
-    def __init__(self, at_object):
-        self.magic = at_object
+class PresentationMonographNoMagic(BasePresentationNoMagic):
 
     def getDecoratedTitle(real_self):
         """
@@ -324,7 +326,10 @@ class PresentationMonographNoMagic(object):
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u'. ', u', ', u': ', u', ')
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
-        full_citation_inner = getFormatter(u': presentation of: ', u', ')
+        if False:
+            _("presentation of")
+        full_citation_inner = getFormatter(u': ' + \
+            self.directTranslate('presentation of' + ': ', u', ')
         rezensent_string = rezensent(self.reviewAuthorLastname, \
                                      self.reviewAuthorFirstname)
         authors_string = u' / '.join([getFormatter(u', ')(x['lastname'], x['firstname'])
@@ -338,13 +343,10 @@ class PresentationMonographNoMagic(object):
         return full_citation_inner(rezensent_string, item_string, \
             self.absolute_url())
 
-    def getLicense(real_self):
-        self = real_self.magic
-        return _('license-note-presentation')
-
-    def getLicenseURL(real_self):
-        self = real_self.magic
-        return {'msg' : _('license-note-presentation-url-text'),
-                'url' : _('license-note-presentation-url-url')}
+    def directTranslate(self, msgid):
+        site = getSite()
+        language = getToolByName(site, \
+            'portal_languages').getPreferredLanguage()
+        return translate(msgid, target_language = language)
 
 atapi.registerType(PresentationMonograph, PROJECTNAME)

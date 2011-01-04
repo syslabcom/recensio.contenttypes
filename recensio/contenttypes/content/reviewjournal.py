@@ -3,19 +3,22 @@
 """
 
 from cgi import escape
+from zope.app.component.hooks import getSite
+from zope.i18n import translate
 from zope.interface import implements
 import Acquisition
 
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.Portal import PloneSite
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BaseReview
+from recensio.contenttypes.content.review import BaseReview, BaseReviewNoMagic
 from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
@@ -198,9 +201,7 @@ class ReviewJournal(BaseReview):
     def getFirstPublicationData(self):
         return ReviewJournalNoMagic(self).getFirstPublicationData()
 
-class ReviewJournalNoMagic(object):
-    def __init__(self, at_object):
-        self.magic = at_object
+class ReviewJournalNoMagic(BaseReviewNoMagic):
 
     def get_citation_string(real_self):
         """
@@ -276,21 +277,5 @@ class ReviewJournalNoMagic(object):
         reviewer_string = reviewer_string and '(reviewed by ' \
             + reviewer_string + ')' or None
         return ' '.join((item_string, reviewer_string))
-
-    def getLicense(real_self):
-        self = real_self.magic
-        return _('license-note-review')
-
-    def getFirstPublicationData(real_self):
-        self = real_self.magic
-        retval = []
-        reference_mag = getFormatter(', ',  ', ')
-        reference_mag_string = reference_mag(self.get_publication_title(), \
-            self.get_volume_title(), self.get_issue_title())
-        if self.canonical_uri:
-            retval.append('<a href="%s">%s</a>' % (self.canonical_uri, self.canonical_uri))
-        elif reference_mag_string:
-            retval.append(escape(reference_mag_string))
-        return retval
 
 atapi.registerType(ReviewJournal, PROJECTNAME)

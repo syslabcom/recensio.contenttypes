@@ -16,7 +16,8 @@ from recensio.contenttypes.interfaces import \
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BaseReview
+from recensio.contenttypes.content.review import BaseReview, \
+    BasePresentationNoMagic
 from recensio.contenttypes.content.schemata import CommonReviewSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
@@ -279,9 +280,7 @@ class PresentationOnlineResource(BaseReview):
     def getLicenseURL(self):
         return PresentationOnlineResourceNoMagic(self).getLicenseURL()
 
-class PresentationOnlineResourceNoMagic(object):
-    def __init__(self, at_object):
-        self.magic = at_object
+class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
 
     def getDecoratedTitle(real_self):
         """
@@ -328,14 +327,5 @@ class PresentationOnlineResourceNoMagic(object):
         rezensent_string = rezensent(self.reviewAuthorLastname, self.reviewAuthorFirstname)
         item_string = item(self.title, self.uri, self.absolute_url())
         return full_citation(rezensent_string, item_string)
-
-    def getLicense(real_self):
-        self = real_self.magic
-        return _('license-note-presentation')
-
-    def getLicenseURL(real_self):
-        self = real_self.magic
-        return {'msg' : _('license-note-presentation-url-text'),
-                'url' : _('license-note-presentation-url-url')}
 
 atapi.registerType(PresentationOnlineResource, PROJECTNAME)

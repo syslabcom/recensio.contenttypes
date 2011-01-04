@@ -12,7 +12,7 @@ from Products.ATContentTypes.content import schemata
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BaseReview
+from recensio.contenttypes.content.review import BaseReview, BaseReviewNoMagic
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import PageStartEndSchema
@@ -184,9 +184,7 @@ class ReviewMonograph(BaseReview):
     def getFirstPublicationData(self):
         return ReviewMonographNoMagic(self).getFirstPublicationData()
 
-class ReviewMonographNoMagic(object):
-    def __init__(self, at_object):
-        self.magic = at_object
+class ReviewMonographNoMagic(BaseReviewNoMagic):
 
     def getDecoratedTitle(real_self):
         """
@@ -279,22 +277,6 @@ class ReviewMonographNoMagic(object):
             self.get_volume_title(), self.get_issue_title(), mag_year_string)
         return full_citation_inner(rezensent_string, item_string, \
             mag_number_and_year_string, self.absolute_url())
-
-    def getLicense(real_self):
-        self = real_self.magic
-        return _('license-note-review')
-
-    def getFirstPublicationData(real_self):
-        self = real_self.magic
-        retval = []
-        reference_mag = getFormatter(', ',  ', ')
-        reference_mag_string = reference_mag(self.get_publication_title(), \
-            self.get_volume_title(), self.get_issue_title())
-        if self.canonical_uri:
-            retval.append('<a href="%s">%s</a>' % (self.canonical_uri, self.canonical_uri))
-        elif reference_mag_string:
-            retval.append(escape(reference_mag_string))
-        return retval
 
 atapi.registerType(ReviewMonograph, PROJECTNAME)
 
