@@ -72,7 +72,7 @@ class TestCoverPicture(unittest.TestCase):
 
         self.browser.open(self.home_folder.absolute_url()+\
                      "/folder_factories?set_language=en")
-        self.browser.getControl("Presentation Monograph").selected = True
+        self.browser.getControl("Presentation (monograph)").selected = True
         self.browser.getControl("Add").click()
 
         self.browser.getControl(name="title").value = "Test Cover Pic"
