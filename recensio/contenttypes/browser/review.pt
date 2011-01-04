@@ -10,9 +10,9 @@
     <link rel="canonical" href="#" tal:attributes="href context/uri" tal:condition="context/uri | nothing" />
     <script type="text/javascript">
       jq(document).ready(function(){
-      $("#accordion-container").accordion({
+      jq("#accordion-container").accordion({
       head:"h2",el:".h", initShow:"li.opened-on-load"});
-      $("a[rel=contactSheet]").fancybox({
+      jq("a[rel=contactSheet]").fancybox({
       'transitionIn'      : 'elastic',
       'transitionOut'     : 'elastic',
       'speedIn'           : 800,
