@@ -9,8 +9,6 @@ import cStringIO as StringIO
 import logging
 import re
 
-import ho.pisa
-
 import Acquisition
 from ZODB.blob import Blob
 from zope.app.component.hooks import getSite
@@ -33,7 +31,7 @@ from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.helperutilities import SimpleZpt
-from recensio.contenttypes.helperutilities import wvPDF
+from recensio.contenttypes.helperutilities import abi2pdf
 from recensio.contenttypes.interfaces.review import IReview
 from recensio.policy.pdf_cut import cutPDF
 from ZODB.POSException import ConflictError
@@ -108,13 +106,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def update_generated_pdf(self):
         """
         If there isn't a custom pdf version of the review, generate
-        the pdf from an MS Word .doc file. If there isn't an MS Word
-        doc generate the pdf from the contents of the review text (html)
-
-        We could implement odf to pdf too, but it sounds like we would
-        need to run openoffice as a service:
-        http://www.artofsolving.com/opensource/pyodconverter
-        #1720
+        the pdf from an Office document file, (anything supported by
+        abiword). If there isn't an Office file then generate the pdf
+        from the contents of the review text (html)
         """
         has_custom_pdf = hasattr(self, "pdf") and self.pdf.get_size() > 0
         if not has_custom_pdf:
@@ -122,24 +116,20 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             if hasattr(self, "doc"):
                 doc = self.getDoc()
             if doc:
-                pdf_blob = Blob()
-                pdf_blob.open("w").writelines(wvPDF(doc.data))
-                self.generatedPdf = pdf_blob
+                data = doc.data
             else:
-                # Generate the pdf from the content of the review
                 review = self.getReview()
-                # Insert the review into a template
+                # Insert the review into a template so we have a valid html file
                 pdf_template = SimpleZpt("../browser/templates/htmltopdf.pt")
-                pdf_html = pdf_template(context={"review":review})
-                # Generate the pdf file and save it as a blob
-                pdf_blob = Blob()
-                pdf_blob_writer = pdf_blob.open("w")
-                pdf = ho.pisa.pisaDocument(
-                    StringIO.StringIO(pdf_html.encode("UTF-8")),
-                    pdf_blob_writer)
-                pdf_blob_writer.close()
-                if not pdf.err:
-                    self.generatedPdf = pdf_blob
+                data = pdf_template(context={"review":review}).encode("utf-8")
+            # Generate the pdf file and save it as a blob
+            pdf_blob = Blob()
+            pdf_blob.open("w").writelines(
+                abi2pdf(data,
+                        input_params="-t pdf",
+                        output_params="-o")
+                )
+            self.generatedPdf = pdf_blob
 
     def get_review_pdf(self):
         """ Return the uploaded pdf if that doesn't exist return the
@@ -179,7 +169,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             no = 0
         self.REQUEST.RESPONSE.setHeader('Content-Type', 'image/gif')
         self.REQUEST.RESPONSE.setHeader('Content-Length', len(images[no - 1]))
-        
+
         return images[no - 1]
 
     def get_no_pages(self):
