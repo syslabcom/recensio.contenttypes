@@ -30,6 +30,7 @@ from Products.CMFPlone.Portal import PloneSite
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.helperutilities import SimpleZpt
 from recensio.contenttypes.helperutilities import abi2pdf
 from recensio.contenttypes.interfaces.review import IReview
