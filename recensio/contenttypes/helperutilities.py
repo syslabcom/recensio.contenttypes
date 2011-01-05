@@ -66,4 +66,4 @@ class RunSubprocess:
 
         return output_data.read()
 
-abi2pdf = RunSubprocess("abiword")
+wvPDF = RunSubprocess("wvPDF")
