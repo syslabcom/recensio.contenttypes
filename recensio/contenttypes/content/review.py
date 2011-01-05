@@ -126,7 +126,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             pdf_blob = Blob()
             pdf_blob.open("w").writelines(
                 abi2pdf(data,
-                        input_params="-t pdf",
+                        input_params="--plugin=AbiCommand -t pdf",
                         output_params="-o")
                 )
             self.generatedPdf = pdf_blob
