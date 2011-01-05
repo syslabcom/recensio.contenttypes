@@ -3,6 +3,7 @@
 content types inherit from.
 """
 from DateTime import DateTime
+from cgi import escape
 from os import fstat
 from string import Formatter
 import cStringIO as StringIO
