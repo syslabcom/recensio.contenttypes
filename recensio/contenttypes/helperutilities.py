@@ -4,8 +4,11 @@ Helper utilities for recensio.contenttypes
 from tempfile import mkstemp
 import os
 import subprocess
+import logging
 
 from Products.Five.browser.pagetemplatefile import PageTemplateFile
+
+log = logging.getLogger('recensio.theme/helperutilities.py')
 
 def which(program_name, extra_paths=[]):
     """
@@ -52,7 +55,7 @@ class RunSubprocess:
         file_obj.close()
 
         _, output_path = mkstemp()
-
+        
         cmd = [self.program] + input_params.split() + [input_path] +\
               output_params.split() + [output_path]
         stdoutdata, stderrdata = subprocess.Popen(
@@ -60,10 +63,10 @@ class RunSubprocess:
             ).communicate()
 
         if stderrdata:
-            return Exception(stderrdata)
+            log.error(stderrdata)
 
-        output_data = open(output_path)
+        if os.path.exists(output_path):
+            output_data = open(output_path)
+            return output_data.read()
 
-        return output_data.read()
-
-wvPDF = RunSubprocess("wvPDF")
+abi2pdf = RunSubprocess("abiword")
