@@ -33,7 +33,6 @@ class TestReviewFileConversions(unittest.TestCase):
         online_resource = fake_member_folder.listFolderContents(
             contentFilter={"portal_type" : "Presentation Online Resource"}
             )[0]
-        import pdb; pdb.set_trace()
         self.assertTrue(len(online_resource.pagePictures) > 0 and \
                         len(online_resource.pagePictures[0]) > 1000,
                         msg=("Presentation Online Resource: %s "
