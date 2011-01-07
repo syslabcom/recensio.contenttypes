@@ -54,7 +54,7 @@ class RunSubprocess:
         file_obj.write(input_data)
         file_obj.close()
 
-        _, output_path = mkstemp()
+        _, output_path = mkstemp(prefix='AbiPdf-', suffix='.pdf')
 
         cmd = [self.program] + input_params.split() + [input_path] +\
               output_params.split() + [output_path]

@@ -17,7 +17,8 @@ class ReviewPDF(object):
         self.context = context
 
     def __str__(self):
-        return '<recensio.contenttypes %s title=%s>' % (self.__class__.__name__, self.context.Title())
+        return '<recensio.contenttypes %s title=%s>' % (
+            self.__class__.__name__, self.context.Title())
     __repr__ = __str__
 
     def _getPageImage(self, n, size=(320,452)):
@@ -31,9 +32,9 @@ class ReviewPDF(object):
             data = pdf.open().read()
             if not data:
                 return 0
-            tmp_pdfin = tempfile.mkstemp(suffix='.pdf')
-            tmp_pdfout = tempfile.mkstemp(suffix='.pdf')
-            tmp_gifin = tempfile.mkstemp(suffix='.gif')
+            tmp_pdfin = tempfile.mkstemp(prefix='PageImageIn-', suffix='.pdf')
+            tmp_pdfout = tempfile.mkstemp(prefix='PageImageOut-', suffix='.pdf')
+            tmp_gifin = tempfile.mkstemp(prefix='PageImageIn-', suffix='.gif')
             fhout = open(tmp_pdfout[1], "w")
             fhimg = open(tmp_gifin[1], "r")
             fhout.write(data)
@@ -44,7 +45,8 @@ class ReviewPDF(object):
             result = res.read()
             if result:
                 logger.warn("popen: %s" % (result))
-            cmd = "convert %s -resize %ix%i %s" %(tmp_pdfin[1], size[0], size[1], tmp_gifin[1])
+            cmd = "convert %s -resize %ix%i %s" %(
+                tmp_pdfin[1], size[0], size[1], tmp_gifin[1])
             logger.debug(cmd)
             _, _, res = os.popen3(cmd)
             result2 = res.read()
@@ -52,10 +54,10 @@ class ReviewPDF(object):
             pageimg = fhimg.read()
             fhimg.close()
         except Exception, e:
-            logger.warn("generateImage: Could not autoconvert! %s: %s" % (e.__class__.__name__, e) )
+            logger.warn("generateImage: Could not autoconvert! %s: %s" % (
+                    e.__class__.__name__, e))
 
         # try to clean up
-        
         if tmp_pdfin is not None:
             try: os.remove(tmp_pdfin[1])
             except: pass
@@ -65,7 +67,7 @@ class ReviewPDF(object):
         if tmp_gifin is not None:
             try: os.remove(tmp_gifin[1])
             except: pass
-        
+
         return result, pageimg
 
     def _getAllPageImages(self, size=(320,452)):
@@ -80,26 +82,34 @@ class ReviewPDF(object):
             data = pdf.open().read()
             if not data:
                 return 0
-            tmp_pdfin = tempfile.mkdtemp()
-            tmp_pdfout = tempfile.mkstemp(suffix='.pdf')
-            tmp_pdfpart = tempfile.mkstemp(suffix='.pdf')
+            tmp_pdfin = tempfile.mkdtemp(prefix='AllPageImages')
+            tmp_pdfout = tempfile.mkstemp(prefix='AllPageImagesOut-',
+                                          suffix='.pdf')
             fhout = open(tmp_pdfout[1], "w")
             fhout.write(data)
             fhout.close()
-            tmp_prefix = os.path.join(tmp_pdfin, os.path.splitext(os.path.basename(tmp_pdfout[1]))[0])
+            tmp_prefix = os.path.join(tmp_pdfin,
+                                      os.path.splitext(
+                    os.path.basename(tmp_pdfout[1])
+                    )[0]
+                                      )
             tmp_pdfpart = tmp_pdfout
-            cmd = "pdftk %s burst output %s_%%04d.pdf" %(tmp_pdfpart[1], tmp_prefix)
+            cmd = "pdftk %s burst output %s_%%04d.pdf" %(
+                tmp_pdfpart[1], tmp_prefix)
             logger.debug(cmd)
             _, _, res = os.popen3(cmd)
             result = res.read()
             if result:
                 logger.warn("popen: %s" % (result))
-            cmd = "convert -density 400 %s_*.pdf -resize %ix%i %s_%%04d.gif" %(tmp_prefix, size[0], size[1], tmp_prefix)
+            cmd = "convert -density 400 %s_*.pdf -resize %ix%i %s_%%04d.gif" %(
+                tmp_prefix, size[0], size[1], tmp_prefix)
             logger.debug(cmd)
             _, _, res = os.popen3(cmd)
             result2 = res.read()
             result += result2
-            imgfiles = [gif for gif in os.listdir(tmp_pdfin) if os.path.splitext(gif)[1] == '.gif']
+            imgfiles = [gif for gif
+                        in os.listdir(tmp_pdfin)
+                        if os.path.splitext(gif)[1] == '.gif']
             imgfiles.sort()
             for img in imgfiles:
                 fhimg = open(os.path.join(tmp_pdfin, img), "r")
@@ -107,7 +117,8 @@ class ReviewPDF(object):
                 pages.append(pageimg)
                 fhimg.close()
         except Exception, e:
-            logger.warn("generateImage: Could not autoconvert! %s: %s" % (e.__class__.__name__, e) )
+            logger.warn("generateImage: Could not autoconvert! %s: %s" % (
+                    e.__class__.__name__, e))
 
         # try to clean up
         if tmp_pdfin is not None:
@@ -119,14 +130,12 @@ class ReviewPDF(object):
         if tmp_pdfout is not None:
             try: os.remove(tmp_pdfout[1])
             except: pass
-            try: os.remove(tmp_pdfpart[1])
-            except: pass
-        
         return result, pages
 
     def generateImage(self):
         """
-        try safely to generate the cover image if pdftk and imagemagick are present
+        try safely to generate the cover image if pdftk and
+        imagemagick are present
         """
         coverPicture = self.context.getField('coverPicture')
         if not coverPicture:
@@ -159,4 +168,3 @@ class ReviewPDF(object):
             setattr(self.context, 'pagePictures', pageimages)
 
         return status
-
