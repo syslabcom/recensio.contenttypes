@@ -52,6 +52,13 @@ class BaseNoMagic(object):
             'portal_languages').getPreferredLanguage()
         return translate(msgid, target_language = language)
 
+    def getUUIDUrl(real_self):
+        self = real_self.magic
+        base_url = self.portal_url()
+        base_url += '/@@redirect-to-uuid/'
+        base_url += self.UID()
+        return base_url
+
 class BaseReviewNoMagic(BaseNoMagic):
     def getLicense(real_self):
         self = real_self.magic

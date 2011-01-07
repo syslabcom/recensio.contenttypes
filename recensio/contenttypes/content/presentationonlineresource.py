@@ -308,11 +308,12 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         >>> at_mock.reviewAuthorFirstname = 'Manuel'
         >>> at_mock.reviewAuthorLastname = 'Reinhard'
         >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH'
-        >>> at_mock.absolute_url = lambda : 'http://www.syslab.com'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
+        >>> at_mock.UID = lambda :'12345'
         >>> at_mock.uri = 'http://www.syslab.com/home'
         >>> review = PresentationOnlineResourceNoMagic(at_mock)
         >>> review.get_citation_string()
-        u'Reinhard, Manuel: presentation of: Homepage of SYSLAB.COM GmbH, http://www.syslab.com/home, http://www.syslab.com'
+        u'Reinhard, Manuel: presentation of: Homepage of SYSLAB.COM GmbH, http://www.syslab.com/home, http://www.syslab.com/@@redirect-to-uuid/12345'
 
         Original Specification
 
@@ -325,7 +326,7 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         item = getFormatter(u', ', u', ')
         full_citation = getFormatter(': presentation of: ')
         rezensent_string = rezensent(self.reviewAuthorLastname, self.reviewAuthorFirstname)
-        item_string = item(self.title, self.uri, self.absolute_url())
+        item_string = item(self.title, self.uri, real_self.getUUIDUrl())
         return full_citation(rezensent_string, item_string)
 
 atapi.registerType(PresentationOnlineResource, PROJECTNAME)

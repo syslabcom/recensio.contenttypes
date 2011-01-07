@@ -268,10 +268,11 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         >>> at_mock.issueNumber = '3'
         >>> at_mock.volumeNumber = '1'
         >>> at_mock.titleJournal = 'Open Source Mag'
-        >>> at_mock.absolute_url = lambda :'http://www.syslab.com'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
+        >>> at_mock.UID = lambda :'12345'
         >>> presentation = PresentationCollectionNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste, Cillian: presentation of: Gerken, Patrick / Pilz, Alexander, Plone 4.0 f\\xfcr Dummies. Plone 4 in 19 Tagen lernen!, in: Pecek, Tina / Thomas, Wolfgang (ed.), Plone 4 komplett. ALLES zu Plone, M\\xc3\\xbcnchen, SYSLAB.COM GmbH, 2010, http://www.syslab.com'
+        u'de Roiste, Cillian: presentation of: Gerken, Patrick / Pilz, Alexander, Plone 4.0 f\\xfcr Dummies. Plone 4 in 19 Tagen lernen!, in: Pecek, Tina / Thomas, Wolfgang (ed.), Plone 4 komplett. ALLES zu Plone, M\\xc3\\xbcnchen, SYSLAB.COM GmbH, 2010, http://www.syslab.com/@@redirect-to-uuid/12345'
 
         Original Specification
 
@@ -310,6 +311,6 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
                                         hrsg_company_year_string)
         hrsg_string = hrsg(hrsg_person_string, hrsg_book_string)
         return full_citation(rezensent_string, item_string, \
-            hrsg_string, self.absolute_url())
+            hrsg_string, real_self.getUUIDUrl())
 
 atapi.registerType(PresentationCollection, PROJECTNAME)

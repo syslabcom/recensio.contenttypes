@@ -313,10 +313,11 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> at_mock.yearOfPublication = '2009'
         >>> at_mock.publisher = 'SYSLAB.COM GmbH'
         >>> at_mock.placeOfPublication = u'München'
-        >>> at_mock.absolute_url = lambda :'http://www.syslab.com'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
+        >>> at_mock.UID = lambda :'12345'
         >>> presentation = PresentationMonographNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste, Cillian: presentation of: Gerken, Patrick / Pilz, Alexander, Plone 4.0. Das Benutzerhandbuch, M\\xc3\\xbcnchen: SYSLAB.COM GmbH, 2009, http://www.syslab.com'
+        u'de Roiste, Cillian: presentation of: Gerken, Patrick / Pilz, Alexander, Plone 4.0. Das Benutzerhandbuch, M\\xc3\\xbcnchen: SYSLAB.COM GmbH, 2009, http://www.syslab.com/@@redirect-to-uuid/12345'
 
         [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], [Erscheinungsort]: [Verlag], [Jahr], URL recensio.
 
@@ -343,6 +344,6 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
                            self.publisher,
                            self.yearOfPublication)
         return full_citation_inner(rezensent_string, item_string, \
-            self.absolute_url())
+            real_self.getUUIDUrl())
 
 atapi.registerType(PresentationMonograph, PROJECTNAME)
