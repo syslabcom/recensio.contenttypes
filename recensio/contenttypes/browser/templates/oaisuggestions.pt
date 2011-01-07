@@ -7,6 +7,7 @@
         
     <div i18n:translate="" style="display:none;" class="oaisuggestion" id="oaisuggestiontemplateempty">
         No results found
+        <a href="http://opac.bib-bvb.de:8080/InfoGuideClient.fasttestsis/start.do?" i18n:translate="label_opac_source">Source of search results</a>
     </div>
     <div style="display:none;" class="oaisuggestion" id="oaisuggestiontemplate">
         <table>
@@ -38,6 +39,14 @@
                 <td class="key" i18n:translate="" >ISBN
                 </td>
                 <td class="value">
+                </td>
+            </tr>
+            <tr class="oai_keywords">
+                <td class="key" i18n:translate="label_keywords">Keywords
+                </td>
+                <td class="value">
+                    <ul>
+                    </ul>
                 </td>
             </tr>
             <tr class="oai_ddcSubject">
@@ -115,7 +124,7 @@
                     getDataFromOAI(jq('#isbn').val());
                     jq('#oaisuggestions .spinner').show();
                 },
-                onClose: function(){jq('div.oaisuggestion:not(#oaisuggestiontemplate)').remove();},
+                onClose: function(){jq('div.oaisuggestion:not(#oaisuggestiontemplate):not(#oaisuggestiontemplateempty)').remove();},
             });
         });
         jq(document).ready(function(){
