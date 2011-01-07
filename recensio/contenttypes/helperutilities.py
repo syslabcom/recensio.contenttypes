@@ -55,7 +55,7 @@ class RunSubprocess:
         file_obj.close()
 
         _, output_path = mkstemp()
-        
+
         cmd = [self.program] + input_params.split() + [input_path] +\
               output_params.split() + [output_path]
         stdoutdata, stderrdata = subprocess.Popen(
@@ -66,7 +66,10 @@ class RunSubprocess:
             log.error(stderrdata)
 
         if os.path.exists(output_path):
-            output_data = open(output_path)
-            return output_data.read()
+            output_file = open(output_path)
+            output_data = output_file.read()
+            output_file.close()
+            return output_data
+
 
 abi2pdf = RunSubprocess("abiword")
