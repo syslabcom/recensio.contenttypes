@@ -6,8 +6,12 @@
     </div>
         
     <div i18n:translate="" style="display:none;" class="oaisuggestion" id="oaisuggestiontemplateempty">
+        <span i18n:translate="">
         No results found
-        <a href="http://opac.bib-bvb.de:8080/InfoGuideClient.fasttestsis/start.do?" i18n:translate="label_opac_source">Source of search results</a>
+        </span>
+        <div>
+            <a href="http://opac.bib-bvb.de:8080/InfoGuideClient.fasttestsis/start.do?" i18n:translate="label_opac_source">Source of search results</a>
+        </div>
     </div>
     <div style="display:none;" class="oaisuggestion" id="oaisuggestiontemplate">
         <table>
