@@ -55,4 +55,16 @@
      for=".interfaces.IReview"
      />
 
+  <adapter 
+     factory=".adapter.parentgetter.ParentGetter" 
+     provides="recensio.contenttypes.interfaces.IParentGetter"
+     for=".interfaces.IReview"
+     />
+
+  <adapter 
+     factory=".adapter.parentgetter.ParentGetter" 
+     provides="recensio.contenttypes.interfaces.IParentGetter"
+     for=".interfaces.IIssue"
+     />
+
 </configure>
