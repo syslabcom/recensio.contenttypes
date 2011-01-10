@@ -33,7 +33,7 @@ from Products.PortalTransforms.transforms.safe_html import scrubHTML
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.helperutilities import SimpleZpt
-from recensio.contenttypes.helperutilities import abi2pdf
+from recensio.contenttypes.helperutilities import RunSubprocess
 from recensio.contenttypes.interfaces.review import IReview
 from recensio.policy.pdf_cut import cutPDF
 from ZODB.POSException import ConflictError
@@ -121,23 +121,34 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         """
         has_custom_pdf = hasattr(self, "pdf") and self.pdf.get_size() > 0
         if not has_custom_pdf:
+            # Generate the pdf file and save it as a blob
+            pdf_blob = Blob()
             doc = None
+            create_pdf = RunSubprocess(
+                "abiword",
+                input_params="--plugin=AbiCommand -t pdf",
+                output_params="-o")
+            create_pdf.create_tmp_ouput()
             if hasattr(self, "doc"):
                 doc = self.getDoc()
             if doc:
-                data = doc.data
+                # TODO is there a better way to get the fs path to a blob?
+                blob_path = doc.blob._p_blob_committed
+                create_pdf.run(input_path=blob_path)
             else:
                 review = self.getReview()
                 # Insert the review into a template so we have a valid html file
                 pdf_template = SimpleZpt("../browser/templates/htmltopdf.pt")
                 data = pdf_template(context={"review":review}).encode("utf-8")
-            # Generate the pdf file and save it as a blob
-            pdf_blob = Blob()
-            pdf_blob.open("w").writelines(
-                abi2pdf(data,
-                        input_params="--plugin=AbiCommand -t pdf",
-                        output_params="-o")
-                )
+                create_pdf.create_tmp_input(suffix=".pdf", data=data)
+                create_pdf.run()
+
+            pdf_file = open(create_pdf.output_path, "r")
+            pdf_data = pdf_file.read()
+            pdf_blob.open("w").writelines(pdf_data)
+            pdf_file.close()
+            create_pdf.clean_up()
+
             self.generatedPdf = pdf_blob
 
     def get_review_pdf(self):

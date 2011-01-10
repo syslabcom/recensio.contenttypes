@@ -1,7 +1,7 @@
 """
 Helper utilities for recensio.contenttypes
 """
-from tempfile import mkstemp
+import tempfile
 import os
 import subprocess
 import logging
@@ -35,41 +35,111 @@ class SimpleZpt(PageTemplateFile):
         return options
 
 
+class SubprocessException(Exception):
+    """For exceptions from RunSubprocess"""
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return repr(self.message)
+
 
 class RunSubprocess:
+    """Wrapper for external command line utilities
+
+    Creates temporary files/directories as required and helps remove
+    them afterwards.
+
+    Usage:
+    $ pdftk /path/to/file.pdf burst output /path/to/output_%%04d.pdf
+    gen_thumbs = RunSubprocess("pdftk")
+    gen_thumbs.create_tmp_input(suffix=".pdf", data=<pdf data>)
+    gen_thumbs.create_tmp_output_dir()
+    gen_thumbs.output_params = "burst output"
+    gen_thumbs.run()
+    if gen_thumbs.errors == None:
+        result = gen_thumbs.output_path
+    gen_thumbs.clean_up()
     """
-    largely copied from ploneformgen's gpg calls (via wv.pageturner)
-    """
-    def __init__(self, program_name, extra_paths=[]):
+    def __init__(self, program_name, extra_paths=[], input_path="",
+                 input_params="", output_params="", output_path=""):
+        self.program_name = program_name
         self.program = which(program_name, extra_paths)
         if self.program is None:
-            raise IOError, "Unable to find the %s program" % program_name
+            raise SubprocessException("Uable to find the %s program" % (
+                    program_name))
+        self.tmp_input = None
+        self.tmp_output = None
+        self.tmp_output_dir = None
+        self.input_path = input_path
+        self.input_params = input_params
+        self.output_params = output_params
+        self.output_path = ""
+        self.errors = ""
+        self.cmd = ""
 
-    def __call__(self, input_data, input_params="", output_params=""):
-        """
-        E.g. Convert a Word doc file contained in filedata into a pdf
-        """
-        _, input_path = mkstemp()
-        file_obj = open(input_path, 'w')
-        file_obj.write(input_data)
-        file_obj.close()
+    def _create_tmp_file(self, prefix="", suffix="", data=None):
+        """Create a temporary file as input for the command"""
+        fd, path = tempfile.mkstemp(prefix=prefix, suffix=suffix)
+        tmp_file = os.fdopen(fd, "w")
+        if data:
+            tmp_file.write(data)
+        tmp_file.close()
+        return path
 
-        _, output_path = mkstemp(prefix='AbiPdf-', suffix='.pdf')
+    def create_tmp_input(self, prefix="", suffix="", data=None):
+        self.input_path = self._create_tmp_file(prefix=prefix, suffix=suffix,
+                                               data=data)
 
-        cmd = [self.program] + input_params.split() + [input_path] +\
-              output_params.split() + [output_path]
+    def create_tmp_ouput(self, prefix="", suffix="", data=None):
+        self.tmp_output = self._create_tmp_file(prefix=prefix, suffix=suffix,
+                                                data=data)
+
+    def create_tmp_output_dir(self, **kw):
+        self.tmp_output_dir = tempfile.mkdtemp(**kw)
+
+    def run(self, input_params="", input_path="", output_params="",
+            output_path=""):
+        """Run the command"""
+
+        if input_params != "":
+            self.input_params = input_params
+
+        if input_path != "":
+            self.input_path = input_path
+        elif self.input_path == "":
+            self.input_path = self.tmp_input
+
+        if output_params != "":
+            self.output_params = output_params
+
+        if output_path != "":
+            self.output_path = output_path
+        elif self.output_path == "":
+            self.output_path = True and self.tmp_output or self.tmp_output_dir
+
+        self.cmd = [self.program] + self.input_params.split() +\
+            [self.input_path] + self.output_params.split() + [self.output_path]
+        log.info("Running the following command:\n %s" % " ".join(self.cmd))
+
         stdoutdata, stderrdata = subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
             ).communicate()
 
         if stderrdata:
-            log.error(stderrdata)
+            if "Error" in stderrdata:
+                log.error(stderrdata)
+            else:
+                log.info(stderrdata)
 
-        if os.path.exists(output_path):
-            output_file = open(output_path)
-            output_data = output_file.read()
-            output_file.close()
-            return output_data
+    def clean_up(self):
+        """Remove any temporary files which have been created"""
+        for tmp in [self.tmp_input, self.tmp_output]:
+            if tmp is not None and os.path.exists(tmp):
+                os.remove(tmp)
 
-
-abi2pdf = RunSubprocess("abiword")
+        if self.tmp_output_dir is not None:
+            tmp_dir = self.tmp_output_dir
+            for tmp_file in os.listdir(tmp_dir):
+                os.remove(os.path.join(tmp_dir, tmp_file))
+            os.removedirs(tmp_dir)
