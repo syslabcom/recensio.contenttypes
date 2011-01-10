@@ -305,15 +305,16 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
-        >>> at_mock.reviewAuthorFirstname = 'Manuel'
-        >>> at_mock.reviewAuthorLastname = 'Reinhard'
-        >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH'
-        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
-        >>> at_mock.UID = lambda :'12345'
-        >>> at_mock.uri = 'http://www.syslab.com/home'
+        >>> at_mock.reviewAuthorFirstname = 'Manuel♥'
+        >>> at_mock.reviewAuthorLastname = 'Reinhard♥'
+        >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH♥'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com♥'
+        >>> at_mock.UID = lambda :'12345♥'
+        >>> at_mock.uri = 'http://www.syslab.com/home♥'
         >>> review = PresentationOnlineResourceNoMagic(at_mock)
         >>> review.get_citation_string()
-        u'Reinhard, Manuel: presentation of: Homepage of SYSLAB.COM GmbH, http://www.syslab.com/home, http://www.syslab.com/@@redirect-to-uuid/12345'
+        u'Reinhard\u2665, Manuel\u2665: presentation of: Homepage of SYSLAB.COM GmbH\u2665, http://www.syslab.com/home\u2665, http://www.syslab.com\u2665/@@redirect-to-uuid/12345\u2665'
+
 
         Original Specification
 

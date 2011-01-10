@@ -242,22 +242,22 @@ class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.get = lambda x: None
         >>> at_mock.customCitation = ''
-        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
-        >>> at_mock.title = "Das neue Plone 4.0"
-        >>> at_mock.subtitle = "Alles neu in 2010"
-        >>> at_mock.reviewAuthorFirstname = 'Cillian'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste'
-        >>> at_mock.yearOfPublication = '2009'
-        >>> at_mock.publisher = 'SYSLAB.COM GmbH'
+        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerken♥'), ('Alexander', 'Pilz'))]
+        >>> at_mock.title = "Das neue Plone 4.0♥"
+        >>> at_mock.subtitle = "Alles neu in 2010♥"
+        >>> at_mock.reviewAuthorFirstname = 'Cillian♥'
+        >>> at_mock.reviewAuthorLastname = 'de Roiste♥'
+        >>> at_mock.yearOfPublication = '2009♥'
+        >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
         >>> at_mock.placeOfPublication = u'München'
-        >>> at_mock.issueNumber = '3'
-        >>> at_mock.volumeNumber = '1'
-        >>> at_mock.titleJournal = 'Open Source Mag'
-        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
-        >>> at_mock.UID = lambda :'12345'
+        >>> at_mock.issueNumber = '3♥'
+        >>> at_mock.volumeNumber = '1♥'
+        >>> at_mock.titleJournal = 'Open Source Mag♥'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com♥'
+        >>> at_mock.UID = lambda :'12345♥'
         >>> presentation = PresentationArticleReviewNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste, Cillian: presentation of: Gerken, Patrick / Pilz, Alexander, Das neue Plone 4.0. Alles neu in 2010, in: Open Source Mag, 1, 3 (2009), http://www.syslab.com/@@redirect-to-uuid/12345'
+        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665. Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665 (2009\u2665), http://www.syslab.com\u2665/@@redirect-to-uuid/12345\u2665'
 
         Original Specification
 
@@ -281,7 +281,7 @@ Note: gezähltes Jahr entfernt.
         item_string = item(authors_string,
                            self.title,
                            self.subtitle)
-        mag_year_string = self.yearOfPublication
+        mag_year_string = self.yearOfPublication.decode('utf-8')
         mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
             or None
         mag_number_and_year_string = mag_number_and_year(\

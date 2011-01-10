@@ -209,23 +209,24 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.get = lambda x: None
         >>> at_mock.customCitation = ''
-        >>> at_mock.title = "Plone Mag"
-        >>> at_mock.reviewAuthorFirstname = 'Cillian'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste'
-        >>> at_mock.yearOfPublication = '2009'
-        >>> at_mock.officialYearOfPublication = '2010'
-        >>> at_mock.publisher = 'SYSLAB.COM GmbH'
-        >>> at_mock.placeOfPublication = u'München'
-        >>> at_mock.volumeNumber = '1'
-        >>> at_mock.issueNumber = '3'
-        >>> at_mock.get_issue_title = lambda :'Open Source Mag 1'
-        >>> at_mock.get_volume_title = lambda :'Open Source Mag Vol 1'
-        >>> at_mock.get_publication_title = lambda :'Open Source'
-        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
-        >>> at_mock.UID = lambda :'12345'
+        >>> at_mock.title = "Plone Mag♥"
+        >>> at_mock.reviewAuthorFirstname = 'Cillian♥'
+        >>> at_mock.reviewAuthorLastname = 'de Roiste♥'
+        >>> at_mock.yearOfPublication = '2009♥'
+        >>> at_mock.officialYearOfPublication = '2010♥'
+        >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
+        >>> at_mock.placeOfPublication = 'München♥'
+        >>> at_mock.volumeNumber = '1♥'
+        >>> at_mock.issueNumber = '3♥'
+        >>> at_mock.get_issue_title = lambda :'Open Source Mag 1♥'
+        >>> at_mock.get_volume_title = lambda :'Open Source Mag Vol 1♥'
+        >>> at_mock.get_publication_title = lambda :'Open Source♥'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com♥'
+        >>> at_mock.UID = lambda :'12345♥'
         >>> review = ReviewJournalNoMagic(at_mock)
         >>> review.get_citation_string()
-        u'de Roiste, Cillian: review of: Plone Mag, 1, 3 (2010/2009), in: Open Source, Open Source Mag Vol 1, Open Source Mag 1, http://www.syslab.com/@@redirect-to-uuid/12345'
+        u'de Roiste\u2665, Cillian\u2665: review of: Plone Mag\u2665, 1\u2665, 3\u2665 (2010\u2665/2009\u2665), in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, http://www.syslab.com\u2665/@@redirect-to-uuid/12345\u2665'
+
 
         Return the citation according to this schema:
         [Rezensent Nachname], [Rezensent Vorname]: review of: [Zs-Titel der rez. Zs.], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], in: [Zs-Titel], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], URL recensio.

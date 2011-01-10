@@ -255,24 +255,24 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
-        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
-        >>> at_mock.editorsCollectedEdition = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Tina', 'Pecek'), ('Wolfgang', 'Thomas'))]
-        >>> at_mock.title = "Plone 4.0 für Dummies"
-        >>> at_mock.subtitle = "Plone 4 in 19 Tagen lernen!"
-        >>> at_mock.titleCollectedEdition = 'Plone 4 komplett. ALLES zu Plone'
-        >>> at_mock.reviewAuthorFirstname = 'Cillian'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste'
-        >>> at_mock.yearOfPublication = '2010'
-        >>> at_mock.publisher = 'SYSLAB.COM GmbH'
-        >>> at_mock.placeOfPublication = u'München'
-        >>> at_mock.issueNumber = '3'
-        >>> at_mock.volumeNumber = '1'
-        >>> at_mock.titleJournal = 'Open Source Mag'
-        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
-        >>> at_mock.UID = lambda :'12345'
+        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerken♥'), ('Alexander', 'Pilz'))]
+        >>> at_mock.editorsCollectedEdition = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Tina♥', 'Pecek♥'), ('Wolfgang', 'Thomas'))]
+        >>> at_mock.title = "Plone 4.0 für Dummies♥"
+        >>> at_mock.subtitle = "Plone 4 in 19 Tagen lernen!♥"
+        >>> at_mock.titleCollectedEdition = 'Plone 4 komplett. ALLES zu Plone♥'
+        >>> at_mock.reviewAuthorFirstname = 'Cillian♥'
+        >>> at_mock.reviewAuthorLastname = 'de Roiste♥'
+        >>> at_mock.yearOfPublication = '2010♥'
+        >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
+        >>> at_mock.placeOfPublication = 'München♥'
+        >>> at_mock.issueNumber = '3♥'
+        >>> at_mock.volumeNumber = '1♥'
+        >>> at_mock.titleJournal = 'Open Source Mag♥'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com♥'
+        >>> at_mock.UID = lambda :'12345♥'
         >>> presentation = PresentationCollectionNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste, Cillian: presentation of: Gerken, Patrick / Pilz, Alexander, Plone 4.0 f\\xfcr Dummies. Plone 4 in 19 Tagen lernen!, in: Pecek, Tina / Thomas, Wolfgang (ed.), Plone 4 komplett. ALLES zu Plone, M\\xc3\\xbcnchen, SYSLAB.COM GmbH, 2010, http://www.syslab.com/@@redirect-to-uuid/12345'
+        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0 f\\xfcr Dummies\u2665. Plone 4 in 19 Tagen lernen!\u2665, in: Pecek\u2665, Tina\u2665 / Thomas, Wolfgang (ed.), Plone 4 komplett. ALLES zu Plone\u2665, M\\xfcnchen\u2665, SYSLAB.COM GmbH\u2665, 2010\u2665, http://www.syslab.com\u2665/@@redirect-to-uuid/12345\u2665'
 
         Original Specification
 

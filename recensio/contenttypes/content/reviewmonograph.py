@@ -228,22 +228,23 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
-        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
-        >>> at_mock.title = "Plone 4.0"
-        >>> at_mock.subtitle = "Das Benutzerhandbuch"
-        >>> at_mock.reviewAuthorFirstname = 'Cillian'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste'
-        >>> at_mock.yearOfPublication = '2009'
-        >>> at_mock.publisher = 'SYSLAB.COM GmbH'
-        >>> at_mock.placeOfPublication = u'München'
-        >>> at_mock.get_issue_title = lambda :'Open Source Mag 1'
-        >>> at_mock.get_volume_title = lambda :'Open Source Mag Vol 1'
-        >>> at_mock.get_publication_title = lambda :'Open Source'
-        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
-        >>> at_mock.UID = lambda :'12345'
+        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerke♥n'), ('Alexander', 'Pilz'))]
+        >>> at_mock.title = "Plone 4.0♥"
+        >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
+        >>> at_mock.reviewAuthorFirstname = 'Cillian♥'
+        >>> at_mock.reviewAuthorLastname = 'de Roiste♥'
+        >>> at_mock.yearOfPublication = '2009♥'
+        >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
+        >>> at_mock.placeOfPublication = 'München♥'
+        >>> at_mock.get_issue_title = lambda :'Open Source Mag 1♥'
+        >>> at_mock.get_volume_title = lambda :'Open Source Mag Vol 1♥'
+        >>> at_mock.get_publication_title = lambda :'Open Source♥'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com♥'
+        >>> at_mock.UID = lambda :'12345♥'
         >>> review = ReviewMonographNoMagic(at_mock)
         >>> review.get_citation_string()
-        u'de Roiste, Cillian: review of: Gerken, Patrick / Pilz, Alexander, Plone 4.0. Das Benutzerhandbuch, M\\xc3\\xbcnchen: SYSLAB.COM GmbH, 2009, in: Open Source, Open Source Mag Vol 1, Open Source Mag 1 (2009), http://www.syslab.com/@@redirect-to-uuid/12345'
+        u'de Roiste\u2665, Cillian\u2665: review of: Gerke\u2665n, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665 (2009\u2665), http://www.syslab.com\u2665/@@redirect-to-uuid/12345\u2665'
+
 
         Original Spec:
 
@@ -273,7 +274,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
                            self.placeOfPublication,
                            self.publisher,
                            self.yearOfPublication)
-        mag_year_string = self.yearOfPublication
+        mag_year_string = self.yearOfPublication.decode('utf-8')
         mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
             or None
         mag_number_and_year_string = mag_number_and_year(\
