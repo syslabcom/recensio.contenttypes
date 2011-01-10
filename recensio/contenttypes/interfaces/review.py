@@ -25,3 +25,19 @@ class IReviewPDF(Interface):
         """
         generate an image for each page of the pdf
         """
+
+
+class IParentGetter(Interface):
+    """Get parent of a certain content type"""
+
+    def get_parent_object_of_type(meta_type):
+        """
+        Return the object of a particular type which is
+        the parent of the current object.
+        """
+
+    def get_title_from_parent_of_type(meta_type):
+        """
+        Return the title of the first object of a particular type
+        which is a parent of the current object.
+        """
