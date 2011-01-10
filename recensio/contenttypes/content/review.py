@@ -34,7 +34,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.helperutilities import SimpleZpt
 from recensio.contenttypes.helperutilities import RunSubprocess
-from recensio.contenttypes.interfaces.review import IReview
+from recensio.contenttypes.interfaces.review import IReview, IParentGetter
 from recensio.policy.pdf_cut import cutPDF
 from ZODB.POSException import ConflictError
 
@@ -244,20 +244,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         Return the title of the first object of a particular type
         which is a parent of the current object.
         """
-        obj = self.get_parent_object_of_type(meta_type)
-        if obj:
-            return obj.Title()
-        return ''
-
+        return IParentGetter(self).get_title_from_parent_of_type(meta_type)
+    
     def get_parent_object_of_type(self, meta_type):
         """ Return the object of a particular type which is
         the parent of the current object."""
-        obj = Acquisition.aq_inner(self)
-        while not isinstance(obj, PloneSite):
-            obj = Acquisition.aq_parent(obj)
-            if obj.meta_type == meta_type:
-                return obj
-        return None
+        return IParentGetter(self).get_parent_object_of_type(meta_type)
 
     # The following get_user_... methods are used as default_methods
     # for various fields
