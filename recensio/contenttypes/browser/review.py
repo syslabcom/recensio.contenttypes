@@ -180,5 +180,13 @@ class View(BrowserView):
         else:
             return False
 
+    def get_preview_img_url(self):
+        """Return cover picture or first page """
+        context = self.context
+        if self.has_coverpicture():
+            return context.absolute_url()+"/coverPicture"
+        else:
+            return context.absolute_url()+"/get_page_image?no:int=1"
+
     def __call__(self):
         return self.template()
