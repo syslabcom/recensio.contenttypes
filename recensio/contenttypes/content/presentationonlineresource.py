@@ -37,8 +37,7 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
     u'description_institution',
     default=u"Provider of presented resource (name/institution)"
     ),
-            columns = {"institution" : Column(_(u"Institution")),
-                       "lastname" : Column(_(u"Last name")),
+            columns = {"lastname" : Column(_(u"Last name")),
                        "firstname" : Column(_(u"First name")),
                        },
             ),
@@ -237,12 +236,12 @@ class PresentationOnlineResource(BaseReview):
 
         # Presentation
         "review",
-        'reviewAuthorPersonalUrl',
         'labelPresentationAuthor',
         "reviewAuthorHonorific",
         "reviewAuthorLastname",
         "reviewAuthorFirstname",
         "reviewAuthorEmail",
+        'reviewAuthorPersonalUrl',
         "languageReview",
         "isLicenceApproved"]
 

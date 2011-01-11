@@ -213,12 +213,12 @@ class PresentationMonograph(BaseReview):
         "review",
         "existingOnlineReviews",
         "publishedReviews", # Name, url 
-        'reviewAuthorPersonalUrl',
         'labelPresentationAuthor',
         "reviewAuthorHonorific",
         "reviewAuthorLastname",
         "reviewAuthorFirstname",
         "reviewAuthorEmail",
+        'reviewAuthorPersonalUrl',
         "languageReview",
         "referenceAuthors",
         "isLicenceApproved",
