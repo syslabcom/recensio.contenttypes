@@ -205,12 +205,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             return []
         retval = []
         for author in self.getAuthors():
-            retval.append(u'%s %s' % (author['firstname'].decode('utf8'), author['lastname'].decode('utf8')))
+            retval.append(u'%s, %s' % (author['lastname'].decode('utf-8'), author['firstname'].decode('utf8')))
         if listEditors:
             if not getattr(self, 'getEditorsCollectedEdition', None):
                 return retval
             for editor in self.getEditorsCollectedEdition():
-                retval.append(u'%s %s' % (editor['firstname'].decode('utf8'), editor['lastname'].decode('utf8')))
+                retval.append(u'%s, %s' % (editor['lastname'].decode('utf8'), editor['firstname'].decode('utf-8')))
         return retval
 
 
@@ -219,11 +219,11 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         field_values = list(getattr(self, 'authors', [])) + \
                        list(getattr(self, 'referenceAuthors', []))
         for data in field_values:
-            retval.append(('%s %s' % (data['firstname'], data['lastname'])).decode('utf-8').encode('utf-8'))
+            retval.append(('%s, %s' % (data['lastname'], data['firstname'])).decode('utf-8').encode('utf-8'))
         try:
-           review_author = ('%s %s' % (\
-               self.reviewAuthorFirstname
-              ,self.reviewAuthorLastname
+           review_author = ('%s, %s' % (\
+              self.reviewAuthorLastname,
+              self.reviewAuthorFirstname
               )).decode('utf-8').encode('utf-8')
            if review_author.strip():
                retval.append(review_author.strip())
