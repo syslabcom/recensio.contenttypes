@@ -19,7 +19,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 class View(BrowserView):
     """Moderation View
     """
-    template = ViewPageTemplateFile('review.pt')
+    template = ViewPageTemplateFile('templates/review.pt')
     review_journal_fields = {
         "get_publication_title": _("Publication Title"),
         "get_volume_title": _("Volume Title"),

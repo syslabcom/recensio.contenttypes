@@ -25,49 +25,6 @@ class ReviewPDF(object):
             self.__class__.__name__, self.context.Title())
     __repr__ = __str__
 
-    def _getPageImage(self, page_no, size=(320,452)):
-        # Get the pdf
-        pdf = self.context.get_review_pdf()
-        if pdf:
-            pdf_data = pdf["blob"].open().read()
-        if not pdf or not pdf_data:
-            return "%s has no pdf" %(
-                self.context.absolute_url), None
-        else:
-            # Get the desired page from the pdf
-            get_pdf_page = RunSubprocess(
-                "pdftk",
-                output_params="cat %i output" %page_no)
-            get_pdf_page.create_tmp_input(suffix=".pdf", data=pdf_data)
-            get_pdf_page.create_tmp_output(suffix=".pdf")
-            get_pdf_page.run()
-
-            msg = ""
-            if get_pdf_page.errors != "":
-                msg = ("Message from get_pdf_page:"
-                       "\n%s\n" % get_pdf_page.errors)
-
-            # Convert the page to .gif
-            pdf_to_image = RunSubprocess(
-                "convert",
-                input_path=get_pdf_page.tmp_output,
-                output_params="--resize %sx%s" % (size[0], size[1]))
-            pdf_to_image.create_tmp_output(suffix=".gif")
-            pdf_to_image.run()
-            pdf_img = open(pdf_to_image.tmp_output, "r")
-            pdf_img_data = pdf_img.read()
-            pdf_img.close()
-
-            if pdf_to_image.errors != "":
-                msg = ("Message from pdf_to_image:"
-                       "\n%s\n" % pdf_to_image.errors)
-
-            # Remove temporary files
-            get_pdf_page.clean_up()
-            pdf_to_image.clean_up()
-
-            return msgs, pdf_img_data
-
     def _getAllPageImages(self, size=(320,452)):
         # Get the pdf
         pdf = self.context.get_review_pdf()
@@ -127,25 +84,6 @@ class ReviewPDF(object):
             pdfs_to_images.clean_up()
 
             return msg, pages
-
-    def generateImage(self):
-        """
-        try safely to generate the cover image if pdftk and
-        imagemagick are present
-        """
-        coverPicture = self.context.getField('coverPicture')
-        if not coverPicture:
-            return 0
-        result, coverdata = self._getPageImage(1)
-        status = 1
-        if result:
-            logger.warn("popen: %s" % (result))
-            if 'Error:' in result:
-                status = 0
-        #fhimg.seek(0)
-        coverPicture.getMutator(self.context)(coverdata)
-
-        return status
 
     def generatePageImages(self):
         """
