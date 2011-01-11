@@ -54,11 +54,11 @@
                  href="#"
                  tal:attributes="href string:${here/absolute_url}/@@pageviewer; class string:iframe"
                  tal:define="no_pages context/get_no_pages">
-                <img tal:repeat="pgno python:range(no_pages)"
+                <img tal:repeat="pgno python:range(no_pages+1)[1:]"
                      src="get_page_image"
                      tal:attributes="src string:${here/absolute_url}/get_page_image?no:int=${pgno};
                                      alt string:Review page ${pgno};
-                                     class python:'page-%s' % pgno if not pgno else 'page';"
+                                     class python:'page-%s' % pgno if not pgno-1 else 'page';"
                      i18n:attributes="alt"
                      alt="Review page x"
                      class="page-x" />
