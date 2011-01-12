@@ -225,7 +225,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
               self.reviewAuthorLastname,
               self.reviewAuthorFirstname
               )).decode('utf-8').encode('utf-8')
-           if review_author.strip():
+           if review_author.strip() != ',':
                retval.append(review_author.strip())
         except AttributeError:
             pass
