@@ -205,12 +205,22 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             return []
         retval = []
         for author in self.getAuthors():
-            retval.append(u'%s, %s' % (author['lastname'].decode('utf-8'), author['firstname'].decode('utf8')))
+            if author['lastname'] or author['firstname']:
+                retval.append(u'%s, %s' % (
+                        author['lastname'].decode('utf-8'),
+                        author['firstname'].decode('utf8')
+                        )
+                              )
         if listEditors:
             if not getattr(self, 'getEditorsCollectedEdition', None):
                 return retval
             for editor in self.getEditorsCollectedEdition():
-                retval.append(u'%s, %s' % (editor['lastname'].decode('utf8'), editor['firstname'].decode('utf-8')))
+                if editor['lastname'] or editor['firstname']:
+                    retval.append(u'%s, %s' % (
+                            editor['lastname'].decode('utf8'),
+                            editor['firstname'].decode('utf-8')
+                            )
+                                  )
         return retval
 
 
@@ -219,7 +229,11 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         field_values = list(getattr(self, 'authors', [])) + \
                        list(getattr(self, 'referenceAuthors', []))
         for data in field_values:
-            retval.append(('%s, %s' % (data['lastname'], data['firstname'])).decode('utf-8').encode('utf-8'))
+            if data['lastname'] or data['firstname']:
+                retval.append(('%s, %s' % (
+                            data['lastname'],
+                            data['firstname'])).decode('utf-8').encode('utf-8')
+                              )
         try:
            review_author = ('%s, %s' % (\
               self.reviewAuthorLastname,
@@ -245,7 +259,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         which is a parent of the current object.
         """
         return IParentGetter(self).get_title_from_parent_of_type(meta_type)
-    
+
     def get_parent_object_of_type(self, meta_type):
         """ Return the object of a particular type which is
         the parent of the current object."""
