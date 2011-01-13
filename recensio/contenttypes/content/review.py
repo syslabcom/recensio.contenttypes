@@ -11,6 +11,7 @@ import logging
 import re
 
 import Acquisition
+from BeautifulSoup import BeautifulSoup
 from ZODB.blob import Blob
 from zope.app.component.hooks import getSite
 from zope.app.schema.vocabulary import IVocabularyFactory
@@ -140,7 +141,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 # Insert the review into a template so we have a valid html file
                 pdf_template = SimpleZpt("../browser/templates/htmltopdf.pt")
                 data = pdf_template(context={"review":review}).encode("utf-8")
-                create_pdf.create_tmp_input(suffix=".pdf", data=data)
+                create_pdf.create_tmp_input(suffix=".pdf", data=BeautifulSoup(data).prettify())
                 create_pdf.run()
 
             pdf_file = open(create_pdf.output_path, "r")
