@@ -51,7 +51,7 @@ def finalize_recensio_schema(schema, review_type="review"):
         # Rename the schemata for presentations
         presented = "presented_text"
         if review_type == "presentation_online":
-            presented = "presented resource"
+            presented = "presented_resource"
         schema_field_names  = [i.getName() for i in schema.fields()]
         for field_name in schema_field_names:
             if schema[field_name].schemata == "review":
