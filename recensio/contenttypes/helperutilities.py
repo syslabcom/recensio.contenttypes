@@ -54,7 +54,10 @@ def SimpleSubprocess(*cmd, **kwargs):
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE,\
         stderr=subprocess.PIPE)
 
-    stdoutdata, stderrdata = process.communicate()
+    try:
+        stdoutdata, stderrdata = process.communicate()
+    except OSError, e:
+        raise RuntimeError(str(e))
 
     returncode = process.returncode
 

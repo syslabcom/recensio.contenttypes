@@ -149,7 +149,6 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                             SimpleSubprocess('/usr/bin/tidy', '-o', tmp_output.name, tmp_input.name, exitcodes=[0,1])
                             tmp_output.seek(0)
                             data = tmp_output.read()
-                            import pdb;pdb.set_trace()
                         except RuntimeError:
                             log.error("Tidy was unable to tidy the html for %s" % self.absolute_url())
                     create_pdf.create_tmp_input(suffix=".pdf", data=data)
