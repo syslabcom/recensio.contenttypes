@@ -51,10 +51,9 @@ def SimpleSubprocess(*cmd, **kwargs):
         cmd imput arg is supposed to be a list with the command
         and the passed arguments
     """
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE,\
-        stderr=subprocess.PIPE)
-
     try:
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE,\
+            stderr=subprocess.PIPE)
         stdoutdata, stderrdata = process.communicate()
     except OSError, e:
         raise RuntimeError(str(e))
