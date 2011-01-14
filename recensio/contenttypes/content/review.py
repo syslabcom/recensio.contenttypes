@@ -6,12 +6,12 @@ from DateTime import DateTime
 from cgi import escape
 from os import fstat
 from string import Formatter
+from tempfile import NamedTemporaryFile
 import cStringIO as StringIO
 import logging
 import re
 
 import Acquisition
-from BeautifulSoup import BeautifulSoup
 from ZODB.blob import Blob
 from zope.app.component.hooks import getSite
 from zope.app.schema.vocabulary import IVocabularyFactory
@@ -35,6 +35,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.helperutilities import SimpleZpt
 from recensio.contenttypes.helperutilities import RunSubprocess
+from recensio.contenttypes.helperutilities import SimpleSubprocess
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
 from recensio.policy.pdf_cut import cutPDF
 from ZODB.POSException import ConflictError
@@ -141,8 +142,24 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 # Insert the review into a template so we have a valid html file
                 pdf_template = SimpleZpt("../browser/templates/htmltopdf.pt")
                 data = pdf_template(context={"review":review}).encode("utf-8")
-                create_pdf.create_tmp_input(suffix=".pdf", data=BeautifulSoup(data).prettify())
-                create_pdf.run()
+                with NamedTemporaryFile() as tmp_input:
+                    with NamedTemporaryFile() as tmp_output:
+                        tmp_input.write(data)
+                        try:
+                            SimpleSubprocess('/usr/bin/tidy', '-o', tmp_output.name, tmp_input.name, exitcodes=[0,1])
+                            tmp_output.seek(0)
+                            data = tmp_output.read()
+                            import pdb;pdb.set_trace()
+                        except RuntimeError:
+                            log.error("Tidy was unable to tidy the html for %s" % self.absolute_url())
+                    create_pdf.create_tmp_input(suffix=".pdf", data=data)
+                try:
+                    create_pdf.run()
+                except RuntimeError:
+                    log.error("Abiword was unable to generate a pdf for %s and created an error pdf" % self.absolute_url())
+                    create_pdf.create_tmp_input(suffix=".pdf", data="Could not create PDF")
+                    create_pdf.run()
+
 
             pdf_file = open(create_pdf.output_path, "r")
             pdf_data = pdf_file.read()
@@ -319,8 +336,6 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 log("Error while trying to convert file contents to 'text/plain' "
                     "in %r.getIndexable(): %s" % (self, e))
             pdfdata = str(datastream)
-        #if pdf and not pdf.has_key('blob'):
-        #    import pdb; pdb.set_trace()
         value = " ".join([data, pdfdata])
 
         # get text from comments

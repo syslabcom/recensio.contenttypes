@@ -43,6 +43,25 @@ class SubprocessException(Exception):
     def __str__(self):
         return repr(self.message)
 
+def SimpleSubprocess(*cmd, **kwargs):
+    """
+        Run a sub process, return all output, retval[0] is stdout,
+        retval[1] ist stderr
+        If the process run failed, raise an Exception
+        cmd imput arg is supposed to be a list with the command
+        and the passed arguments
+    """
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE,\
+        stderr=subprocess.PIPE)
+
+    stdoutdata, stderrdata = process.communicate()
+
+    returncode = process.returncode
+
+    if returncode not in kwargs.get('exitcodes', [0]):
+        raise RuntimeError(" ".join([str(returncode), stderrdata]))
+
+    return stdoutdata, stderrdata
 
 class RunSubprocess:
     """Wrapper for external command line utilities
@@ -122,9 +141,15 @@ class RunSubprocess:
             [self.input_path] + self.output_params.split() + [self.output_path]
         log.info("Running the following command:\n %s" % " ".join(self.cmd))
 
-        stdoutdata, stderrdata = subprocess.Popen(
-            self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-            ).communicate()
+        process = subprocess.Popen(self.cmd, stdout=subprocess.PIPE,\
+            stderr=subprocess.PIPE)
+
+        stdoutdata, stderrdata = process.communicate()
+
+        returncode = process.returncode
+
+        if returncode:
+            raise RuntimeError(" ".join([str(returncode), stderrdata]))
 
         if stderrdata:
             if "Error" in stderrdata:
