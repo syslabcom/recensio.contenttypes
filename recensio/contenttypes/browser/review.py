@@ -146,8 +146,7 @@ class View(BrowserView):
                                        "lastname", "firstname")
             elif field == "institution":
                 label = _("label_metadata_institution")
-                value = self.list_rows(context[field],
-                                       "institution", "lastname", "firstname")
+                value = self.list_rows(context[field], "lastname", "firstname")
             elif field == "metadata_recensioID":
                 label = _("metadata_recensio_id")
                 value = context.UID()
