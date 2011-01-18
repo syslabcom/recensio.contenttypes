@@ -145,10 +145,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 with NamedTemporaryFile() as tmp_input:
                     with NamedTemporaryFile() as tmp_output:
                         tmp_input.write(data)
+                        tmp_input.flush()
                         try:
-                            SimpleSubprocess('/usr/bin/tidy', '-o', tmp_output.name, tmp_input.name, exitcodes=[0,1])
-                            tmp_output.seek(0)
-                            data = tmp_output.read()
+                            pass
+#                            SimpleSubprocess('/usr/bin/tidy', '-o', tmp_output.name, tmp_input.name, exitcodes=[0,1])
+#                            tmp_output.seek(0)
+#                            data = tmp_output.read()
                         except RuntimeError:
                             log.error("Tidy was unable to tidy the html for %s" % self.absolute_url())
                     create_pdf.create_tmp_input(suffix=".pdf", data=data)
