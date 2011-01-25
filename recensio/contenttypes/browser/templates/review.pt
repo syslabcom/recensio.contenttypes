@@ -71,6 +71,7 @@
         <p class="download pdf">
           <a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
              href="PartB.pdf"
+             target="_blank"
              i18n:translate="download_as"
              >Download as <strong>PDF</strong><br />
           <em class="discrete">(<span i18n:name="download_size" tal:replace="python: pdf_ob and pdf['size']/1024 or 0" /> kb)</em></a>
