@@ -7,7 +7,7 @@
       i18n:domain="recensio">
 
   <metal:js fill-slot="javascript_head_slot">
-    <link rel="canonical" href="#" tal:attributes="href context/uri" tal:condition="context/uri | nothing" />
+    <link rel="canonical" href="#" tal:attributes="href context/canonical_uri" tal:condition="context/canonical_uri | nothing" />
     <script type="text/javascript">
       jq(document).ready(function(){
       jq("#accordion-container").accordion({
