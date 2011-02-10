@@ -221,11 +221,11 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> at_mock.get_issue_title = lambda :'Open Source Mag 1♥'
         >>> at_mock.get_volume_title = lambda :'Open Source Mag Vol 1♥'
         >>> at_mock.get_publication_title = lambda :'Open Source♥'
-        >>> at_mock.portal_url = lambda :'http://www.syslab.com♥'
-        >>> at_mock.UID = lambda :'12345♥'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
+        >>> at_mock.UID = lambda :'12345'
         >>> review = ReviewJournalNoMagic(at_mock)
         >>> review.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: review of: Plone Mag\u2665, 1\u2665, 3\u2665 (2010\u2665/2009\u2665), in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, http://www.syslab.com\u2665/@@redirect-to-uuid/12345\u2665'
+        u'de Roiste\u2665, Cillian\u2665: review of: Plone Mag\u2665, 1\u2665, 3\u2665 (2010\u2665/2009\u2665), in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
 
         Return the citation according to this schema:
@@ -249,8 +249,8 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         reference_mag_string = reference_mag(self.get_publication_title(), \
             self.get_volume_title(), self.get_issue_title())
         full_citation  = getFormatter(': review of: ', ', in: ', ', ')
-        return full_citation(rezensent_string, item_string, \
-            reference_mag_string, real_self.getUUIDUrl())
+        return full_citation(escape(rezensent_string), escape(item_string), \
+            escape(reference_mag_string), real_self.getUUIDUrl())
 
     def getDecoratedTitle(real_self):
         """

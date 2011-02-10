@@ -59,6 +59,7 @@ class BaseNoMagic(object):
         base_url = self.portal_url()
         base_url += '/@@redirect-to-uuid/'
         base_url += self.UID()
+        return '<a href="%s">%s</a>' % (base_url, base_url[:50] + "...")
         return base_url
 
 class BaseReviewNoMagic(BaseNoMagic):

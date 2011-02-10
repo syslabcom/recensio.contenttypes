@@ -2,7 +2,7 @@ from Products.PortalTransforms.transforms.safe_html import scrubHTML
 #-*- coding: utf-8 -*-
 """Definition of the Presentation Monograph content type
 """
-
+from cgi import escape
 from zope.app.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implements
@@ -313,11 +313,11 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> at_mock.yearOfPublication = '2009♥'
         >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
         >>> at_mock.placeOfPublication = 'München♥'
-        >>> at_mock.portal_url = lambda :'http://www.syslab.com♥'
-        >>> at_mock.UID = lambda :'12345♥'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
+        >>> at_mock.UID = lambda :'12345'
         >>> presentation = PresentationMonographNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, http://www.syslab.com\u2665/@@redirect-to-uuid/12345\u2665'
+        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
 
         [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], [Erscheinungsort]: [Verlag], [Jahr], URL recensio.
@@ -344,7 +344,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
                            self.placeOfPublication,
                            self.publisher,
                            self.yearOfPublication)
-        return full_citation_inner(rezensent_string, item_string, \
+        return full_citation_inner(escape(rezensent_string), escape(item_string), \
             real_self.getUUIDUrl())
 
 atapi.registerType(PresentationMonograph, PROJECTNAME)

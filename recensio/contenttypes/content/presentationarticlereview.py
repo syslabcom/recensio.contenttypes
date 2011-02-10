@@ -2,6 +2,7 @@
 """Definition of the Presentation Article Review content type
 """
 from zope.interface import implements
+from cgi import escape
 
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
@@ -253,11 +254,11 @@ class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
         >>> at_mock.issueNumber = '3♥'
         >>> at_mock.volumeNumber = '1♥'
         >>> at_mock.titleJournal = 'Open Source Mag♥'
-        >>> at_mock.portal_url = lambda :'http://www.syslab.com♥'
-        >>> at_mock.UID = lambda :'12345♥'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
+        >>> at_mock.UID = lambda :'12345'
         >>> presentation = PresentationArticleReviewNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665. Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665 (2009\u2665), http://www.syslab.com\u2665/@@redirect-to-uuid/12345\u2665'
+        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665. Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665 (2009\u2665), <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
         Original Specification
 
@@ -287,8 +288,8 @@ Note: gezähltes Jahr entfernt.
         mag_number_and_year_string = mag_number_and_year(\
             self.titleJournal, \
             self.volumeNumber, self.issueNumber, mag_year_string)
-        return full_citation_inner(rezensent_string, item_string, \
-            mag_number_and_year_string, real_self.getUUIDUrl())
+        return full_citation_inner(escape(rezensent_string), escape(item_string), \
+            escape(mag_number_and_year_string), real_self.getUUIDUrl())
 
 atapi.registerType(PresentationArticleReview, PROJECTNAME)
 
