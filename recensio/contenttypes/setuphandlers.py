@@ -287,7 +287,8 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
             if "newspapera" not in sample_reviews.objectIds():
                 sample_reviews.invokeFactory("Publication", id="newspapera",
                                       title="Zeitschrift 1")
-                sample_reviews.invokeFactory("Document", id="index_html")
+                sample_reviews["newspapera"].invokeFactory(
+                    "Document", id="index_html")
             if "newspaperb" not in sample_reviews.objectIds():
                 sample_reviews.invokeFactory("Publication", id="newspaperb",
                                       title="Zeitschrift 2")
