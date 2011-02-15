@@ -143,7 +143,7 @@ def add_number_of_each_review_type(context, number_of_each):
     gif_file.close()
 
     review_text = u"""
-TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT 
+TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT
 
 Deutschland, Österreich, der Schweiz, Tschechien, Ungarn, Kroatien,
 Slowenien, der Republik Moldau, der Ukraine, Großbritannien und
@@ -219,7 +219,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                'number':u'2',
                'editor':u'Avalon',
                'editorCollectedEdition':u'',
-               'institution':[dict(institution=u'', lastname=u'', 
+               'institution':[dict(institution=u'', lastname=u'',
                    firstname=u'')],
                'isbn':u'978-83-60448-39-7',
                'isLicenceApproved':True,
@@ -287,6 +287,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
             if "newspapera" not in sample_reviews.objectIds():
                 sample_reviews.invokeFactory("Publication", id="newspapera",
                                       title="Zeitschrift 1")
+                sample_reviews.invokeFactory("Document", id="index_html")
             if "newspaperb" not in sample_reviews.objectIds():
                 sample_reviews.invokeFactory("Publication", id="newspaperb",
                                       title="Zeitschrift 2")
