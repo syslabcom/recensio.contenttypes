@@ -61,7 +61,7 @@ basic operations like adding, updadating and deleting Publication content
 items.
 
 Adding a new Publication content item
---------------------------------
+-------------------------------------
 
 We use the 'Add new' menu to add a new content item.
 
@@ -85,7 +85,7 @@ Now we fill the form and submit it.
 And we are done! We added a new 'Publication' content item to the portal.
 
 Updating an existing Publication content item
----------------------------------------
+----------------------------------------------
 
 Let's click on the 'edit' tab and update the object attribute values.
 
@@ -101,7 +101,7 @@ We check that the changes were applied.
     True
 
 Removing a/an Publication content item
---------------------------------
+---------------------------------------
 
 If we go to the home page, we can see a tab with the 'New Publication
 Sample' title in the global navigation tabs.
@@ -131,7 +131,7 @@ Sample' tab.
     False
 
 Adding a new Publication content item as contributor
-------------------------------------------------
+----------------------------------------------------
 
 Not only site managers are allowed to add Publication content items, but
 also site contributors.
@@ -183,7 +183,7 @@ basic operations like adding, updadating and deleting Volume content
 items.
 
 Adding a new Volume content item
---------------------------------
+---------------------------------
 
 Volumes can only be added inside Publications so we start off in the publication folder we created above. We use the 'Add new' menu to add a new content item.
 
@@ -209,7 +209,7 @@ Now we fill the form and submit it.
 And we are done! We added a new 'Volume' content item to the portal.
 
 Updating an existing Volume content item
----------------------------------------
+-----------------------------------------
 
 Let's click on the 'edit' tab and update the object attribute values.
 
@@ -225,7 +225,7 @@ We check that the changes were applied.
     True
 
 Removing a/an Volume content item
---------------------------------
+----------------------------------
 
 If we go to the publication folder we can see a tab with the 'New
 Volume Sample' title in the global navigation tabs.
@@ -427,7 +427,7 @@ Finally, let's login back as manager.
 
 
 The Presentation Online Resource content type
-===============================
+=============================================
 
 In this section we are tesing the Praesentationen von
 Internetressourcen content type by performing basic operations like
@@ -435,7 +435,7 @@ adding, updadating and deleting Presentation Online Resource
 content items.
 
 Adding a new Presentation Online Resource content item
---------------------------------
+-------------------------------------------------------
 
 We use the 'Add new' menu to add a new content item.
 
@@ -460,7 +460,7 @@ Now we fill the form and submit it.
 And we are done! We added a new 'Presentation Online Resource' content item to the portal.
 
 Updating an existing Presentation Online Resource content item
----------------------------------------
+--------------------------------------------------------------
 
 Let's click on the 'edit' tab and update the object attribute values.
 
@@ -476,7 +476,7 @@ We check that the changes were applied.
     True
 
 Removing a/an Presentation Online Resource content item
---------------------------------
+-------------------------------------------------------
 
 If we go to the home page, we can see a tab with the 'New Presentation Online Resource
 Sample' title in the global navigation tabs.
@@ -506,7 +506,7 @@ Sample' tab.
     False
 
 Adding a new Presentation Online Resource content item as contributor
-------------------------------------------------
+-----------------------------------------------------------------------
 
 Not only site managers are allowed to add Presentation Online Resource content items, but
 also site contributors.
@@ -552,14 +552,14 @@ Finally, let's login back as manager.
 
 
 The Praesentationen von Aufsatz in Zeitschrift content type
-===============================
+===========================================================
 
 In this section we are tesing the Praesentationen von Aufsatz in Zeitschrift content type by performing
 basic operations like adding, updadating and deleting Praesentationen von Aufsatz in Zeitschrift content
 items.
 
 Adding a new Praesentationen von Aufsatz in Zeitschrift content item
---------------------------------
+---------------------------------------------------------------------
 
 We use the 'Add new' menu to add a new content item.
 
@@ -583,7 +583,7 @@ Now we fill the form and submit it.
 And we are done! We added a new 'Praesentationen von Aufsatz in Zeitschrift' content item to the portal.
 
 Updating an existing Praesentationen von Aufsatz in Zeitschrift content item
----------------------------------------
+----------------------------------------------------------------------------
 
 Let's click on the 'edit' tab and update the object attribute values.
 
@@ -599,7 +599,7 @@ We check that the changes were applied.
     True
 
 Removing a/an Praesentationen von Aufsatz in Zeitschrift content item
---------------------------------
+----------------------------------------------------------------------
 
 If we go to the home page, we can see a tab with the 'New Praesentationen von Aufsatz in Zeitschrift
 Sample' title in the global navigation tabs.
@@ -629,7 +629,7 @@ Sample' tab.
     False
 
 Adding a new Praesentationen von Aufsatz in Zeitschrift content item as contributor
-------------------------------------------------
+-----------------------------------------------------------------------------------
 
 Not only site managers are allowed to add Praesentationen von Aufsatz in Zeitschrift content items, but
 also site contributors.
@@ -675,14 +675,14 @@ Finally, let's login back as manager.
 
 
 The Praesentation von Aufsatz in Sammelband content type
-===============================
+========================================================
 
 In this section we are tesing the Praesentation von Aufsatz in Sammelband content type by performing
 basic operations like adding, updadating and deleting Praesentation von Aufsatz in Sammelband content
 items.
 
 Adding a new Praesentation von Aufsatz in Sammelband content item
---------------------------------
+-----------------------------------------------------------------
 
 We use the 'Add new' menu to add a new content item.
 
@@ -706,7 +706,7 @@ Now we fill the form and submit it.
 And we are done! We added a new 'Praesentation von Aufsatz in Sammelband' content item to the portal.
 
 Updating an existing Praesentation von Aufsatz in Sammelband content item
----------------------------------------
+-------------------------------------------------------------------------
 
 Let's click on the 'edit' tab and update the object attribute values.
 
@@ -722,7 +722,7 @@ We check that the changes were applied.
     True
 
 Removing a/an Praesentation von Aufsatz in Sammelband content item
---------------------------------
+------------------------------------------------------------------
 
 If we go to the home page, we can see a tab with the 'New Praesentation von Aufsatz in Sammelband
 Sample' title in the global navigation tabs.
@@ -752,7 +752,7 @@ Sample' tab.
     False
 
 Adding a new Praesentation von Aufsatz in Sammelband content item as contributor
-------------------------------------------------
+--------------------------------------------------------------------------------
 
 Not only site managers are allowed to add Praesentation von Aufsatz in Sammelband content items, but
 also site contributors.
@@ -798,14 +798,14 @@ Finally, let's login back as manager.
 
 
 The Rezension einer Zeitschrift content type
-===============================
+=============================================
 
 In this section we are tesing the Rezension einer Zeitschrift content type by performing
 basic operations like adding, updadating and deleting Rezension einer Zeitschrift content
 items.
 
 Adding a new Rezension einer Zeitschrift content item
---------------------------------
+------------------------------------------------------
 
 We use the 'Add new' menu to add a new content item.
 
@@ -829,7 +829,7 @@ Now we fill the form and submit it.
 And we are done! We added a new 'Rezension einer Zeitschrift' content item to the portal.
 
 Updating an existing Rezension einer Zeitschrift content item
----------------------------------------
+----------------------------------------------------------------
 
 Let's click on the 'edit' tab and update the object attribute values.
 
@@ -845,7 +845,7 @@ We check that the changes were applied.
     True
 
 Removing a/an Rezension einer Zeitschrift content item
---------------------------------
+------------------------------------------------------
 
 If we go to the home page, we can see a tab with the 'New Rezension einer Zeitschrift
 Sample' title in the global navigation tabs.
@@ -875,7 +875,7 @@ Sample' tab.
     False
 
 Adding a new Rezension einer Zeitschrift content item as contributor
-------------------------------------------------
+--------------------------------------------------------------------
 
 Not only site managers are allowed to add Rezension einer Zeitschrift content items, but
 also site contributors.
@@ -921,14 +921,14 @@ Finally, let's login back as manager.
 
 
 The Praesentationen von Monographien content type
-===============================
+==================================================
 
 In this section we are tesing the Praesentationen von Monographien content type by performing
 basic operations like adding, updadating and deleting Praesentationen von Monographien content
 items.
 
 Adding a new Praesentationen von Monographien content item
---------------------------------
+-----------------------------------------------------------
 
 We use the 'Add new' menu to add a new content item.
 
@@ -952,7 +952,7 @@ Now we fill the form and submit it.
 And we are done! We added a new 'Praesentationen von Monographien' content item to the portal.
 
 Updating an existing Praesentationen von Monographien content item
----------------------------------------
+--------------------------------------------------------------------
 
 Let's click on the 'edit' tab and update the object attribute values.
 
@@ -968,7 +968,7 @@ We check that the changes were applied.
     True
 
 Removing a/an Praesentationen von Monographien content item
---------------------------------
+-----------------------------------------------------------
 
 If we go to the home page, we can see a tab with the 'New Praesentationen von Monographien
 Sample' title in the global navigation tabs.
@@ -998,7 +998,7 @@ Sample' tab.
     False
 
 Adding a new Praesentationen von Monographien content item as contributor
-------------------------------------------------
+-------------------------------------------------------------------------
 
 Not only site managers are allowed to add Praesentationen von Monographien content items, but
 also site contributors.
@@ -1044,14 +1044,14 @@ Finally, let's login back as manager.
 
 
 The Rezension einer Monographie content type
-===============================
+============================================
 
 In this section we are tesing the Rezension einer Monographie content type by performing
 basic operations like adding, updadating and deleting Rezension einer Monographie content
 items.
 
 Adding a new Rezension einer Monographie content item
---------------------------------
+-------------------------------------------------------
 
 We use the 'Add new' menu to add a new content item.
 
@@ -1075,7 +1075,7 @@ Now we fill the form and submit it.
 And we are done! We added a new 'Rezension einer Monographie' content item to the portal.
 
 Updating an existing Rezension einer Monographie content item
----------------------------------------
+--------------------------------------------------------------
 
 Let's click on the 'edit' tab and update the object attribute values.
 
@@ -1091,7 +1091,7 @@ We check that the changes were applied.
     True
 
 Removing a/an Rezension einer Monographie content item
---------------------------------
+-------------------------------------------------------
 
 If we go to the home page, we can see a tab with the 'New Rezension einer Monographie
 Sample' title in the global navigation tabs.
@@ -1121,7 +1121,7 @@ Sample' tab.
     False
 
 Adding a new Rezension einer Monographie content item as contributor
-------------------------------------------------
+--------------------------------------------------------------------
 
 Not only site managers are allowed to add Rezension einer Monographie content items, but
 also site contributors.
@@ -1174,7 +1174,7 @@ basic operations like adding, updadating and deleting Rezension content
 items.
 
 Adding a new Rezension content item
---------------------------------
+------------------------------------
 
 We use the 'Add new' menu to add a new content item.
 
@@ -1198,7 +1198,7 @@ Now we fill the form and submit it.
 And we are done! We added a new 'Rezension' content item to the portal.
 
 Updating an existing Rezension content item
----------------------------------------
+--------------------------------------------
 
 Let's click on the 'edit' tab and update the object attribute values.
 
@@ -1214,7 +1214,7 @@ We check that the changes were applied.
     True
 
 Removing a/an Rezension content item
---------------------------------
+-------------------------------------
 
 If we go to the home page, we can see a tab with the 'New Rezension
 Sample' title in the global navigation tabs.
@@ -1244,7 +1244,7 @@ Sample' tab.
     False
 
 Adding a new Rezension content item as contributor
-------------------------------------------------
+---------------------------------------------------
 
 Not only site managers are allowed to add Rezension content items, but
 also site contributors.
