@@ -289,7 +289,7 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH'
         >>> presentation = PresentationOnlineResourceNoMagic(at_mock)
         >>> presentation.getDecoratedTitle()
-        'Homepage of SYSLAB.COM GmbH'
+        u'Homepage of SYSLAB.COM GmbH'
 
         Original Specification
 
@@ -298,7 +298,7 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         perspectivia.net – Publikationsplattform für die Geisteswissenschaften
         """
         self = real_self.magic
-        return self.title
+        return self.title.decode('utf-8')
 
     def get_citation_string(real_self):
         """
