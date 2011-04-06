@@ -135,8 +135,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             if hasattr(self, "doc"):
                 doc = self.getDoc()
             if doc:
-                # TODO is there a better way to get the fs path to a blob?
-                blob_path = doc.blob._p_blob_committed
+                open_blob = doc.blob.open("r")
+                blob_path = open_blob.name
+                open_blob.close()
                 create_pdf.run(input_path=blob_path)
             else:
                 review = self.getReview()
