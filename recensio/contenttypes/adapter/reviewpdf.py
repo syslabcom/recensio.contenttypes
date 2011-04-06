@@ -53,7 +53,7 @@ class ReviewPDF(object):
             # Convert the pages to .gifs
             pdfs_to_images = RunSubprocess(
                 "convert",
-                input_params="-density 400",
+                input_params="-density 150",
                 input_path=split_pdf_pages.tmp_output_dir+"/*.pdf",
                 output_params="-resize %sx%s" % (size[0], size[1]))
             pdfs_to_images.output_path = os.path.join(
