@@ -36,6 +36,7 @@ from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.helperutilities import SimpleZpt
 from recensio.contenttypes.helperutilities import RunSubprocess
 from recensio.contenttypes.helperutilities import SimpleSubprocess
+from recensio.contenttypes.helperutilities import SubprocessException
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
 from recensio.policy.pdf_cut import cutPDF
 from ZODB.POSException import ConflictError
