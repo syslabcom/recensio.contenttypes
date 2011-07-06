@@ -127,51 +127,54 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             # Generate the pdf file and save it as a blob
             pdf_blob = Blob()
             doc = None
-            create_pdf = RunSubprocess(
-                "abiword",
-                input_params="--plugin=AbiCommand -t pdf",
-                output_params="-o")
-            create_pdf.create_tmp_ouput()
-            if hasattr(self, "doc"):
-                doc = self.getDoc()
-            if doc:
-                open_blob = doc.blob.open("r")
-                blob_path = open_blob.name
-                open_blob.close()
-                create_pdf.run(input_path=blob_path)
-            else:
-                review = self.getReview()
-                # Insert the review into a template so we have a valid html file
-                pdf_template = SimpleZpt("../browser/templates/htmltopdf.pt")
-                data = pdf_template(context={"review":review}).encode("utf-8")
-                with NamedTemporaryFile() as tmp_input:
-                    with NamedTemporaryFile() as tmp_output:
-                        tmp_input.write(data)
-                        tmp_input.flush()
-                        try:
-                            pass
-#                            SimpleSubprocess('/usr/bin/tidy', '-o', tmp_output.name, tmp_input.name, exitcodes=[0,1])
-#                            tmp_output.seek(0)
-#                            data = tmp_output.read()
-                        except RuntimeError:
-                            log.error("Tidy was unable to tidy the html for %s" % self.absolute_url())
-                    create_pdf.create_tmp_input(suffix=".pdf", data=data)
-                try:
-                    create_pdf.run()
-                except RuntimeError:
-                    log.error("Abiword was unable to generate a pdf for %s and created an error pdf" % self.absolute_url())
-                    create_pdf.create_tmp_input(suffix=".pdf", data="Could not create PDF")
-                    create_pdf.run()
-
-
-            pdf_file = open(create_pdf.output_path, "r")
-            pdf_data = pdf_file.read()
-            pdf_blob.open("w").writelines(pdf_data)
-            pdf_file.close()
-            create_pdf.clean_up()
-
-            self.generatedPdf = pdf_blob
-
+            try:
+                create_pdf = RunSubprocess(
+                    "abiword",
+                    input_params="--plugin=AbiCommand -t pdf",
+                    output_params="-o")
+                create_pdf.create_tmp_ouput()
+                if hasattr(self, "doc"):
+                    doc = self.getDoc()
+                if doc:
+                    open_blob = doc.blob.open("r")
+                    blob_path = open_blob.name
+                    open_blob.close()
+                    create_pdf.run(input_path=blob_path)
+                else:
+                    review = self.getReview()
+                    # Insert the review into a template so we have a valid html file
+                    pdf_template = SimpleZpt("../browser/templates/htmltopdf.pt")
+                    data = pdf_template(context={"review":review}).encode("utf-8")
+                    with NamedTemporaryFile() as tmp_input:
+                        with NamedTemporaryFile() as tmp_output:
+                            tmp_input.write(data)
+                            tmp_input.flush()
+                            try:
+                                pass
+    #                            SimpleSubprocess('/usr/bin/tidy', '-o', tmp_output.name, tmp_input.name, exitcodes=[0,1])
+    #                            tmp_output.seek(0)
+    #                            data = tmp_output.read()
+                            except RuntimeError:
+                                log.error("Tidy was unable to tidy the html for %s" % self.absolute_url())
+                        create_pdf.create_tmp_input(suffix=".pdf", data=data)
+                    try:
+                        create_pdf.run()
+                    except RuntimeError:
+                        log.error("Abiword was unable to generate a pdf for %s and created an error pdf" % self.absolute_url())
+                        create_pdf.create_tmp_input(suffix=".pdf", data="Could not create PDF")
+                        create_pdf.run()
+    
+    
+                pdf_file = open(create_pdf.output_path, "r")
+                pdf_data = pdf_file.read()
+                pdf_blob.open("w").writelines(pdf_data)
+                pdf_file.close()
+                create_pdf.clean_up()
+    
+                self.generatedPdf = pdf_blob
+            except SubprocessException:
+                log.error("The application Abiword does not seem to be available")
+    
     def get_review_pdf(self):
         """ Return the uploaded pdf if that doesn't exist return the
         generatedPdf Blob object otherwise return None
