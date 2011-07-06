@@ -8,6 +8,7 @@ from zope import component
 
 from recensio.contenttypes import interfaces
 from recensio.contenttypes.helperutilities import RunSubprocess
+from recensio.contenttypes.helperutilities import SubprocessException
 
 logger = logging.getLogger('recensio.contenttypes.adapter.reviewpdf.py')
 
@@ -93,7 +94,11 @@ class ReviewPDF(object):
         i = 1
         pages = []
         status = 1
-        result, pageimages = self._getAllPageImages((800,1131))
+        try:
+            result, pageimages = self._getAllPageImages((800,1131))
+        except SubprocessException, e:
+            result = "Missing converter? -> " + str(e)
+            pageimages = None
         if result:
             logger.warn("popen: %s" % (result))
             if 'Error:' in result:
