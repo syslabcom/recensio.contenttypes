@@ -24,6 +24,7 @@ from plone.app.discussion.interfaces import IConversation
 from plone.portlets.constants import CONTEXT_CATEGORY
 from plone.app.portlets.utils import assignment_mapping_from_key
 
+from recensio.contenttypes import helperutilities
 from recensio.contenttypes.content.reviewmonograph import \
      ReviewMonograph
 
@@ -359,10 +360,12 @@ def guard(profiles):
 
 @guard(['exampledata'])
 def addExampleContent(context):
+    helperutilities.FAKE_IT = True
     add_number_of_each_review_type(context, 10)
 
 @guard(['exampledata'])
 def addExampleContent2(context):
+    helperutilities.FAKE_IT = True
     portal = context.getSite()
     portal_id = 'recensio'
 

@@ -8,6 +8,9 @@ import logging
 
 from Products.Five.browser.pagetemplatefile import PageTemplateFile
 
+# Dirty hack to prevent time consuming stuff to happen during tests
+FAKE_IT = False
+
 log = logging.getLogger('recensio.theme/helperutilities.py')
 
 def which(program_name, extra_paths=[]):
@@ -84,6 +87,8 @@ class RunSubprocess:
     """
     def __init__(self, program_name, extra_paths=[], input_path="",
                  input_params="", output_params="", output_path=""):
+        if FAKE_IT:
+            raise SubprocessException("We fake it!")
         self.program_name = program_name
         self.program = which(program_name, extra_paths)
         if self.program is None:
