@@ -56,7 +56,7 @@
         </a>
 
         <pre id="reviewtoc" tal:condition="python:hasattr(context, 'tableOfContents')" tal:content="structure context/tableOfContents" />
-        
+
         <div id="reviewhtml" tal:content="structure context/review" />
       </div>
 
@@ -95,6 +95,7 @@
           <ul class="accordion">
             <li class="accordion-item">
               <h2 i18n:translate="metadata">Metadata</h2>
+
               <ul class="accordion-content">
                 <li class="opened-on-load">
 

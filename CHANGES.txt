@@ -4,7 +4,7 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Display the original source URL as a clickable link #3101 [deroiste]
 
 
 1.0.1 (2011-03-01)

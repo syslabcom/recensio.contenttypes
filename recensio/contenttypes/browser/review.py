@@ -150,10 +150,11 @@ class View(BrowserView):
             elif field == "metadata_recensioID":
                 label = _("metadata_recensio_id")
                 value = context.UID()
-            elif field == 'canonical':
+            elif field == 'canonical_uri':
                 label = self.get_label(fields, field, context.meta_type)
-                value = '<a rel="canonical" href="%s">URL</a>'\
-                        % context.canonical
+                url = context.canonical_uri
+                value = '<a rel="canonical_uri" href="%s">%s</a>'\
+                        % (url, url)
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
