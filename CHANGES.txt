@@ -6,6 +6,8 @@ Changelog
 
 - LF000.2 Display the original source URL as a clickable link #3101
   [deroiste]
+- LF000.4 call the original url via an iframe if it is from Francia
+  #3103 [deroiste]
 - LF000.6 Display the translated review/presentation type in the
   metadata #3106 [deroiste]
 

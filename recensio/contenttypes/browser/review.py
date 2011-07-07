@@ -172,5 +172,10 @@ class View(BrowserView):
         else:
             return context.absolute_url()+"/get_page_image?no:int=1"
 
+    @property
+    def do_visit_canonical_uri(self):
+        url = getattr(self.context, "canonical_uri", "")
+        return "www.perspectivia.net/content/publikationen/francia" in url
+
     def __call__(self):
         return self.template()
