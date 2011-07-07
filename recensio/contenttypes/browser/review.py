@@ -3,6 +3,7 @@ from os import fstat
 from webdav.common import rfc1123_date
 import recensio.theme
 from ZODB.blob import Blob
+from zope.app.component.hooks import getSite
 
 from plone.app.blob.download import handleRequestRange
 from plone.app.blob.iterators import BlobStreamIterator
@@ -25,23 +26,6 @@ class View(BrowserView):
         "get_volume_title": _("Volume Title"),
         "get_issue_title": _("Issue Title")
         }
-
-    def get_review_type_code(self):
-        """ Return the short Review Type code
-        """
-        rev_type_map = {
-            "ReviewMonograph":"rm",
-            "ReviewJournal":"rj",
-            "PresentationMonograph":"pm",
-            "PresentationCollection":"paev",
-            "PresentationArticleReview":"paj",
-            "PresentationOnlineResource":"por",
-            }
-        meta_type = self.context.meta_type
-        if rev_type_map.has_key(meta_type):
-            return rev_type_map[meta_type]
-        else:
-            return ""
 
     def get_review_author(self):
         lastname = self.context.reviewAuthorLastname
@@ -139,7 +123,7 @@ class View(BrowserView):
                 value = self.list_rows(context[field], "lastname", "firstname")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
-                value = self.get_review_type_code()
+                value = context.translate(context.portal_type)
             elif field == "referenceAuthors":
                 label = _("label_metadata_reference_authors")
                 value = self.list_rows(context[field],

@@ -4,7 +4,10 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
-- Display the original source URL as a clickable link #3101 [deroiste]
+- LF000.2 Display the original source URL as a clickable link #3101
+  [deroiste]
+- LF000.6 Display the translated review/presentation type in the
+  metadata #3106 [deroiste]
 
 
 1.0.1 (2011-03-01)
