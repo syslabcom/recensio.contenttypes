@@ -521,7 +521,8 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     u'description_uri',
     default=u"Please fill in only after consultation with the recensio.net team"
             ),
-
+            visible={"view":"hidden",
+                     "edit":"hidden"},
         ),
     ),
     atapi.StringField(
