@@ -4,23 +4,27 @@
 from lxml.html import fromstring
 from PIL import Image
 
-from Products.ATContentTypes.content import base
+from archetypes.schemaextender.field import ExtensionField
+from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
+from archetypes.schemaextender.interfaces import ISchemaExtender
+
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
 from Products.Archetypes import atapi
 from Products.CMFCore.utils import getToolByName
 from Products.DataGridField import DataGridField, DataGridWidget
 from Products.DataGridField.Column import Column
-from Products.DataGridField.SelectColumn import SelectColumn
 from Products.validation.interfaces.IValidator import IValidator
 from plone.app.blob.field import BlobField
 from plone.app.blob.field import ImageField
 from zope.app.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implements
+from zope.component import adapts
 
 from recensio.contenttypes import contenttypesMessageFactory as _
-from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.interfaces.publication import IPublication
+from recensio.theme.interfaces import IRecensioLayer
 
 def finalize_recensio_schema(schema, review_type="review"):
     """Custom replacement for schemata.finalizeATCTSchema
@@ -113,13 +117,14 @@ def finalize_recensio_schema(schema, review_type="review"):
             )
         schema["uri"].widget.visible["edit"] = "visible"
         schema.changeSchemataForField("uri", presented)
-        schema["ddcSubject"].widget.label=_(u"Subject classification")
-        schema['ddcTime'].widget.label=_(u"Time classification")
-        schema['ddcPlace'].widget.label=_(u"Regional classification")
+        schema["ddcSubject"].widget.label = _(u"Subject classification")
+        schema['ddcTime'].widget.label = _(u"Time classification")
+        schema['ddcPlace'].widget.label = _(u"Regional classification")
         # fill in the review author first name and last name by default
-        schema['reviewAuthorLastname'].default_method="get_user_lastname"
-        schema['reviewAuthorFirstname'].default_method="get_user_firstname"
-        schema['languageReview'].widget.label=_(u"Language(s) of presentation")
+        schema['reviewAuthorLastname'].default_method = "get_user_lastname"
+        schema['reviewAuthorFirstname'].default_method = "get_user_firstname"
+        schema['languageReview'].widget.label = _(
+            u"Language(s) of presentation")
         schema['languageReviewedText'].widget.label = _(
             u"Language(s) of presented work")
         # Note: The characterLimit validator checks the portal_type to
@@ -696,3 +701,27 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
 #JournalReviewSchema["authors"].widget.label=_(u"Autor des Aufsatzes")
 JournalReviewSchema['yearOfPublication'].widget.label = _(
     u"Actual year of publication")
+
+
+class PublicationLogoField(ExtensionField, ImageField):
+    """ A field for the Newspaper/Publication logo #3104 """
+
+class PublicationExtender(object):
+    adapts(IPublication)
+    implements(ISchemaExtender, IBrowserLayerAwareExtender)
+    layer = IRecensioLayer
+
+    _fields = [
+        PublicationLogoField(
+            'logo',
+            widget=atapi.ImageWidget(
+                label= _(u'label_publication_logo', default=u'Logo'),
+                )
+            )
+        ]
+
+    def __init__(self, context):
+        self.context = context
+
+    def getFields(self):
+        return self._fields

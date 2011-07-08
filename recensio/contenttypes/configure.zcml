@@ -10,6 +10,7 @@
   <include package=".browser" />
   <include package=".content" />
   <include package=".portlets" />
+  <include package="archetypes.schemaextender" />
 
   <genericsetup:registerProfile
      name="default"
@@ -37,34 +38,39 @@
 
   <!-- if a Review or Presentation has been edited or updated, update
        the pdf version of it if necessary -->
-  <subscriber 
+  <subscriber
      for=".interfaces.review.IReview
           Products.Archetypes.interfaces.IObjectEditedEvent"
      handler=".eventhandlers.review_pdf_updated_eventhandler"
      />
 
-  <subscriber 
+  <subscriber
      for=".interfaces.review.IReview
           Products.Archetypes.interfaces.IObjectInitializedEvent"
      handler=".eventhandlers.review_pdf_updated_eventhandler"
      />
 
-  <adapter 
-     factory=".adapter.reviewpdf.ReviewPDF" 
+  <adapter
+     factory=".adapter.reviewpdf.ReviewPDF"
      provides="recensio.contenttypes.interfaces.IReviewPDF"
      for=".interfaces.IReview"
      />
 
-  <adapter 
-     factory=".adapter.parentgetter.ParentGetter" 
+  <adapter
+     factory=".adapter.parentgetter.ParentGetter"
      provides="recensio.contenttypes.interfaces.IParentGetter"
      for=".interfaces.IReview"
      />
 
-  <adapter 
-     factory=".adapter.parentgetter.ParentGetter" 
+  <adapter
+     factory=".adapter.parentgetter.ParentGetter"
      provides="recensio.contenttypes.interfaces.IParentGetter"
      for=".interfaces.IIssue"
      />
+
+  <!-- An image field for Newspaper/Publication logos #3104  -->
+  <adapter
+      factory=".content.schemata.PublicationExtender"
+      provides="archetypes.schemaextender.interfaces.ISchemaExtender" />
 
 </configure>
