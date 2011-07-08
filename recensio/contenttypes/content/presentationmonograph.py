@@ -100,6 +100,7 @@ PresentationMonographSchema["uri"].widget.label = _(
     default=(u"Is the monograph you are presenting available free of "
              "charge online?")
     )
+PresentationMonographSchema["uri"].widget.description = _(u"URL")
 PresentationMonographSchema["coverPicture"].widget.label = _(
     u"Upload of cover picture")
 PresentationMonographSchema["referenceAuthors"].widget.description = _(
@@ -212,7 +213,7 @@ class PresentationMonograph(BaseReview):
         # Presentation
         "review",
         "existingOnlineReviews",
-        "publishedReviews", # Name, url 
+        "publishedReviews", # Name, url
         'labelPresentationAuthor',
         "reviewAuthorHonorific",
         "reviewAuthorLastname",
@@ -322,7 +323,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
 
         [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], [Erscheinungsort]: [Verlag], [Jahr], URL recensio.
 
-        Big chunk removed, since it is not a review from a mag in: [Zs-Titel], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], 
+        Big chunk removed, since it is not a review from a mag in: [Zs-Titel], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)],
 
         Meier, Hans: presentation of: Meier, Hans, Geschichte des Abendlandes. Ein Abriss, München: Oldenbourg, 2010, in: Zeitschrift für Geschichte, 39, 3 (2008/2009), www.recensio.net/##
 

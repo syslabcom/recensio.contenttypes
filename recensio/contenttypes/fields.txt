@@ -15,7 +15,7 @@ ISSN Nummer der Zeitschrift in der es den Review gab.
 Der Link zur Webseite auf der man die Rezension im Original lesen kann
 
     >>> schema('uri')
-    ('string', u'Partner URL')
+    ('string', u'URL/URN')
 
 Das PDF mit der Rezension. Hier brauchen wir einen Link von Ihnen, von
 dem wir das PDF beziehen.
@@ -102,7 +102,7 @@ Anzahl der Seiten des Buches.
 Der Link zur Webseite auf der man die Rezension im Original lesen kann
 
     >>> schema('uri')
-    ('string', u'Partner URL')
+    ('string', u'URL/URN')
 
 Die Ausgabe des rezensierten Buches
 

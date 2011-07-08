@@ -91,11 +91,8 @@ def finalize_recensio_schema(schema, review_type="review"):
                 u'description_presentation_title',
                 default=u"Information on presented work"
                 )
-            schema["uri"].widget.description = _(u"URL")
         else:
             schema["title"].widget.description = ""
-            schema["uri"].widget.label = _(u"URL/URN")
-            schema["uri"].widget.description = ""
         schema["review"].widget.description = _(
             u'description_presentation_html',
             default=(u"Please give a brief and clear outline of your thesis "
@@ -114,6 +111,7 @@ def finalize_recensio_schema(schema, review_type="review"):
                      "online at the earliest after three working days."
                      )
             )
+        schema["uri"].widget.visible["edit"] = "visible"
         schema.changeSchemataForField("uri", presented)
         schema["ddcSubject"].widget.label=_(u"Subject classification")
         schema['ddcTime'].widget.label=_(u"Time classification")
@@ -512,17 +510,16 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             ),
         ),
     atapi.StringField(
+        # "Partner URL" is no longer used for reviews but is being
+        # kept to avoid breakage, this is still used in presentations
+        # #3103
         'uri',
         schemata="review",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Partner URL"),
-            description=_(
-    u'description_uri',
-    default=u"Please fill in only after consultation with the recensio.net team"
-            ),
-            visible={"view":"hidden",
-                     "edit":"hidden"},
+            label=_(u"URL/URN"),
+            description= "" ,
+            visible={"edit":"hidden"},
         ),
     ),
     atapi.StringField(
