@@ -22,11 +22,11 @@ class TestReviewFileConversions(unittest.TestCase):
     when a Review is added or edited.
     """
     layer = RECENSIO_INTEGRATION_TESTING
+    # These are time consuming tests, only run when necessary:
+    # $ ./bin/test --at-level 10
+    level = 10
 
-    def test_nothing(self):
-        pass
-
-    def xxx_test_review_with_custom_pdf_files(self):
+    def test_review_with_custom_pdf_files(self):
         """Reviews / Presentations which have a custom pdf file will
         use that version for downloading
         """

@@ -8,8 +8,8 @@ import logging
 
 from Products.Five.browser.pagetemplatefile import PageTemplateFile
 
-# Dirty hack to prevent time consuming stuff to happen during tests
-FAKE_IT = False
+# Use an environment variable to enable time consuming shell commands
+RUN_SHELL_COMMANDS = os.environ.get("RUN_SHELL_COMMANDS", False)
 
 log = logging.getLogger('recensio.theme/helperutilities.py')
 
@@ -87,8 +87,10 @@ class RunSubprocess:
     """
     def __init__(self, program_name, extra_paths=[], input_path="",
                  input_params="", output_params="", output_path=""):
-        if FAKE_IT:
-            raise SubprocessException("We fake it!")
+        if not RUN_SHELL_COMMANDS:
+            raise SubprocessException(
+                "The RUN_SHELL_COMMANDS environment variable is unset or "
+                "False. Ignoring expensive shell commands.")
         self.program_name = program_name
         self.program = which(program_name, extra_paths)
         if self.program is None:

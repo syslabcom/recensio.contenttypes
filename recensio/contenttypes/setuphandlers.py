@@ -360,12 +360,10 @@ def guard(profiles):
 
 @guard(['exampledata'])
 def addExampleContent(context):
-    helperutilities.FAKE_IT = True
     add_number_of_each_review_type(context, 10)
 
 @guard(['exampledata'])
 def addExampleContent2(context):
-    helperutilities.FAKE_IT = True
     portal = context.getSite()
     portal_id = 'recensio'
 

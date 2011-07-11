@@ -27,7 +27,6 @@ class RecensioContenttypes(PloneSandboxLayer):
         z2.installProduct(app, 'Products.ATVocabularyManager')
 
     def setUpPloneSite(self, portal):
-        helperutilities.FAKE_IT  = True
         wftool = getToolByName(portal, 'portal_workflow')
         wftool.setDefaultChain('plone_workflow')
         applyProfile(portal, 'Products.CMFPlone:plone-content')
