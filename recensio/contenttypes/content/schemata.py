@@ -713,9 +713,17 @@ class PublicationExtender(object):
 
     _fields = [
         PublicationLogoField(
-            'logo',
+            'pdf_watermark',
             widget=atapi.ImageWidget(
-                label= _(u'label_publication_logo', default=u'Logo'),
+                label= _(
+                    u'label_publication_pdf_watermark',
+                    default = u'PDF watermark'),
+                description = _(
+                    u'description_publication_pdf_watermark',
+                    default = (u'Upload a publication logo for the PDF '
+                               'coversheet. Transparent PNG format images '
+                               'are recommended.')
+                    )
                 )
             )
         ]
