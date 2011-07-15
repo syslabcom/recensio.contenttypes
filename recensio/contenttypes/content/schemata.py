@@ -703,8 +703,12 @@ JournalReviewSchema['yearOfPublication'].widget.label = _(
     u"Actual year of publication")
 
 
-class PublicationLogoField(ExtensionField, ImageField):
-    """ A field for the Newspaper/Publication logo #3104 """
+class PublicationLogoWatermarkField(ExtensionField, ImageField):
+    """ Newspaper/Publication watermark logo #3104 """
+
+class PublicationLicenceField(ExtensionField, atapi.StringField):
+    """ A licence can be specified for a particular Publication #3105
+    """
 
 class PublicationExtender(object):
     adapts(IPublication)
@@ -712,18 +716,39 @@ class PublicationExtender(object):
     layer = IRecensioLayer
 
     _fields = [
-        PublicationLogoField(
+
+        PublicationLogoWatermarkField(
             'pdf_watermark',
             widget=atapi.ImageWidget(
-                label= _(
+                label =  _(
                     u'label_publication_pdf_watermark',
                     default = u'PDF watermark'),
                 description = _(
                     u'description_publication_pdf_watermark',
-                    default = (u'Upload a publication logo for the PDF '
-                               'coversheet. Transparent PNG format images '
-                               'are recommended.')
+                    default = (
+                        u'Upload a publication logo for the PDF '
+                        'coversheet. Transparent PNG format images '
+                        'are recommended.')
                     )
+                )
+            ),
+
+        PublicationLicenceField(
+            'licence',
+            widget = atapi.TextAreaWidget(
+                label = _(
+                    u'label_publication_licence',
+                    default = u'Publication Licence'),
+                description = _(
+                    u'description_publication_licence',
+                    default = (
+                        u'Please specify the licence terms under which reviews '
+                        'may be used. This text will be displayed on the front '
+                        'page of the PDF version and to the side of the web '
+                        'version of each review for this publication.'
+                        )
+                    ),
+                rows = 3,
                 )
             )
         ]

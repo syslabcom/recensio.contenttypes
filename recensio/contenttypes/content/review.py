@@ -45,6 +45,7 @@ from plone.app.discussion.interfaces import IConversation
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
 
+
 class BaseNoMagic(object):
     def __init__(self, at_object):
         self.magic = at_object
@@ -63,10 +64,15 @@ class BaseNoMagic(object):
         return '<a href="%s">%s</a>' % (base_url, base_url[:50] + "...")
         return base_url
 
+
 class BaseReviewNoMagic(BaseNoMagic):
     def getLicense(real_self):
         self = real_self.magic
-        return _('license-note-review')
+        publication = self.get_parent_object_of_type("Publication")
+        publication_licence = ""
+        if publication != None:
+            publication_licence = getattr(publication, "licence", "")
+        return True and publication_licence or _('license-note-review')
 
     def getFirstPublicationData(real_self):
         self = real_self.magic
@@ -75,10 +81,12 @@ class BaseReviewNoMagic(BaseNoMagic):
         reference_mag_string = reference_mag(self.get_publication_title(), \
             self.get_volume_title(), self.get_issue_title())
         if self.canonical_uri:
-            retval.append('<a href="%s">%s</a>' % (self.canonical_uri, self.canonical_uri))
+            retval.append('<a href="%s">%s</a>'
+                          % (self.canonical_uri, self.canonical_uri))
         elif reference_mag_string:
             retval.append(escape(reference_mag_string))
         return retval
+
 
 class BasePresentationNoMagic(BaseNoMagic):
     def getLicense(real_self):
@@ -89,6 +97,7 @@ class BasePresentationNoMagic(BaseNoMagic):
         self = real_self.magic
         return {'msg' : _('license-note-presentation-url-text'),
                 'url' : _('license-note-presentation-url-url')}
+
 
 class BaseBaseReviewNoMagic(object):
     def __init__(self, at_self):
@@ -101,6 +110,7 @@ class BaseBaseReviewNoMagic(object):
         vocab = util(self)
         terms = [(x.value, _languagelist[x.value][u'native']) for x in vocab]
         return DisplayList(terms)
+
 
 class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     implements(IReview)
@@ -164,18 +174,17 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                         log.error("Abiword was unable to generate a pdf for %s and created an error pdf" % self.absolute_url())
                         create_pdf.create_tmp_input(suffix=".pdf", data="Could not create PDF")
                         create_pdf.run()
-    
-    
+
                 pdf_file = open(create_pdf.output_path, "r")
                 pdf_data = pdf_file.read()
                 pdf_blob.open("w").writelines(pdf_data)
                 pdf_file.close()
                 create_pdf.clean_up()
-    
+
                 self.generatedPdf = pdf_blob
             except SubprocessException:
                 log.error("The application Abiword does not seem to be available")
-    
+
     def get_review_pdf(self):
         """ Return the uploaded pdf if that doesn't exist return the
         generatedPdf Blob object otherwise return None
