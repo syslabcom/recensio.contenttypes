@@ -136,6 +136,7 @@ class ReviewMonograph(BaseReview):
     # An ordered list of fields used for the metadata area of the view
 
     metadata_fields = ["metadata_review_type_code",
+                       "get_publication_title",
                        "metadata_review_author",
                        "languageReview", "languageReviewedText",
                        "authors", "title", "subtitle",
