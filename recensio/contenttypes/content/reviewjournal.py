@@ -238,20 +238,30 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         self = real_self.magic
         if self.customCitation:
             return scrubHTML(self.customCitation).decode('utf8')
-        rezensent_string = getFormatter(', ')(self.reviewAuthorLastname, \
-                                      self.reviewAuthorFirstname)
+        rezensent_string = getFormatter(', ')(self.reviewAuthorLastname,
+                                              self.reviewAuthorFirstname)
         item = getFormatter(', ', ', ', ' ')
-        mag_year = getFormatter('/')(self.officialYearOfPublication, \
-                             self.yearOfPublication)
+        mag_year = getFormatter('/')(self.officialYearOfPublication,
+                                     self.yearOfPublication)
         mag_year = mag_year and '(' + mag_year + ')' or None
-        item_string = item(self.title, self.volumeNumber, \
+        item_string = item(self.title, self.volumeNumber,
                            self.issueNumber, mag_year)
         reference_mag = getFormatter(', ',  ', ')
-        reference_mag_string = reference_mag(self.get_publication_title(), \
-            self.get_volume_title(), self.get_issue_title())
+        reference_mag_string = reference_mag(self.get_publication_title(),
+                                             self.get_volume_title(),
+                                             self.get_issue_title())
         full_citation  = getFormatter(': review of: ', ', in: ', ', ')
-        return full_citation(escape(rezensent_string), escape(item_string), \
-            escape(reference_mag_string), real_self.getUUIDUrl())
+
+        if getattr(self, "canonical_uri", False): #3102
+            citation_string = full_citation(
+                escape(reference_mag_string),
+                _(u"label_downloaded_via_recensio",
+                  default = u"Downloaded from recensio.net")
+                )
+        else:
+            citation_string = full_citation(
+                escape(reference_mag_string), real_self.getUUIDUrl())
+        return citation_string
 
     def getDecoratedTitle(real_self):
         """

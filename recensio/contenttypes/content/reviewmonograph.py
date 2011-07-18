@@ -265,10 +265,12 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         item = getFormatter(u', ', u'. ', u', ', u': ', u', ')
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
         full_citation_inner = getFormatter(u': review of: ', u', in: ', u', ')
-        rezensent_string = rezensent(self.reviewAuthorLastname, \
+        rezensent_string = rezensent(self.reviewAuthorLastname,
                                      self.reviewAuthorFirstname)
-        authors_string = u' / '.join([getFormatter(', ')(x['lastname'], x['firstname'])
-                                    for x in self.authors])
+        authors_string = u' / '.join(
+            [getFormatter(', ')(x['lastname'], x['firstname'])
+             for x in self.authors]
+                                     )
         item_string = item(authors_string,
                            self.title,
                            self.subtitle,
@@ -278,11 +280,22 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         mag_year_string = self.yearOfPublication.decode('utf-8')
         mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
             or None
-        mag_number_and_year_string = mag_number_and_year(\
-            self.get_publication_title(), \
-            self.get_volume_title(), self.get_issue_title(), mag_year_string)
-        return full_citation_inner(escape(rezensent_string), escape(item_string), \
-            escape(mag_number_and_year_string), real_self.getUUIDUrl())
+        mag_number_and_year_string = mag_number_and_year(
+            self.get_publication_title(), self.get_volume_title(),
+            self.get_issue_title(), mag_year_string)
+
+        if getattr(self, "canonical_uri", False): #3102
+            citation_string = full_citation_inner(
+                escape(rezensent_string), escape(item_string),
+                escape(mag_number_and_year_string),
+                _(u"label_downloaded_via_recensio",
+                  default = u"Downloaded from recensio.net")
+                )
+        else:
+            citation_string = full_citation_inner(
+                escape(rezensent_string), escape(item_string),
+                escape(mag_number_and_year_string), real_self.getUUIDUrl())
+        return citation_string
 
 atapi.registerType(ReviewMonograph, PROJECTNAME)
 
