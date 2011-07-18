@@ -104,6 +104,7 @@ class View(BrowserView):
         context = self.context
         fields = self.context.Schema()._fields
         meta = {}
+        value = False # A field is only displayed if it has a value
         for field in context.metadata_fields:
             is_macro = False
             if field.startswith("get_"):
@@ -135,10 +136,11 @@ class View(BrowserView):
                 label = _("metadata_recensio_id")
                 value = context.UID()
             elif field == 'canonical_uri':
-                label = self.get_label(fields, field, context.meta_type)
                 url = context.canonical_uri
-                value = '<a rel="canonical_uri" href="%s">%s</a>'\
-                        % (url, url)
+                if url:
+                    label = self.get_label(fields, field, context.meta_type)
+                    value = ('<a rel="canonical_uri" href="%s">%s</a>'
+                             % (url, url))
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
