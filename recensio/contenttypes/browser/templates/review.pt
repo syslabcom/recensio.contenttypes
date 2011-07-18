@@ -61,7 +61,7 @@
 
         <pre id="reviewtoc" tal:condition="python:hasattr(context, 'tableOfContents')" tal:content="structure context/tableOfContents" />
 
-        <tal:canonical_uri define="url context/canonical_uri"
+        <tal:canonical_uri define="url context/canonical_uri | nothing"
                            condition="url">
           <div id="canonical_url">
             <h3 i18n:translate="heading_first_published">First published:</h3>
