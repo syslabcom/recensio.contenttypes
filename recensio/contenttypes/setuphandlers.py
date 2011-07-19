@@ -337,6 +337,33 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
             data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
             obj = addOneItem(container, rez_class, data)
 
+    # Create sample sehepunkte and francia reviews
+    if "rezensionen" not in portal.objectIds():
+        portal.invokeFactory("Folder", "rezensionen")
+    rezensionen = portal.rezensionen
+    if "zeitschriften" not in rezensionen.objectIds():
+        rezensionen.invokeFactory("Folder", "zeitschriften")
+    zeitschriften = rezensionen.zeitschriften
+    if "sehepunkte" not in zeitschriften.objectIds():
+        zeitschriften.invokeFactory("Presentation", "sehepunkte")
+    sehepunkte = zeitschriften.sehepunkte
+    sehepunkte.invokeFactory("Volume", "vol1")
+    sp_vol1 = sehepunkte.vol1
+    sp_vol1.invokeFactory("Issue", "issue1")
+    sp_issue1 = sp_vol1.issue1
+    sp_issue1.invokeFactory("Review Monograph", "sp-rm", **test_data())
+    sp_issue1.invokeFactory("Review Journal", "sp-rj", **test_data())
+
+    if "francia-recensio" not in zeitschriften.objectIds():
+        zeitschriften.invokeFactory("Presentation", "francia-recensio")
+    francia_recensio = zeitschriften["francia-recensio"]
+    francia_recensio.invokeFactory("Volume", "vol1")
+    fr_vol1 = francia_recensio.vol1
+    fr_vol1.invokeFactory("Issue", "issue1")
+    fr_issue1 = fr_vol1.issue1
+    fr_issue1.invokeFactory("Review Monograph", "fr-rm", **test_data())
+    fr_issue1.invokeFactory("Review Journal", "fr-rj", **test_data())
+
     request = TestRequest()
     class FakeResponse(object):
         def write(a, b):
