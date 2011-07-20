@@ -81,8 +81,11 @@ class BaseReviewNoMagic(BaseNoMagic):
         reference_mag_string = reference_mag(self.get_publication_title(), \
             self.get_volume_title(), self.get_issue_title())
         if self.canonical_uri:
+            url = self.canonical_uri
+            short_url = len(url) < 30 and url or url[:27] + "..."
             retval.append('<a href="%s">%s</a>'
-                          % (self.canonical_uri, self.canonical_uri))
+                          % (url, short_url))
+
         elif reference_mag_string:
             retval.append(escape(reference_mag_string))
         return retval

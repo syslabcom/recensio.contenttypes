@@ -50,3 +50,15 @@ class TestCitationString(unittest.TestCase):
         journal_citation = self.review_jour.get_citation_string()
         self.assertEquals('<a href="http://nohost/plone' in journal_citation,
                           False)
+
+    def test_first_publication_data(self):
+        self.assertEquals(
+            self.review_jour.getFirstPublicationData(),
+            [u'Zeitschrift 1, Summer, Issue 2'])
+
+        self.review_jour.canonical_uri = "W"*30
+        self.assertEquals(
+            self.review_jour.getFirstPublicationData(),
+            [('<a href="WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW">'
+              'WWWWWWWWWWWWWWWWWWWWWWWWWWW...</a>')],
+             msg = u"Long canonical_uri has not been shortened")
