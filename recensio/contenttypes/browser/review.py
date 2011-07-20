@@ -141,6 +141,12 @@ class View(BrowserView):
                     label = self.get_label(fields, field, context.meta_type)
                     value = ('<a rel="canonical_uri" href="%s">%s</a>'
                              % (url, url))
+            elif field == 'uri':
+                url = context.uri
+                if url:
+                    label = self.get_label(fields, field, context.meta_type)
+                    value = ('<a href="%s">%s</a>'
+                             % (url, url))
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
