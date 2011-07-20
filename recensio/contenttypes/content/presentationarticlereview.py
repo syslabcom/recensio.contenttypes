@@ -118,7 +118,7 @@ class PresentationArticleReview(BaseReview):
     officialYearOfPublication = \
                               atapi.ATFieldProperty('officialYearOfPublication')
 
-    # Presentation 
+    # Presentation
     isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
 
     # Reference authors
@@ -183,8 +183,8 @@ class PresentationArticleReview(BaseReview):
                        "officialYearOfPublication", "volumeNumber",
                        "issueNumber", "placeOfPublication",
                        "publisher", "issn", "ddcSubject", "ddcTime",
-                       "ddcPlace", "subject", "referenceAuthors",
-                       "uri", "metadata_recensioID", "idBvb"]
+                       "ddcPlace", "subject", "uri",
+                       "metadata_recensioID", "idBvb"]
 
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:
     # Zs-Titel, Nummer, Heftnummer (gezähltes Jahr/Erscheinungsjahr),

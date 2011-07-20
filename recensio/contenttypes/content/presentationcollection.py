@@ -126,7 +126,7 @@ class PresentationCollection(BaseReview):
     # Book
     isbn = atapi.ATFieldProperty('isbn')
 
-    # Presentation 
+    # Presentation
     isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
 
     # Reference authors
@@ -197,8 +197,7 @@ class PresentationCollection(BaseReview):
                        "titleCollectedEdition", "yearOfPublication",
                        "placeOfPublication", "publisher", "series",
                        "seriesVol", "pages", "isbn", "ddcSubject",
-                       "ddcTime", "ddcPlace", "subject",
-                       "referenceAuthors", "uri",
+                       "ddcTime", "ddcPlace", "subject", "uri",
                        "metadata_recensioID", "idBvb"]
 
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:

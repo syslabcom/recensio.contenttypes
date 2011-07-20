@@ -233,11 +233,11 @@ class PresentationMonograph(BaseReview):
     metadata_fields = ["metadata_review_type_code",
                        "metadata_presentation_author",
                        "languageReview", "languageReviewedText",
-                       "authors", "title", "subtitle", "yearOfPublication",
-                       "placeOfPublication", "publisher", "series",
-                       "seriesVol", "pages", "isbn",
-                       "ddcSubject", "ddcTime", "ddcPlace", "subject",
-                       "referenceAuthors", "uri", "metadata_recensioID",
+                       "authors", "title", "subtitle",
+                       "yearOfPublication", "placeOfPublication",
+                       "publisher", "series", "seriesVol", "pages",
+                       "isbn", "ddcSubject", "ddcTime", "ddcPlace",
+                       "subject", "uri", "metadata_recensioID",
                        "idBvb"]
 
     # Citation:
