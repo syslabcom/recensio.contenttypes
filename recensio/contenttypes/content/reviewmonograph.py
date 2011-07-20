@@ -63,6 +63,7 @@ class ReviewMonograph(BaseReview):
     customCitation = atapi.ATFieldProperty('customCitation')
     canonical_uri = atapi.ATFieldProperty('canonical_uri')
     uri = atapi.ATFieldProperty('uri')
+    urn = atapi.ATFieldProperty('urn')
 
     # Common
     ddcPlace = atapi.ATFieldProperty('ddcPlace')

@@ -71,6 +71,7 @@ class ReviewJournal(BaseReview):
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
     uri = atapi.ATFieldProperty('uri')
+    urn = atapi.ATFieldProperty('urn')
     canonical_uri = atapi.ATFieldProperty('canonical_uri')
 
     # Common

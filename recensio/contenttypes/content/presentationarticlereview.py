@@ -96,6 +96,7 @@ class PresentationArticleReview(BaseReview):
     subject = atapi.ATFieldProperty('subject')
     review = atapi.ATFieldProperty('review')
     uri = atapi.ATFieldProperty('uri')
+    urn = atapi.ATFieldProperty('urn')
 
     # Common
     ddcPlace = atapi.ATFieldProperty('ddcPlace')
