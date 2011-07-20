@@ -193,6 +193,7 @@ class PresentationMonograph(BaseReview):
         # Presented text
         "isbn",
         "uri",
+        "urn",
         "tableOfContents",
         "coverPicture",
         "authors",

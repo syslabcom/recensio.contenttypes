@@ -153,6 +153,7 @@ class PresentationCollection(BaseReview):
         # Presented Text
         "isbn",
         "uri",
+        "urn",
         "authors",
         "languageReviewedText",
         "title",

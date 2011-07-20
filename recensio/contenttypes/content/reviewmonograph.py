@@ -129,6 +129,7 @@ class ReviewMonograph(BaseReview):
         "review",
         "customCitation",
         "uri",
+        "urn",
         ]
 
     for i, field in enumerate(ordered_fields):

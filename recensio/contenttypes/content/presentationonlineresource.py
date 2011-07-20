@@ -221,6 +221,7 @@ class PresentationOnlineResource(BaseReview):
         # Presented Resource
         "title",
         "uri",
+        "urn",
         "institution",
         "labelwidget_categories",
         "documenttypes_institution",

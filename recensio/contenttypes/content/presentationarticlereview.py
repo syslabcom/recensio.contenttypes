@@ -138,6 +138,7 @@ class PresentationArticleReview(BaseReview):
         # Presented Text
         "issn",
         "uri",
+        "urn",
         "authors",
         "languageReviewedText",
         "title",
