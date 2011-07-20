@@ -668,7 +668,6 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
         'shortnameJournal',
         schemata="reviewed_text",
         storage=atapi.AnnotationStorage(),
-        required=True,
         widget=atapi.StringWidget(
             label=_(u"Shortname"),
             ),
