@@ -255,7 +255,7 @@ class PresentationOnlineResource(BaseReview):
     metadata_fields = ["metadata_review_type_code",
                        "metadata_presentation_author",
                        "languageReview", "title",
-                       "uri", "institution",
+                       "uri", "urn", "institution",
                        "languageReviewedText", "documenttypes_institution",
                        "documenttypes_cooperation",
                        "documenttypes_referenceworks",

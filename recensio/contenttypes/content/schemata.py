@@ -117,6 +117,7 @@ def finalize_recensio_schema(schema, review_type="review"):
             )
         schema["uri"].widget.visible["edit"] = "visible"
         schema.changeSchemataForField("uri", presented)
+        schema.changeSchemataForField("urn", presented)
         schema["ddcSubject"].widget.label = _(u"Subject classification")
         schema['ddcTime'].widget.label = _(u"Time classification")
         schema['ddcPlace'].widget.label = _(u"Regional classification")
@@ -522,7 +523,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"URL/URN"),
+            label=_(u"URL"),
             description= "" ,
             visible={"edit":"hidden"},
         ),

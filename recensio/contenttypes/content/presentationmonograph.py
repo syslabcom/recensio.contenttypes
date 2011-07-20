@@ -239,7 +239,7 @@ class PresentationMonograph(BaseReview):
                        "yearOfPublication", "placeOfPublication",
                        "publisher", "series", "seriesVol", "pages",
                        "isbn", "ddcSubject", "ddcTime", "ddcPlace",
-                       "subject", "uri", "metadata_recensioID",
+                       "subject", "uri", "urn", "metadata_recensioID",
                        "idBvb"]
 
     # Citation:

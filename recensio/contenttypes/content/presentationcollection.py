@@ -199,7 +199,7 @@ class PresentationCollection(BaseReview):
                        "titleCollectedEdition", "yearOfPublication",
                        "placeOfPublication", "publisher", "series",
                        "seriesVol", "pages", "isbn", "ddcSubject",
-                       "ddcTime", "ddcPlace", "subject", "uri",
+                       "ddcTime", "ddcPlace", "subject", "uri", "urn",
                        "metadata_recensioID", "idBvb"]
 
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:

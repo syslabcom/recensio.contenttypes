@@ -185,7 +185,7 @@ class PresentationArticleReview(BaseReview):
                        "officialYearOfPublication", "volumeNumber",
                        "issueNumber", "placeOfPublication",
                        "publisher", "issn", "ddcSubject", "ddcTime",
-                       "ddcPlace", "subject", "uri",
+                       "ddcPlace", "subject", "uri", "urn",
                        "metadata_recensioID", "idBvb"]
 
     # Präsentator, presentation of: Autor, Titel. Untertitel, in:

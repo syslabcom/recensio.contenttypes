@@ -119,6 +119,7 @@ class ReviewMonograph(BaseReview):
         "idBvb",
 
         # Review schemata
+        "urn",
         "reviewAuthorLastname",
         "reviewAuthorFirstname",
         "languageReview",
@@ -129,7 +130,6 @@ class ReviewMonograph(BaseReview):
         "review",
         "customCitation",
         "uri",
-        "urn",
         ]
 
     for i, field in enumerate(ordered_fields):

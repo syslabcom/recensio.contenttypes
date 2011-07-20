@@ -125,6 +125,7 @@ class ReviewJournal(BaseReview):
         "idBvb",
 
         # Review schemata
+        "urn",
         "reviewAuthorLastname",
         "reviewAuthorFirstname",
         "languageReview",
@@ -135,7 +136,6 @@ class ReviewJournal(BaseReview):
         "review",
         "customCitation",
         "uri",
-        "urn",
         ]
 
     for i, field in enumerate(ordered_fields):
