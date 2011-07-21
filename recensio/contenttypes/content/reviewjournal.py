@@ -151,9 +151,10 @@ class ReviewJournal(BaseReview):
                        "yearOfPublication",
                        "officialYearOfPublication", "volumeNumber",
                        "issueNumber", "placeOfPublication",
-                       "publisher", "issn", "ddcSubject", "ddcTime",
-                       "ddcPlace", "subject", "metadata_recensioID",
-                       "idBvb", "canonical_uri"]
+                       "publisher", "issn", "urn", "ddcSubject",
+                       "ddcTime", "ddcPlace", "subject",
+                       "metadata_recensioID", "idBvb",
+                       "canonical_uri"]
 
     # Rezensent, review of: Zs-Titel, Nummer, Heftnummer (gezähltes
     # Jahr/Erscheinungsjahr), in: Zs-Titel, Nummer, Heftnummer

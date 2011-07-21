@@ -139,13 +139,13 @@ class ReviewMonograph(BaseReview):
 
     metadata_fields = ["metadata_review_type_code",
                        "get_publication_title",
-                       "metadata_review_author",
-                       "languageReview", "languageReviewedText",
-                       "authors", "title", "subtitle",
-                       "yearOfPublication", "placeOfPublication",
-                       "publisher", "series", "seriesVol", "pages",
-                       "isbn", "ddcSubject", "ddcTime", "ddcPlace",
-                       "subject", "metadata_recensioID", "idBvb",
+                       "metadata_review_author", "languageReview",
+                       "languageReviewedText", "authors", "title",
+                       "subtitle", "yearOfPublication",
+                       "placeOfPublication", "publisher", "series",
+                       "seriesVol", "pages", "isbn", "urn",
+                       "ddcSubject", "ddcTime", "ddcPlace", "subject",
+                       "metadata_recensioID", "idBvb",
                        "canonical_uri"]
 
     #  Rezensent, review of: Autor, Titel. Untertitel,
