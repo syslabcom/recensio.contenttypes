@@ -106,6 +106,7 @@ class ReviewJournal(BaseReview):
     ordered_fields = [
         # Reviewed Text schemata
         "issn",
+        "urn",
         "languageReviewedText",
         "editor",
         "title", # Title of the journal
@@ -125,7 +126,7 @@ class ReviewJournal(BaseReview):
         "idBvb",
 
         # Review schemata
-        "urn",
+
         "reviewAuthorLastname",
         "reviewAuthorFirstname",
         "languageReview",

@@ -530,7 +530,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     ),
     atapi.StringField(
         'urn',
-        schemata="review",
+        schemata="reviewed_text",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"URN"),

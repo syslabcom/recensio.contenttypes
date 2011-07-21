@@ -101,6 +101,7 @@ class ReviewMonograph(BaseReview):
     ordered_fields = [
         # Reviewed Text schemata
         "isbn",
+        "urn",
         "languageReviewedText",
         "authors",
         "title",
@@ -119,7 +120,6 @@ class ReviewMonograph(BaseReview):
         "idBvb",
 
         # Review schemata
-        "urn",
         "reviewAuthorLastname",
         "reviewAuthorFirstname",
         "languageReview",
