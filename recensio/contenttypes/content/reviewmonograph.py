@@ -175,8 +175,8 @@ class ReviewMonograph(BaseReview):
         """ Equivalent of 'issue'"""
         return self.get_title_from_parent_of_type("Issue")
 
-    def getDecoratedTitle(self):
-        return ReviewMonographNoMagic(self).getDecoratedTitle()
+    def getDecoratedTitle(self, lastName_first=False):
+        return ReviewMonographNoMagic(self).getDecoratedTitle(lastName_first)
 
     def get_citation_string(self):
         return ReviewMonographNoMagic(self).get_citation_string()
@@ -189,7 +189,7 @@ class ReviewMonograph(BaseReview):
 
 class ReviewMonographNoMagic(BaseReviewNoMagic):
 
-    def getDecoratedTitle(real_self):
+    def getDecoratedTitle(real_self, lastName_first=False):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
@@ -213,8 +213,12 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
 
         """
         self = real_self.magic
-        authors_string = ' / '.join([getFormatter(' ')(x['firstname'], x['lastname'])
-             for x in self.authors])
+        if lastName_first:
+            authors_string = ' / '.join([getFormatter(', ')(x['lastname'], x['firstname'])
+                 for x in self.authors])
+        else:
+            authors_string = ' / '.join([getFormatter(' ')(x['firstname'], x['lastname'])
+                 for x in self.authors])
         titles_string = getFormatter('. ')(self.title, self.subtitle)
         rezensent_string = getFormatter(' ')(self.reviewAuthorFirstname, \
                                      self.reviewAuthorLastname)

@@ -195,10 +195,10 @@ class ReviewJournal(BaseReview):
         """
         return ReviewJournalNoMagic(self).get_citation_string()
 
-    def getDecoratedTitle(self):
+    def getDecoratedTitle(self, lastName_first=False):
         """
         """
-        return ReviewJournalNoMagic(self).getDecoratedTitle()
+        return ReviewJournalNoMagic(self).getDecoratedTitle(lastName_first)
 
     def getLicense(self):
         return ReviewJournalNoMagic(self).getLicense()
@@ -270,7 +270,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
                 escape(reference_mag_string), real_self.getUUIDUrl())
         return citation_string
 
-    def getDecoratedTitle(real_self):
+    def getDecoratedTitle(real_self, lastName_first=False):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
@@ -293,8 +293,12 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         mag_year = mag_year and '(' + mag_year + ')' or None
         item_string = item(self.title, self.volumeNumber, \
                            self.issueNumber, mag_year)
-        reviewer_string = getFormatter(' ')(self.reviewAuthorFirstname, \
-                                    self.reviewAuthorLastname)
+        if lastName_first:
+            reviewer_string = getFormatter(', ')(self.reviewAuthorLastname, \
+                                         self.reviewAuthorFirstname)
+        else:
+            reviewer_string = getFormatter(' ')(self.reviewAuthorFirstname, \
+                                         self.reviewAuthorLastname)
         reviewer_string = reviewer_string and '(' + \
             real_self.directTranslate('reviewed by') + ' ' + \
             reviewer_string + ')' or None
