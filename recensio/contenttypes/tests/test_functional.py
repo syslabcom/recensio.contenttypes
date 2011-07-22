@@ -137,7 +137,10 @@ class TestCoverPicture(unittest.TestCase):
                         msg=("A string was accepted instead of image data")
                         )
 
-    # def test_decorated_folder_listing(self):
-    #     self.browser.open(
-    #         self.portal_url+"/rezensionen/zeitschriften/sehepunkte/vol1/issue1")
+    def test_decorated_folder_listing(self):
+        issue_url = self.portal_url+(
+            "/rezensionen/zeitschriften/sehepunkte/vol1/issue1/"
+            "decorated_folder_listing")
+        self.browser.open(issue_url)
+        self.assertEquals("200 Ok", self.browser.headers["status"])
 
