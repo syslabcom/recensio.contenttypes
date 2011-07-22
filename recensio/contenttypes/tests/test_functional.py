@@ -18,7 +18,7 @@ from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.testing.z2 import Browser
 
-from recensio.contenttypes.tests.base import RECENSIO_FUNCTIONAL_TESTING
+from recensio.policy.tests.layer import RECENSIO_FUNCTIONAL_TESTING
 
 def raising(self, info):
     import traceback
@@ -38,8 +38,8 @@ class TestCoverPicture(unittest.TestCase):
         self.browser = Browser(portal)
         self.browser.handleErrors = False
         self.portal.error_log._ignored_exceptions = ()
-        portalURL = portal.absolute_url()
-        self.browser.open(portalURL + '/login_form')
+        self.portal_url = portal.absolute_url()
+        self.browser.open(self.portal_url + '/login_form')
         self.browser.getControl(name='__ac_name').value = TEST_USER_NAME
         self.browser.getControl(name='__ac_password').value = TEST_USER_PASSWORD
         self.browser.getControl(name='submit').click()
@@ -136,3 +136,8 @@ class TestCoverPicture(unittest.TestCase):
         self.assertTrue("cannot identify image file" in self.browser.contents,
                         msg=("A string was accepted instead of image data")
                         )
+
+    # def test_decorated_folder_listing(self):
+    #     self.browser.open(
+    #         self.portal_url+"/rezensionen/zeitschriften/sehepunkte/vol1/issue1")
+

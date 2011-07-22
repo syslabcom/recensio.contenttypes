@@ -12,8 +12,7 @@ from Testing import ZopeTestCase as ztc
 
 from plone.testing import layered
 
-from recensio.contenttypes.tests import base
-
+from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
 
 def test_suite():
     return unittest.TestSuite([
@@ -24,4 +23,4 @@ def test_suite():
             optionflags=doctest.REPORT_ONLY_FIRST_FAILURE |
                 doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS
                ),
-               layer=base.RECENSIO_INTEGRATION_TESTING)])
+               layer=RECENSIO_INTEGRATION_TESTING)])
