@@ -475,3 +475,5 @@ def addSecondaryNavPortlets(context):
                 left_portlet_assignment_mapping["secondarynavportlet"] = \
                     classic.Assignment(template="secondarynavportlets",
                                        macro="rezensionen")
+
+    #TODO: set sec. nav for praesentationen

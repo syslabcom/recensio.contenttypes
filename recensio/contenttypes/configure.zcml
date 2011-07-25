@@ -46,6 +46,12 @@
 
   <subscriber
      for=".interfaces.review.IReview
+          Products.Archetypes.interfaces.IObjectEditedEvent"
+     handler=".eventhandlers.notify_reference_authors_if_changed"
+     />
+
+  <subscriber
+     for=".interfaces.review.IReview
           Products.Archetypes.interfaces.IObjectInitializedEvent"
      handler=".eventhandlers.review_pdf_updated_eventhandler"
      />

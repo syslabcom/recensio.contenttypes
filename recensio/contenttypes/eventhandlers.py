@@ -1,6 +1,7 @@
 import logging
 from recensio.contenttypes import interfaces
 from Products.Archetypes.interfaces.event import IObjectInitializedEvent
+from Products.CMFCore.utils import getToolByName
 
 log = logging.getLogger('recensio.contenttypes/eventhandlers.py')
 
@@ -12,3 +13,24 @@ def review_pdf_updated_eventhandler(obj, evt):
         obj.update_generated_pdf()
 
     interfaces.IReviewPDF(obj).generatePageImages()
+
+def notify_reference_authors_if_changed(obj, evt):
+    """Check if reference authors have been changed, if yes: notify added ones"""
+    rtool = getToolByName(obj, 'portal_repository')
+    skip = []
+    try:
+        history = rtool.getHistory(obj)
+        if len(history) > 1:
+            prev_version = history[0].object
+            for refauth in obj.referenceAuthors:
+                if refauth['email'] in map(lambda x: x['email'], prev_version.referenceAuthors):
+                    mail = refauth.get('email', None)
+                    if mail:
+                        log.debug('skipping %s' % mail)
+                        skip.append(mail)
+    except:
+        log.debug('No previous object version found. Not comparing reference authors')
+
+    notify_view = obj.restrictedTraverse('@@mail_new_presentation')
+    if notify_view:
+        notify_view(skip_addrs=skip)
