@@ -51,6 +51,24 @@ PresentationArticleReviewSchema['title'].storage = atapi.AnnotationStorage()
 PresentationArticleReviewSchema["authors"].widget.label=_(
     "label_presentation_article_authors",
     default=u"Author(s) of presented article")
+PresentationArticleReviewSchema["review"].widget.description = _(
+    u'description_presentation_article_review',
+    default=(u"Please give a brief and clear outline of your thesis "
+             "statements, your methodology and/or your discussion of "
+             "existing research approaches. We would kindly ask you "
+             "to avoid a mere summary of your text. Don't be shy, "
+             "however, of wording your statements in a provocative "
+             "way. By separating out paragraphs you will make your "
+             "statement more readable. You can increase the number of "
+             "characters available for your own presentation from 4000 "
+             "to 6000 by commenting on an already existing "
+             "review/presentation on recensio.net. Please note that "
+             "both comments and presentations will be checked by the "
+             "editorial team before being published in order to "
+             "prevent misuse. Because of this texts will be available "
+             "online at the earliest after three working days."
+             )
+    )
 PresentationArticleReviewSchema["volumeNumber"].widget.label = _(u"Volume")
 PresentationArticleReviewSchema["issueNumber"].widget.label = _(u"Number")
 PresentationArticleReviewSchema["referenceAuthors"].widget.description = _(

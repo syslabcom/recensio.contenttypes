@@ -160,7 +160,7 @@ PresentationOnlineResourceSchema['review'].widget.description = _(
              "team before being published in order to prevent misuse. "
              "Because of this texts will be availabe online at the earliest "
              "after three working days. ")
-    ),
+    )
 
 
 finalize_recensio_schema(PresentationOnlineResourceSchema,

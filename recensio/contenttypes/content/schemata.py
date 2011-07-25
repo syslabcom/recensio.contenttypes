@@ -97,24 +97,6 @@ def finalize_recensio_schema(schema, review_type="review"):
                 )
         else:
             schema["title"].widget.description = ""
-        schema["review"].widget.description = _(
-            u'description_presentation_html',
-            default=(u"Please give a brief and clear outline of your thesis "
-                     "statements, your methodology and/or your discussion of "
-                     "existing research approaches. We would kindly ask you "
-                     "to avoid a mere summary of your text. Don't be shy, "
-                     "however, of wording your statements in a provocative "
-                     "way. By separating out paragraphs you will make your "
-                     "statement more readable. You can increase the number of "
-                     "characters available for your own presentation from 4000 "
-                     "to 6000 by commenting on an already existing "
-                     "review/presentation on recensio.net. Please note that "
-                     "both comments and presentations will be checked by the "
-                     "editorial team before being published in order to "
-                     "prevent misuse. Because of this texts will be available "
-                     "online at the earliest after three working days."
-                     )
-            )
         schema["uri"].widget.visible["edit"] = "visible"
         schema.changeSchemataForField("uri", presented)
         schema.changeSchemataForField("urn", presented)
