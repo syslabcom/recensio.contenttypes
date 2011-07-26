@@ -103,9 +103,7 @@ class PresentationArticleReview(BaseReview):
 
     # Base
     reviewAuthorHonorific = atapi.ATFieldProperty('reviewAuthorHonorific')
-    reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
-    reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
-    reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
+    reviewAuthors = atapi.ATFieldProperty('reviewAuthors')
     reviewAuthorPersonalUrl = atapi.ATFieldProperty('reviewAuthorPersonalUrl')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
@@ -181,8 +179,7 @@ class PresentationArticleReview(BaseReview):
         "review",
         'labelPresentationAuthor',
         "reviewAuthorHonorific",
-        "reviewAuthorLastname",
-        "reviewAuthorFirstname",
+        "reviewAuthors",
         "reviewAuthorEmail",
         'reviewAuthorPersonalUrl',
         "languageReview",
@@ -205,17 +202,6 @@ class PresentationArticleReview(BaseReview):
                        "publisher", "issn", "ddcSubject", "ddcTime",
                        "ddcPlace", "subject", "uri", "urn",
                        "metadata_recensioID", "idBvb"]
-
-    # Präsentator, presentation of: Autor, Titel. Untertitel, in:
-    # Zs-Titel, Nummer, Heftnummer (gezähltes Jahr/Erscheinungsjahr),
-    # Seite von/bis, URL recensio.
-
-    citation_template =  u"{reviewAuthorLastname}, {text_presentation_of} "+\
-                        "{authors}, {title}, {subtitle}, {text_in} "+\
-                        "{shortnameJournal}, {volumeNumber}, {issueNumber}, "+\
-                        "({officialYearOfPublication}/"+\
-                        "{yearOfPublication}), "+\
-                        "Page(s) {pageStart}/{pageEnd}"
 
     def getDecoratedTitle(self):
         return PresentationArticleReviewNoMagic(self).getDecoratedTitle()
@@ -266,8 +252,7 @@ class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerken♥'), ('Alexander', 'Pilz'))]
         >>> at_mock.title = "Das neue Plone 4.0♥"
         >>> at_mock.subtitle = "Alles neu in 2010♥"
-        >>> at_mock.reviewAuthorFirstname = 'Cillian♥'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste♥'
+        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'
         >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
         >>> at_mock.placeOfPublication = u'München'
@@ -295,9 +280,10 @@ Note: gezähltes Jahr entfernt.
         item = getFormatter(u', ', u'. ')
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
         full_citation_inner = getFormatter(u': presentation of: ', u', in: ', u', ')
-        rezensent_string = rezensent(self.reviewAuthorLastname, \
-                                     self.reviewAuthorFirstname)
-        authors_string = u' / '.join([getFormatter(', ')(x['lastname'], x['firstname'])
+        rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
+                                     self.reviewAuthors[0]["firstname"])
+        authors_string = u' / '.join([getFormatter(', ')(x['lastname'],
+                                                         x['firstname'])
                                     for x in self.authors])
         item_string = item(authors_string,
                            self.title,
@@ -308,8 +294,11 @@ Note: gezähltes Jahr entfernt.
         mag_number_and_year_string = mag_number_and_year(\
             self.titleJournal, \
             self.volumeNumber, self.issueNumber, mag_year_string)
-        return full_citation_inner(escape(rezensent_string), escape(item_string), \
-            escape(mag_number_and_year_string), real_self.getUUIDUrl())
+        return full_citation_inner(
+            escape(rezensent_string),
+            escape(item_string),
+            escape(mag_number_and_year_string),
+            real_self.getUUIDUrl())
 
 atapi.registerType(PresentationArticleReview, PROJECTNAME)
 

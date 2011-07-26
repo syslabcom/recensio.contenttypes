@@ -12,14 +12,12 @@ from Products.ATContentTypes.content import schemata
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BaseReview, BaseReviewNoMagic
-from recensio.contenttypes.content.schemata import BookReviewSchema
-from recensio.contenttypes.content.schemata import CoverPictureSchema
-from recensio.contenttypes.content.schemata import PageStartEndSchema
-from recensio.contenttypes.content.schemata import PagecountSchema
-from recensio.contenttypes.content.schemata import ReviewSchema
-from recensio.contenttypes.content.schemata import SerialSchema
-from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.content.review import (
+    BaseReview, BaseReviewNoMagic, get_formatted_names)
+from recensio.contenttypes.content.schemata import (
+    BookReviewSchema, CoverPictureSchema, PageStartEndSchema,
+    PagecountSchema, ReviewSchema, SerialSchema,
+    finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewMonograph
 from recensio.contenttypes.citation import getFormatter
 
@@ -50,8 +48,7 @@ class ReviewMonograph(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
-    reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
+    reviewAuthors = atapi.ATFieldProperty('reviewAuthors')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
@@ -120,8 +117,7 @@ class ReviewMonograph(BaseReview):
         "idBvb",
 
         # Review schemata
-        "reviewAuthorLastname",
-        "reviewAuthorFirstname",
+        "reviewAuthors",
         "languageReview",
         "pdf",
         "pageStart",
@@ -148,18 +144,6 @@ class ReviewMonograph(BaseReview):
                        "metadata_recensioID", "idBvb",
                        "canonical_uri"]
 
-    #  Rezensent, review of: Autor, Titel. Untertitel,
-    # Erscheinungsort: Verlag Jahr, in: Zs-Titel, Nummer, Heftnummer
-    # (gezähltes Jahr/Erscheinungsjahr), Seite von/bis, URL recensio.
-
-    # NOTE: ReviewMonograph doesn't have:
-    # officialYearOfPublication, pageStart, pageEnd
-    citation_template =  (u"{reviewAuthorLastname}, {text_review_of} "
-                          "{authors}, {title}, {subtitle}, "
-                          "{placeOfPublication}: {yearOfPublication}, "
-                          "{text_in} {publisher}, {series}, {seriesVol}"
-                          "({yearOfPublication}), Pages {pages}")
-
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""
         return self.get_title_from_parent_of_type("Publication")
@@ -175,8 +159,8 @@ class ReviewMonograph(BaseReview):
         """ Equivalent of 'issue'"""
         return self.get_title_from_parent_of_type("Issue")
 
-    def getDecoratedTitle(self, lastName_first=False):
-        return ReviewMonographNoMagic(self).getDecoratedTitle(lastName_first)
+    def getDecoratedTitle(self, lastname_first=False):
+        return ReviewMonographNoMagic(self).getDecoratedTitle(lastname_first)
 
     def get_citation_string(self):
         return ReviewMonographNoMagic(self).get_citation_string()
@@ -189,7 +173,7 @@ class ReviewMonograph(BaseReview):
 
 class ReviewMonographNoMagic(BaseReviewNoMagic):
 
-    def getDecoratedTitle(real_self, lastName_first=False):
+    def getDecoratedTitle(real_self, lastname_first=False):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
@@ -197,8 +181,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
         >>> at_mock.title = "Plone 4.0"
         >>> at_mock.subtitle = "Das Benutzerhandbuch"
-        >>> at_mock.reviewAuthorFirstname = 'Cillian'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste'
+        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = ReviewMonographNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a
         >>> review.getDecoratedTitle()
@@ -213,15 +196,15 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
 
         """
         self = real_self.magic
-        if lastName_first:
-            authors_string = ' / '.join([getFormatter(', ')(x['lastname'], x['firstname'])
-                 for x in self.authors])
-        else:
-            authors_string = ' / '.join([getFormatter(' ')(x['firstname'], x['lastname'])
-                 for x in self.authors])
+        name_part_separator = " "
+        if lastname_first:
+            name_part_separator = ", "
+        authors_string = get_formatted_names(u' / ', name_part_separator,
+                                             self.authors,
+                                             lastname_first = lastname_first)
         titles_string = getFormatter('. ')(self.title, self.subtitle)
-        rezensent_string = getFormatter(' ')(self.reviewAuthorFirstname, \
-                                     self.reviewAuthorLastname)
+        rezensent_string = get_formatted_names(u' / ', ' ', self.reviewAuthors,
+                                               lastname_first = lastname_first)
         rezensent_string = rezensent_string and "(" +\
              real_self.directTranslate('reviewed by') + " " +\
              rezensent_string + ")" or ""
@@ -238,8 +221,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerke♥n'), ('Alexander', 'Pilz'))]
         >>> at_mock.title = "Plone 4.0♥"
         >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
-        >>> at_mock.reviewAuthorFirstname = 'Cillian♥'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste♥'
+        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname' : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'
         >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
         >>> at_mock.placeOfPublication = 'München♥'
@@ -272,12 +254,11 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         item = getFormatter(u', ', u'. ', u', ', u': ', u', ')
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
         full_citation_inner = getFormatter(u': review of: ', u', in: ', u', ')
-        rezensent_string = rezensent(self.reviewAuthorLastname,
-                                     self.reviewAuthorFirstname)
-        authors_string = u' / '.join(
-            [getFormatter(', ')(x['lastname'], x['firstname'])
-             for x in self.authors]
-                                     )
+        rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
+                                     self.reviewAuthors[0]["firstname"])
+        authors_string = get_formatted_names(u' / ', ', ', self.authors,
+                                             lastname_first=True)
+
         item_string = item(authors_string,
                            self.title,
                            self.subtitle,

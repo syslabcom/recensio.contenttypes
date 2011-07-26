@@ -11,16 +11,14 @@ from Products.Archetypes import atapi
 from Products.DataGridField import DataGridField, DataGridWidget
 from Products.DataGridField.Column import Column
 
-from recensio.contenttypes.interfaces import \
-     IPresentationOnlineResource
+from recensio.contenttypes.interfaces import IPresentationOnlineResource
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BaseReview, \
-    BasePresentationNoMagic
-from recensio.contenttypes.content.schemata import CommonReviewSchema
-from recensio.contenttypes.content.schemata import PresentationSchema
-from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.content.review import (
+    BasePresentationNoMagic, BaseReview)
+from recensio.contenttypes.content.schemata import (
+    CommonReviewSchema, PresentationSchema, finalize_recensio_schema)
 
 
 PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
@@ -179,8 +177,7 @@ class PresentationOnlineResource(BaseReview):
 
     # Base
     reviewAuthorHonorific = atapi.ATFieldProperty('reviewAuthorHonorific')
-    reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
-    reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
+    reviewAuthors = atapi.ATFieldProperty('reviewAuthors')
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     reviewAuthorPersonalUrl = atapi.ATFieldProperty('reviewAuthorPersonalUrl')
     languageReview = atapi.ATFieldProperty(
@@ -240,8 +237,7 @@ class PresentationOnlineResource(BaseReview):
         "review",
         'labelPresentationAuthor',
         "reviewAuthorHonorific",
-        "reviewAuthorLastname",
-        "reviewAuthorFirstname",
+        "reviewAuthors",
         "reviewAuthorEmail",
         'reviewAuthorPersonalUrl',
         "languageReview",
@@ -264,10 +260,6 @@ class PresentationOnlineResource(BaseReview):
                        "documenttypes_periodicals", "ddcSubject",
                        "ddcTime", "ddcPlace", "subject",
                        "metadata_recensioID"]
-
-    # Präsentator, presentation of: Titel, URL Ressource, URL recensio.
-    citation_template =  u"{reviewAuthorLastname}, {text_presentation_of} "+\
-                        "{title}, {uri}"
 
     def getDecoratedTitle(self):
         return PresentationOnlineResourceNoMagic(self).getDecoratedTitle()
@@ -306,8 +298,7 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
-        >>> at_mock.reviewAuthorFirstname = 'Manuel♥'
-        >>> at_mock.reviewAuthorLastname = 'Reinhard♥'
+        >>> at_mock.reviewAuthors = [{'firstname' : 'Manuel♥', 'lastname'  : 'Reinhard♥'}]
         >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH♥'
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
@@ -327,8 +318,10 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u', ')
         full_citation = getFormatter(': presentation of: ')
-        rezensent_string = rezensent(self.reviewAuthorLastname, self.reviewAuthorFirstname)
-        item_string = item(escape(self.title), escape(self.uri), real_self.getUUIDUrl())
+        rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
+                                     self.reviewAuthors[0]["firstname"])
+        item_string = item(escape(self.title), escape(self.uri),
+                           real_self.getUUIDUrl())
         return full_citation(escape(rezensent_string), item_string)
 
 atapi.registerType(PresentationOnlineResource, PROJECTNAME)

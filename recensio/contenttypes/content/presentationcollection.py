@@ -113,8 +113,7 @@ class PresentationCollection(BaseReview):
 
     # Base
     reviewAuthorHonorific = atapi.ATFieldProperty('reviewAuthorHonorific')
-    reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
-    reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
+    reviewAuthors = atapi.ATFieldProperty('reviewAuthors')
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     reviewAuthorPersonalUrl = atapi.ATFieldProperty('reviewAuthorPersonalUrl')
     languageReview = atapi.ATFieldProperty(
@@ -196,8 +195,6 @@ class PresentationCollection(BaseReview):
         "review",
         'labelPresentationAuthor',
         "reviewAuthorHonorific",
-        "reviewAuthorLastname",
-        "reviewAuthorFirstname",
         "reviewAuthorEmail",
         'reviewAuthorPersonalUrl',
         "languageReview",
@@ -219,16 +216,6 @@ class PresentationCollection(BaseReview):
                        "seriesVol", "pages", "isbn", "ddcSubject",
                        "ddcTime", "ddcPlace", "subject", "uri", "urn",
                        "metadata_recensioID", "idBvb"]
-
-    # Präsentator, presentation of: Autor, Titel. Untertitel, in:
-    # Herausgeber, Titel. Untertitel, Erscheinungsort: Verlag Jahr,
-    # URL recensio.
-    citation_template =  (u"{reviewAuthorLastname}, {text_presentation_of} "
-                          "{authors}, {title}, {subtitle}, {text_in} "
-                          "{editorsCollectedEdition}, "
-                          "{title}, {subtitle}, "
-                          "{placeOfPublication}: {publisher} "
-                          "{yearOfPublication}")
 
     def getDecoratedTitle(self):
         return PresentationCollectionNoMagic(self).getDecoratedTitle()
@@ -280,8 +267,7 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         >>> at_mock.title = "Plone 4.0 für Dummies♥"
         >>> at_mock.subtitle = "Plone 4 in 19 Tagen lernen!♥"
         >>> at_mock.titleCollectedEdition = 'Plone 4 komplett. ALLES zu Plone♥'
-        >>> at_mock.reviewAuthorFirstname = 'Cillian♥'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste♥'
+        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2010♥'
         >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
         >>> at_mock.placeOfPublication = 'München♥'
@@ -313,8 +299,8 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         hrsg_book = getFormatter(', ', ', ', ': ')
         hrsg = getFormatter(' (ed.), ')
         full_citation = getFormatter(u': presentation of: ', u', in: ', u', ')
-        rezensent_string = rezensent(self.reviewAuthorLastname, \
-                                     self.reviewAuthorFirstname)
+        rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
+                                     self.reviewAuthors[0]["firstname"])
         authors_string = u' / '.join([getFormatter(', ')\
                                        (x['lastname'], x['firstname'])
                                     for x in self.authors])

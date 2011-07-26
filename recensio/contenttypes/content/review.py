@@ -33,10 +33,8 @@ from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
-from recensio.contenttypes.helperutilities import SimpleZpt
-from recensio.contenttypes.helperutilities import RunSubprocess
-from recensio.contenttypes.helperutilities import SimpleSubprocess
-from recensio.contenttypes.helperutilities import SubprocessException
+from recensio.contenttypes.helperutilities import (
+    RunSubprocess, SimpleSubprocess, SimpleZpt, SubprocessException,)
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
 from recensio.policy.pdf_cut import cutPDF
 from ZODB.POSException import ConflictError
@@ -44,6 +42,17 @@ from ZODB.POSException import ConflictError
 from plone.app.discussion.interfaces import IConversation
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
+
+def get_formatted_names(full_name_separator, name_part_separator,
+                        names, lastname_first=False):
+    name_part1 = "firstname"
+    name_part2 = "lastname"
+    if lastname_first:
+        name_part1 = "lastname"
+        name_part2 = "firstname"
+    return full_name_separator.join(
+        [getFormatter(name_part_separator)(x[name_part1], x[name_part2])
+         for x in names])
 
 
 class BaseNoMagic(object):
@@ -117,6 +126,14 @@ class BaseBaseReviewNoMagic(object):
 
 class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     implements(IReview)
+
+    @property
+    def reviewAuthorFirstname(self):
+        return self.reviewAuthors[0].firstname
+
+    @property
+    def reviewAuthorLastname(self):
+        return self.reviewAuthors[0].lastname
 
     def listSupportedLanguages(self):
         return BaseBaseReviewNoMagic(self).listSupportedLanguages()
@@ -273,9 +290,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                               )
         try:
            review_author = ('%s, %s' % (\
-              self.reviewAuthorLastname,
-              self.reviewAuthorFirstname
-              )).decode('utf-8').encode('utf-8')
+              self.reviewAuthors[0]["lastname"],
+              self.reviewAuthors[0]["firstname"]
+              )).encode('utf-8')
            if review_author.strip() != ',':
                retval.append(review_author.strip())
         except AttributeError:

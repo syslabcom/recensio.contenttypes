@@ -14,6 +14,7 @@ from Products.Archetypes import atapi
 from Products.CMFCore.utils import getToolByName
 from Products.DataGridField import DataGridField, DataGridWidget
 from Products.DataGridField.Column import Column
+from Products.DataGridField.validators import DataGridValidator
 from Products.validation.interfaces.IValidator import IValidator
 from plone.app.blob.field import BlobField
 from plone.app.blob.field import ImageField
@@ -52,6 +53,10 @@ def finalize_recensio_schema(schema, review_type="review"):
     if review_type in ["presentation", "presentation_online",
                        "presentation_article_review",
                        "presentation_collection"]:
+        # Presentations only have one author
+        schema["reviewAuthors"].allow_reorder = False
+        schema["reviewAuthors"].allow_insert = False
+        schema["reviewAuthors"].allow_delete = False
         # Rename the schemata for presentations
         presented = "presented_text"
         if review_type == "presentation_online":
@@ -104,8 +109,8 @@ def finalize_recensio_schema(schema, review_type="review"):
         schema['ddcTime'].widget.label = _(u"Time classification")
         schema['ddcPlace'].widget.label = _(u"Regional classification")
         # fill in the review author first name and last name by default
-        schema['reviewAuthorLastname'].default_method = "get_user_lastname"
-        schema['reviewAuthorFirstname'].default_method = "get_user_firstname"
+        # schema['reviewAuthorLastname'].default_method = "get_user_lastname"
+        # schema['reviewAuthorFirstname'].default_method = "get_user_firstname"
         schema['languageReview'].widget.label = _(
             u"Language(s) of presentation")
         schema['languageReviewedText'].widget.label = _(
@@ -152,6 +157,15 @@ class isTrue:
                        "the CC-BY licence.")
               ),
             target_language=language)
+
+
+class hasAtLeastOneAuthor(DataGridValidator):
+    def __call__(self, value, *args, **kwargs):
+        name = value[0]
+        if name.get("firstname", "") == name.get("lastname", "") == "":
+            return _("message_at_least_one_author_validation_error")
+        return True
+
 
 class ImageValidator():
     """
@@ -427,23 +441,37 @@ SerialSchema = atapi.Schema((
 BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 # TODO for presentations check that last name and first name are also
 # in the authors field
-    atapi.StringField(
-        'reviewAuthorLastname',
+    # atapi.StringField(
+    #     'reviewAuthorLastname',
+    #     schemata="review",
+    #     storage=atapi.AnnotationStorage(),
+    #     required=True,
+    #     widget=atapi.StringWidget(
+    #         label=_(u"Last name author"),
+    #         ),
+    #     searchable=True,
+    #     ),
+    # atapi.StringField(
+    #     'reviewAuthorFirstname',
+    #     schemata="review",
+    #     storage=atapi.AnnotationStorage(),
+    #     required=True,
+    #     widget=atapi.StringWidget(
+    #         label=_(u"First name author"),
+    #         ),
+    #     searchable=True,
+    #     ),
+    DataGridField(
+        'reviewAuthors',
         schemata="review",
         storage=atapi.AnnotationStorage(),
-        required=True,
-        widget=atapi.StringWidget(
-            label=_(u"Last name author"),
-            ),
-        searchable=True,
-        ),
-    atapi.StringField(
-        'reviewAuthorFirstname',
-        schemata="review",
-        storage=atapi.AnnotationStorage(),
-        required=True,
-        widget=atapi.StringWidget(
-            label=_(u"First name author"),
+        columns=("lastname", "firstname"),
+        default=[{'lastname':'', 'firstname':''}],
+        validators=(hasAtLeastOneAuthor(""),),
+        widget=DataGridWidget(
+            label = u"",
+            columns = {"lastname" : Column(_(u"Last name")),
+                       "firstname" : Column(_(u"First name")),},
             ),
         searchable=True,
         ),

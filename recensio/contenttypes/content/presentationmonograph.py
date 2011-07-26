@@ -17,15 +17,12 @@ from Products.CMFCore.utils import getToolByName
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BaseReview,\
-    BasePresentationNoMagic
-from recensio.contenttypes.content.schemata import BookReviewSchema
-from recensio.contenttypes.content.schemata import CoverPictureSchema
-from recensio.contenttypes.content.schemata import PagecountSchema
-from recensio.contenttypes.content.schemata import PresentationSchema
-from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
-from recensio.contenttypes.content.schemata import SerialSchema
-from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.content.review import (
+    BaseReview, BasePresentationNoMagic)
+from recensio.contenttypes.content.schemata import (
+    BookReviewSchema, CoverPictureSchema, PagecountSchema,
+    PresentationSchema, ReferenceAuthorsSchema, SerialSchema,
+    finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IPresentationMonograph
 
 PresentationMonographSchema = BookReviewSchema.copy() + \
@@ -154,8 +151,7 @@ class PresentationMonograph(BaseReview):
 
     # Base
     reviewAuthorHonorific = atapi.ATFieldProperty('reviewAuthorHonorific')
-    reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
-    reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
+    reviewAuthors = atapi.ATFieldProperty('reviewAuthors')
     reviewAuthorEmail = atapi.ATFieldProperty('reviewAuthorEmail')
     reviewAuthorPersonalUrl = atapi.ATFieldProperty('reviewAuthorPersonalUrl')
     languageReview = atapi.ATFieldProperty('languageReview')
@@ -236,8 +232,7 @@ class PresentationMonograph(BaseReview):
         "publishedReviews", # Name, url
         'labelPresentationAuthor',
         "reviewAuthorHonorific",
-        "reviewAuthorLastname",
-        "reviewAuthorFirstname",
+        "reviewAuthors",
         "reviewAuthorEmail",
         'reviewAuthorPersonalUrl',
         "languageReview",
@@ -260,19 +255,6 @@ class PresentationMonograph(BaseReview):
                        "subject", "uri", "urn", "metadata_recensioID",
                        "idBvb"]
 
-    # Citation:
-    # Präsentator, presentation of: Autor, Titel. Untertitel,
-    # Erscheinungsort: Verlag Jahr, in: Zs-Titel, Nummer, Heftnummer
-    # (gezähltes Jahr/Erscheinungsjahr), Seite von/bis, URL recensio.
-
-    # NOTE: PresentationMonograph doesn't have:
-    # officialYearOfPublication, pageStart, pageEnd
-    citation_template =  (u"{reviewAuthorLastname}, {text_presentation_of} "
-                          "{authors}, {title}, {subtitle}, "
-                          "{placeOfPublication}: {yearOfPublication}, "
-                          "{text_in} {publisher}, {series}, {seriesVol}"
-                          "({yearOfPublication}), {text_pages} {pages}")
-
     def getDecoratedTitle(self):
         return PresentationMonographNoMagic(self).getDecoratedTitle()
 
@@ -294,8 +276,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
         >>> at_mock.title = "Plone 4.0"
         >>> at_mock.subtitle = "Das Benutzerhandbuch"
-        >>> at_mock.reviewAuthorFirstname = 'Cillian'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste'
+        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = PresentationMonographNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a
         >>> review.getDecoratedTitle()
@@ -311,8 +292,8 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         authors_string = ' / '.join([getFormatter(' ')(x['firstname'], x['lastname'])
              for x in self.authors])
         titles_string = getFormatter('. ')(self.title, self.subtitle)
-        rezensent_string = getFormatter(' ')(self.reviewAuthorFirstname, \
-                                     self.reviewAuthorLastname)
+        rezensent_string = getFormatter(' ')(self.reviewAuthors[0]["firstname"],
+                                             self.reviewAuthors[0]["lastname"])
         rezensent_string = rezensent_string and "(" + \
             real_self.directTranslate('presented by') + " " + rezensent_string + \
             ")" or ""
@@ -329,8 +310,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerken♥'), ('Alexander', 'Pilz'))]
         >>> at_mock.title = "Plone 4.0♥"
         >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
-        >>> at_mock.reviewAuthorFirstname = 'Cillian♥'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste♥'
+        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'
         >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
         >>> at_mock.placeOfPublication = 'München♥'
@@ -355,8 +335,8 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         if False:
             _("presentation of")
         full_citation_inner = getFormatter(u': presentation of: ', u', ')
-        rezensent_string = rezensent(self.reviewAuthorLastname, \
-                                     self.reviewAuthorFirstname)
+        rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
+                                     self.reviewAuthors[0]["firstname"])
         authors_string = u' / '.join([getFormatter(u', ')(x['lastname'], x['firstname'])
                                     for x in self.authors])
         item_string = item(authors_string,

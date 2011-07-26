@@ -18,12 +18,11 @@ from Products.PortalTransforms.transforms.safe_html import scrubHTML
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BaseReview, BaseReviewNoMagic
-from recensio.contenttypes.content.schemata import CoverPictureSchema
-from recensio.contenttypes.content.schemata import JournalReviewSchema
-from recensio.contenttypes.content.schemata import PageStartEndSchema
-from recensio.contenttypes.content.schemata import ReviewSchema
-from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.content.review import (
+    BaseReview, BaseReviewNoMagic, get_formatted_names)
+from recensio.contenttypes.content.schemata import (
+    CoverPictureSchema, JournalReviewSchema, PageStartEndSchema,
+    ReviewSchema, finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewJournal
 
 ReviewJournalSchema = JournalReviewSchema.copy() + \
@@ -59,8 +58,7 @@ class ReviewJournal(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthorLastname = atapi.ATFieldProperty('reviewAuthorLastname')
-    reviewAuthorFirstname = atapi.ATFieldProperty('reviewAuthorFirstname')
+    reviewAuthors = atapi.ATFieldProperty('reviewAuthors')
     languageReview = atapi.ATFieldProperty(
         'languageReview')
     languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
@@ -127,8 +125,7 @@ class ReviewJournal(BaseReview):
 
         # Review schemata
 
-        "reviewAuthorLastname",
-        "reviewAuthorFirstname",
+        "reviewAuthors",
         "languageReview",
         "pdf",
         "pageStart",
@@ -156,19 +153,6 @@ class ReviewJournal(BaseReview):
                        "metadata_recensioID", "idBvb",
                        "canonical_uri"]
 
-    # Rezensent, review of: Zs-Titel, Nummer, Heftnummer (gezähltes
-    # Jahr/Erscheinungsjahr), in: Zs-Titel, Nummer, Heftnummer
-    # (gezähltes Jahr/Erscheinungsjahr), Seite von/bis, URL recensio
-    citation_template =  (u"{reviewAuthorLastname}, {text_review_of} "
-                          "{get_publication_title}, {get_volume_title},"
-                          "{get_issue_title}, "
-                          "({officialYearOfPublication}/{yearOfPublication}), "
-                          "{text_in} "
-                          "{get_publication_title}, {get_volume_title}, "
-                          "{get_issue_title}, ({officialYearOfPublication}/"
-                          "{yearOfPublication}) {text_pages} "
-                          "{pageStart}/{pageEnd}")
-
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""
         return self.get_title_from_parent_of_type("Publication")
@@ -195,10 +179,10 @@ class ReviewJournal(BaseReview):
         """
         return ReviewJournalNoMagic(self).get_citation_string()
 
-    def getDecoratedTitle(self, lastName_first=False):
+    def getDecoratedTitle(self, lastname_first=False):
         """
         """
-        return ReviewJournalNoMagic(self).getDecoratedTitle(lastName_first)
+        return ReviewJournalNoMagic(self).getDecoratedTitle(lastname_first)
 
     def getLicense(self):
         return ReviewJournalNoMagic(self).getLicense()
@@ -215,8 +199,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> at_mock.get = lambda x: None
         >>> at_mock.customCitation = ''
         >>> at_mock.title = "Plone Mag♥"
-        >>> at_mock.reviewAuthorFirstname = 'Cillian♥'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste♥'
+        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'
         >>> at_mock.officialYearOfPublication = '2010♥'
         >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
@@ -243,8 +226,8 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         self = real_self.magic
         if self.customCitation:
             return scrubHTML(self.customCitation).decode('utf8')
-        rezensent_string = getFormatter(', ')(self.reviewAuthorLastname,
-                                              self.reviewAuthorFirstname)
+        rezensent_string = get_formatted_names(' / ', u', ', self.reviewAuthors,
+                                               lastname_first=True)
         item = getFormatter(', ', ', ', ' ')
         mag_year = getFormatter('/')(self.officialYearOfPublication,
                                      self.yearOfPublication)
@@ -270,13 +253,12 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
                 escape(reference_mag_string), real_self.getUUIDUrl())
         return citation_string
 
-    def getDecoratedTitle(real_self, lastName_first=False):
+    def getDecoratedTitle(real_self, lastname_first=False):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.title = "Plone Mag"
-        >>> at_mock.reviewAuthorFirstname = 'Cillian'
-        >>> at_mock.reviewAuthorLastname = 'de Roiste'
+        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> at_mock.yearOfPublication = '2009'
         >>> at_mock.officialYearOfPublication = '2010'
         >>> at_mock.volumeNumber = '1'
@@ -288,20 +270,24 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         """
         self = real_self.magic
         item = getFormatter(', ', ', ', ' ')
-        mag_year = getFormatter('/')(self.officialYearOfPublication, \
-                             self.yearOfPublication)
+        mag_year = getFormatter('/')(self.officialYearOfPublication,
+                                     self.yearOfPublication)
         mag_year = mag_year and '(' + mag_year + ')' or None
         item_string = item(self.title, self.volumeNumber, \
                            self.issueNumber, mag_year)
-        if lastName_first:
-            reviewer_string = getFormatter(', ')(self.reviewAuthorLastname, \
-                                         self.reviewAuthorFirstname)
+
+        if lastname_first:
+            reviewer_string = get_formatted_names(
+                u' / ', ', ', self.reviewAuthors,
+                lastname_first = lastname_first)
         else:
-            reviewer_string = getFormatter(' ')(self.reviewAuthorFirstname, \
-                                         self.reviewAuthorLastname)
+            reviewer_string = get_formatted_names(
+                u' / ', ' ', self.reviewAuthors,
+                lastname_first = lastname_first)
+
         reviewer_string = reviewer_string and '(' + \
             real_self.directTranslate('reviewed by') + ' ' + \
-            reviewer_string + ')' or None
+            reviewer_string + ')' or ""
         return ' '.join((item_string, reviewer_string))
 
 atapi.registerType(ReviewJournal, PROJECTNAME)
