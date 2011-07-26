@@ -15,7 +15,7 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from recensio.contenttypes import contenttypesMessageFactory as _
-
+from recensio.contenttypes.content.review import get_formatted_names
 
 class View(BrowserView):
     """Moderation View
@@ -28,9 +28,8 @@ class View(BrowserView):
         }
 
     def get_review_author(self):
-        lastname = self.context.reviewAuthorLastname
-        firstname = self.context.reviewAuthorFirstname
-        return "%s, %s" %(lastname, firstname)
+        return get_formatted_names(u' / ', ', ', self.reviewAuthors,
+                                   lastname_first=True)
 
     def list_rows(self, rows, *keys):
         if rows:
