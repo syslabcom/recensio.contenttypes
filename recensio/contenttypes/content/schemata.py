@@ -441,26 +441,26 @@ SerialSchema = atapi.Schema((
 BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 # TODO for presentations check that last name and first name are also
 # in the authors field
-    # atapi.StringField(
-    #     'reviewAuthorLastname',
-    #     schemata="review",
-    #     storage=atapi.AnnotationStorage(),
-    #     required=True,
-    #     widget=atapi.StringWidget(
-    #         label=_(u"Last name author"),
-    #         ),
-    #     searchable=True,
-    #     ),
-    # atapi.StringField(
-    #     'reviewAuthorFirstname',
-    #     schemata="review",
-    #     storage=atapi.AnnotationStorage(),
-    #     required=True,
-    #     widget=atapi.StringWidget(
-    #         label=_(u"First name author"),
-    #         ),
-    #     searchable=True,
-    #     ),
+    atapi.StringField(
+        'reviewAuthorLastname', # for migration to reviewAuthors only
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        widget=atapi.StringWidget(
+            label=_(u"Last name author"),
+            ),
+        searchable=True,
+        ),
+    atapi.StringField(
+        'reviewAuthorFirstname', # for migration to reviewAuthors only
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        required=True,
+        widget=atapi.StringWidget(
+            label=_(u"First name author"),
+            ),
+        searchable=True,
+        ),
     DataGridField(
         'reviewAuthors',
         schemata="review",
