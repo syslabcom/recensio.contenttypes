@@ -127,14 +127,6 @@ class BaseBaseReviewNoMagic(object):
 class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     implements(IReview)
 
-    @property
-    def reviewAuthorFirstname(self):
-        return self.reviewAuthors[0].firstname
-
-    @property
-    def reviewAuthorLastname(self):
-        return self.reviewAuthors[0].lastname
-
     def listSupportedLanguages(self):
         return BaseBaseReviewNoMagic(self).listSupportedLanguages()
 
