@@ -139,15 +139,48 @@ class TestCoverPicture(unittest.TestCase):
                         )
 
 
-# class TestBrowserViews(unittest.TestCase):
-#     """ Test various registered browser views
-#     """
-#     layer = RECENSIO_FUNCTIONAL_TESTING
+class TestBrowserViews(unittest.TestCase):
+    """ Test various browser views
+    """
+    layer = RECENSIO_FUNCTIONAL_TESTING
 
-#     def test_decorated_folder_listing(self):
-#         issue_url = self.portal_url+(
-#             "/rezensionen/zeitschriften/sehepunkte/vol1/issue1/"
-#             "decorated_folder_listing")
-#         self.browser.open(issue_url)
-#         self.assertEquals("200 Ok", self.browser.headers["status"])
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.portal_url = self.portal.absolute_url()
+        self.browser = Browser(self.portal)
 
+        self.get_url_of_type = lambda meta_type:\
+            "http://nohost"+self.portal.portal_catalog(
+                {"meta_type": meta_type})[0]["path_string"]
+
+    def test_decorated_folder_listing(self):
+        issue_url = self.portal_url+(
+            "/rezensionen/zeitschriften/sehepunkte/vol1/issue1/"
+            "decorated_folder_listing")
+        self.browser.open(issue_url)
+        self.assertEquals("200 Ok", self.browser.headers["status"])
+
+    def test_presentationarticlereview_view(self):
+        self.browser.open(self.get_url_of_type("PresentationArticleReview"))
+        self.assertEquals("200 Ok", self.browser.headers["status"])
+
+
+    def test_presentationcollection_view(self):
+        self.browser.open(self.get_url_of_type("PresentationCollection"))
+        self.assertEquals("200 Ok", self.browser.headers["status"])
+
+    def test_presentationmonograph_view(self):
+        self.browser.open(self.get_url_of_type("PresentationArticleReview"))
+        self.assertEquals("200 Ok", self.browser.headers["status"])
+
+    def test_presentationonlineresource_view(self):
+        self.browser.open(self.get_url_of_type("PresentationArticleReview"))
+        self.assertEquals("200 Ok", self.browser.headers["status"])
+
+    def test_reviewjournal_view(self):
+        self.browser.open(self.get_url_of_type("PresentationArticleReview"))
+        self.assertEquals("200 Ok", self.browser.headers["status"])
+
+    def test_reviewmonograph_view(self):
+        self.browser.open(self.get_url_of_type("PresentationArticleReview"))
+        self.assertEquals("200 Ok", self.browser.headers["status"])
