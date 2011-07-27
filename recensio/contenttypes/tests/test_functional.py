@@ -62,7 +62,6 @@ class TestCoverPicture(unittest.TestCase):
         self.browser.getControl("Licence Agreement").selected = True
         self.browser.getControl("Save").click()
 
-
     def setUp(self):
         self.portal = self.layer["portal"]
         self.get_manager_browser(self.portal)
@@ -76,8 +75,10 @@ class TestCoverPicture(unittest.TestCase):
         self.browser.getControl("Add").click()
 
         self.browser.getControl(name="title").value = "Test Cover Pic"
-        self.browser.getControl(name="reviewAuthorLastname").value = "Last"
-        self.browser.getControl(name="reviewAuthorFirstname").value = "First"
+        self.browser.getControl(
+            name="reviewAuthors.firstname:records", index=0).value = "First"
+        self.browser.getControl(
+            name="reviewAuthors.lastname:records", index=0).value = "Last"
         self.browser.getControl(name="reviewAuthorEmail").value = "e@mail.com"
         self.browser.getControl("Licence Agreement").selected = True
         self.browser.getControl("Save").click()
@@ -137,10 +138,16 @@ class TestCoverPicture(unittest.TestCase):
                         msg=("A string was accepted instead of image data")
                         )
 
-    def test_decorated_folder_listing(self):
-        issue_url = self.portal_url+(
-            "/rezensionen/zeitschriften/sehepunkte/vol1/issue1/"
-            "decorated_folder_listing")
-        self.browser.open(issue_url)
-        self.assertEquals("200 Ok", self.browser.headers["status"])
+
+# class TestBrowserViews(unittest.TestCase):
+#     """ Test various registered browser views
+#     """
+#     layer = RECENSIO_FUNCTIONAL_TESTING
+
+#     def test_decorated_folder_listing(self):
+#         issue_url = self.portal_url+(
+#             "/rezensionen/zeitschriften/sehepunkte/vol1/issue1/"
+#             "decorated_folder_listing")
+#         self.browser.open(issue_url)
+#         self.assertEquals("200 Ok", self.browser.headers["status"])
 

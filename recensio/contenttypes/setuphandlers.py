@@ -247,8 +247,8 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                'publisher':u'',
                'customCitation':u'',
                'reviewAuthorHonorific':u'Dr. rer nat',
-               'reviewAuthorLastname':u'Стоичков',
-               'reviewAuthorFirstname':u'Христо',
+               'reviewAuthors':[{"lastname":u'Стоичков',
+                                "firstname":u'Христо'}],
                'reviewAuthorEmail':u'dev0@syslab.com',
                'titleJournal':u'',
                'documenttypes_institution':u'',
@@ -261,7 +261,8 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                'publishedReviews':[dict(details=u'Journal A, 2008',)],
                'titleCollectedEdition':u'',
                'editorsCollectedEdition':[random.choice(authors_list)],
-               'urn': u'testing-data-urn'}
+               'urn': u'testing-data-urn'
+                }
 
     # Add a folder to contain the sample-reviews
     portal_id = "recensio"
