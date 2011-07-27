@@ -1,7 +1,7 @@
 """Prints out common content type schema fields
 
 Run from your buildout with:
-$ ./bin/instance run content_types_schema_info.py
+(venv)$ instance run content_types_schema_info.py
 """
 from recensio.contenttypes.content import schemata
 from pprint import pprint
