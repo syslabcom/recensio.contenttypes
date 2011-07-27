@@ -1,7 +1,13 @@
-"""Prints out common content type schema fields
+""" #3143
 
-Run from your buildout with:
-(venv)$ instance run content_types_schema_info.py
+migrate reviewAuthorLastname, reviewAuthorFirstname to
+reviewAuthors["lastname"] , reviewAuthors["firstname"]
+
+note reviewAuthorLastname and reviewAuthorFirstname need to be part of
+the schema before this can be run
+
+(venv)$ instance run
+migrate_review_authors.py
 """
 from pprint import pprint
 
