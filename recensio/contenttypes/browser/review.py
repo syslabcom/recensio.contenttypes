@@ -28,7 +28,7 @@ class View(BrowserView):
         }
 
     def get_review_author(self):
-        return get_formatted_names(u' / ', ', ', self.context.authors,
+        return get_formatted_names(u' / ', ', ', self.context.reviewAuthors,
                                    lastname_first=True)
 
     def list_rows(self, rows, *keys):

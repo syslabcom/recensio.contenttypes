@@ -170,17 +170,17 @@ class TestBrowserViews(unittest.TestCase):
         self.assertEquals("200 Ok", self.browser.headers["status"])
 
     def test_presentationmonograph_view(self):
-        self.browser.open(self.get_url_of_type("PresentationArticleReview"))
+        self.browser.open(self.get_url_of_type("PresentationMonograph"))
         self.assertEquals("200 Ok", self.browser.headers["status"])
 
     def test_presentationonlineresource_view(self):
-        self.browser.open(self.get_url_of_type("PresentationArticleReview"))
+        self.browser.open(self.get_url_of_type("PresentationOnlineResource"))
         self.assertEquals("200 Ok", self.browser.headers["status"])
 
     def test_reviewjournal_view(self):
-        self.browser.open(self.get_url_of_type("PresentationArticleReview"))
+        self.browser.open(self.get_url_of_type("ReviewJournal"))
         self.assertEquals("200 Ok", self.browser.headers["status"])
 
     def test_reviewmonograph_view(self):
-        self.browser.open(self.get_url_of_type("PresentationArticleReview"))
+        self.browser.open(self.get_url_of_type("ReviewMonograph"))
         self.assertEquals("200 Ok", self.browser.headers["status"])
