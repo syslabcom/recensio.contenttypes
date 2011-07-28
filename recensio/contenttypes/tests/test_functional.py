@@ -153,17 +153,9 @@ class TestBrowserViews(unittest.TestCase):
             "http://nohost"+self.portal.portal_catalog(
                 {"meta_type": meta_type})[0]["path_string"]
 
-    def test_decorated_folder_listing(self):
-        issue_url = self.portal_url+(
-            "/rezensionen/zeitschriften/sehepunkte/vol1/issue1/"
-            "decorated_folder_listing")
-        self.browser.open(issue_url)
-        self.assertEquals("200 Ok", self.browser.headers["status"])
-
     def test_presentationarticlereview_view(self):
         self.browser.open(self.get_url_of_type("PresentationArticleReview"))
         self.assertEquals("200 Ok", self.browser.headers["status"])
-
 
     def test_presentationcollection_view(self):
         self.browser.open(self.get_url_of_type("PresentationCollection"))
@@ -184,3 +176,14 @@ class TestBrowserViews(unittest.TestCase):
     def test_reviewmonograph_view(self):
         self.browser.open(self.get_url_of_type("ReviewMonograph"))
         self.assertEquals("200 Ok", self.browser.headers["status"])
+
+    def test_decorated_folder_listing(self):
+        issue_url = self.portal_url+(
+            "/rezensionen/zeitschriften/sehepunkte/vol1/issue1/"
+            "decorated_folder_listing")
+        self.browser.open(issue_url)
+        self.assertEquals("200 Ok", self.browser.headers["status"])
+
+    def test_browse_topics(self):
+        self.browser.open(self.portal_url+"/browse-topics")
+        self.assertTrue("rezensiert von" in self.browser.contents)
