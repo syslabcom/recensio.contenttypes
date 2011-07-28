@@ -88,12 +88,12 @@ Common schema fields:
  'modification_date',
  'recensioID',
  'review',
- 'reviewAuthorFirstname',
- 'reviewAuthorLastname',
+ 'reviewAuthors',
  'rights',
  'subject',
  'title',
- 'uri']
+ 'uri',
+ 'urn']
 Common schema fields:
 ['Presentation Article Review', 'Presentation Collection', 'Presentation Monograph', 'Presentation Online Resource']
 ['isLicenceApproved',
@@ -152,15 +152,15 @@ Common schema fields:
 ['Review Journal']
 ['editor']
 Presentation Online Resource:
-  label: URL/URN
+  label: URL
   description:
   edit visible:  visible
 Presentation Article Review:
-  label: URL/URN
+  label: URL
   description:
   edit visible:  visible
 Presentation Collection:
-  label: URL/URN
+  label: URL
   description:
   edit visible:  visible
 Presentation Monograph:
@@ -168,11 +168,11 @@ Presentation Monograph:
   description: URL
   edit visible:  visible
 Review Monograph:
-  label: URL/URN
+  label: URL
   description:
   edit visible:  hidden
 Review Journal:
-  label: URL/URN
+  label: URL
   description:
   edit visible:  hidden
 """
