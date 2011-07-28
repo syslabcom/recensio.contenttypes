@@ -137,12 +137,12 @@ class ReviewMonograph(BaseReview):
                        "get_publication_title",
                        "metadata_review_author", "languageReview",
                        "languageReviewedText", "authors", "title",
-                       "subtitle", "yearOfPublication",
-                       "placeOfPublication", "publisher", "series",
-                       "seriesVol", "pages", "isbn", "urn",
-                       "ddcSubject", "ddcTime", "ddcPlace", "subject",
-                       "metadata_recensioID", "idBvb",
-                       "canonical_uri"]
+                       "subtitle", "pageStart", "pageEnd",
+                       "yearOfPublication", "placeOfPublication",
+                       "publisher", "series", "seriesVol", "pages",
+                       "isbn", "urn", "ddcSubject", "ddcTime",
+                       "ddcPlace", "subject", "metadata_recensioID",
+                       "idBvb", "canonical_uri"]
 
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""

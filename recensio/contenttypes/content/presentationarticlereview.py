@@ -10,16 +10,12 @@ from Products.ATContentTypes.content import schemata
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BaseReview, \
-    BasePresentationNoMagic
-
+from recensio.contenttypes.content.review import (
+    BasePresentationNoMagic, BaseReview)
 from recensio.contenttypes.citation import getFormatter
-from recensio.contenttypes.content.schemata import AuthorsSchema
-from recensio.contenttypes.content.schemata import JournalReviewSchema
-from recensio.contenttypes.content.schemata import PageStartEndSchema
-from recensio.contenttypes.content.schemata import PresentationSchema
-from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
-from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.content.schemata import (
+    AuthorsSchema, JournalReviewSchema, PageStartEndSchema,
+    PresentationSchema, ReferenceAuthorsSchema, finalize_recensio_schema,)
 from recensio.contenttypes.interfaces import IPresentationArticleReview
 
 
