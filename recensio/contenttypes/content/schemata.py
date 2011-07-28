@@ -468,6 +468,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         columns=("lastname", "firstname"),
         default=[{'lastname':'', 'firstname':''}],
         validators=(hasAtLeastOneAuthor(""),),
+        required=True,
         widget=DataGridWidget(
             label = u"",
             columns = {"lastname" : Column(_(u"Last name")),
