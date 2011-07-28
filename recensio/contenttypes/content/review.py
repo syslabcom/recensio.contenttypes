@@ -269,6 +269,18 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                                   )
         return retval
 
+    def listReviewAuthors(self):
+        if not getattr(self, 'getReviewAuthors', None):
+            return []
+        retval = []
+        for author in self.getReviewAuthors():
+            if author['lastname'] or author['firstname']:
+                retval.append(u'%s, %s' % (
+                        author['lastname'].decode('utf-8'),
+                        author['firstname'].decode('utf8')
+                        )
+                              )
+        return retval
 
     def getAllAuthorData(self):
         retval = []
