@@ -276,13 +276,14 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         >>> at_mock.titleJournal = 'Open Source Mag♥'
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
+        >>> at_mock.page_start_end = '11-21'
         >>> presentation = PresentationCollectionNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0 f\\xfcr Dummies\u2665. Plone 4 in 19 Tagen lernen!\u2665, in: Pecek\u2665, Tina\u2665 / Thomas, Wolfgang (ed.), Plone 4 komplett. ALLES zu Plone\u2665, M\\xfcnchen\u2665, SYSLAB.COM GmbH\u2665, 2010\u2665, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0 f\\xfcr Dummies\u2665. Plone 4 in 19 Tagen lernen!\u2665, in: Pecek\u2665, Tina\u2665 / Thomas, Wolfgang (ed.), Plone 4 komplett. ALLES zu Plone\u2665, M\\xfcnchen\u2665, SYSLAB.COM GmbH\u2665, 2010\u2665, p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
         Original Specification
 
-        [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], in: [Hrsg. Sammelband Nachname], [Hrsg. Sammelband Vorname] (ed.), [Titel Sammelband], [Erscheinungsort]: [Verlag], [Jahr], URL recensio.
+        [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], in: [Hrsg. Sammelband Nachname], [Hrsg. Sammelband Vorname] (ed.), [Titel Sammelband], [Erscheinungsort]: [Verlag], [Jahr], p.[pageStart]-[pageEnd] URL recensio.
 
         Hrsg.Sammelband Editoren kann es mehrere geben, die werden dann durch ' / ' getrennt alle aufgelistet.
         Note: Untertitel Sammelband entfernt, dieser wird in das Feld Titel Sammelband eingetragen
@@ -298,7 +299,6 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         hrsg_company_year = getFormatter(', ')
         hrsg_book = getFormatter(', ', ', ', ': ')
         hrsg = getFormatter(' (ed.), ')
-        full_citation = getFormatter(u': presentation of: ', u', in: ', u', ')
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
         authors_string = u' / '.join([getFormatter(', ')\
@@ -316,7 +316,12 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
                                      self.placeOfPublication, \
                                         hrsg_company_year_string)
         hrsg_string = hrsg(hrsg_person_string, hrsg_book_string)
-        return full_citation(escape(rezensent_string), escape(item_string), \
-            escape(hrsg_string), real_self.getUUIDUrl())
+
+        full_citation = getFormatter(u': presentation of: ', u', in: ',
+                                     u', p. ', ' ')
+        return full_citation(escape(rezensent_string),
+                             escape(item_string), escape(hrsg_string),
+                             self.page_start_end,
+                             real_self.getUUIDUrl())
 
 atapi.registerType(PresentationCollection, PROJECTNAME)

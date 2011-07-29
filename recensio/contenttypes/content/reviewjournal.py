@@ -219,7 +219,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
 
 
         Return the citation according to this schema:
-        [Rezensent Nachname], [Rezensent Vorname]: review of: [Zs-Titel der rez. Zs.], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], in: [Zs-Titel], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], , p.[pageStart]-[pageEnd] URL recensio.
+        [Rezensent Nachname], [Rezensent Vorname]: review of: [Zs-Titel der rez. Zs.], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], in: [Zs-Titel], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)], p.[pageStart]-[pageEnd] URL recensio.
 
         The years of the magazine article reviewing the other magazine does
         not exist.

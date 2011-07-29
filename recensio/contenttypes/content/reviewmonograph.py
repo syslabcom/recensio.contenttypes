@@ -252,18 +252,16 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         if self.customCitation:
             return scrubHTML(self.customCitation).decode('utf8')
 
-        item = getFormatter(u', ', u'. ', u', ', u': ', u', ')
+        rev_details_formatter = getFormatter(u', ', u'. ', u', ', u': ', u', ')
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
         authors_string = get_formatted_names(
             u' / ', ', ', self.authors, lastname_first=True)
 
-        item_string = item(authors_string,
-                           self.title,
-                           self.subtitle,
-                           self.placeOfPublication,
-                           self.publisher,
-                           self.yearOfPublication)
+        item_string = rev_details_formatter(
+            authors_string, self.title, self.subtitle,
+            self.placeOfPublication, self.publisher,
+            self.yearOfPublication)
         mag_year_string = self.yearOfPublication.decode('utf-8')
         mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
             or None

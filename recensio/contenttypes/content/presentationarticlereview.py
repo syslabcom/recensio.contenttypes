@@ -257,9 +257,10 @@ class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
         >>> at_mock.titleJournal = 'Open Source Mag♥'
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
+        >>> at_mock.page_start_end = '11-21'
         >>> presentation = PresentationArticleReviewNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665. Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665 (2009\u2665), <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665. Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665 (2009\u2665), p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
         Original Specification
 
@@ -275,26 +276,27 @@ Note: gezähltes Jahr entfernt.
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u'. ')
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
-        full_citation_inner = getFormatter(u': presentation of: ', u', in: ', u', ')
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
         authors_string = u' / '.join([getFormatter(', ')(x['lastname'],
                                                          x['firstname'])
-                                    for x in self.authors])
+                                      for x in self.authors])
         item_string = item(authors_string,
                            self.title,
                            self.subtitle)
         mag_year_string = self.yearOfPublication.decode('utf-8')
         mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
             or None
-        mag_number_and_year_string = mag_number_and_year(\
-            self.titleJournal, \
-            self.volumeNumber, self.issueNumber, mag_year_string)
+        mag_number_and_year_string = mag_number_and_year(
+            self.titleJournal, self.volumeNumber, self.issueNumber,
+            mag_year_string)
+
+        full_citation_inner = getFormatter(
+            u': presentation of: ', u', in: ', ', p. ', u' ')
         return full_citation_inner(
-            escape(rezensent_string),
-            escape(item_string),
+            escape(rezensent_string), escape(item_string),
             escape(mag_number_and_year_string),
-            real_self.getUUIDUrl())
+            self.page_start_end, real_self.getUUIDUrl())
 
 atapi.registerType(PresentationArticleReview, PROJECTNAME)
 
