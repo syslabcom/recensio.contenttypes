@@ -62,3 +62,17 @@ class TestCitationString(unittest.TestCase):
             [('<a href="WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW">'
               'WWWWWWWWWWWWWWWWWWWWWWWWWWW...</a>')],
              msg = u"Long canonical_uri has not been shortened")
+
+    def test_page_start_end(self):
+        self.review_mono.pageStart = "10"
+        self.review_mono.pageEnd = "20"
+        self.assertEquals(
+            self.review_mono.page_start_end, "10-20")
+        self.review_mono.pageStart = ""
+        self.review_mono.pageEnd = "20"
+        self.assertEquals(
+            self.review_mono.page_start_end, 20)
+        self.review_mono.pageStart = ""
+        self.review_mono.pageEnd = ""
+        self.assertEquals(
+            self.review_mono.page_start_end, None)

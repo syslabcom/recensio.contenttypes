@@ -250,7 +250,6 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def page_start_end(self):
         page_start = getattr(self, "pageStart", "")
         page_end = getattr(self, "pageEnd", "")
-        page_start_end = ""
         if page_start == page_end:
             # both the same/empty
             page_start_end = page_start
