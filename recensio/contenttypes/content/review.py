@@ -61,8 +61,8 @@ class BaseNoMagic(object):
 
     def directTranslate(self, msgid):
         site = getSite()
-        language = getToolByName(site, \
-            'portal_languages').getPreferredLanguage()
+        language = getToolByName(
+            site, 'portal_languages').getPreferredLanguage()
         return translate(msgid, target_language = language)
 
     def getUUIDUrl(real_self):
@@ -245,6 +245,21 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         """
         pagePictures = getattr(self, 'pagePictures', None)
         return pagePictures and len(pagePictures) or 0
+
+    @property
+    def page_start_end(self):
+        page_start = getattr(self, "pageStart", "")
+        page_end = getattr(self, "pageEnd", "")
+        page_start_end = ""
+        if page_start == page_end:
+            # both the same/empty
+            page_start_end = page_start
+        elif page_start and page_end:
+            page_start_end = "%s-%s" % (page_start, page_end)
+        else:
+            # one is not empty
+            page_start_end = page_start or page_end
+        return page_start_end
 
     def listAuthors(self, listEditors = False):
         if not getattr(self, 'getAuthors', None):

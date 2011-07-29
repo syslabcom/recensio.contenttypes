@@ -231,14 +231,15 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
         >>> at_mock.canonical_uri = ''
+        >>> at_mock.page_start_end = '11-21'
         >>> review = ReviewMonographNoMagic(at_mock)
         >>> review.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: review of: Gerke\u2665n, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665 (2009\u2665), <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'de Roiste\u2665, Cillian\u2665: review of: Gerke\u2665n, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665 (2009\u2665), S. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
 
         Original Spec:
 
-        [Rezensent Nachname], [Rezensent Vorname]: review of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], [Erscheinungsort]: [Verlag], [Jahr], in: [Zs-Titel], [Nummer], [Heftnummer (Erscheinungsjahr)], URL recensio.
+        [Rezensent Nachname], [Rezensent Vorname]: review of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], [Erscheinungsort]: [Verlag], [Jahr], in: [Zs-Titel], [Nummer], [Heftnummer (Erscheinungsjahr)], S.[pageStart]-[pageEnd] URL recensio.
 
         Werkautoren kann es mehrere geben, die werden dann durch ' / ' getrennt alle aufgelistet.
         Note: gezähltes Jahr entfernt.
@@ -252,8 +253,6 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
             return scrubHTML(self.customCitation).decode('utf8')
         item = getFormatter(u', ', u'. ', u', ', u': ', u', ')
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
-        full_citation_inner = getFormatter(u': review of: ', u', in: ', u', ')
-
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
         authors_string = get_formatted_names(
@@ -272,17 +271,23 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
             self.get_publication_title(), self.get_volume_title(),
             self.get_issue_title(), mag_year_string)
 
+
+        location = real_self.getUUIDUrl()
         if getattr(self, "canonical_uri", False): #3102
+            location = _(u"label_downloaded_via_recensio",
+                         default = u"Downloaded from recensio.net")
+
+        full_citation_inner = getFormatter(
+            u': review of: ', u', in: ', ', S. ', u' ')
+
+        try:
             citation_string = full_citation_inner(
-                escape(rezensent_string), escape(item_string),
-                escape(mag_number_and_year_string),
-                _(u"label_downloaded_via_recensio",
-                  default = u"Downloaded from recensio.net")
-                )
-        else:
-            citation_string = full_citation_inner(
-                escape(rezensent_string), escape(item_string),
-                escape(mag_number_and_year_string), real_self.getUUIDUrl())
+            escape(rezensent_string), escape(item_string),
+            escape(mag_number_and_year_string), self.page_start_end,
+            location)
+        except:
+            import pdb; pdb.set_trace()
+            self.page_start_end
         return citation_string
 
 atapi.registerType(ReviewMonograph, PROJECTNAME)
