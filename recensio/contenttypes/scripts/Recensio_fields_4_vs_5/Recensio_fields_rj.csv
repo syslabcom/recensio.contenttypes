@@ -1,6 +1,6 @@
 "Field name","Label (DE)","Label (EN)","Label (FR)","Description (DE)","Description (EN)","Description (FR)"
 "Reviewed Text",,,,,,
-"issn","ISSN","ISSN","ISSN","Schreibweise frei. Bei mehreren Nummern bitte jene der Hardcoverausgabe wählen.","With or without hyphens. In case of several numbers please choose the hard cover edition.","Avec ou sans tiret. En cas de plusieurs ISBNs veuillez choisir celui de l’édition grand format."
+"issn","ISSN","ISSN","ISSN","Schreibweise frei.","With or without hyphens.","Avec ou sans tiret."
 "languageReviewedText","Textsprache (der rezensierten Schrift)","Language (text)","langue (de la revue)",,,
 "editor","Herausgeber (Name oder Institution)","Editor (name or institution)","directeur de publication (nom ou institution)",,,
 "titleJournal","Titel Zeitschrift (Haupt- und Untertitel)","Title (journal) (main and subtitle)","titre et sous-titre de la revue",,,
@@ -18,7 +18,6 @@
 "subject","Schlagwörter","Subject heading","mots-clés",,,
 ,,,,,,
 ,,,,,,
-,,,,,,
 "Review",,,,,,
 "reviewAuthorLastname","Nachname Autor (Rezension)","Last name author (review)","nom de l'auteur (de la recension)",,,
 "reviewAuthorFirstname","Vorname Autor (Rezension)","First name author (review)","prénom de l'auteur (de la recension)",,,
@@ -32,8 +31,8 @@
 "uri","Partner-URL","Partner URL","URL correspondante","Bitte nur nach Absprache ausfüllen (m Normalfall freilassen)","Please fill in only after consultation with the recensio.net team","Uniquement après l’accord de la rédaction de recensio.net"
 ,,,,,,
 ,,,,,,
-"Correct",,,,,,
-"Slightly different",,,,,,
-"Not used",,,,,,
-"Needed",,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
 ,,"   ",,,,
