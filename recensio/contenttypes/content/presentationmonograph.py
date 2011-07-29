@@ -316,13 +316,12 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> at_mock.placeOfPublication = 'München♥'
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
-        >>> at_mock.page_start_end = '11-21'
         >>> presentation = PresentationMonographNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
 
-        [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], [Erscheinungsort]: [Verlag], [Jahr], p.[pageStart]-[pageEnd] URL recensio.
+        [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], [Erscheinungsort]: [Verlag], [Jahr], URL recensio.
 
         Big chunk removed, since it is not a review from a mag in: [Zs-Titel], [Nummer], [Heftnummer (gezähltes Jahr/Erscheinungsjahr)],
 
@@ -335,8 +334,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
         if False:
             _("presentation of")
-        full_citation_inner = getFormatter(u': presentation of: ', u', p. ',
-                                           ' ')
+        full_citation_inner = getFormatter(u': presentation of: ', u', ')
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
         authors_string = u' / '.join([getFormatter(u', ')(
@@ -348,6 +346,6 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
             self.yearOfPublication)
         return full_citation_inner(
             escape(rezensent_string), escape(item_string),
-            self.page_start_end, real_self.getUUIDUrl())
+            real_self.getUUIDUrl())
 
 atapi.registerType(PresentationMonograph, PROJECTNAME)

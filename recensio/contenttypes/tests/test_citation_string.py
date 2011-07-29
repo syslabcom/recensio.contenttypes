@@ -71,8 +71,8 @@ class TestCitationString(unittest.TestCase):
         self.review_mono.pageStart = ""
         self.review_mono.pageEnd = "20"
         self.assertEquals(
-            self.review_mono.page_start_end, 20)
+            self.review_mono.page_start_end, "20")
         self.review_mono.pageStart = ""
         self.review_mono.pageEnd = ""
         self.assertEquals(
-            self.review_mono.page_start_end, None)
+            self.review_mono.page_start_end, "")
