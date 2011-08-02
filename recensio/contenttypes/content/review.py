@@ -29,6 +29,7 @@ from Products.Archetypes import atapi
 from Products.Archetypes.utils import DisplayList
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.Portal import PloneSite
+from Products.CMFPlone.utils import safe_unicode
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes import contenttypesMessageFactory as _
@@ -273,8 +274,8 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         for author in self.getAuthors():
             if author['lastname'] or author['firstname']:
                 retval.append(u'%s, %s' % (
-                        author['lastname'].decode('utf-8'),
-                        author['firstname'].decode('utf8')
+                        safe_unicode(author['lastname']),
+                        safe_unicode(author['firstname'])
                         )
                               )
         if listEditors:
@@ -283,8 +284,8 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             for editor in self.getEditorsCollectedEdition():
                 if editor['lastname'] or editor['firstname']:
                     retval.append(u'%s, %s' % (
-                            editor['lastname'].decode('utf8'),
-                            editor['firstname'].decode('utf-8')
+                            safe_unicode(editor['lastname']),
+                            safe_unicode(editor['firstname'])
                             )
                                   )
         return retval
@@ -296,8 +297,8 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         for author in self.getReviewAuthors():
             if author['lastname'] or author['firstname']:
                 retval.append(u'%s, %s' % (
-                        author['lastname'].decode('utf-8'),
-                        author['firstname'].decode('utf8')
+                        safe_unicode(author['lastname']),
+                        safe_unicode(author['firstname'])
                         )
                               )
         return retval
@@ -320,7 +321,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     def getAllAuthorDataFulltext(self):
         authors = " ".join(self.getAllAuthorData())
-        return authors.decode('utf-8')
+        return safe_unicode(authors)
 
     def Language(self):
         """ Reviews are NOT translatable. As such, they must remain neutral """
