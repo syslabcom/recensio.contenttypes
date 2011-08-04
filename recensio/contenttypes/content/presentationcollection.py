@@ -170,7 +170,6 @@ class PresentationCollection(BaseReview):
         # Presented Text
         "isbn",
         "uri",
-        "urn",
         "authors",
         "languageReviewedText",
         "title",
@@ -199,7 +198,9 @@ class PresentationCollection(BaseReview):
         'reviewAuthorPersonalUrl',
         "languageReview",
         "referenceAuthors",
-        "isLicenceApproved"]
+        "isLicenceApproved",
+        "urn",
+        ]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

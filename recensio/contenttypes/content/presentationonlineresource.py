@@ -218,7 +218,6 @@ class PresentationOnlineResource(BaseReview):
         # Presented Resource
         "title",
         "uri",
-        "urn",
         "institution",
         "labelwidget_categories",
         "documenttypes_institution",
@@ -241,7 +240,8 @@ class PresentationOnlineResource(BaseReview):
         "reviewAuthorEmail",
         'reviewAuthorPersonalUrl',
         "languageReview",
-        "isLicenceApproved"]
+        "isLicenceApproved",
+        "urn",]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

@@ -104,7 +104,6 @@ class ReviewJournal(BaseReview):
     ordered_fields = [
         # Reviewed Text schemata
         "issn",
-        "urn",
         "languageReviewedText",
         "editor",
         "title", # Title of the journal
@@ -134,6 +133,7 @@ class ReviewJournal(BaseReview):
         "review",
         "customCitation",
         "uri",
+        "urn",
         ]
 
     for i, field in enumerate(ordered_fields):

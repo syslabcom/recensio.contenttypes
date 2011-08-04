@@ -207,7 +207,6 @@ class PresentationMonograph(BaseReview):
         # Presented text
         "isbn",
         "uri",
-        "urn",
         "tableOfContents",
         "coverPicture",
         "authors",
@@ -238,6 +237,7 @@ class PresentationMonograph(BaseReview):
         "languageReview",
         "referenceAuthors",
         "isLicenceApproved",
+        "urn",
         ]
 
     for i, field in enumerate(ordered_fields):
