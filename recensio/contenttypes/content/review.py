@@ -37,7 +37,7 @@ from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.helperutilities import (
     RunSubprocess, SimpleSubprocess, SimpleZpt, SubprocessException,)
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
-from recensio.policy.pdf_cut import cutPDF
+from recensio.imports.pdf_cut import cutPDF
 from ZODB.POSException import ConflictError
 
 from plone.app.discussion.interfaces import IConversation
