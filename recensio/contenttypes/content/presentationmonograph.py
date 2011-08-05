@@ -237,6 +237,7 @@ class PresentationMonograph(BaseReview):
         "languageReview",
         "referenceAuthors",
         "isLicenceApproved",
+        "canonical_uri",
         "urn",
         ]
 

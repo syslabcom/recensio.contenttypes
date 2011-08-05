@@ -180,6 +180,7 @@ class PresentationArticleReview(BaseReview):
         "languageReview",
         "referenceAuthors",
         "isLicenceApproved",
+        "canonical_uri",
         "urn"
         ]
 

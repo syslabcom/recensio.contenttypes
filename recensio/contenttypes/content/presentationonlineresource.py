@@ -241,6 +241,7 @@ class PresentationOnlineResource(BaseReview):
         'reviewAuthorPersonalUrl',
         "languageReview",
         "isLicenceApproved",
+        "canonical_uri",
         "urn",]
 
     for i, field in enumerate(ordered_fields):

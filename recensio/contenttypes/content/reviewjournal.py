@@ -132,7 +132,7 @@ class ReviewJournal(BaseReview):
         "doc",
         "review",
         "customCitation",
-        "uri",
+        "canonical_uri",
         "urn",
         ]
 

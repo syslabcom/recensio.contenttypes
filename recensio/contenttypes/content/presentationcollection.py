@@ -199,6 +199,7 @@ class PresentationCollection(BaseReview):
         "languageReview",
         "referenceAuthors",
         "isLicenceApproved",
+        "canonical_uri",
         "urn",
         ]
 
