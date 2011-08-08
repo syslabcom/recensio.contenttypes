@@ -30,6 +30,9 @@
                 return 'Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? '  ' + title : '') + '';
             }
         });
+        jq("a#toctrigger").fancybox({
+            'hideOnContentClick': true
+        });
     });
     </script>
   </metal:js>
@@ -59,7 +62,8 @@
                tal:attributes="src view/get_preview_img_url"/>
         </a>
 
-        <pre id="reviewtoc" tal:condition="python:hasattr(context, 'tableOfContents')" tal:content="structure context/tableOfContents" />
+        <a id="toctrigger" href="#reviewtoc" i18n:translate="show_reviewtoc_trigger">Show TOC</a>
+        <div style="display:none"><pre id="reviewtoc" tal:condition="python:hasattr(context, 'tableOfContents')" tal:content="structure context/tableOfContents" /></div>
 
         <tal:canonical_uri define="url context/canonical_uri | nothing"
                            condition="url">
