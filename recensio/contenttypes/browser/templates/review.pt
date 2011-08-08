@@ -179,7 +179,16 @@
                 </li>
               </ul>
             </li>
-
+            <li class="accordion-item">
+              <h2 i18n:translate="links-box-heading">Links</h2>
+              <ul class="accordion-content">
+                <li>
+                  <p tal:condition="context/uri" i18n:translate="online_accessible">Diese Schrift ist <a href="#" tal:attributes="href context/uri" i18n:name="link_text">online abrufbar</a></p>
+                  <p tal:condition="not:context/uri" i18n:translate="online_not_accessible">Diese Schrift ist nicht online abrufbar</p>
+                  <p tal:condition="python:True" i18n:translate="">Rezension/en zum praesentierten Werk</p>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
