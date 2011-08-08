@@ -36,9 +36,8 @@ class View(BrowserView):
         # and for fields with multiple values it can happen that if
         # there is no value set, one gets list with one element that
         # is completely empty
-        if len(rows) == 1 and \
-                (("".join([rows[0][key] for key in keys])).strip() == ''):
-            rows = None
+        filter_rule = lambda x: ("".join([x[key] for key in keys])).strip()
+        rows = filter(filter_rule, rows)
         if rows:
             rows_ul = "<ul class='rows_list'>"
             for row in rows:
