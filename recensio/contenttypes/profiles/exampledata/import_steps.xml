@@ -1,21 +1,53 @@
 <?xml version="1.0"?>
 <import-steps>
-    <import-step id="recensio_example_content" version="20100623-01"
-            handler="recensio.contenttypes.setuphandlers.addExampleContent"
-            description="Example Content for Recensio"
-            title="Example Content" />
-    <import-step id="recensio_example_content2" version="20100623-01"
-            handler="recensio.contenttypes.setuphandlers.addExampleContent2"
-            description="Example Content for Recensio2"
-            title="Example Content2" />
-    <import-step id="recensio_policy_hide_navigation" version="20100824-01"
-            handler="recensio.policy.setuphandlers.hideAllFolders"
-            description="Hide all default Folders"
-            title="Hide all default Folders" />
-<!-- Commenting this out as I don't know how to run this import step on -->
-<!-- its own via tests/base.py -->
-    <!-- <import-step id="recensio_one_of_each_review_type" version="20100824-01" -->
-    <!--         handler="recensio.contenttypes.setuphandlers.addOneOfEachReviewType" -->
-    <!--         description="Example Reviews / Presentations, one of each type" -->
-    <!--         title="Example Reviews and Presentations (one of each)" /> -->
+  <import-step
+      id="recensio_example_content_all" version="20100623-01"
+      handler="recensio.contenttypes.setuphandlers.recensio_example_content_all"
+      description="Example Content for Recensio"
+      title="Example Content" />
+
+<!--
+  addOneItem calls:
+  notify(ObjectAddedEvent(item, context, newid))
+  notify(ObjectInitializedEvent(item, request))
+
+  once either of these events get called the genericsetup registry of
+  steps gets reset (no idea why or how). This causes all subsequent
+  steps to be skipped in this profile. For this reason all the steps
+  are called from recensio_example_content_all
+-->
+
+  <!-- <import-step -->
+  <!--     id="recensio_example_content" version="20100623-01" -->
+  <!--     handler="recensio.contenttypes.setuphandlers.addExampleContent" -->
+  <!--     description="Example Content for Recensio" -->
+  <!--     title="Example Content" /> -->
+
+  <!-- <import-step -->
+  <!--     id="recensio_example_content2" version="20100623-01" -->
+  <!--     handler="recensio.contenttypes.setuphandlers.addExampleContent2" -->
+  <!--     description="Example Content for Recensio2" -->
+  <!--     title="Example Content2" /> -->
+
+  <!-- <import-step -->
+  <!--     id="recensio_policy_hide_navigation" version="20100824-01" -->
+  <!--     handler="recensio.policy.setuphandlers.hideAllFolders" -->
+  <!--     description="Hide all default Folders" -->
+  <!--     title="Hide all default Folders" /> -->
+
+  <!-- <import-step -->
+  <!--     id="recensio_contenttypes_set_default_views" -->
+  <!--     version="20100826-01" -->
+  <!--     handler="recensio.contenttypes.setuphandlers.setViewsOnFoldersContentTypes" -->
+  <!--     title="Set layout property for some content folders"> -->
+  <!--   <dependency step="recensio_example_content" /> -->
+  <!--   setViewsOnFolders -->
+  <!-- </import-step> -->
+
+  <!-- Commenting this out as I don't know how to run this import step on -->
+  <!-- its own via tests/base.py -->
+  <!-- <import-step id="recensio_one_of_each_review_type" version="20100824-01" -->
+  <!--         handler="recensio.contenttypes.setuphandlers.addOneOfEachReviewType" -->
+  <!--         description="Example Reviews / Presentations, one of each type" -->
+  <!--         title="Example Reviews and Presentations (one of each)" /> -->
 </import-steps>

@@ -1,30 +1,27 @@
 # -*- coding: utf-8 -*-
-from cStringIO import StringIO
-from csv import writer, reader
-from ConfigParser import ConfigParser
-from zope.component import adapts, createObject
-from zope.interface import implements
+from random import Random
 import os
 
-from OFS.Image import File
-from zope.app.component.hooks import getSite
-import zope.event
-from zope.component import getMultiAdapter
-from zope.publisher.browser import TestRequest
-from Testing import makerequest
+from swiss.tabular import XlsReader
 
-from AccessControl.SecurityManagement import getSecurityManager
-from AccessControl.SecurityManagement import newSecurityManager
 from Acquisition import aq_inner, aq_parent, aq_base, aq_chain, aq_get
+from OFS.Image import File
+from Testing import makerequest
+from zope.app.component.hooks import getSite
+from zope.component import createObject
+from zope.component import getMultiAdapter
+from zope.container.contained import ObjectAddedEvent
+from zope.container.contained import notifyContainerModified
+from zope.event import notify
+from zope.lifecycleevent import ObjectCreatedEvent
+from zope.publisher.browser import TestRequest
+
 from Products.Archetypes.event import ObjectInitializedEvent
 from Products.CMFCore.utils import getToolByName
-from Products.GenericSetup.interfaces import IFilesystemExporter, \
-    IFilesystemImporter
 from plone.app.discussion.interfaces import IConversation
-from plone.portlets.constants import CONTEXT_CATEGORY
 from plone.app.portlets.utils import assignment_mapping_from_key
+from plone.portlets.constants import CONTEXT_CATEGORY
 
-from recensio.contenttypes import helperutilities
 from recensio.contenttypes.content.reviewmonograph import \
      ReviewMonograph
 
@@ -38,9 +35,9 @@ from recensio.contenttypes.content.presentationmonograph import \
      PresentationMonograph
 from recensio.contenttypes.content.presentationcollection import \
      PresentationCollection
-from recensio.contenttypes.interfaces.publication import IPublication
-from swiss.tabular import XlsReader
-from random import Random
+
+from recensio.policy.setuphandlers import (
+    setViewsOnFoldersUnguarded, hideAllFoldersUnguarded)
 
 mdfile = os.path.join(os.path.dirname(__file__), 'profiles', 'exampledata',
     'metadata.xml')
@@ -108,14 +105,20 @@ def addOneItem(context, type, data):
     """Add an item and fire the ObjectInitializedEvent
 
     This triggers file conversions for the Reviews/Presentations
+
+    when invokeFactory is called it triggers the ObjectAddedEvent
+    which somehow causes the GenericSetup steps registry to be
+    reset. The end effect is that no further steps will be run in a
+    profile which calls this function. All steps for example_content
+    are now called from recensio_example_content_all.
     """
     data["id"] = context.generateId(type.meta_type)
     review_id = context.invokeFactory(type.__doc__, **data)
     obj = context[review_id]
     request = makerequest.makerequest(obj)
-    event=ObjectInitializedEvent(obj, request)
-    zope.event.notify(event)
-    return context[review_id]
+    event = ObjectInitializedEvent(obj, request)
+    notify(event)
+    return obj
 
 def add_number_of_each_review_type(context, number_of_each):
     """Add a particular number of each Review/Presentation type
@@ -387,10 +390,23 @@ def guard(profiles):
     return inner_guard
 
 @guard(['exampledata'])
+def recensio_example_content_all(context):
+    """  addOneItem calls:
+    notify(ObjectAddedEvent(item, context, newid))
+    notify(ObjectInitializedEvent(item, request))
+
+    once either of these events get called the genericsetup registry
+    of steps gets reset (no idea why or how). This causes all
+    subsequent steps to be skipped in this profile. For this reason
+    all the steps are called from recensio_example_content_all """
+    addExampleContent(context)
+    addExampleContent2(context)
+    setViewsOnFoldersUnguarded(context)
+    hideAllFoldersUnguarded(context)
+
 def addExampleContent(context):
     add_number_of_each_review_type(context, 10)
 
-@guard(['exampledata'])
 def addExampleContent2(context):
     portal = context.getSite()
     portal_id = 'recensio'
