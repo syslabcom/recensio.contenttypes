@@ -401,7 +401,7 @@ def recensio_example_content_all(context):
     subsequent steps to be skipped in this profile. For this reason
     all the steps are called from recensio_example_content_all """
     addExampleContent(context)
-    # addExampleContent2(context)
+    addExampleContent2(context)
     setViewsOnFoldersUnguarded(context)
     hideAllFoldersUnguarded(context)
 
@@ -430,6 +430,7 @@ def addExampleContent2(context):
 
 @guard(['exampledata'])
 def addOneOfEachReviewType(context):
+    """TODO: remove this? It isn't being used anywhere"""
     add_number_of_each_review_type(context, 1)
 
 @guard(['default'])
