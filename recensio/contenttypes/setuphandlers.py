@@ -99,7 +99,8 @@ portal_type_mappings =  {
        ,'Type (rm, rz, pm, pasb, paz)' : 'ignore'
        ,'freies Feld für Zitierschema' : 'unknown'}
     }
-ignored_fields = [u'freies Feld für Zitierschema', 'Type (rm, rz, pm, pasb, paz)']
+ignored_fields = [u'freies Feld für Zitierschema',
+                  'Type (rm, rz, pm, pasb, paz)']
 
 def addOneItem(context, type, data):
     """Add an item and fire the ObjectInitializedEvent
@@ -400,7 +401,7 @@ def recensio_example_content_all(context):
     subsequent steps to be skipped in this profile. For this reason
     all the steps are called from recensio_example_content_all """
     addExampleContent(context)
-    addExampleContent2(context)
+    # addExampleContent2(context)
     setViewsOnFoldersUnguarded(context)
     hideAllFoldersUnguarded(context)
 
@@ -418,7 +419,8 @@ def addExampleContent2(context):
     xls_data = XlsReader(context.openDataFile('initial.xls')).read().data
     keys = xls_data[0]
     for row in xls_data[1:]:
-        mapping = portal_type_mappings[row[keys.index('Type (rm, rz, pm, pasb, paz)')]]
+        mapping = portal_type_mappings[
+            row[keys.index('Type (rm, rz, pm, pasb, paz)')]]
         data = {'portal_type' : mapping['portal_type']}
         for index, key in enumerate(keys):
             if key not in ignored_fields:
