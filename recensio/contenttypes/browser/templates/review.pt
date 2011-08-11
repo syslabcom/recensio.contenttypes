@@ -61,8 +61,12 @@
           <img src="get_page_image"
                tal:attributes="src view/get_preview_img_url"/>
         </a>
-        <button onclick="window.location = '#commenting';" value="Kommentieren">Kommentieren</button>
-        <a tal:condition="python:hasattr(context, 'tableOfContents')" id="toctrigger" href="#reviewtoc" i18n:translate="show_reviewtoc_trigger">Inhaltsverzeichnis anzeigen</a>
+        <p>
+          <button onclick="window.location = '#commenting';" value="Kommentieren">Kommentieren</button>
+        </p>
+        <p>
+          <a tal:condition="python:hasattr(context, 'tableOfContents')" id="toctrigger" href="#reviewtoc" i18n:translate="show_reviewtoc_trigger">Inhaltsverzeichnis anzeigen</a>
+        </p>
         <div style="display:none"><pre id="reviewtoc" tal:condition="python:hasattr(context, 'tableOfContents')" tal:content="structure context/tableOfContents" /></div>
 
         <tal:canonical_uri define="url context/canonical_uri | nothing"
