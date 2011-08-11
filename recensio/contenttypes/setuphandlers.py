@@ -42,65 +42,6 @@ from recensio.policy.setuphandlers import (
 mdfile = os.path.join(os.path.dirname(__file__), 'profiles', 'exampledata',
     'metadata.xml')
 
-portal_type_mappings =  {
-    'rm' : {
-        'portal_type' : ReviewMonograph
-       ,'ISBN/ISSN' : 'isbn'
-       ,'Jahr' : 'yearOfPublication'
-       ,'Rez.-Name' : 'reviewAuthor'
-       ,'Autor-Name Werk' : 'Authors'
-       ,'Titel Werk' : 'title'
-       ,'PDF-Seitenzahl Beginn' : 'pages'
-       ,'PDF-Seitenzahl Ende' : 'pages'
-       ,'Type (rm, rz, pm, pasb, paz)' : 'ignore'
-       ,'freies Feld für Zitierschema' : 'unknown'}
-    ,'rz' : {
-        'portal_type' : ReviewJournal
-       ,'ISBN/ISSN' : 'isbn'
-       ,'Jahr' : 'yearOfPublication'
-       ,'Rez.-Name' : 'reviewAuthor'
-       ,'Autor-Name Werk' : 'Authors'
-       ,'Titel Werk' : 'title'
-       ,'PDF-Seitenzahl Beginn' : 'pages'
-       ,'PDF-Seitenzahl Ende' : 'pages'
-       ,'Type (rm, rz, pm, pasb, paz)' : 'ignore'
-       ,'freies Feld für Zitierschema' : 'unknown'}
-    ,'pm' : {
-        'portal_type' : PresentationMonograph
-       ,'ISBN/ISSN' : 'isbn'
-       ,'Jahr' : 'yearOfPublication'
-       ,'Rez.-Name' : 'reviewAuthor'
-       ,'Autor-Name Werk' : 'Authors'
-       ,'Titel Werk' : 'title'
-       ,'PDF-Seitenzahl Beginn' : 'pages'
-       ,'PDF-Seitenzahl Ende' : 'pages'
-       ,'Type (rm, rz, pm, pasb, paz)' : 'ignore'
-       ,'freies Feld für Zitierschema' : 'unknown'}
-    ,'pasb' : {
-        'portal_type' : PresentationCollection
-       ,'ISBN/ISSN' : 'isbn'
-       ,'Jahr' : 'yearOfPublication'
-       ,'Rez.-Name' : 'reviewAuthor'
-       ,'Autor-Name Werk' : 'Authors'
-       ,'Titel Werk' : 'title'
-       ,'PDF-Seitenzahl Beginn' : 'pages'
-       ,'PDF-Seitenzahl Ende' : 'pages'
-       ,'Type (rm, rz, pm, pasb, paz)' : 'ignore'
-       ,'freies Feld für Zitierschema' : 'unknown'}
-    ,'paz' : {
-        'portal_type' : PresentationArticleReview
-       ,'ISBN/ISSN' : 'isbn'
-       ,'Jahr' : 'yearOfPublication'
-       ,'Rez.-Name' : 'reviewAuthor'
-       ,'Autor-Name Werk' : 'Authors'
-       ,'Titel Werk' : 'title'
-       ,'PDF-Seitenzahl Beginn' : 'pages'
-       ,'PDF-Seitenzahl Ende' : 'pages'
-       ,'Type (rm, rz, pm, pasb, paz)' : 'ignore'
-       ,'freies Feld für Zitierschema' : 'unknown'}
-    }
-ignored_fields = [u'freies Feld für Zitierschema',
-                  'Type (rm, rz, pm, pasb, paz)']
 
 def addOneItem(context, type, data):
     """Add an item and fire the ObjectInitializedEvent
@@ -401,32 +342,11 @@ def recensio_example_content_all(context):
     subsequent steps to be skipped in this profile. For this reason
     all the steps are called from recensio_example_content_all """
     addExampleContent(context)
-    addExampleContent2(context)
     setViewsOnFoldersUnguarded(context)
     hideAllFoldersUnguarded(context)
 
 def addExampleContent(context):
     add_number_of_each_review_type(context, 10)
-
-def addExampleContent2(context):
-    portal = context.getSite()
-    portal_id = 'recensio'
-
-    if 'reviews' not in portal.objectIds():
-        portal.invokeFactory('Folder', id='reviews', title='Reviews')
-    reviews = portal.get('reviews')
-
-    xls_data = XlsReader(context.openDataFile('initial.xls')).read().data
-    keys = xls_data[0]
-    for row in xls_data[1:]:
-        mapping = portal_type_mappings[
-            row[keys.index('Type (rm, rz, pm, pasb, paz)')]]
-        data = {'portal_type' : mapping['portal_type']}
-        for index, key in enumerate(keys):
-            if key not in ignored_fields:
-                data[mapping[key]] = row[index]
-        portal_type = data.pop('portal_type')
-        addOneItem(reviews, portal_type, data)
 
 @guard(['exampledata'])
 def addOneOfEachReviewType(context):
