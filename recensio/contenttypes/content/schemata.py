@@ -57,7 +57,7 @@ def finalize_recensio_schema(schema, review_type="review"):
         schema["reviewAuthors"].allow_reorder = False
         schema["reviewAuthors"].allow_insert = False
         schema["reviewAuthors"].allow_delete = False
-        schema["reviewAuthors"].widget.label = "label_presentation_authors"
+        schema["reviewAuthors"].widget.label = _(u"label_presentation_authors")
         # Rename the schemata for presentations
         presented = "presented_text"
         if review_type == "presentation_online":
@@ -470,7 +470,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         validators=(hasAtLeastOneAuthor(""),),
         required=True,
         widget=DataGridWidget(
-            label = u"label_review_authors",
+            label = _(u"label_review_authors"),
             columns = {"lastname" : Column(_(u"Last name")),
                        "firstname" : Column(_(u"First name")),},
             ),
