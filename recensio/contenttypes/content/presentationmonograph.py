@@ -187,6 +187,7 @@ class PresentationMonograph(BaseReview):
 
     # Presentation
     isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
+    onlineReviewUrls = atapi.ATFieldProperty('onlineReviewUrls')
 
     # Reference authors
     referenceAuthors = atapi.ATFieldProperty('referenceAuthors')
@@ -224,6 +225,7 @@ class PresentationMonograph(BaseReview):
         "ddcPlace",
         "subject",
         "idBvb",
+        "onlineReviewUrls",
 
         # Presentation
         "review",

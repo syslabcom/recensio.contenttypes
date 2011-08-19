@@ -170,6 +170,14 @@ class View(BrowserView):
                            'is_macro': is_macro}
         return meta
 
+    def get_online_review_urls(self):
+        online_review_urls = []
+        if "onlineReviewUrls" in self.context.ordered_fields:
+            onlineReviewUrls = self.context.getOnlineReviewUrls()
+            if onlineReviewUrls != () and onlineReviewUrls != ({'url': ''},):
+                online_review_urls = onlineReviewUrls
+        return online_review_urls
+
     def has_coverpicture(self):
         if "coverPicture" in self.context.ordered_fields:
             coverPicture = self.context.getCoverPicture()
