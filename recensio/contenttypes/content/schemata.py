@@ -331,6 +331,7 @@ PresentationSchema = atapi.Schema((
         schemata="presentation",
         storage=atapi.AnnotationStorage(),
         default_method="get_user_home_page",
+        validators = ('isURL',),
         widget=atapi.StringWidget(
             label=_(u"Personal webpage URL/URN"),
             description=_(
@@ -533,6 +534,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'uri',
         schemata="review",
         storage=atapi.AnnotationStorage(),
+        validators = ('isURL',),
         widget=atapi.StringWidget(
             label=_(u"URL"),
             description= "" ,
@@ -555,6 +557,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'canonical_uri',
         schemata="review",
         storage=atapi.AnnotationStorage(),
+        validators = ('isURL',),
         widget=atapi.StringWidget(
             label=_(u"Original Source URL"),
             description=_(
