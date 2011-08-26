@@ -43,7 +43,8 @@ ReviewJournalSchema = JournalReviewSchema.copy() + \
 ReviewJournalSchema['title'].storage = atapi.AnnotationStorage()
 
 ReviewJournalSchema['title'].widget.label = _(u"Title (journal)")
-ReviewJournalSchema['subtitle'].widget.label = _(u"Subtitle (journal)")
+ReviewJournalSchema['subtitle'].widget.visible={
+    "view":"hidden", "edit":"hidden"}
 finalize_recensio_schema(ReviewJournalSchema)
 
 class ReviewJournal(BaseReview):
@@ -107,7 +108,6 @@ class ReviewJournal(BaseReview):
         "languageReviewedText",
         "editor",
         "title", # Title of the journal
-        "subtitle", # Subtitle of the journal
         "shortnameJournal",
         "yearOfPublication",
         "officialYearOfPublication",
@@ -144,8 +144,8 @@ class ReviewJournal(BaseReview):
                        "get_publication_title",
                        "metadata_review_author", "languageReview",
                        "languageReviewedText", "editor", "title",
-                       "subtitle", "pageStart", "pageEnd",
-                       "shortnameJournal", "yearOfPublication",
+                       "pageStart", "pageEnd", "shortnameJournal",
+                       "yearOfPublication",
                        "officialYearOfPublication", "volumeNumber",
                        "issueNumber", "placeOfPublication",
                        "publisher", "issn", "urn", "ddcSubject",
