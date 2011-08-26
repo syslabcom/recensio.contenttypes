@@ -4,7 +4,7 @@ Felder unserer Contenttypen
     >>> from recensio.contenttypes.content.reviewjournal import ReviewJournalSchema
     >>> schema = ReviewJournalSchema
     >>> schema.keys()
-    ['issn', 'languageReviewedText', 'editor', 'title', 'subtitle', 'shortnameJournal', 'yearOfPublication', 'officialYearOfPublication', 'volumeNumber', 'issueNumber', 'placeOfPublication', 'publisher', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'idBvb', 'reviewAuthors', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'doc', 'review', 'customCitation', 'canonical_uri', 'urn', 'creation_date', 'modification_date',  'uri', 'allowDiscussion', 'contributors', 'creators', 'description', 'effectiveDate', 'excludeFromNav', 'expirationDate', 'generatedPdf', 'id', 'language', 'location', 'recensioID', 'rights']
+    ['issn', 'languageReviewedText', 'editor', 'title', 'shortnameJournal', 'yearOfPublication', 'officialYearOfPublication', 'volumeNumber', 'issueNumber', 'placeOfPublication', 'publisher', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'idBvb', 'reviewAuthors', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'doc', 'review', 'customCitation', 'canonical_uri', 'urn', 'creation_date', 'modification_date',  'uri', 'subtitle', 'allowDiscussion', 'contributors', 'creators', 'description', 'effectiveDate', 'excludeFromNav', 'expirationDate', 'generatedPdf', 'id', 'language', 'location', 'recensioID', 'rights']
     >>> schema = infoShower(schema)
 
 ISSN Nummer der Zeitschrift in der es den Review gab.
@@ -49,7 +49,7 @@ Titel des rezensierten Werkes
 Untertitel des rezensierten Werkes
 
     >>> schema('subtitle')
-    ('string', u'Subtitle (journal)')
+    ('string', u'Subtitle')
 
 
 Erscheinungsjahr des publizierten Werkes
