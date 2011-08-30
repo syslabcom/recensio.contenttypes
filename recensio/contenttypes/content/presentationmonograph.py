@@ -5,6 +5,7 @@ from Products.PortalTransforms.transforms.safe_html import scrubHTML
 from cgi import escape
 from zope.app.component.hooks import getSite
 from zope.i18n import translate
+from zope.i18nmessageid import Message
 from zope.interface import implements
 
 from Products.Archetypes import atapi
@@ -292,14 +293,16 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         Hans Meier: Geschichte des Abendlandes. Ein Abriss
         """
         self = real_self.magic
-        authors_string = ' / '.join([getFormatter(' ')(x['firstname'], x['lastname'])
+        authors_string = ' / '.join(
+            [getFormatter(' ')(x['firstname'], x['lastname'])
              for x in self.authors])
         titles_string = getFormatter('. ')(self.title, self.subtitle)
         rezensent_string = getFormatter(' ')(self.reviewAuthors[0]["firstname"],
                                              self.reviewAuthors[0]["lastname"])
-        rezensent_string = rezensent_string and "(" + \
-            real_self.directTranslate('presented by') + " " + rezensent_string + \
-            ")" or ""
+        if rezensent_string:
+            rezensent_string = real_self.directTranslate(
+                Message(u"presented_by", "recensio",
+                        mapping={u"review_authors": rezensent_string}))
         full_citation = getFormatter(': ', ' ')
         return full_citation(authors_string, titles_string, rezensent_string)
 
