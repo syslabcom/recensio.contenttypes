@@ -284,7 +284,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> review = PresentationMonographNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a
         >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (presented by Cillian de Roiste)'
+        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (presented_by)'
 
         Original Specification
 
@@ -300,7 +300,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         rezensent_string = getFormatter(' ')(self.reviewAuthors[0]["firstname"],
                                              self.reviewAuthors[0]["lastname"])
         if rezensent_string:
-            rezensent_string = real_self.directTranslate(
+            rezensent_string = "(%s)" % real_self.directTranslate(
                 Message(u"presented_by", "recensio",
                         mapping={u"review_authors": rezensent_string}))
         full_citation = getFormatter(': ', ' ')
