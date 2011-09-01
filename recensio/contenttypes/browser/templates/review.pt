@@ -197,7 +197,7 @@
                     </span>
                     <div tal:repeat="online_review_url online_review_urls">
                       <a tal:attributes="href online_review_url/url"
-                         tal:content="online_review_url/url">
+                         tal:content="online_review_url/name">
                       </a>
                     </div>
                   </span>

@@ -343,17 +343,6 @@ PresentationSchema = atapi.Schema((
     ),
             ),
         ),
-    DataGridField(
-        'onlineReviewUrls',
-        schemata="presented_text",
-        storage=atapi.AnnotationStorage(),
-        columns=("url", ),
-        default=[{'url':''}],
-        widget=DataGridWidget(
-            label = _(u"heading_form_online_review_urls"),
-            columns = {"url" : Column(_(u"label_form_online_review_url")),}
-            ),
-        ),
     atapi.BooleanField(
         'isLicenceApproved',
         schemata="review",

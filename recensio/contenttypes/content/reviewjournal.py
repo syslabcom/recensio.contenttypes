@@ -145,7 +145,7 @@ class ReviewJournal(BaseReview):
 
     # An ordered list of fields used for the metadata area of the view
     metadata_fields = [
-        "metadata_review_type_code", "get_publication_title",
+        "metadata_review_type_code", "get_journal_title",
         "metadata_review_author", "languageReview",
         "languageReviewedText", "editor", "title", "pageStartInPrint",
         "pageEndInPrint", "shortnameJournal", "yearOfPublication",
@@ -157,6 +157,9 @@ class ReviewJournal(BaseReview):
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""
         return self.get_title_from_parent_of_type("Publication")
+
+    get_journal_title = get_publication_title #2542
+
 
     def get_publication_object(self):
         return self.get_parent_object_of_type("Publication")

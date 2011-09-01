@@ -197,7 +197,6 @@ class PresentationOnlineResource(BaseReview):
 
     # Presentation
     isLicenceApproved = atapi.ATFieldProperty('isLicenceApproved')
-    onlineReviewUrls = atapi.ATFieldProperty('onlineReviewUrls')
 
     # Additional fields
     institution = atapi.ATFieldProperty('institution')
@@ -232,7 +231,6 @@ class PresentationOnlineResource(BaseReview):
         "ddcTime",
         "ddcPlace",
         "subject",
-        "onlineReviewUrls",
 
         # Presentation
         "review",

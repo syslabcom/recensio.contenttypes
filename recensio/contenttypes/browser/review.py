@@ -21,8 +21,9 @@ class View(BrowserView):
     """Moderation View
     """
     template = ViewPageTemplateFile('templates/review.pt')
-    review_journal_fields = {
+    custom_metadata_field_labels = {
         "get_publication_title": _("Publication Title"),
+        "get_journal_title": _("heading_metadata_journal"),
         "get_volume_title": _("Volume Title"),
         "get_issue_title": _("Issue Title")
         }
@@ -113,7 +114,7 @@ class View(BrowserView):
         for field in context.metadata_fields:
             is_macro = False
             if field.startswith("get_"):
-                label = self.review_journal_fields[field]
+                label = self.custom_metadata_field_labels[field]
                 value = context[field]()
             elif field == "metadata_review_author":
                 label = _("label_metadata_review_author")
@@ -171,12 +172,17 @@ class View(BrowserView):
         return meta
 
     def get_online_review_urls(self):
-        online_review_urls = []
-        if "onlineReviewUrls" in self.context.ordered_fields:
-            onlineReviewUrls = self.context.getOnlineReviewUrls()
-            if onlineReviewUrls != () and onlineReviewUrls != ({'url': ''},):
-                online_review_urls = onlineReviewUrls
-        return online_review_urls
+        existing_online_review_urls = []
+        if "existingOnlineReviews" in self.context.ordered_fields:
+            existingOnlineReviewUrls = self.context.getExistingOnlineReviews()
+            if existingOnlineReviewUrls != () \
+                    and existingOnlineReviewUrls != (
+                {'name': '', 'url': ''},):
+                existing_online_review_urls = [
+                    url for url in existingOnlineReviewUrls
+                    if url["name"].strip() != ""
+                    and url["url"].strip() != ""]
+        return existing_online_review_urls
 
     def has_coverpicture(self):
         if "coverPicture" in self.context.ordered_fields:
