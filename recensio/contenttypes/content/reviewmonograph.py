@@ -1,16 +1,14 @@
 #-*- coding: utf-8 -*-
-from Products.PortalTransforms.transforms.safe_html import scrubHTML
 """Definition of the Review Monograph content type
 """
 
 from cgi import escape
+from zope.i18nmessageid import Message
 from zope.interface import implements
 
 from Products.Archetypes import atapi
-from Products.ATContentTypes.content import base
-from Products.ATContentTypes.content import schemata
+from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
-from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
     BaseReview, BaseReviewNoMagic, get_formatted_names)
