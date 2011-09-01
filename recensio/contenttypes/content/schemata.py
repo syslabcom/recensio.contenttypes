@@ -387,7 +387,7 @@ PresentationSchema = atapi.Schema((
 
 PageStartEndSchema = atapi.Schema((
     atapi.IntegerField(
-        'pageStart',
+        'pageStart', # page number in pdf
         schemata="review",
         storage=atapi.AnnotationStorage(),
         validators="isInt",
@@ -399,7 +399,7 @@ PageStartEndSchema = atapi.Schema((
             ),
         ),
     atapi.IntegerField(
-        'pageEnd',
+        'pageEnd', # page number in pdf
         schemata="review",
         storage=atapi.AnnotationStorage(),
         validators="isInt",
@@ -416,6 +416,25 @@ PageStartEndSchema = atapi.Schema((
 </script>'''
             ),
         ),
+    atapi.IntegerField(
+        'pageStartInPrint',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        validators="isInt",
+        widget=atapi.IntegerWidget(
+            label=_(u"label_page_start_in_print"),
+            description = _(u'description_page_number_in_print'),
+            ),
+        ),
+    atapi.IntegerField(
+        'pageEndInPrint',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        validators="isInt",
+        widget=atapi.IntegerWidget(
+            label=_(u"label_page_end_in_print"),
+            ),
+        )
     ))
 
 PagecountSchema = atapi.Schema((

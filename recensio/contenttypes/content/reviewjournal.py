@@ -96,6 +96,8 @@ class ReviewJournal(BaseReview):
     # PageStartEnd
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
+    pageStartInPrint = atapi.ATFieldProperty('pageStartInPrint')
+    pageEndInPrint = atapi.ATFieldProperty('pageEndInPrint')
 
     # ReviewJournal
     editor = atapi.ATFieldProperty('editor')
@@ -129,6 +131,8 @@ class ReviewJournal(BaseReview):
         "pdf",
         "pageStart",
         "pageEnd",
+        "pageStartInPrint",
+        "pageEndInPrint",
         "doc",
         "review",
         "customCitation",
@@ -140,18 +144,15 @@ class ReviewJournal(BaseReview):
         schema.moveField(field, pos=i)
 
     # An ordered list of fields used for the metadata area of the view
-    metadata_fields = ["metadata_review_type_code",
-                       "get_publication_title",
-                       "metadata_review_author", "languageReview",
-                       "languageReviewedText", "editor", "title",
-                       "pageStart", "pageEnd", "shortnameJournal",
-                       "yearOfPublication",
-                       "officialYearOfPublication", "volumeNumber",
-                       "issueNumber", "placeOfPublication",
-                       "publisher", "issn", "urn", "ddcSubject",
-                       "ddcTime", "ddcPlace", "subject",
-                       "canonical_uri", "metadata_recensioID",
-                       "idBvb"]
+    metadata_fields = [
+        "metadata_review_type_code", "get_publication_title",
+        "metadata_review_author", "languageReview",
+        "languageReviewedText", "editor", "title", "pageStartInPrint",
+        "pageEndInPrint", "shortnameJournal", "yearOfPublication",
+        "officialYearOfPublication", "volumeNumber", "issueNumber",
+        "placeOfPublication", "publisher", "issn", "urn",
+        "ddcSubject", "ddcTime", "ddcPlace", "subject",
+        "canonical_uri", "metadata_recensioID", "idBvb"]
 
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""
@@ -212,7 +213,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
         >>> at_mock.canonical_uri = ''
-        >>> at_mock.page_start_end = '11-21'
+        >>> at_mock.page_start_end_in_print = '11-21'
         >>> review = ReviewJournalNoMagic(at_mock)
         >>> review.get_citation_string()
         u'de Roiste\u2665, Cillian\u2665: review of: Plone Mag\u2665, 1\u2665, 3\u2665 (2010\u2665/2009\u2665), in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
@@ -251,7 +252,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
             u': review of: ', u', in: ', ', p. ', u' ')
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),
-            escape(reference_mag_string), self.page_start_end,
+            escape(reference_mag_string), self.page_start_end_in_print,
             location)
         return citation_string
 

@@ -154,6 +154,8 @@ class PresentationCollection(BaseReview):
     # Serial = PageStartEnd +
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
+    pageStartInPrint = atapi.ATFieldProperty('pageStartInPrint')
+    pageEndInPrint = atapi.ATFieldProperty('pageEndInPrint')
 
     # Pagecount
     pages = atapi.ATFieldProperty('pages')
@@ -177,6 +179,8 @@ class PresentationCollection(BaseReview):
         "subtitle",
         "pageStart",
         "pageEnd",
+        "pageStartInPrint",
+        "pageEndInPrint",
         "titleCollectedEdition",
         "editorsCollectedEdition",
         "yearOfPublication",
@@ -210,16 +214,15 @@ class PresentationCollection(BaseReview):
 
     # An ordered list of fields used for the metadata area of the view
 
-    metadata_fields = ["metadata_review_type_code",
-                       "metadata_presentation_author",
-                       "languageReviewedText", "languageReview",
-                       "authors", "title", "subtitle", "pageStart",
-                       "pageEnd", "editorsCollectedEdition",
-                       "titleCollectedEdition", "yearOfPublication",
-                       "placeOfPublication", "publisher", "series",
-                       "seriesVol", "pages", "isbn", "ddcSubject",
-                       "ddcTime", "ddcPlace", "subject", "uri", "urn",
-                       "metadata_recensioID", "idBvb"]
+    metadata_fields = [
+        "metadata_review_type_code", "metadata_presentation_author",
+        "languageReviewedText", "languageReview", "authors", "title",
+        "subtitle", "pageStartInPrint", "pageEndInPrint",
+        "editorsCollectedEdition", "titleCollectedEdition",
+        "yearOfPublication", "placeOfPublication", "publisher",
+        "series", "seriesVol", "pages", "isbn", "ddcSubject",
+        "ddcTime", "ddcPlace", "subject", "uri", "urn",
+        "metadata_recensioID", "idBvb"]
 
     def getDecoratedTitle(self):
         return PresentationCollectionNoMagic(self).getDecoratedTitle()
@@ -280,7 +283,7 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         >>> at_mock.titleJournal = 'Open Source Mag♥'
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
-        >>> at_mock.page_start_end = '11-21'
+        >>> at_mock.page_start_end_in_print = '11-21'
         >>> presentation = PresentationCollectionNoMagic(at_mock)
         >>> presentation.get_citation_string()
         u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0 f\\xfcr Dummies\u2665. Plone 4 in 19 Tagen lernen!\u2665, in: Pecek\u2665, Tina\u2665 / Thomas, Wolfgang (ed.), Plone 4 komplett. ALLES zu Plone\u2665, M\\xfcnchen\u2665, SYSLAB.COM GmbH\u2665, 2010\u2665, p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
@@ -325,7 +328,7 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
                                      u', p. ', ' ')
         return full_citation(escape(rezensent_string),
                              escape(item_string), escape(hrsg_string),
-                             self.page_start_end,
+                             self.page_start_end_in_print,
                              real_self.getUUIDUrl())
 
 atapi.registerType(PresentationCollection, PROJECTNAME)

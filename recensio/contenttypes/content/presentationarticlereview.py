@@ -141,6 +141,8 @@ class PresentationArticleReview(BaseReview):
     # PageStartEnd
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
+    pageStartInPrint = atapi.ATFieldProperty('pageStartInPrint')
+    pageEndInPrint = atapi.ATFieldProperty('pageEndInPrint')
 
     titleJournal = atapi.ATFieldProperty('titleJournal')
     volumeNumber = atapi.ATFieldProperty('volumeNumber')
@@ -157,6 +159,8 @@ class PresentationArticleReview(BaseReview):
         "subtitle",
         "pageStart",
         "pageEnd",
+        "pageStartInPrint",
+        "pageEndInPrint",
         "titleJournal",
         "shortnameJournal",
         "yearOfPublication",
@@ -191,17 +195,15 @@ class PresentationArticleReview(BaseReview):
 
     # An ordered list of fields used for the metadata area of the view
 
-    metadata_fields = ["metadata_review_type_code",
-                       "metadata_presentation_author",
-                       "languageReview", "languageReviewedText",
-                       "authors", "title", "subtitle", "pageStart",
-                       "pageEnd", "titleJournal", "shortnameJournal",
-                       "yearOfPublication",
-                       "officialYearOfPublication", "volumeNumber",
-                       "issueNumber", "placeOfPublication",
-                       "publisher", "issn", "ddcSubject", "ddcTime",
-                       "ddcPlace", "subject", "uri", "urn",
-                       "metadata_recensioID", "idBvb"]
+    metadata_fields = [
+        "metadata_review_type_code", "metadata_presentation_author",
+        "languageReview", "languageReviewedText", "authors", "title",
+        "subtitle", "pageStartInPrint", "pageEndInPrint",
+        "titleJournal", "shortnameJournal", "yearOfPublication",
+        "officialYearOfPublication", "volumeNumber", "issueNumber",
+        "placeOfPublication", "publisher", "issn", "ddcSubject",
+        "ddcTime", "ddcPlace", "subject", "uri", "urn",
+        "metadata_recensioID", "idBvb"]
 
     def getDecoratedTitle(self):
         return PresentationArticleReviewNoMagic(self).getDecoratedTitle()
@@ -261,7 +263,7 @@ class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
         >>> at_mock.titleJournal = 'Open Source Mag♥'
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
-        >>> at_mock.page_start_end = '11-21'
+        >>> at_mock.page_start_end_in_print = '11-21'
         >>> presentation = PresentationArticleReviewNoMagic(at_mock)
         >>> presentation.get_citation_string()
         u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665. Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665 (2009\u2665), p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
@@ -300,7 +302,7 @@ Note: gezähltes Jahr entfernt.
         return full_citation_inner(
             escape(rezensent_string), escape(item_string),
             escape(mag_number_and_year_string),
-            self.page_start_end, real_self.getUUIDUrl())
+            self.page_start_end_in_print, real_self.getUUIDUrl())
 
 atapi.registerType(PresentationArticleReview, PROJECTNAME)
 

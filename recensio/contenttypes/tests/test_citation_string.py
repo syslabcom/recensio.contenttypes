@@ -63,16 +63,16 @@ class TestCitationString(unittest.TestCase):
               'WWWWWWWWWWWWWWWWWWWWWWWWWWW...</a>')],
              msg = u"Long canonical_uri has not been shortened")
 
-    def test_page_start_end(self):
-        self.review_mono.pageStart = "10"
-        self.review_mono.pageEnd = "20"
+    def test_page_start_end_in_print(self):
+        self.review_mono.pageStartInPrint = "10"
+        self.review_mono.pageEndInPrint = "20"
         self.assertEquals(
-            self.review_mono.page_start_end, "10-20")
-        self.review_mono.pageStart = ""
-        self.review_mono.pageEnd = "20"
+            self.review_mono.page_start_end_in_print, "10-20")
+        self.review_mono.pageStartInPrint = ""
+        self.review_mono.pageEndInPrint = "20"
         self.assertEquals(
-            self.review_mono.page_start_end, "20")
-        self.review_mono.pageStart = ""
-        self.review_mono.pageEnd = ""
+            self.review_mono.page_start_end_in_print, "20")
+        self.review_mono.pageStartInPrint = ""
+        self.review_mono.pageEndInPrint = ""
         self.assertEquals(
-            self.review_mono.page_start_end, "")
+            self.review_mono.page_start_end_in_print, "")

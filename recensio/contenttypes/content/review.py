@@ -251,12 +251,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         return pagePictures and len(pagePictures) or 0
 
     @property
-    def page_start_end(self):
-        page_start = getattr(self, "pageStart", "")
+    def page_start_end_in_print(self):
+        page_start = getattr(self, "pageStartInPrint", "")
         if page_start == None:
             page_start = ""
         page_start = str(page_start).strip()
-        page_end   = getattr(self, "pageEnd", "")
+        page_end   = getattr(self, "pageEndInPrint", "")
         if page_end == None:
             page_end = ""
         page_end = str(page_end).strip()

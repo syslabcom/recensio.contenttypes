@@ -86,6 +86,8 @@ class ReviewMonograph(BaseReview):
     # PageStartEnd
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
+    pageStartInPrint = atapi.ATFieldProperty('pageStartInPrint')
+    pageEndInPrint = atapi.ATFieldProperty('pageEndInPrint')
 
     # Pagecount
     pages = atapi.ATFieldProperty('pages')
@@ -121,6 +123,8 @@ class ReviewMonograph(BaseReview):
         "pdf",
         "pageStart",
         "pageEnd",
+        "pageStartInPrint",
+        "pageEndInPrint",
         "doc",
         "review",
         "customCitation",
@@ -133,16 +137,14 @@ class ReviewMonograph(BaseReview):
 
     # An ordered list of fields used for the metadata area of the view
 
-    metadata_fields = ["metadata_review_type_code",
-                       "get_publication_title",
-                       "metadata_review_author", "languageReview",
-                       "languageReviewedText", "authors", "title",
-                       "subtitle", "pageStart", "pageEnd",
-                       "yearOfPublication", "placeOfPublication",
-                       "publisher", "series", "seriesVol", "pages",
-                       "isbn", "urn", "ddcSubject", "ddcTime",
-                       "ddcPlace", "subject", "canonical_uri",
-                       "metadata_recensioID", "idBvb"]
+    metadata_fields = [
+        "metadata_review_type_code", "get_publication_title",
+        "metadata_review_author", "languageReview",
+        "languageReviewedText", "authors", "title", "subtitle",
+        "pageStartInPrint", "pageEndInPrint", "yearOfPublication",
+        "placeOfPublication", "publisher", "series", "seriesVol",
+        "pages", "isbn", "urn", "ddcSubject", "ddcTime", "ddcPlace",
+        "subject", "canonical_uri", "metadata_recensioID", "idBvb"]
 
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""
@@ -231,7 +233,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
         >>> at_mock.canonical_uri = ''
-        >>> at_mock.page_start_end = '11-21'
+        >>> at_mock.page_start_end_in_print = '11-21'
         >>> review = ReviewMonographNoMagic(at_mock)
         >>> review.get_citation_string()
         u'de Roiste\u2665, Cillian\u2665: review of: Gerke\u2665n, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665 (2009\u2665), p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
@@ -281,8 +283,8 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
 
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),
-            escape(mag_number_and_year_string), self.page_start_end,
-            location)
+            escape(mag_number_and_year_string),
+            self.page_start_end_in_print, location)
         return citation_string
 
 atapi.registerType(ReviewMonograph, PROJECTNAME)
