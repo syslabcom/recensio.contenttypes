@@ -71,16 +71,6 @@
         </p>
         <div style="display:none"><pre id="reviewtoc" tal:condition="python:hasattr(context, 'tableOfContents')" tal:content="structure context/tableOfContents" /></div>
 
-        <tal:canonical_uri define="url context/canonical_uri | nothing"
-                           condition="url">
-          <div id="canonical_url">
-            <h3 i18n:translate="heading_first_published">First published:</h3>
-            <p><a tal:attributes="href url"
-                  tal:content="url"></a>
-            </p>
-          </div>
-        </tal:canonical_uri>
-
         <div id="reviewhtml" tal:content="structure context/review" />
       </div>
 
@@ -160,9 +150,19 @@
               <ul class="accordion-content">
                 <li>
                   <p tal:content="structure context/get_citation_string"></p>
-                  <span i18n:translate="url">URL</span>:
-                  <a tal:attributes="href context/absolute_url"
-                     tal:content="context/absolute_url"></a>
+                  <dl>
+                    <dt i18n:translate="url">URL:</dt>
+                    <dd><a tal:attributes="href context/absolute_url"
+                           tal:content="context/absolute_url"></a></dd>
+                    <tal:canonical_uri define="url context/canonical_uri | nothing"
+                                       condition="url">
+                      <dt i18n:translate="heading_first_published">First published:</dt>
+                      <dd><a tal:attributes="href url"
+                        tal:content="url"></a>
+                      </dd>
+                    </tal:canonical_uri>
+                  </dl>
+
                 </li>
               </ul>
             </li>
