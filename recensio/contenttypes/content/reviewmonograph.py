@@ -277,8 +277,8 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
 
         location = real_self.getUUIDUrl()
         if getattr(self, "canonical_uri", False): #3102
-            location = _(u"label_downloaded_via_recensio",
-                         default = u"Downloaded from recensio.net")
+            location = real_self.directTranslate(
+                Message(u"label_downloaded_via_recensio","recensio"))
 
         citation_formatter = getFormatter(
             u': review of: ', u', in: ', ', p. ', u' ')

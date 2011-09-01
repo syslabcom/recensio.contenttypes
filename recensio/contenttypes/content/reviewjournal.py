@@ -3,16 +3,10 @@
 """
 
 from cgi import escape
-from zope.app.component.hooks import getSite
-from zope.i18n import translate
+from zope.i18nmessageid import Message
 from zope.interface import implements
-import Acquisition
 
 from Products.Archetypes import atapi
-from Products.ATContentTypes.content import base
-from Products.ATContentTypes.content import schemata
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.Portal import PloneSite
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes import contenttypesMessageFactory as _
@@ -246,8 +240,8 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
 
         location = real_self.getUUIDUrl()
         if getattr(self, "canonical_uri", False): #3102
-            location = _(u"label_downloaded_via_recensio",
-                         default = u"Downloaded from recensio.net")
+            location = real_self.directTranslate(
+                Message(u"label_downloaded_via_recensio","recensio"))
 
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
