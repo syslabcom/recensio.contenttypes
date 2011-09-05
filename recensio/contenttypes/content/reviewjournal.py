@@ -266,7 +266,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> review = ReviewJournalNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a
         >>> review.getDecoratedTitle()
-        u'Plone Mag, 1, 3 (2010/2009) (reviewed by Cillian de Roiste)'
+        u'Plone Mag, 1, 3 (2010/2009) (reviewed_by)'
         """
         self = real_self.magic
         item = getFormatter(', ', ', ', ' ')
@@ -285,9 +285,11 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
                 u' / ', ' ', self.reviewAuthors,
                 lastname_first = lastname_first)
 
-        reviewer_string = reviewer_string and '(' + \
-            real_self.directTranslate('reviewed by') + ' ' + \
-            reviewer_string + ')' or ""
+        if reviewer_string:
+            reviewer_string = "(%s)" % real_self.directTranslate(
+                Message(u"reviewed_by", "recensio",
+                        mapping={u"review_authors": reviewer_string}))
+
         return ' '.join((item_string, reviewer_string))
 
 atapi.registerType(ReviewJournal, PROJECTNAME)
