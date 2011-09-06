@@ -246,7 +246,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
         citation_formatter = getFormatter(
-            u': review of: ', u', in: ', ', p. ', u' ')
+            u': review of: ', u', in: ', ', p. ', u', ')
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),
             escape(reference_mag_string), self.page_start_end_in_print,
