@@ -2,45 +2,35 @@
 """ BaseReview is a base class all Recensio Review and Presentation
 content types inherit from.
 """
-from DateTime import DateTime
 from cgi import escape
 from os import fstat
 from string import Formatter
 from tempfile import NamedTemporaryFile
-import cStringIO as StringIO
 import logging
-import re
 
-import Acquisition
+from ZODB.POSException import ConflictError
 from ZODB.blob import Blob
 from zope.app.component.hooks import getSite
-from zope.app.schema.vocabulary import IVocabularyFactory
-from zope.component import getUtility
 from zope.i18n import translate
 from zope.interface import implements
 
 from plone.app.blob.utils import openBlob
-from plone.i18n.locales.languages import _languagelist
-
+from plone.app.discussion.interfaces import IConversation
 from Products.ATContentTypes.content import base
-from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
 from Products.Archetypes import atapi
-from Products.Archetypes.utils import DisplayList
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.Portal import PloneSite
 from Products.CMFPlone.utils import safe_unicode
-from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.helperutilities import (
-    RunSubprocess, SimpleSubprocess, SimpleZpt, SubprocessException,)
+    RunSubprocess, SimpleZpt, SubprocessException)
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
 from recensio.imports.pdf_cut import cutPDF
-from ZODB.POSException import ConflictError
 
-from plone.app.discussion.interfaces import IConversation
+from recensio.theme.browser.views import (
+    listRecensioSupportedLanguages, listAvailableContentLanguages)
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
 
@@ -112,33 +102,14 @@ class BasePresentationNoMagic(BaseNoMagic):
                 'url' : _('license-note-presentation-url-url')}
 
 
-class BaseBaseReviewNoMagic(object):
-    def __init__(self, at_self):
-        self.magic = at_self
-
-    def listAvailableContentLanguages(real_self):
-        self = real_self.magic
-        util = getUtility(IVocabularyFactory,
-            u"recensio.policy.vocabularies.available_content_languages")
-        vocab = util(self)
-        terms = [(x.value, _languagelist[x.value][u'native']) for x in vocab]
-        return DisplayList(terms)
-
-
 class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     implements(IReview)
 
-    # def setEffectiveDate(self):
-    #     import pdb; pdb.set_trace()
-
     def listAvailableContentLanguages(self):
-        return BaseBaseReviewNoMagic(self).listAvailableContentLanguages()
+        return listAvailableContentLanguages()
 
     def listRecensioSupportedLanguages(self):
-        portal = getSite()
-        vocab = portal.portal_languages.listSupportedLanguages()
-        terms = [(x[0], _languagelist[x[0]][u'native']) for x in vocab]
-        return DisplayList(terms)
+        return listRecensioSupportedLanguages()
 
     def setIsLicenceApproved(self, value):
         """
