@@ -213,7 +213,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> at_mock.page_start_end_in_print = '11-21'
         >>> review = ReviewJournalNoMagic(at_mock)
         >>> review.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: review of: Plone Mag\u2665, 1\u2665, 3\u2665 (2010\u2665/2009\u2665), in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'de Roiste\u2665, Cillian\u2665: review of: Plone Mag\u2665, 1\u2665, 3\u2665 (2010\u2665/2009\u2665), in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, p. 11-21, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
 
         Return the citation according to this schema:
