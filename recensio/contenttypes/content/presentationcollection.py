@@ -198,6 +198,7 @@ class PresentationCollection(BaseReview):
         "review",
         'labelPresentationAuthor',
         "reviewAuthorHonorific",
+        "reviewAuthors",
         "reviewAuthorEmail",
         'reviewAuthorPersonalUrl',
         "languageReview",
