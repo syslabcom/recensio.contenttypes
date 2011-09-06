@@ -14,6 +14,7 @@ from Products.Archetypes import atapi
 from Products.CMFCore.utils import getToolByName
 from Products.DataGridField import DataGridField, DataGridWidget
 from Products.DataGridField.Column import Column
+from Products.DataGridField.SelectColumn import SelectColumn
 from Products.DataGridField.validators import DataGridValidator
 from Products.validation.interfaces.IValidator import IValidator
 from plone.app.blob.field import BlobField
@@ -237,9 +238,10 @@ ReferenceAuthorsSchema = atapi.Schema((
         'referenceAuthors',
         schemata="review",
         storage=atapi.AnnotationStorage(),
-        columns=("lastname", "firstname", "email", "address", "phone"),
+        columns=("lastname", "firstname", "email", "address", "phone",
+                 "preferred_language"),
         default=[{'lastname':'', 'firstname':'', 'email':'', 'address':'',
-                 'phone':''}],
+                 'phone':'', 'preferred_language':''}],
         widget=DataGridWidget(
             label=_(
     u"label_reference_authors",
@@ -247,11 +249,15 @@ ReferenceAuthorsSchema = atapi.Schema((
              "number are not publicly visible)"
              )
     ),
-            columns = {"lastname" : Column(_(u"Lastname")),
-                       "firstname" : Column(_(u"Firstname")),
-                       "email" : Column(_(u"Email address")),
-                       "address" : Column(_(u"Postal Address")),
-                       "phone" : Column(_(u"Phone number")),
+            columns = {
+                    "lastname" : Column(_(u"Lastname")),
+                    "firstname" : Column(_(u"Firstname")),
+                    "email" : Column(_(u"Email address")),
+                    "address" : Column(_(u"Postal Address")),
+                    "phone" : Column(_(u"Phone number")),
+                    "preferred_language" : SelectColumn(
+                        _(u"Preferred language"),
+                        vocabulary="listRecensioSupportedLanguages"),
                        },
             ),
         ),
@@ -500,7 +506,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'languageReview',
         schemata="review",
         storage=atapi.AnnotationStorage(),
-        vocabulary="listSupportedLanguages",
+        vocabulary="listAvailableContentLanguages",
         widget=atapi.MultiSelectionWidget(
             label=_(u"Language(s) (review)"),
             size=3,
@@ -510,7 +516,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'languageReviewedText',
         schemata="reviewed_text",
         storage=atapi.AnnotationStorage(),
-        vocabulary="listSupportedLanguages",
+        vocabulary="listAvailableContentLanguages",
         widget=atapi.MultiSelectionWidget(
             label=_(u"Language(s) (text)"),
             size=3,

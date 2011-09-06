@@ -116,7 +116,7 @@ class BaseBaseReviewNoMagic(object):
     def __init__(self, at_self):
         self.magic = at_self
 
-    def listSupportedLanguages(real_self):
+    def listAvailableContentLanguages(real_self):
         self = real_self.magic
         util = getUtility(IVocabularyFactory,
             u"recensio.policy.vocabularies.available_content_languages")
@@ -131,8 +131,14 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     # def setEffectiveDate(self):
     #     import pdb; pdb.set_trace()
 
-    def listSupportedLanguages(self):
-        return BaseBaseReviewNoMagic(self).listSupportedLanguages()
+    def listAvailableContentLanguages(self):
+        return BaseBaseReviewNoMagic(self).listAvailableContentLanguages()
+
+    def listRecensioSupportedLanguages(self):
+        portal = getSite()
+        vocab = portal.portal_languages.listSupportedLanguages()
+        terms = [(x[0], _languagelist[x[0]][u'native']) for x in vocab]
+        return DisplayList(terms)
 
     def setIsLicenceApproved(self, value):
         """
