@@ -17,6 +17,11 @@ def review_pdf_updated_eventhandler(obj, evt):
 def notify_reference_authors_if_changed(obj, evt):
     """Check if reference authors have been changed, if yes: notify added ones"""
     rtool = getToolByName(obj, 'portal_repository')
+    wftool = getToolByName(obj, 'portal_workflow')
+
+    if not wftool.getInfoFor(obj, 'review_state') == 'published':
+        return
+
     skip = []
     try:
         history = rtool.getHistory(obj)
