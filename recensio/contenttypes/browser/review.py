@@ -28,8 +28,8 @@ class View(BrowserView):
         "get_issue_title": _("Issue Title")
         }
 
-    def get_review_author(self):
-        return get_formatted_names(u' / ', ', ', self.context.reviewAuthors,
+    def get_metadata_review_author(self):
+        return get_formatted_names(u' <br/> ', ', ', self.context.reviewAuthors,
                                    lastname_first=True)
 
     def list_rows(self, rows, *keys):
@@ -67,7 +67,6 @@ class View(BrowserView):
             if field == "languageReview":
                 return _(u"label_metadata_language_presentation",
                          default=u"Language (presentation)")
-
         if meta_type in ["ReviewMonograph", "PresentationMonograph"]:
             if field == "languageReviewedText":
                 return _(u"label_metadata_language_monograph",
@@ -118,10 +117,12 @@ class View(BrowserView):
                 value = context[field]()
             elif field == "metadata_review_author":
                 label = _("label_metadata_review_author")
-                value = self.get_review_author()
+                value = self.list_rows(
+                    context["reviewAuthors"], "lastname", "firstname")
             elif field == "metadata_presentation_author":
                 label = _("label_metadata_presentation_author")
-                value = self.get_review_author()
+                value = self.list_rows(
+                    context["reviewAuthors"], "lastname", "firstname")
             elif field == "authors":
                 label = self.get_label(fields, field, context.meta_type)
                 value = self.list_rows(context[field], "lastname", "firstname")
