@@ -256,7 +256,7 @@ ReferenceAuthorsSchema = atapi.Schema((
                     "address" : Column(_(u"Postal Address")),
                     "phone" : Column(_(u"Phone number")),
                     "preferred_language" : SelectColumn(
-                        _(u"Preferred language"),
+                        _(u'label_preferred_language'),
                         vocabulary="listRecensioSupportedLanguages"),
                        },
             ),
