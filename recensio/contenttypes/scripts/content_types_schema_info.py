@@ -114,6 +114,9 @@ Common schema fields:
 ['Presentation Article Review', 'Presentation Collection', 'Review Journal', 'Review Monograph']
 ['pageEnd', 'pageStart']
 Common schema fields:
+['Presentation Article Review', 'Presentation Collection']
+['pageEndOfPresentedTextInPrint', 'pageStartOfPresentedTextInPrint']
+Common schema fields:
 ['Presentation Article Review', 'Review Journal']
 ['issn',
  'issueNumber',
@@ -147,7 +150,11 @@ Common schema fields:
  'labelwidget_categories']
 Common schema fields:
 ['Review Journal', 'Review Monograph']
-['customCitation', 'doc', 'pdf']
+['customCitation',
+ 'doc',
+ 'pageEndOfReviewInJournal',
+ 'pageStartOfReviewInJournal',
+ 'pdf']
 Common schema fields:
 ['Review Journal']
 ['editor']
