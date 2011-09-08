@@ -13,16 +13,17 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
     BaseReview, BaseReviewNoMagic, get_formatted_names)
 from recensio.contenttypes.content.schemata import (
-    BookReviewSchema, CoverPictureSchema, PageStartEndSchema,
-    PagecountSchema, ReviewSchema, SerialSchema,
-    finalize_recensio_schema)
+    BookReviewSchema, CoverPictureSchema, PageStartEndInPDFSchema,
+    PageStartEndOfReviewInJournalSchema, PagecountSchema,
+    ReviewSchema, SerialSchema, finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewMonograph
 from recensio.contenttypes.citation import getFormatter
 
 
 ReviewMonographSchema = BookReviewSchema.copy() + \
                         CoverPictureSchema.copy() + \
-                        PageStartEndSchema.copy() + \
+                        PageStartEndInPDFSchema.copy() + \
+                        PageStartEndOfReviewInJournalSchema.copy() + \
                         PagecountSchema.copy() + \
                         ReviewSchema.copy() + \
                         SerialSchema.copy()
@@ -84,8 +85,12 @@ class ReviewMonograph(BaseReview):
     # PageStartEnd
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
-    pageStartInPrint = atapi.ATFieldProperty('pageStartInPrint')
-    pageEndInPrint = atapi.ATFieldProperty('pageEndInPrint')
+
+    #PageStartEndOfReviewInJournal
+    pageStartOfReviewInJournal = atapi.ATFieldProperty(
+        'pageStartOfReviewInJournal')
+    pageEndOfReviewInJournal = atapi.ATFieldProperty(
+        'pageEndOfReviewInJournal')
 
     # Pagecount
     pages = atapi.ATFieldProperty('pages')
@@ -121,8 +126,8 @@ class ReviewMonograph(BaseReview):
         "pdf",
         "pageStart",
         "pageEnd",
-        "pageStartInPrint",
-        "pageEndInPrint",
+        "pageStartOfReviewInJournal",
+        "pageEndOfReviewInJournal",
         "doc",
         "review",
         "customCitation",
@@ -139,10 +144,11 @@ class ReviewMonograph(BaseReview):
         "metadata_review_type_code", "get_journal_title",
         "metadata_review_author", "languageReview",
         "languageReviewedText", "authors", "title", "subtitle",
-        "pageStartInPrint", "pageEndInPrint", "yearOfPublication",
-        "placeOfPublication", "publisher", "series", "seriesVol",
-        "pages", "isbn", "urn", "ddcSubject", "ddcTime", "ddcPlace",
-        "subject", "canonical_uri", "metadata_recensioID", "idBvb"]
+        "pageStartOfReviewInJournal", "pageEndOfReviewInJournal",
+        "yearOfPublication", "placeOfPublication", "publisher",
+        "series", "seriesVol", "pages", "isbn", "urn", "ddcSubject",
+        "ddcTime", "ddcPlace", "subject", "canonical_uri",
+        "metadata_recensioID", "idBvb"]
 
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""

@@ -15,13 +15,15 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
     BaseReview, BaseReviewNoMagic, get_formatted_names)
 from recensio.contenttypes.content.schemata import (
-    CoverPictureSchema, JournalReviewSchema, PageStartEndSchema,
-    ReviewSchema, finalize_recensio_schema)
+    CoverPictureSchema, JournalReviewSchema, PageStartEndInPDFSchema,
+    PageStartEndOfReviewInJournalSchema, ReviewSchema,
+    finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewJournal
 
 ReviewJournalSchema = JournalReviewSchema.copy() + \
                       CoverPictureSchema.copy() + \
-                      PageStartEndSchema.copy() + \
+                      PageStartEndInPDFSchema.copy() + \
+                      PageStartEndOfReviewInJournalSchema.copy() + \
                       ReviewSchema.copy() + \
                       atapi.Schema((
     atapi.StringField(
@@ -90,8 +92,12 @@ class ReviewJournal(BaseReview):
     # PageStartEnd
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
-    pageStartInPrint = atapi.ATFieldProperty('pageStartInPrint')
-    pageEndInPrint = atapi.ATFieldProperty('pageEndInPrint')
+
+    #PageStartEndOfReviewInJournal
+    pageStartOfReviewInJournal = atapi.ATFieldProperty(
+        'pageStartOfReviewInJournal')
+    pageEndOfReviewInJournal = atapi.ATFieldProperty(
+        'pageEndOfReviewInJournal')
 
     # ReviewJournal
     editor = atapi.ATFieldProperty('editor')
@@ -125,8 +131,8 @@ class ReviewJournal(BaseReview):
         "pdf",
         "pageStart",
         "pageEnd",
-        "pageStartInPrint",
-        "pageEndInPrint",
+        "pageStartOfReviewInJournal",
+        "pageEndOfReviewInJournal",
         "doc",
         "review",
         "customCitation",
@@ -141,8 +147,9 @@ class ReviewJournal(BaseReview):
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
         "metadata_review_author", "languageReview",
-        "languageReviewedText", "editor", "title", "pageStartInPrint",
-        "pageEndInPrint", "shortnameJournal", "yearOfPublication",
+        "languageReviewedText", "editor", "title",
+        "pageStartOfReviewInJournal", "pageEndOfReviewInJournal",
+        "shortnameJournal", "yearOfPublication",
         "officialYearOfPublication", "volumeNumber", "issueNumber",
         "placeOfPublication", "publisher", "issn", "urn",
         "ddcSubject", "ddcTime", "ddcPlace", "subject",

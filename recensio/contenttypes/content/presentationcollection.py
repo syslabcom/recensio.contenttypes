@@ -9,56 +9,54 @@ from Products.ATContentTypes.content import schemata
 from Products.DataGridField import DataGridField, DataGridWidget
 from Products.DataGridField.Column import Column
 
-from recensio.contenttypes.interfaces import \
-     IPresentationCollection
+from recensio.contenttypes.interfaces import IPresentationCollection
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BaseReview, \
-    BasePresentationNoMagic
+from recensio.contenttypes.content.review import (
+    BasePresentationNoMagic, BaseReview)
 from recensio.contenttypes.content.schemata import BookReviewSchema
-from recensio.contenttypes.content.schemata import PageStartEndSchema
-from recensio.contenttypes.content.schemata import PagecountSchema
-from recensio.contenttypes.content.schemata import PresentationSchema
-from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
-from recensio.contenttypes.content.schemata import SerialSchema
-from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.content.schemata import (
+    PageStartEndOfPresentedTextInPrintSchema, PagecountSchema,
+    PresentationSchema, ReferenceAuthorsSchema, SerialSchema,
+    finalize_recensio_schema)
 
-PresentationCollectionSchema = BookReviewSchema.copy() + \
-                               PagecountSchema.copy() + \
-                               PresentationSchema.copy() + \
-                               ReferenceAuthorsSchema.copy() + \
-                               PageStartEndSchema.copy() + \
-                               SerialSchema.copy() + \
-                               atapi.Schema((
-    atapi.StringField(
-        'titleCollectedEdition',
-        schemata=_(u"presented text"),
-        storage=atapi.AnnotationStorage(),
-        required=True,
-        widget=atapi.StringWidget(
-            label=_(u"Title / Subtitle"),
-            description=_(
-    u'description_title_collected_edition',
-    default=u"Information on the associated edited volume",
-    ),
-            ),
-        ),
+PresentationCollectionSchema = \
+    BookReviewSchema.copy() + \
+    PagecountSchema.copy() + \
+    PresentationSchema.copy() + \
+    ReferenceAuthorsSchema.copy() + \
+    PageStartEndOfPresentedTextInPrintSchema.copy() + \
+    SerialSchema.copy() + \
+    atapi.Schema((
+        atapi.StringField(
+                'titleCollectedEdition',
+                schemata=_(u"presented text"),
+                storage=atapi.AnnotationStorage(),
+                required=True,
+                widget=atapi.StringWidget(
+                    label=_(u"Title / Subtitle"),
+                    description=_(
+                        u'description_title_collected_edition',
+                        default=u"Information on the associated edited volume",
+                        ),
+                    ),
+                ),
 
-    DataGridField(
-        'editorsCollectedEdition',
-        storage=atapi.AnnotationStorage(),
-        required=True,
-        columns=("lastname", "firstname"),
-        default=[{'lastname':'', 'firstname':''}],
-        widget=DataGridWidget(
-            label = _(u"Editor(s)"),
-            columns = {"lastname" : Column(_(u"Last name")),
-                       "firstname" : Column(_(u"First name")),
-                       }
-            ),
-        ),
-))
+        DataGridField(
+                'editorsCollectedEdition',
+                storage=atapi.AnnotationStorage(),
+                required=True,
+                columns=("lastname", "firstname"),
+                default=[{'lastname':'', 'firstname':''}],
+                widget=DataGridWidget(
+                    label = _(u"Editor(s)"),
+                    columns = {"lastname" : Column(_(u"Last name")),
+                               "firstname" : Column(_(u"First name")),
+                               }
+                    ),
+                ),
+        ))
 
 PresentationCollectionSchema['title'].storage = atapi.AnnotationStorage()
 PresentationCollectionSchema["authors"].widget.label=_(
@@ -153,8 +151,12 @@ class PresentationCollection(BaseReview):
     # Serial = PageStartEnd +
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
-    pageStartInPrint = atapi.ATFieldProperty('pageStartInPrint')
-    pageEndInPrint = atapi.ATFieldProperty('pageEndInPrint')
+
+    # PageStartEndOfPresentedTextInPrint
+    pageStartOfPresentedTextInPrint = atapi.ATFieldProperty(
+        'pageStartOfPresentedTextInPrint')
+    pageEndOfPresentedTextInPrint = atapi.ATFieldProperty(
+        'pageEndOfPresentedTextInPrint')
 
     # Pagecount
     pages = atapi.ATFieldProperty('pages')
@@ -176,10 +178,8 @@ class PresentationCollection(BaseReview):
         "languageReviewedText",
         "title",
         "subtitle",
-        "pageStart",
-        "pageEnd",
-        "pageStartInPrint",
-        "pageEndInPrint",
+        "pageStartOfPresentedTextInPrint",
+        "pageEndOfPresentedTextInPrint",
         "titleCollectedEdition",
         "editorsCollectedEdition",
         "yearOfPublication",
@@ -216,12 +216,12 @@ class PresentationCollection(BaseReview):
     metadata_fields = [
         "metadata_review_type_code", "metadata_presentation_author",
         "languageReviewedText", "languageReview", "authors", "title",
-        "subtitle", "pageStartInPrint", "pageEndInPrint",
-        "editorsCollectedEdition", "titleCollectedEdition",
-        "yearOfPublication", "placeOfPublication", "publisher",
-        "series", "seriesVol", "pages", "isbn", "ddcSubject",
-        "ddcTime", "ddcPlace", "subject", "uri", "urn",
-        "metadata_recensioID", "idBvb"]
+        "subtitle", "pageStartOfPresentedTextInPrint",
+        "pageEndOfPresentedTextInPrint", "editorsCollectedEdition",
+        "titleCollectedEdition", "yearOfPublication",
+        "placeOfPublication", "publisher", "series", "seriesVol",
+        "pages", "isbn", "ddcSubject", "ddcTime", "ddcPlace",
+        "subject", "uri", "urn", "metadata_recensioID", "idBvb"]
 
     def getDecoratedTitle(self):
         return PresentationCollectionNoMagic(self).getDecoratedTitle()

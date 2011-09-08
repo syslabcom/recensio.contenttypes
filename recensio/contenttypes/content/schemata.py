@@ -72,8 +72,9 @@ def finalize_recensio_schema(schema, review_type="review"):
             else:
                 schema.changeSchemataForField(field_name, presented)
             if field_name in ["pageStart", "pageEnd"]:
-                schema[field_name].widget.description = ""
-                schema.changeSchemataForField(field_name, presented)
+                # TODO: remove after running scripts/migrate_page_start_end.py
+                schema[field_name].widget.visible={
+                    "view":"hidden", "edit":"hidden"}
         # Third schemata for presentations with assocatied publications
         if review_type in ["presentation_article_review",
                            "presentation_collection"]:
@@ -375,12 +376,8 @@ PresentationSchema = atapi.Schema((
         )
     ))
 
-# TODO find out how to have a link in the label:
-# u"<a href='http://creativecommons.org/licenses/by-nc-nd/3.0/de'>"+\
-# u"Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung</a> "+\
 
-
-PageStartEndSchema = atapi.Schema((
+PageStartEndInPDFSchema = atapi.Schema((
     atapi.IntegerField(
         'pageStart', # page number in pdf
         schemata="review",
@@ -411,26 +408,59 @@ PageStartEndSchema = atapi.Schema((
 </script>'''
             ),
         ),
+    ))
+
+# remove PageStartEndInPDFSchema after running
+# scripts/migrate_page_start_end.py #2630
+PageStartEndOfPresentedTextInPrintSchema = \
+    PageStartEndInPDFSchema.copy() + \
+    atapi.Schema((
     atapi.IntegerField(
-        'pageStartInPrint',
-        schemata="review",
+        'pageStartOfPresentedTextInPrint',
+        schemata="presented_text",
         storage=atapi.AnnotationStorage(),
         validators="isInt",
         widget=atapi.IntegerWidget(
-            label=_(u"label_page_start_in_print"),
-            description = _(u'description_page_number_in_print'),
+            label = _(u"label_page_start_of_presented_text_in_print"),
+            description = _(
+                    u'description_page_number_of_presented_text_in_print'),
             ),
         ),
     atapi.IntegerField(
-        'pageEndInPrint',
+        'pageEndOfPresentedTextInPrint',
+        schemata="presented_text",
+        storage=atapi.AnnotationStorage(),
+        validators="isInt",
+        widget=atapi.IntegerWidget(
+            label=_(u"label_page_end_of_presented_text_in_print"),
+            ),
+        )
+    ))
+
+
+PageStartEndOfReviewInJournalSchema = atapi.Schema((
+    atapi.IntegerField(
+        'pageStartOfReviewInJournal',
         schemata="review",
         storage=atapi.AnnotationStorage(),
         validators="isInt",
         widget=atapi.IntegerWidget(
-            label=_(u"label_page_end_in_print"),
+            label = _(u"label_page_start_of_presented_review_in_journal"),
+            description = _(
+                    u'description_page_number_of_presented_review_in_journal'),
+            ),
+        ),
+    atapi.IntegerField(
+        'pageEndOfReviewInJournal',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        validators="isInt",
+        widget=atapi.IntegerWidget(
+            label=_(u"label_page_end_of_presented_review_in_journal"),
             ),
         )
     ))
+
 
 PagecountSchema = atapi.Schema((
     atapi.StringField(

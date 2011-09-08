@@ -14,34 +14,35 @@ from recensio.contenttypes.content.review import (
     BasePresentationNoMagic, BaseReview)
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.content.schemata import (
-    AuthorsSchema, JournalReviewSchema, PageStartEndSchema,
-    PresentationSchema, ReferenceAuthorsSchema, finalize_recensio_schema,)
+    AuthorsSchema, JournalReviewSchema,
+    PageStartEndOfPresentedTextInPrintSchema, PresentationSchema,
+    ReferenceAuthorsSchema, finalize_recensio_schema,)
 from recensio.contenttypes.interfaces import IPresentationArticleReview
 
 
 PresentationArticleReviewSchema = \
-                                AuthorsSchema.copy() + \
-                                JournalReviewSchema.copy() + \
-                                PresentationSchema.copy() + \
-                                ReferenceAuthorsSchema.copy() + \
-                                PageStartEndSchema.copy() + \
-                                atapi.Schema((
-    atapi.StringField(
-        'titleJournal',
-        storage=atapi.AnnotationStorage(),
-        required=True,
-        widget=atapi.StringWidget(
-            label=_(
-    u"title_journal",
-    default=u"Title (Journal)"
-    ),
-            description=_(
-    u'description_title_journal',
-    default=u"Information on the journal"
-    ),
-            ),
-        ),
-))
+    AuthorsSchema.copy() + \
+    JournalReviewSchema.copy() + \
+    PresentationSchema.copy() + \
+    ReferenceAuthorsSchema.copy() + \
+    PageStartEndOfPresentedTextInPrintSchema.copy() + \
+    atapi.Schema((
+        atapi.StringField(
+                'titleJournal',
+                storage=atapi.AnnotationStorage(),
+                required=True,
+                widget=atapi.StringWidget(
+                    label=_(
+                        u"title_journal",
+                        default=u"Title (Journal)"
+                        ),
+                    description=_(
+                        u'description_title_journal',
+                        default=u"Information on the journal"
+                        ),
+                    ),
+                ),
+        ))
 
 PresentationArticleReviewSchema['title'].storage = atapi.AnnotationStorage()
 PresentationArticleReviewSchema["authors"].widget.label=_(
@@ -140,8 +141,12 @@ class PresentationArticleReview(BaseReview):
     # PageStartEnd
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
-    pageStartInPrint = atapi.ATFieldProperty('pageStartInPrint')
-    pageEndInPrint = atapi.ATFieldProperty('pageEndInPrint')
+
+    # PageStartEndOfPresentedTextInPrint
+    pageStartOfPresentedTextInPrint = atapi.ATFieldProperty(
+        'pageStartOfPresentedTextInPrint')
+    pageEndOfPresentedTextInPrint = atapi.ATFieldProperty(
+        'pageEndOfPresentedTextInPrint')
 
     titleJournal = atapi.ATFieldProperty('titleJournal')
     volumeNumber = atapi.ATFieldProperty('volumeNumber')
@@ -158,8 +163,8 @@ class PresentationArticleReview(BaseReview):
         "subtitle",
         "pageStart",
         "pageEnd",
-        "pageStartInPrint",
-        "pageEndInPrint",
+        "pageStartOfPresentedTextInPrint",
+        "pageEndOfPresentedTextInPrint",
         "titleJournal",
         "shortnameJournal",
         "yearOfPublication",
@@ -196,8 +201,9 @@ class PresentationArticleReview(BaseReview):
     metadata_fields = [
         "metadata_review_type_code", "metadata_presentation_author",
         "languageReview", "languageReviewedText", "authors", "title",
-        "subtitle", "pageStartInPrint", "pageEndInPrint",
-        "titleJournal", "shortnameJournal", "yearOfPublication",
+        "subtitle", "pageStartOfPresentedTextInPrint",
+        "pageEndOfPresentedTextInPrint", "titleJournal",
+        "shortnameJournal", "yearOfPublication",
         "officialYearOfPublication", "volumeNumber", "issueNumber",
         "placeOfPublication", "publisher", "issn", "ddcSubject",
         "ddcTime", "ddcPlace", "subject", "uri", "urn",

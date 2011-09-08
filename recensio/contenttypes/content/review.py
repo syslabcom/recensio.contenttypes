@@ -229,14 +229,23 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     @property
     def page_start_end_in_print(self):
-        page_start = getattr(self, "pageStartInPrint", "")
+
+        page_start = getattr(
+            self, "pageStartOfPresentedTextInPrint",
+            getattr(
+                self, "pageStartOfReviewInJournal", ""))
         if page_start == None:
             page_start = ""
         page_start = str(page_start).strip()
-        page_end   = getattr(self, "pageEndInPrint", "")
+
+        page_end = getattr(
+            self, "pageEndOfPresentedTextInPrint",
+            getattr(
+                self, "pageEndOfReviewInJournal", ""))
         if page_end == None:
             page_end = ""
         page_end = str(page_end).strip()
+
         if page_start == page_end:
             # both the same/empty
             page_start_end = page_start
