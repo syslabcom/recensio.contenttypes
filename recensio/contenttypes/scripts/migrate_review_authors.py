@@ -4,13 +4,14 @@ migrate reviewAuthorLastname, reviewAuthorFirstname to
 reviewAuthors["lastname"] , reviewAuthors["firstname"]
 
 note reviewAuthorLastname and reviewAuthorFirstname need to be part of
-the schema before this can be run
+the schema before this can be run, they are currently commented out in
+recensio.contenttypes.content.schemata
 
-(venv)$ instance run
-migrate_review_authors.py
+(venv)$ instance run migrate_review_authors.py
 """
 from pprint import pprint
 
+from AccessControl.SecurityManagement import newSecurityManager
 import transaction
 
 from recensio.contenttypes.content import schemata
