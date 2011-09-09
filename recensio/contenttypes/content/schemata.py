@@ -495,7 +495,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'reviewAuthorLastname', # for migration to reviewAuthors only
         schemata="review",
         storage=atapi.AnnotationStorage(),
-        required=True,
+        required=False,
         widget=atapi.StringWidget(
             label=_(u"Last name author"),
             ),
@@ -505,7 +505,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'reviewAuthorFirstname', # for migration to reviewAuthors only
         schemata="review",
         storage=atapi.AnnotationStorage(),
-        required=True,
+        required=False,
         widget=atapi.StringWidget(
             label=_(u"First name author"),
             ),
