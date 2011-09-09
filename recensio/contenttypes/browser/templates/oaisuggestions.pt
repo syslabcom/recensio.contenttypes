@@ -147,6 +147,7 @@
             function updateSaveButton(){
                 if (hasMissingRequiredFields() ^ missing){
                     jq('form.enableFormTabbing input[name="form.button.save"]').toggle();
+                    jq('form.enableFormTabbing input[name="form.button.save_and_submit"]').toggle();
                     jq('#missing-required-fields').toggle();
                     missing = !missing;
                 }
