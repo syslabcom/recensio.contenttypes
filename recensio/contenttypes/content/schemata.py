@@ -35,22 +35,6 @@ def finalize_recensio_schema(schema, review_type="review"):
 
     """
 
-    hidden_fields = ["allowDiscussion", "contributors", "creators",
-                     "description", "description", "effectiveDate",
-                     "excludeFromNav", "expirationDate",
-                     "generatedPdf", "id", "language", "location",
-                     "recensioID", "rights"]
-    for field in hidden_fields:
-        schema.changeSchemataForField(field, "review")
-        schema[field].widget.visible={"view":"hidden",
-                                      "edit":"hidden"}
-
-    # We can't just hide "relatedItems" as it leads to an error on save:
-    #   *  Module Products.Archetypes.ReferenceEngine, line 319, in addReference
-    #   ReferenceException: Invalid target UID
-    # However, we can delete it.
-    schema.delField("relatedItems")
-
     if review_type in ["presentation", "presentation_online",
                        "presentation_article_review",
                        "presentation_collection"]:
@@ -120,6 +104,15 @@ def finalize_recensio_schema(schema, review_type="review"):
         # Note: The characterLimit validator checks the portal_type to
         # see if it should be applied or not. Setting it here didn't
         # seem to work
+
+    hidden_fields = ["allowDiscussion", "contributors", "creators",
+                     "description", "description", "effectiveDate",
+                     "excludeFromNav", "expirationDate",
+                     "generatedPdf", "id", "language", "location",
+                     "recensioID", "rights", "relatedItems"]
+
+    for field in hidden_fields:
+        schema[field].widget.condition = 'python:False'
 
     schemata.marshall_register(schema)
 
@@ -566,7 +559,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.FileWidget(
             label=_(u"Generated Pdf"),
             visible={"view":"hidden",
-                     "edit":"hidden"},
+                     "edit":"visible"},
             ),
         default_content_type='application/pdf',
         ),
