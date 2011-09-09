@@ -36,9 +36,6 @@ for i, brain in enumerate(pc({"portal_type": rec_types})):
             obj.absolute_url(), review_authors, firstname, lastname)
 
         obj.setReviewAuthors(({'firstname': firstname, 'lastname': lastname},))
-    else:
-        print "Skipping %s \n\tReview Authors: %s \n\tFirst: %s, Last: %s" %(
-            obj.absolute_url(), review_authors, firstname, lastname)
     if i % 20 == 0:
         transaction.commit()
 
