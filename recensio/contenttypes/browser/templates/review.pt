@@ -113,14 +113,14 @@
 
       <div tal:define="metadata_field_names context/metadata_fields;
                        metadata view/get_metadata">
+      <span class="Z3988" title="ctx_ver=Z39.88-2004"
+            tal:attributes="title view/get_metadata_context_object" >
+
 
         <div id="accordion-container">
           <ul class="accordion">
             <li class="accordion-item">
-              <h2 i18n:translate="metadata">Metadata</h2>
-
-              <span class="Z3988" title="ctx_ver=Z39.88-2004"
-                    tal:attributes="title view/get_metadata_context_object" >
+                <h2 i18n:translate="metadata">Metadata</h2>
 
                   <ul class="accordion-content">
                     <li class="opened-on-load">
@@ -151,7 +151,6 @@
 
                     </li>
                   </ul>
-              </span>
             </li>
             <li class="accordion-item">
               <h2 i18n:translate="citation_note">Zitierhinweise</h2>
@@ -215,6 +214,7 @@
             </li>
           </ul>
         </div>
+      </span>
       </div>
 
     </metal:portlets>
