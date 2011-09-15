@@ -4,6 +4,7 @@ from webdav.common import rfc1123_date
 import recensio.theme
 from ZODB.blob import Blob
 from zope.app.component.hooks import getSite
+from ZTUtils import make_query
 
 from plone.app.blob.download import handleRequestRange
 from plone.app.blob.iterators import BlobStreamIterator
@@ -26,6 +27,21 @@ class View(BrowserView):
         "get_journal_title": _("heading_metadata_journal"),
         "get_volume_title": _("Volume Title"),
         "get_issue_title": _("Issue Title")
+        }
+
+    openurl_terms = {
+        'title':                'rft.btitle',
+        'issn':                 'rft.issn',
+        'isbn':                 'rft.isbn',
+        'publisher':            'rft.pub',
+        'authors':              'rft.au',
+        'placeOfPublication':   'rft.place',
+        'yearOfPublication':    'rft.date',
+        'series':               'rft.series',
+        'pageStartOfReviewInJournal': 'rft.spage',
+        'pageEndOfReviewInJournal': 'rft.epage',
+        'get_journal_title':    'rft.jtitle',
+        'pages':                'rft.pages',
         }
 
     def get_metadata_review_author(self):
@@ -171,6 +187,27 @@ class View(BrowserView):
                            'value': value,
                            'is_macro': is_macro}
         return meta
+
+    def get_metadata_context_object(self):
+        context = self.context
+        metadata = self.get_metadata()
+
+        terms = {}
+        introstr = 'ctx_ver=Z39.88-2004&rfr_id=info%3Asid%2Fzotero.org%3A2&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook'
+
+        for field in context.metadata_fields:
+            if field in self.openurl_terms:
+                name = self.openurl_terms[field]
+
+                if field == 'authors':
+                    terms.update({name: ["%s %s" %(au['firstname'], au['lastname']) for au in context[field]]})
+                else:
+                    value = context[field]
+                    if callable(value):
+                        value = value()
+                    terms.update({name: value})
+
+        return introstr + '&' + make_query(terms)
 
     def get_online_review_urls(self):
         existing_online_review_urls = []

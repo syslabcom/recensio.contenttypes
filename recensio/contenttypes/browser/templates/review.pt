@@ -119,35 +119,39 @@
             <li class="accordion-item">
               <h2 i18n:translate="metadata">Metadata</h2>
 
-              <ul class="accordion-content">
-                <li class="opened-on-load">
+              <span class="Z3988" title="ctx_ver=Z39.88-2004"
+                    tal:attributes="title view/get_metadata_context_object" >
 
-                  <dl>
-                    <tal:field_names repeat="field_name metadata_field_names">
-                      <tal:has_value
-                          condition="python:metadata[field_name]['value']">
-                        <dt tal:content="python:metadata[field_name]['label']">
-                        Editor (name or institution)</dt>
+                  <ul class="accordion-content">
+                    <li class="opened-on-load">
 
-                        <dd tal:condition="python:
-                                           metadata[field_name]['is_macro']">
-                          <metal:val
-                              use-macro="python:
-                                         context.widget(field_name, mode='view')"
-                              />
-                        </dd>
-                        <dd tal:condition="python:
-                                           not metadata[field_name]['is_macro']"
-                            tal:content="structure python:
-                                         metadata[field_name]['value']">
-                          Frank Severin
-                        </dd>
-                      </tal:has_value>
-                    </tal:field_names>
-                  </dl>
+                      <dl>
+                        <tal:field_names repeat="field_name metadata_field_names">
+                          <tal:has_value
+                              condition="python:metadata[field_name]['value']">
+                            <dt tal:content="python:metadata[field_name]['label']">
+                            Editor (name or institution)</dt>
 
-                </li>
-              </ul>
+                            <dd tal:condition="python:
+                                               metadata[field_name]['is_macro']">
+                              <metal:val
+                                  use-macro="python:
+                                             context.widget(field_name, mode='view')"
+                                  />
+                            </dd>
+                            <dd tal:condition="python:
+                                               not metadata[field_name]['is_macro']"
+                                tal:content="structure python:
+                                             metadata[field_name]['value']">
+                              Frank Severin
+                            </dd>
+                          </tal:has_value>
+                        </tal:field_names>
+                      </dl>
+
+                    </li>
+                  </ul>
+              </span>
             </li>
             <li class="accordion-item">
               <h2 i18n:translate="citation_note">Zitierhinweise</h2>
