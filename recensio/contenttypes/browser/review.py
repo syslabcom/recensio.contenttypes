@@ -193,7 +193,7 @@ class View(BrowserView):
         metadata = self.get_metadata()
 
         terms = {}
-        introstr = 'ctx_ver=Z39.88-2004&rfr_id=info%3Asid%2Fzotero.org%3A2&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook'
+        introstr = 'ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook'
 
         for field in context.metadata_fields:
             if field in self.openurl_terms:
