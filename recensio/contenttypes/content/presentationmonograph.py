@@ -252,7 +252,7 @@ class PresentationMonograph(BaseReview):
         "languageReview", "languageReviewedText", "authors", "title",
         "subtitle", "yearOfPublication", "placeOfPublication",
         "publisher", "series", "seriesVol", "pages", "isbn",
-        "ddcSubject", "ddcTime", "ddcPlace", "subject", "uri", "urn",
+        "ddcSubject", "ddcTime", "ddcPlace", "subject", "urn",
         "metadata_recensioID", "idBvb"]
 
     def getDecoratedTitle(self):
