@@ -222,6 +222,17 @@ class View(BrowserView):
                     and url["url"].strip() != ""]
         return existing_online_review_urls
 
+    def get_published_reviews(self):
+        published_reviews = []
+        if "publishedReviews" in self.context.ordered_fields:
+            publishedReviews = self.context.getPublishedReviews()
+            if publishedReviews != () \
+                    and publishedReviews != ({'details': ''},):
+                published_reviews = [
+                    review for review in publishedReviews
+                    if review["details"].strip() != ""]
+        return published_reviews
+
     def has_coverpicture(self):
         if "coverPicture" in self.context.ordered_fields:
             coverPicture = self.context.getCoverPicture()

@@ -195,7 +195,8 @@
             <li class="accordion-item">
               <h2 i18n:translate="links-box-heading">Links</h2>
               <ul class="accordion-content">
-                <li tal:define="online_review_urls view/get_online_review_urls">
+                <li tal:define="online_review_urls view/get_online_review_urls;
+                                published_reviews view/get_published_reviews">
                   <p tal:condition="context/uri" i18n:translate="online_accessible">
                     Diese Schrift ist online abrufbar
                     <a href="#"
@@ -214,6 +215,17 @@
                       </a>
                     </div>
                   </span>
+
+                  <span tal:condition="published_reviews">
+                    <span i18n:translate="heading_published_reviews_of_presented_text">
+                      Published reviews of the presented text
+                    </span>
+                    <div tal:repeat="published_review published_reviews">
+                      <span tal:content="published_review/details">
+                      </span>
+                    </div>
+                  </span>
+
 
                 </li>
               </ul>
