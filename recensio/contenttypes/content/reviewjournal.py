@@ -147,8 +147,7 @@ class ReviewJournal(BaseReview):
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
         "metadata_review_author", "languageReview",
-        "languageReviewedText", "editor", "title",
-        "pageStartOfReviewInJournal", "pageEndOfReviewInJournal",
+        "languageReviewedText", "editor", "title", "pages",
         "shortnameJournal", "yearOfPublication",
         "officialYearOfPublication", "volumeNumber", "issueNumber",
         "placeOfPublication", "publisher", "issn", "urn",

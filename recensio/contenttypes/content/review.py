@@ -237,6 +237,8 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     @property
     def page_start_end_in_print(self):
+        """ See #2630
+        PAJ/PAEV/RJ/RM have page start and end fields"""
 
         page_start = getattr(
             self, "pageStartOfPresentedTextInPrint",

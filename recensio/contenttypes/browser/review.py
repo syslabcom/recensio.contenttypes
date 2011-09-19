@@ -131,6 +131,9 @@ class View(BrowserView):
             if field.startswith("get_"):
                 label = self.custom_metadata_field_labels[field]
                 value = context[field]()
+            elif field == "pages":
+                label = _("metadata_pages")
+                value = self.context.page_start_end_in_print
             elif field == "metadata_review_author":
                 label = _("label_metadata_review_author")
                 value = self.list_rows(
@@ -200,7 +203,12 @@ class View(BrowserView):
                 name = self.openurl_terms[field]
 
                 if field == 'authors':
-                    terms.update({name: ["%s %s" %(au['firstname'], au['lastname']) for au in context[field]]})
+                    terms.update(
+                        {name: ["%s %s" %(au['firstname'], au['lastname'])
+                                for au in context[field]]})
+                elif field == "pages":
+                    value = self.context.page_start_end_in_print
+                    terms.update({name: value})
                 else:
                     value = context[field]
                     if callable(value):
