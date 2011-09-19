@@ -196,9 +196,15 @@
               <h2 i18n:translate="links-box-heading">Links</h2>
               <ul class="accordion-content">
                 <li tal:define="online_review_urls view/get_online_review_urls">
-                  <p tal:condition="context/uri" i18n:translate="online_accessible">Diese Schrift ist <a href="#" tal:attributes="href context/uri" i18n:name="link_text">online abrufbar</a></p>
+                  <p tal:condition="context/uri" i18n:translate="online_accessible">
+                    Diese Schrift ist online abrufbar
+                    <a href="#"
+                       tal:attributes="href context/uri"
+                       tal:content="context/uri"
+                       i18n:name="link_text"></a>
+                  </p>
                   <p tal:condition="not:context/uri" i18n:translate="online_not_accessible">Diese Schrift ist nicht online abrufbar</p>
-                  <span tal:condition="online_review_urls">
+                    <span tal:condition="online_review_urls">
                     <span i18n:translate="heading_online_reviews_of_presented_text">
                       Rezension/en zum praesentierten Werk
                     </span>
