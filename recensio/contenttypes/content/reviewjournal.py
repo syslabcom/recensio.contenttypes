@@ -276,12 +276,13 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         u'Plone Mag, 1, 3 (2010/2009) (reviewed_by)'
         """
         self = real_self.magic
+
         item = getFormatter(', ', ', ', ' ')
         mag_year = getFormatter('/')(self.officialYearOfPublication,
                                      self.yearOfPublication)
         mag_year = mag_year and '(' + mag_year + ')' or None
-        item_string = item(self.title, self.volumeNumber, \
-                           self.issueNumber, mag_year)
+        item_string = item(
+            self.title, self.volumeNumber, self.issueNumber, mag_year)
 
         if lastname_first:
             reviewer_string = get_formatted_names(

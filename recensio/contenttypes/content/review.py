@@ -101,6 +101,14 @@ class BasePresentationNoMagic(BaseNoMagic):
         return {'msg' : _('license-note-presentation-url-text'),
                 'url' : _('license-note-presentation-url-url')}
 
+    @property
+    def punctuated_authors(real_self):
+        self = real_self.magic
+        return u' / '.join(
+            [getFormatter(' ')(x['firstname'], x['lastname'])
+             for x in self.authors])
+
+
 
 class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     implements(IReview)
@@ -403,3 +411,17 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 value = " ".join([data, comment.getText().encode('utf8')])
 
         return value
+
+    @property
+    def punctuated_title_and_subtitle(self):
+        """ #3129
+        Note: all review types except for Presentation Online Resource
+        have the subtitle field"""
+        title = self.title
+        subtitle = self.subtitle
+        last_char = title[-1]
+        if last_char in ["!", "?", ":", ";", ".", ","]:
+            return getFormatter(" ")(title, subtitle)
+        else:
+            return getFormatter(". ")(title, subtitle)
+

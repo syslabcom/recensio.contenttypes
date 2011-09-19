@@ -243,8 +243,7 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
-        >>> at_mock.title = "Das neue Plone 4.0"
-        >>> at_mock.subtitle = "Alles neu in 2010"
+        >>> at_mock.punctuated_title_and_subtitle = "Das neue Plone 4.0. Alles neu in 2010"
         >>> review = PresentationCollectionNoMagic(at_mock)
         >>> review.getDecoratedTitle()
         u'Patrick Gerken / Alexander Pilz: Das neue Plone 4.0. Alles neu in 2010'
@@ -254,10 +253,8 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         Hans Meier: Geschichte des Abendlandes. Ein Abriss
         """
         self = real_self.magic
-        authors_string = u' / '.join([getFormatter(' ')(x['firstname'], x['lastname'])
-             for x in self.authors])
-        titles_string = getFormatter(u'. ')(self.title, self.subtitle)
-        return u": ".join((authors_string, titles_string))
+        return u": ".join((real_self.punctuated_authors,
+                           self.punctuated_title_and_subtitle))
 
     def get_citation_string(real_self):
         """

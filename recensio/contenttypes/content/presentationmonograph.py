@@ -274,8 +274,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
-        >>> at_mock.title = "Plone 4.0"
-        >>> at_mock.subtitle = "Das Benutzerhandbuch"
+        >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = PresentationMonographNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a
@@ -289,10 +288,6 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         Hans Meier: Geschichte des Abendlandes. Ein Abriss
         """
         self = real_self.magic
-        authors_string = ' / '.join(
-            [getFormatter(' ')(x['firstname'], x['lastname'])
-             for x in self.authors])
-        titles_string = getFormatter('. ')(self.title, self.subtitle)
         rezensent_string = getFormatter(' ')(self.reviewAuthors[0]["firstname"],
                                              self.reviewAuthors[0]["lastname"])
         if rezensent_string:
@@ -300,7 +295,10 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
                 Message(u"presented_by", "recensio",
                         mapping={u"review_authors": rezensent_string}))
         full_citation = getFormatter(': ', ' ')
-        return full_citation(authors_string, titles_string, rezensent_string)
+        return full_citation(
+            real_self.punctuated_authors,
+            self.punctuated_title_and_subtitle,
+            rezensent_string)
 
     def get_citation_string(real_self):
         """

@@ -187,8 +187,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
-        >>> at_mock.title = "Plone 4.0"
-        >>> at_mock.subtitle = "Das Benutzerhandbuch"
+        >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = ReviewMonographNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a
@@ -204,23 +203,25 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
 
         """
         self = real_self.magic
+
         name_part_separator = " "
         if lastname_first:
             name_part_separator = ", "
         authors_string = get_formatted_names(u' / ', name_part_separator,
                                              self.authors,
                                              lastname_first = lastname_first)
-        titles_string = getFormatter('. ')(self.title, self.subtitle)
+
         rezensent_string = get_formatted_names(u' / ', ' ', self.reviewAuthors,
                                                lastname_first = lastname_first)
-
         if rezensent_string:
             rezensent_string = "(%s)" % real_self.directTranslate(
                 Message(u"reviewed_by", "recensio",
                         mapping={u"review_authors": rezensent_string}))
 
         full_citation = getFormatter(': ', ' ')
-        return full_citation(authors_string, titles_string, rezensent_string)
+        return full_citation(
+            authors_string, self.punctuated_title_and_subtitle,
+            rezensent_string)
 
     def get_citation_string(real_self):
         """
