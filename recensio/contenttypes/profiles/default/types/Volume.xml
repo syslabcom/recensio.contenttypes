@@ -15,6 +15,8 @@
   <property name="allowed_content_types">
     <element value="Issue"/>
     <element value="Review Journal"/>
+    <element value="Review Monograph"/>
+    <element value="File"/>
   </property>
   <property name="allow_discussion">True</property>
   <property name="default_view">folder_listing</property>
