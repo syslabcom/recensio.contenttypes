@@ -142,9 +142,9 @@ class ReviewMonograph(BaseReview):
 
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
-        "metadata_review_author", "languageReview",
-        "languageReviewedText", "authors", "title", "subtitle",
-        "pages", "yearOfPublication", "placeOfPublication",
+        "metadata_start_end_pages", "metadata_review_author",
+        "languageReview", "languageReviewedText", "authors", "title",
+        "subtitle", "yearOfPublication", "placeOfPublication",
         "publisher", "series", "seriesVol", "pages", "isbn", "urn",
         "ddcSubject", "ddcTime", "ddcPlace", "subject",
         "canonical_uri", "metadata_recensioID", "idBvb"]

@@ -201,11 +201,12 @@ class PresentationArticleReview(BaseReview):
     metadata_fields = [
         "metadata_review_type_code", "metadata_presentation_author",
         "languageReview", "languageReviewedText", "authors", "title",
-        "subtitle", "pages","titleJournal", "shortnameJournal",
+        "subtitle", "titleJournal", "shortnameJournal",
         "yearOfPublication", "officialYearOfPublication",
         "volumeNumber", "issueNumber", "placeOfPublication",
-        "publisher", "issn", "ddcSubject", "ddcTime", "ddcPlace",
-        "subject", "uri", "urn", "metadata_recensioID", "idBvb"]
+        "publisher", "metadata_start_end_pages", "issn", "ddcSubject",
+        "ddcTime", "ddcPlace", "subject", "uri", "urn",
+        "metadata_recensioID", "idBvb"]
 
     def getDecoratedTitle(self):
         return PresentationArticleReviewNoMagic(self).getDecoratedTitle()

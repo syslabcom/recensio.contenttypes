@@ -216,7 +216,7 @@ class PresentationCollection(BaseReview):
     metadata_fields = [
         "metadata_review_type_code", "metadata_presentation_author",
         "languageReviewedText", "languageReview", "authors", "title",
-        "subtitle", "pages", "editorsCollectedEdition",
+        "subtitle", "metadata_start_end_pages", "editorsCollectedEdition",
         "titleCollectedEdition", "yearOfPublication",
         "placeOfPublication", "publisher", "series", "seriesVol",
         "pages", "isbn", "ddcSubject", "ddcTime", "ddcPlace",

@@ -147,10 +147,10 @@ class ReviewJournal(BaseReview):
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
         "metadata_review_author", "languageReview",
-        "languageReviewedText", "editor", "title", "pages",
-        "shortnameJournal", "yearOfPublication",
-        "officialYearOfPublication", "volumeNumber", "issueNumber",
-        "placeOfPublication", "publisher", "issn", "urn",
+        "languageReviewedText", "editor", "title", "shortnameJournal",
+        "yearOfPublication", "officialYearOfPublication",
+        "volumeNumber", "issueNumber", "placeOfPublication",
+        "publisher", "metadata_start_end_pages", "issn", "urn",
         "ddcSubject", "ddcTime", "ddcPlace", "subject",
         "canonical_uri", "metadata_recensioID", "idBvb"]
 
@@ -247,7 +247,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         location = real_self.getUUIDUrl()
         if getattr(self, "canonical_uri", False): #3102
             location = real_self.directTranslate(
-                Message(u"label_downloaded_via_recensio","recensio"))
+                Message(u"label_downloaded_via_recensio", "recensio"))
 
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
