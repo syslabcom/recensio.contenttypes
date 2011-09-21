@@ -58,7 +58,7 @@ class CompletePdfsPortlet(base.Renderer):
 
     @property
     def available(self):
-        return True
+        return len(self.complete_pdfs()) and self.context.portal_type == 'Document' and ParentGetter(self.context).get_parent_object_of_type("Publication")
 
 class AddForm(base.AddForm):
     form_fields = form.Fields(ICompletePdfsPortlet)
