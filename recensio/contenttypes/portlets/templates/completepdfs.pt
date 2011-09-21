@@ -1,0 +1,14 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      tal:omit-tag="">
+    <div class="portlet portletCompletePdfs"
+        i18n:domain="recensio">
+      <h1 i18n:translate="heading_portlet_complete_pdfs">Latest Issue</h1>
+        <ul class="list_complete_pdfs">
+            <li class="entry_complete_pdf" tal:repeat="pdf view/complete_pdfs">
+                <a tal:attributes="href pdf/link"><img alt="" src="pdf.png" /><span tal:replace="pdf/title" /></a>
+            </li>
+        </ul>
+    </div>
+</html>

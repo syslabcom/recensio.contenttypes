@@ -7,6 +7,12 @@
        without this, we may get a permission lookup error -->
   <include package="plone.app.portlets" />
 
-	<!-- -*- extra stuff goes here -*- -->
-
+  <plone:portlet
+        name="portlets.CompletePdfs"
+        interface=".completepdfs.ICompletePdfsPortlet"
+        renderer=".completepdfs.CompletePdfsPortlet"
+        assignment=".completepdfs.Assignment"
+        addview=".completepdfs.AddForm"
+        editview=".completepdfs.EditForm"
+        />
 </configure>
