@@ -82,7 +82,7 @@
 
       <iframe style="display: none"
               tal:condition="view/do_visit_canonical_uri"
-              tal:attributes="src context/canonical_uri"></iframe>
+              tal:attributes="src string:${context/canonical_uri}?recensio=true"></iframe>
 
     </div>
 
