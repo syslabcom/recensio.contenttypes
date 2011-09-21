@@ -131,9 +131,12 @@ class View(BrowserView):
             if field.startswith("get_"):
                 label = self.custom_metadata_field_labels[field]
                 value = context[field]()
+            elif field == "authors_editorial":
+                label = _("Author (monograph)")
+                value = "<br/>".join(context.list_authors_editorial())
             elif field == "metadata_start_end_pages":
                 label = _("metadata_pages")
-                value = self.context.page_start_end_in_print
+                value = context.page_start_end_in_print
             elif field == "metadata_review_author":
                 label = _("label_metadata_review_author")
                 value = self.list_rows(

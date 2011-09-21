@@ -21,13 +21,15 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
     BaseReview, BasePresentationNoMagic)
 from recensio.contenttypes.content.schemata import (
-    BookReviewSchema, CoverPictureSchema, PagecountSchema,
-    PresentationSchema, ReferenceAuthorsSchema, SerialSchema,
-    finalize_recensio_schema)
+    BookReviewSchema, CoverPictureSchema, EditorialSchema,
+    PagecountSchema, PresentationSchema, ReferenceAuthorsSchema,
+    SerialSchema, finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IPresentationMonograph
+from recensio.theme.browser.views import editorTypes
 
 PresentationMonographSchema = BookReviewSchema.copy() + \
                               CoverPictureSchema.copy() + \
+                              EditorialSchema.copy() + \
                               PagecountSchema.copy() + \
                               PresentationSchema.copy() + \
                               ReferenceAuthorsSchema.copy() + \
@@ -168,6 +170,9 @@ class PresentationMonograph(BaseReview):
     ddcSubject = atapi.ATFieldProperty('ddcSubject')
     ddcTime = atapi.ATFieldProperty('ddcTime')
 
+    #Editorial
+    editorial = atapi.ATFieldProperty('editorial')
+
     # Printed
     subtitle = atapi.ATFieldProperty('subtitle')
     yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
@@ -211,6 +216,7 @@ class PresentationMonograph(BaseReview):
         "tableOfContents",
         "coverPicture",
         "authors",
+        "editorial",
         "languageReviewedText",
         "title",
         "subtitle",
@@ -249,11 +255,14 @@ class PresentationMonograph(BaseReview):
 
     metadata_fields = [
         "metadata_review_type_code", "metadata_presentation_author",
-        "languageReview", "languageReviewedText", "authors", "title",
-        "subtitle", "yearOfPublication", "placeOfPublication",
-        "publisher", "series", "seriesVol", "pages", "isbn",
-        "ddcSubject", "ddcTime", "ddcPlace", "subject", "urn",
-        "metadata_recensioID", "idBvb"]
+        "languageReview", "languageReviewedText", "authors_editorial",
+        "title", "subtitle", "yearOfPublication",
+        "placeOfPublication", "publisher", "series", "seriesVol",
+        "pages", "isbn", "ddcSubject", "ddcTime", "ddcPlace",
+        "subject", "urn", "metadata_recensioID", "idBvb"]
+
+    def editorTypes(self):
+        return editorTypes()
 
     def getDecoratedTitle(self):
         return PresentationMonographNoMagic(self).getDecoratedTitle()
@@ -307,7 +316,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.get = lambda x: None
-        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerken♥'), ('Alexander', 'Pilz'))]
+        >>> at_mock.list_authors_editorial = lambda : [u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"]
         >>> at_mock.title = "Plone 4.0♥"
         >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
@@ -337,9 +346,8 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         full_citation_inner = getFormatter(u': presentation of: ', u', ')
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
-        authors_string = u' / '.join([getFormatter(u', ')(
-                    x['lastname'], x['firstname'])
-                                    for x in self.authors])
+        authors_string = u" / ".join(self.list_authors_editorial())
+
         item_string = item(
             authors_string, self.title, self.subtitle,
             self.placeOfPublication, self.publisher,

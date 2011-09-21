@@ -30,7 +30,8 @@ from recensio.contenttypes.interfaces.review import IReview, IParentGetter
 from recensio.imports.pdf_cut import cutPDF
 
 from recensio.theme.browser.views import (
-    listRecensioSupportedLanguages, listAvailableContentLanguages)
+    listRecensioSupportedLanguages, listAvailableContentLanguages,
+    recensioTranslate)
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
 
@@ -426,4 +427,28 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             return getFormatter(" ")(title, subtitle)
         else:
             return getFormatter(". ")(title, subtitle)
+
+    def list_authors_editorial(self):
+        """ #3111
+        PMs and RMs have an additional field for editors"""
+        result = self.listAuthors()
+        if hasattr(self, "editorial"):
+            editorial = self.editorial
+            editors = {}
+            for editor in editorial:
+                editor_type = editor["editor_type"]
+                label = recensioTranslate(u"label_abbrev_"+editor_type)
+                editor_str = "%s, %s %s" % (
+                    editor["lastname"], editor["firstname"], label
+                    )
+                if editors.has_key(editor_type):
+                    editors[editor_type].append(editor_str)
+                else:
+                    editors[editor_type] = [editor_str]
+
+            editor_types = ["herausgeber", "bearbeiter", "redaktion"]
+            for editor_type in editor_types:
+                if editors.has_key(editor_type):
+                    result += editors[editor_type]
+        return result
 

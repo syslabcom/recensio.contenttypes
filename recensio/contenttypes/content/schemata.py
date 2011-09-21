@@ -725,6 +725,27 @@ BookReviewSchema = PrintedReviewSchema.copy() + \
     ))
 BookReviewSchema["authors"].widget.label=_(u"Author (monograph)")
 
+
+EditorialSchema = atapi.Schema((
+        DataGridField(
+            'editorial',
+            schemata="reviewed_text",
+            storage=atapi.AnnotationStorage(),
+            columns=("lastname", "firstname", "editor_type"),
+            default=[{'lastname':'', 'firstname':'', "editor_type":''}],
+            widget=DataGridWidget(
+                label = _(u"label_editorial"),
+                columns = {"lastname" : Column(_(u"Last name")),
+                           "firstname" : Column(_(u"First name")),
+                           "editor_type" : SelectColumn(
+                        _(u'label_editor_type'),
+                        vocabulary="editorTypes"),
+                           }
+                ),
+            searchable=True,
+            ),
+        ))
+
 JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
                       PrintedReviewSchema.copy() + \
                       atapi.Schema((

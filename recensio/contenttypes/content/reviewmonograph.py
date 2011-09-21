@@ -13,15 +13,18 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
     BaseReview, BaseReviewNoMagic, get_formatted_names)
 from recensio.contenttypes.content.schemata import (
-    BookReviewSchema, CoverPictureSchema, PageStartEndInPDFSchema,
-    PageStartEndOfReviewInJournalSchema, PagecountSchema,
-    ReviewSchema, SerialSchema, finalize_recensio_schema)
+    BookReviewSchema, CoverPictureSchema, EditorialSchema,
+    PageStartEndInPDFSchema, PageStartEndOfReviewInJournalSchema,
+    PagecountSchema, ReviewSchema, SerialSchema,
+    finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewMonograph
 from recensio.contenttypes.citation import getFormatter
+from recensio.theme.browser.views import editorTypes
 
 
 ReviewMonographSchema = BookReviewSchema.copy() + \
                         CoverPictureSchema.copy() + \
+                        EditorialSchema.copy() + \
                         PageStartEndInPDFSchema.copy() + \
                         PageStartEndOfReviewInJournalSchema.copy() + \
                         PagecountSchema.copy() + \
@@ -66,6 +69,9 @@ class ReviewMonograph(BaseReview):
     ddcSubject = atapi.ATFieldProperty('ddcSubject')
     ddcTime = atapi.ATFieldProperty('ddcTime')
 
+    #Editorial
+    editorial = atapi.ATFieldProperty('editorial')
+
     # Printed
     subtitle = atapi.ATFieldProperty('subtitle')
     yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
@@ -105,6 +111,7 @@ class ReviewMonograph(BaseReview):
         "isbn",
         "languageReviewedText",
         "authors",
+        "editorial",
         "title",
         "subtitle",
         "yearOfPublication",
@@ -143,11 +150,14 @@ class ReviewMonograph(BaseReview):
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
         "metadata_start_end_pages", "metadata_review_author",
-        "languageReview", "languageReviewedText", "authors", "title",
-        "subtitle", "yearOfPublication", "placeOfPublication",
-        "publisher", "series", "seriesVol", "pages", "isbn", "urn",
-        "ddcSubject", "ddcTime", "ddcPlace", "subject",
-        "canonical_uri", "metadata_recensioID", "idBvb"]
+        "languageReview", "languageReviewedText", "authors_editorial",
+        "title", "subtitle", "yearOfPublication",
+        "placeOfPublication", "publisher", "series", "seriesVol",
+        "pages", "isbn", "urn", "ddcSubject", "ddcTime", "ddcPlace",
+        "subject", "canonical_uri", "metadata_recensioID", "idBvb"]
+
+    def editorTypes(self):
+        return editorTypes()
 
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""
@@ -229,7 +239,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
-        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerke♥n'), ('Alexander', 'Pilz'))]
+        >>> at_mock.list_authors_editorial = lambda : [u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"]
         >>> at_mock.title = "Plone 4.0♥"
         >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname' : 'de Roiste♥'}]
@@ -245,7 +255,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock.page_start_end_in_print = '11-21'
         >>> review = ReviewMonographNoMagic(at_mock)
         >>> review.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: review of: Gerke\u2665n, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665 (2009\u2665), p. 11-21, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'de Roiste\u2665, Cillian\u2665: review of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665 (2009\u2665), p. 11-21, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
 
         Original Spec:
@@ -266,8 +276,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         rev_details_formatter = getFormatter(u', ', u'. ', u', ', u': ', u', ')
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
-        authors_string = get_formatted_names(
-            u' / ', ', ', self.authors, lastname_first=True)
+        authors_string = u" / ".join(self.list_authors_editorial())
 
         item_string = rev_details_formatter(
             authors_string, self.title, self.subtitle,
