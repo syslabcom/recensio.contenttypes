@@ -16,8 +16,6 @@ import transaction
 
 from recensio.contenttypes.content import schemata
 
-user = app.acl_users.getUser('admin').__of__(portal.acl_users)
-newSecurityManager(None, user)
 
 rec_types =  ['Presentation Online Resource',
               'Presentation Article Review',
@@ -27,6 +25,9 @@ rec_types =  ['Presentation Online Resource',
               'Review Journal',]
 
 portal = app.recensio
+user = app.acl_users.getUser('admin').__of__(portal.acl_users)
+newSecurityManager(None, user)
+
 pc = portal.portal_catalog
 for i, brain in enumerate(pc({"portal_type": rec_types})):
     obj = brain.getObject()
