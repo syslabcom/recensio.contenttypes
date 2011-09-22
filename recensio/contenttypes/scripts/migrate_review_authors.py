@@ -16,6 +16,8 @@ import transaction
 
 from recensio.contenttypes.content import schemata
 
+user = app.acl_users.getUser('admin').__of__(portal.acl_users)
+newSecurityManager(None, user)
 
 rec_types =  ['Presentation Online Resource',
               'Presentation Article Review',
