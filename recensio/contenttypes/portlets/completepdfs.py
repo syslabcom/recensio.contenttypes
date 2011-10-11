@@ -24,7 +24,7 @@ class Assignment(base.Assignment):
 
     @property
     def title(self):
-        return _(u"Copmplete PDFs")
+        return _(u"Complete PDFs")
 
 class CompletePdfsPortlet(base.Renderer):
     _template = ViewPageTemplateFile('templates/completepdfs.pt')

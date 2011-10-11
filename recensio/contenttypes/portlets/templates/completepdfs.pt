@@ -10,6 +10,6 @@
                 <a tal:attributes="href pdf/link"><img alt="" src="pdf.png" /><span tal:replace="pdf/title" /></a>
             </li>
         </ul>
-        <a href="#publicationslisting" i18n:translate="more">more...</a>
+        <a href="#publicationslisting" i18n:translate="label_download_all_issues_and_reviews">Individual downloads of all issues and reviews</a>
     </div>
 </html>
