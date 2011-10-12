@@ -220,17 +220,17 @@
                         </span>
                       </dd>
                       </tal:block>
-                  </dl>
 
-                  <span tal:condition="published_reviews">
-                    <span i18n:translate="heading_published_reviews_of_presented_text">
-                      Published reviews of the presented text
-                    </span>
-                    <div tal:repeat="published_review published_reviews">
-                      <span tal:content="published_review/details">
-                      </span>
-                    </div>
-                  </span>
+                      <tal:block tal:condition="published_reviews">
+                        <dt i18n:translate="heading_published_reviews_of_presented_text">
+                          Published reviews of the presented text
+                        </dt>
+                        <dd tal:repeat="published_review published_reviews">
+                          <span tal:replace="published_review/details">
+                          </span>
+                        </dd>
+                      </tal:block>
+                  </dl>
 
 
                 </li>
