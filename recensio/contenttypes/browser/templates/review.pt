@@ -197,24 +197,30 @@
               <ul class="accordion-content">
                 <li tal:define="online_review_urls view/get_online_review_urls;
                                 published_reviews view/get_published_reviews">
-                  <p tal:condition="context/uri" i18n:translate="online_accessible">
-                    Diese Schrift ist online abrufbar
-                    <a href="#"
-                       tal:attributes="href context/uri"
-                       tal:content="context/uri"
-                       i18n:name="link_text"></a>
-                  </p>
-                  <p tal:condition="not:context/uri" i18n:translate="online_not_accessible">Diese Schrift ist nicht online abrufbar</p>
-                    <span tal:condition="online_review_urls">
-                    <span i18n:translate="heading_online_reviews_of_presented_text">
-                      Rezension/en zum praesentierten Werk
-                    </span>
-                    <div tal:repeat="online_review_url online_review_urls">
-                      <a tal:attributes="href online_review_url/url"
-                         tal:content="online_review_url/url">
-                      </a>
-                    </div>
-                  </span>
+                  <dl>
+                      <dt tal:condition="context/uri" i18n:translate="online_accessible">
+                        Diese Schrift ist online abrufbar
+                      </dt>
+                      <dd>
+                        <a href="#"
+                           tal:attributes="href context/uri"
+                           tal:content="context/uri"></a>
+                      </dd>
+                      <dt tal:condition="not:context/uri" i18n:translate="online_not_accessible">Diese Schrift ist nicht online abrufbar</dt>
+                      <dd />
+                      <tal:block tal:condition="online_review_urls">
+                      <dt i18n:translate="heading_online_reviews_of_presented_text">
+                        Rezension/en zum praesentierten Werk
+                      </dt>
+                      <dd>
+                        <span tal:repeat="online_review_url online_review_urls">
+                          <a tal:attributes="href online_review_url/url"
+                             tal:content="online_review_url/url">
+                          </a>
+                        </span>
+                      </dd>
+                      </tal:block>
+                  </dl>
 
                   <span tal:condition="published_reviews">
                     <span i18n:translate="heading_published_reviews_of_presented_text">
