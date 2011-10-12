@@ -44,9 +44,10 @@ class CompletePdfsPortlet(base.Renderer):
         return "%s - %s" % (vol, issue)
 
     def _data(self):
-        results = self.catalog(path='/'.join(self.context.getPhysicalPath()[:-1]), 
+        results = self.catalog(path='/'.join(ParentGetter(self.context).get_parent_object_of_type("Publication").getPhysicalPath()), 
                                Title='issue.pdf',
-                               sort_on='effective')
+                               sort_on='effective',
+                               Language='*')
         objs = [x.getObject() for x in results[:1]]
         info = [dict(title=self._maketitle(ob),
                      link=ob.absolute_url()) 
