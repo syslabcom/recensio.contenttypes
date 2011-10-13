@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.2 (unreleased)
+2.0b1 (2011-10-13)
 ------------------
 
 - LF000.2 Display the original source URL as a clickable link #3101
