@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Definition of the Presentation Article Review content type
+This is now:
+Presentation Article in Journal
 """
 from zope.interface import implements
 from cgi import escape
@@ -86,7 +88,8 @@ finalize_recensio_schema(PresentationArticleReviewSchema,
 
 
 class PresentationArticleReview(BaseReview):
-    """Presentation Article Review"""
+    """Presentation Article Review /
+       Presentation Article in Journal"""
     implements(IPresentationArticleReview)
 
     meta_type = "PresentationArticleReview"
@@ -203,8 +206,8 @@ class PresentationArticleReview(BaseReview):
         "languageReview", "languageReviewedText", "authors", "title",
         "subtitle", "titleJournal", "shortnameJournal",
         "yearOfPublication", "officialYearOfPublication",
-        "volumeNumber", "issueNumber", "placeOfPublication",
-        "publisher", "metadata_start_end_pages", "issn", "ddcSubject",
+        "volumeNumber", "issueNumber", "metadata_start_end_pages",
+        "placeOfPublication", "publisher", "issn", "ddcSubject",
         "ddcTime", "ddcPlace", "subject", "uri", "urn",
         "metadata_recensioID", "idBvb"]
 

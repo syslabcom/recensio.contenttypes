@@ -149,8 +149,8 @@ class ReviewJournal(BaseReview):
         "metadata_review_author", "languageReview",
         "languageReviewedText", "editor", "title", "shortnameJournal",
         "yearOfPublication", "officialYearOfPublication",
-        "volumeNumber", "issueNumber", "placeOfPublication",
-        "publisher", "metadata_start_end_pages", "issn", "urn",
+        "volumeNumber", "issueNumber", "metadata_start_end_pages",
+        "placeOfPublication", "publisher", "issn", "urn",
         "ddcSubject", "ddcTime", "ddcPlace", "subject",
         "canonical_uri", "metadata_recensioID", "idBvb"]
 
