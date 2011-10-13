@@ -88,8 +88,7 @@ finalize_recensio_schema(PresentationArticleReviewSchema,
 
 
 class PresentationArticleReview(BaseReview):
-    """Presentation Article Review /
-       Presentation Article in Journal"""
+    """Presentation Article Review"""
     implements(IPresentationArticleReview)
 
     meta_type = "PresentationArticleReview"
