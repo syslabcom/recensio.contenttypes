@@ -316,7 +316,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.get = lambda x: None
-        >>> at_mock.list_authors_editorial = lambda : [u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"]
+        >>> at_mock.formatted_authors_editorial = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.title = "Plone 4.0♥"
         >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
@@ -346,7 +346,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         full_citation_inner = getFormatter(u': presentation of: ', u', ')
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
-        authors_string = u" / ".join(self.list_authors_editorial())
+        authors_string = self.formatted_authors_editorial
 
         item_string = item(
             authors_string, self.title, self.subtitle,

@@ -150,8 +150,8 @@ class ReviewMonograph(BaseReview):
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
         "metadata_start_end_pages", "metadata_review_author",
-        "languageReview", "languageReviewedText", "authors_editorial",
-        "title", "subtitle", "yearOfPublication",
+        "languageReview", "languageReviewedText", "authors",
+        "editorial", "title", "subtitle", "yearOfPublication",
         "placeOfPublication", "publisher", "series", "seriesVol",
         "pages", "isbn", "urn", "ddcSubject", "ddcTime", "ddcPlace",
         "subject", "canonical_uri", "metadata_recensioID", "idBvb"]
@@ -239,7 +239,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
-        >>> at_mock.list_authors_editorial = lambda : [u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"]
+        >>> at_mock.formatted_authors_editorial = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.title = "Plone 4.0♥"
         >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname' : 'de Roiste♥'}]
@@ -276,7 +276,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         rev_details_formatter = getFormatter(u', ', u'. ', u', ', u': ', u', ')
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
-        authors_string = u" / ".join(self.list_authors_editorial())
+        authors_string = self.formatted_authors_editorial
 
         item_string = rev_details_formatter(
             authors_string, self.title, self.subtitle,

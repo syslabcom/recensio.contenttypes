@@ -731,16 +731,12 @@ EditorialSchema = atapi.Schema((
             'editorial',
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            columns=("lastname", "firstname", "editor_type"),
-            default=[{'lastname':'', 'firstname':'', "editor_type":''}],
+            columns=("lastname", "firstname"),
+            default=[{'lastname':'', 'firstname':''}],
             widget=DataGridWidget(
                 label = _(u"label_editorial"),
                 columns = {"lastname" : Column(_(u"Last name")),
-                           "firstname" : Column(_(u"First name")),
-                           "editor_type" : SelectColumn(
-                        _(u'label_editor_type'),
-                        vocabulary="editorTypes"),
-                           }
+                           "firstname" : Column(_(u"First name")),}
                 ),
             searchable=True,
             ),

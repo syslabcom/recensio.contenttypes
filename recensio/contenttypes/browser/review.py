@@ -90,6 +90,9 @@ class View(BrowserView):
             if field == "authors":
                 return _(u"Author (monograph)",
                          default=u"Author (monograph)")
+            if field == "editorial":
+                return _(u"Editor (monograph)",
+                         default=u"Editor (monograph)")
         elif meta_type in ["PresentationArticleReview",
                            "PresentationCollection"]:
             if field == "languageReviewedText":
@@ -98,6 +101,9 @@ class View(BrowserView):
             if field == "authors":
                 return _(u"label_metadata_author_article",
                          default=u"Author (article)")
+            if field == "editorial":
+                return _(u"label_metadata_editor_article",
+                         default=u"Editor (article)")
             if field == "title":
                 return _(u"label_metadata_title_article",
                          default=u"Title (article)")
@@ -131,9 +137,6 @@ class View(BrowserView):
             if field.startswith("get_"):
                 label = self.custom_metadata_field_labels[field]
                 value = context[field]()
-            elif field == "authors_editorial":
-                label = _("Author (monograph)")
-                value = "<br/>".join(context.list_authors_editorial())
             elif field == "metadata_start_end_pages":
                 label = _("metadata_pages")
                 value = context.page_start_end_in_print
@@ -146,6 +149,9 @@ class View(BrowserView):
                 value = self.list_rows(
                     context["reviewAuthors"], "lastname", "firstname")
             elif field == "authors":
+                label = self.get_label(fields, field, context.meta_type)
+                value = self.list_rows(context[field], "lastname", "firstname")
+            elif field == "editorial":
                 label = self.get_label(fields, field, context.meta_type)
                 value = self.list_rows(context[field], "lastname", "firstname")
             elif field == "editorsCollectedEdition":
