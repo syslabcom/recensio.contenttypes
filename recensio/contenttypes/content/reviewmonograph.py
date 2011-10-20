@@ -195,7 +195,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
-        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
+        >>> at_mock.formatted_authors_editorial = "Patrick Gerken / Alexander Pilz"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = ReviewMonographNoMagic(at_mock)
@@ -216,9 +216,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         name_part_separator = " "
         if lastname_first:
             name_part_separator = ", "
-        authors_string = get_formatted_names(u' / ', name_part_separator,
-                                             self.authors,
-                                             lastname_first = lastname_first)
+        authors_string = self.formatted_authors_editorial
 
         rezensent_string = get_formatted_names(u' / ', ' ', self.reviewAuthors,
                                                lastname_first = lastname_first)
@@ -303,6 +301,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
             escape(rezensent_string), escape(item_string),
             escape(mag_number_and_year_string),
             self.page_start_end_in_print, location)
+
         return citation_string
 
 atapi.registerType(ReviewMonograph, PROJECTNAME)

@@ -143,7 +143,7 @@ class PresentationMonograph(BaseReview):
     """Presentation Monograph"""
     implements(IPresentationMonograph)
 
-    meta_type = "PresentationMonograph"
+    metadata_type = "PresentationMonograph"
     schema = PresentationMonographSchema
 
     title = atapi.ATFieldProperty('title')
@@ -282,7 +282,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
-        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
+        >>> at_mock.formatted_authors_editorial = "Patrick Gerken / Alexander Pilz"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = PresentationMonographNoMagic(at_mock)
@@ -305,7 +305,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
                         mapping={u"review_authors": rezensent_string}))
         full_citation = getFormatter(': ', ' ')
         return full_citation(
-            real_self.punctuated_authors,
+            self.formatted_authors_editorial,
             self.punctuated_title_and_subtitle,
             rezensent_string)
 

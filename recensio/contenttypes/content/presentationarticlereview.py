@@ -211,7 +211,8 @@ class PresentationArticleReview(BaseReview):
         "metadata_recensioID", "idBvb"]
 
     def getDecoratedTitle(self):
-        return PresentationArticleReviewNoMagic(self).getDecoratedTitle()
+        return u": ".join((self.formatted_authors_editorial,
+                           self.punctuated_title_and_subtitle))
 
     def get_citation_string(self):
         return PresentationArticleReviewNoMagic(self).get_citation_string()
@@ -223,27 +224,6 @@ class PresentationArticleReview(BaseReview):
         return PresentationArticleReviewNoMagic(self).getLicenseURL()
 
 class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
-    def getDecoratedTitle(real_self):
-        """
-        >>> from mock import Mock
-        >>> at_mock = Mock()
-        >>> at_mock.customCitation = ''
-        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick', 'Gerken'), ('Alexander', 'Pilz'))]
-        >>> at_mock.punctuated_title_and_subtitle = "Das neue Plone 4.0. Alles neu in 2010"
-        >>> review = PresentationArticleReviewNoMagic(at_mock)
-        >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: Das neue Plone 4.0. Alles neu in 2010'
-
-        Original Specification
-
-        [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel]
-
-        Hans Meier: Geschichte des Abendlandes. Ein Abriss
-
-        """
-        self = real_self.magic
-        return u": ".join((real_self.punctuated_authors,
-                           self.punctuated_title_and_subtitle))
 
     def get_citation_string(real_self):
         """
