@@ -186,4 +186,4 @@ class TestBrowserViews(unittest.TestCase):
 
     def test_browse_topics(self):
         self.browser.open(self.portal_url+"/browse-topics")
-        self.assertTrue("Rezensiert von" in self.browser.contents)
+        self.assertTrue("Rezension" in self.browser.contents)
