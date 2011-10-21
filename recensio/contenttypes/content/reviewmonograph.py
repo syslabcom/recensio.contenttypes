@@ -284,10 +284,10 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
             or None
 
-        mag_number_and_year_formatter = getFormatter(u', ', u', ', u' ')
-        mag_number_and_year_string = mag_number_and_year_formatter(
+        mag_number_formatter = getFormatter(u', ', u', ')
+        mag_number_string = mag_number_formatter(
             self.get_publication_title(), self.get_volume_title(),
-            self.get_issue_title(), mag_year_string)
+            self.get_issue_title())
 
         location = real_self.getUUIDUrl()
         if getattr(self, "canonical_uri", False): #3102
@@ -299,7 +299,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
 
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),
-            escape(mag_number_and_year_string),
+            escape(mag_number_string),
             self.page_start_end_in_print, location)
 
         return citation_string

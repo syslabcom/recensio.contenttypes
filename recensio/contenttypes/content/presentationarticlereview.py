@@ -262,27 +262,24 @@ Note: gezähltes Jahr entfernt.
         self = real_self.magic
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u'. ')
-        mag_number_and_year = getFormatter(u', ', u', ', u' ')
+        mag_number = getFormatter(u', ', u', ')
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
         authors_string = u' / '.join([getFormatter(', ')(x['lastname'],
                                                          x['firstname'])
                                       for x in self.authors])
-        item_string = item(authors_string,
-                           self.title,
-                           self.subtitle)
+        item_string = item(authors_string, self.title, self.subtitle)
         mag_year_string = self.yearOfPublication.decode('utf-8')
         mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
             or None
-        mag_number_and_year_string = mag_number_and_year(
-            self.titleJournal, self.volumeNumber, self.issueNumber,
-            mag_year_string)
+        mag_number = mag_number(
+            self.titleJournal, self.volumeNumber, self.issueNumber)
 
         full_citation_inner = getFormatter(
             u': presentation of: ', u', in: ', ', p. ', u' ')
         return full_citation_inner(
             escape(rezensent_string), escape(item_string),
-            escape(mag_number_and_year_string),
+            escape(mag_number),
             self.page_start_end_in_print, real_self.getUUIDUrl())
 
 atapi.registerType(PresentationArticleReview, PROJECTNAME)
