@@ -247,7 +247,7 @@ class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
         >>> at_mock.page_start_end_in_print = '11-21'
         >>> presentation = PresentationArticleReviewNoMagic(at_mock)
         >>> presentation.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665. Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665 (2009\u2665), p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665. Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665, p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
         Original Specification
 
