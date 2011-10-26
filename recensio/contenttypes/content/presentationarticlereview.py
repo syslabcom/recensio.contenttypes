@@ -5,6 +5,7 @@ Presentation Article in Journal
 """
 from zope.interface import implements
 from cgi import escape
+from zope.i18nmessageid import Message
 
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
@@ -276,7 +277,7 @@ Note: gezähltes Jahr entfernt.
             self.titleJournal, self.volumeNumber, self.issueNumber)
 
         full_citation_inner = getFormatter(
-            u': presentation of: ', u', in: ', ', p. ', u' ')
+            u': ' + real_self.directTranslate(Message(u"text_presentation_of", "recensio")) + u' ', u', in: ', ', p. ', u' ')
         return full_citation_inner(
             escape(rezensent_string), escape(item_string),
             escape(mag_number),

@@ -3,6 +3,7 @@
 """
 from zope.interface import implements
 from cgi import escape
+from zope.i18nmessageid import Message
 
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
@@ -301,7 +302,7 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
                                         hrsg_company_year_string)
         hrsg_string = hrsg(hrsg_person_string, hrsg_book_string)
 
-        full_citation = getFormatter(u': presentation of: ', u', in: ',
+        full_citation = getFormatter(u': ' + real_self.directTranslate(Message(u"text_presentation_of", "recensio")) + u' ', u', in: ',
                                      u', p. ', ' ')
         return full_citation(escape(rezensent_string),
                              escape(item_string), escape(hrsg_string),

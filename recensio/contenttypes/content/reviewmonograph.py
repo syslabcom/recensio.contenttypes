@@ -295,7 +295,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
                 Message(u"label_downloaded_via_recensio","recensio"))
 
         citation_formatter = getFormatter(
-            u': review of: ', u', in: ', ', p. ', u', ')
+            u': ' + real_self.directTranslate(Message(u"text_review_of", "recensio")) + u' ', u', in: ', ', p. ', u', ')
 
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),

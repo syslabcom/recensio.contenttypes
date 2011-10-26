@@ -343,7 +343,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
         if False:
             _("presentation of")
-        full_citation_inner = getFormatter(u': presentation of: ', u', ')
+        full_citation_inner = getFormatter(u': ' + real_self.directTranslate(Message(u"text_presentation_of", "recensio")) + u' ', u', ')
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
         authors_string = self.formatted_authors_editorial

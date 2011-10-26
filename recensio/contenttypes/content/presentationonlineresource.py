@@ -3,6 +3,7 @@
 """
 from cgi import escape
 from zope.interface import implements
+from zope.i18nmessageid import Message
 
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
@@ -318,7 +319,7 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         self = real_self.magic
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u', ')
-        full_citation = getFormatter(': presentation of: ')
+        full_citation = getFormatter(u': ' + real_self.directTranslate(Message(u"text_presentation_of", "recensio")) + u' ')
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
         item_string = item(escape(self.title), escape(self.uri),
