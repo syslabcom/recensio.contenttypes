@@ -305,8 +305,9 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
         >>> at_mock.uri = 'http://www.syslab.com/home♥'
-        >>> review = PresentationOnlineResourceNoMagic(at_mock)
-        >>> review.get_citation_string()
+        >>> presentation = PresentationOnlineResourceNoMagic(at_mock)
+        >>> presentation.directTranslate = lambda m: m.default
+        >>> presentation.get_citation_string()
         u'Reinhard\u2665, Manuel\u2665: presentation of: Homepage of SYSLAB.COM GmbH\u2665, http://www.syslab.com/home\u2665, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
 
@@ -319,7 +320,7 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         self = real_self.magic
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u', ')
-        full_citation = getFormatter(u': ' + real_self.directTranslate(Message(u"text_presentation_of", "recensio")) + u' ')
+        full_citation = getFormatter(u': ' + real_self.directTranslate(Message(u"text_presentation_of", "recensio", default="presentation of:")) + u' ')
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
         item_string = item(escape(self.title), escape(self.uri),

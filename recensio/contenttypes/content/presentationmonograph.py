@@ -326,6 +326,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
         >>> presentation = PresentationMonographNoMagic(at_mock)
+        >>> presentation.directTranslate = lambda m: m.default
         >>> presentation.get_citation_string()
         u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
@@ -343,7 +344,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
         if False:
             _("presentation of")
-        full_citation_inner = getFormatter(u': ' + real_self.directTranslate(Message(u"text_presentation_of", "recensio")) + u' ', u', ')
+        full_citation_inner = getFormatter(u': ' + real_self.directTranslate(Message(u"text_presentation_of", "recensio", default="presentation of:")) + u' ', u', ')
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
         authors_string = self.formatted_authors_editorial

@@ -218,6 +218,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> at_mock.canonical_uri = ''
         >>> at_mock.page_start_end_in_print = '11-21'
         >>> review = ReviewJournalNoMagic(at_mock)
+        >>> review.directTranslate = lambda m: m.default
         >>> review.get_citation_string()
         u'de Roiste\u2665, Cillian\u2665: review of: Plone Mag\u2665, 1\u2665, 3\u2665 (2010\u2665/2009\u2665), in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, p. 11-21, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
@@ -252,7 +253,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
         citation_formatter = getFormatter(
-            u': ' + real_self.directTranslate(Message(u"text_review_of")) + u' ', u', in: ', ', p. ', u', ')
+            u': ' + real_self.directTranslate(Message(u"text_review_of", "recensio", default="review of:")) + u' ', u', in: ', ', p. ', u', ')
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),
             escape(reference_mag_string), self.page_start_end_in_print,
