@@ -110,6 +110,7 @@ class ReviewMonograph(BaseReview):
         # Reviewed Text schemata
         "isbn",
         "languageReviewedText",
+        'help_authors_or_editors',
         "authors",
         "editorial",
         "title",

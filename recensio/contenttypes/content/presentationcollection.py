@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Definition of the Presentation Collection content type
+This has been changed to:
+Presentation Article edited Volume
 """
 from zope.interface import implements
 from cgi import escape

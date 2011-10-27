@@ -727,6 +727,17 @@ BookReviewSchema["authors"].widget.label=_(u"Author (monograph)")
 
 
 EditorialSchema = atapi.Schema((
+        atapi.StringField(
+            'help_authors_or_editors',
+            schemata="reviewed_text",
+            widget=atapi.LabelWidget(
+                label=_(
+                    u"help_authors_or_editors",
+                    default=(u"Please fill in either authors OR editors "
+                             "(exception: Complete Works etc.)")
+                    )
+                ),
+        ),
         DataGridField(
             'editorial',
             schemata="reviewed_text",

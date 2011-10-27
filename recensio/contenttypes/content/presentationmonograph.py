@@ -215,6 +215,7 @@ class PresentationMonograph(BaseReview):
         "uri",
         "tableOfContents",
         "coverPicture",
+        'help_authors_or_editors',
         "authors",
         "editorial",
         "languageReviewedText",
