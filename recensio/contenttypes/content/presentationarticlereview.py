@@ -283,7 +283,7 @@ Note: gezähltes Jahr entfernt.
                  ':':         real_self.directTranslate(Message(u"text_colon", "recensio", default=":")),
                }
         full_citation_inner = getFormatter(
-            u'%(:)s %(presentation_of)s ' % args, u', %(in)s ' % args, ', %(page)s ', u' ')
+            u'%(:)s %(presentation_of)s ' % args, u', %(in)s ' % args, ', %(page)s ' % args, u' ')
         return full_citation_inner(
             escape(rezensent_string), escape(item_string),
             escape(mag_number),
