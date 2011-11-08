@@ -273,7 +273,12 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         if self.customCitation:
             return scrubHTML(self.customCitation).decode('utf8')
 
-        rev_details_formatter = getFormatter(u', ', u'. ', u', ', u': ', u', ')
+        args = { 'review_of': real_self.directTranslate(Message(u"text_review_of", "recensio", default="review of:")),
+                 'in':        real_self.directTranslate(Message(u"text_in", "recensio", default="in:")),
+                 'page':      'p.',
+                 ':':         real_self.directTranslate(Message(u"text_colon", "recensio", default=":")),
+               }
+        rev_details_formatter = getFormatter(u', ', u'. ', u', ', u'%(:)s ' % args, u', ')
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
         authors_string = self.formatted_authors_editorial
@@ -297,7 +302,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
                 Message(u"label_downloaded_via_recensio","recensio"))
 
         citation_formatter = getFormatter(
-            u': ' + real_self.directTranslate(Message(u"text_review_of", "recensio", default="review of:")) + u' ', u', in: ', ', p. ', u', ')
+            u'%(:)s %(review_of)s ' % args, ', %(in)s ' % args, ', %(page)s ' % args, u', ')
 
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),
