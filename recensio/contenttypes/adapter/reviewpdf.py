@@ -6,6 +6,8 @@ import tempfile
 from zope import interface
 from zope import component
 
+from plone.app.blob.field import ImageField
+
 from recensio.contenttypes import interfaces
 from recensio.contenttypes.helperutilities import RunSubprocess
 from recensio.contenttypes.helperutilities import SubprocessException
@@ -104,6 +106,10 @@ class ReviewPDF(object):
             if 'Error:' in result:
                 status = 0
         if pageimages:
-            setattr(self.context, 'pagePictures', pageimages)
-
+            imgfields = []
+            for img in pageimages:
+                IF = ImageField()
+                IF.set(self.context, img)
+                imgfields.append(IF)
+            setattr(self.context, 'pagePictures', imgfields)
         return status
