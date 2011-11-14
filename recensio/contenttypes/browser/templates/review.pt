@@ -113,91 +113,91 @@
 
       <div tal:define="metadata_field_names context/metadata_fields;
                        metadata view/get_metadata">
-      <span class="Z3988" title="ctx_ver=Z39.88-2004"
-            tal:attributes="title view/get_metadata_context_object" >
+        <span class="Z3988" title="ctx_ver=Z39.88-2004"
+              tal:attributes="title view/get_metadata_context_object" >
 
 
-        <div id="accordion-container">
-          <ul class="accordion">
-            <li class="accordion-item">
+          <div id="accordion-container">
+            <ul class="accordion">
+              <li class="accordion-item">
                 <h2 i18n:translate="metadata">Metadata</h2>
 
-                  <ul class="accordion-content">
-                    <li class="opened-on-load">
+                <ul class="accordion-content">
+                  <li class="opened-on-load">
 
-                      <dl>
-                        <tal:field_names repeat="field_name metadata_field_names">
-                          <tal:has_value
-                              condition="python:metadata[field_name]['value']">
-                            <dt tal:content="python:metadata[field_name]['label']">
-                            Editor (name or institution)</dt>
+                    <dl>
+                      <tal:field_names repeat="field_name metadata_field_names">
+                        <tal:has_value
+                            condition="python:metadata[field_name]['value']">
+                          <dt tal:content="python:metadata[field_name]['label']">
+                          Editor (name or institution)</dt>
 
-                            <dd tal:condition="python:
-                                               metadata[field_name]['is_macro']">
-                              <metal:val
-                                  use-macro="python:
-                                             context.widget(field_name, mode='view')"
-                                  />
-                            </dd>
-                            <dd tal:condition="python:
-                                               not metadata[field_name]['is_macro']"
-                                tal:content="structure python:
-                                             metadata[field_name]['value']">
-                              Frank Severin
-                            </dd>
-                          </tal:has_value>
-                        </tal:field_names>
-                      </dl>
+                          <dd tal:condition="python:
+                                             metadata[field_name]['is_macro']">
+                            <metal:val
+                                use-macro="python:
+                                           context.widget(field_name, mode='view')"
+                                />
+                          </dd>
+                          <dd tal:condition="python:
+                                             not metadata[field_name]['is_macro']"
+                              tal:content="structure python:
+                                           metadata[field_name]['value']">
+                            Frank Severin
+                          </dd>
+                        </tal:has_value>
+                      </tal:field_names>
+                    </dl>
 
-                    </li>
-                  </ul>
-            </li>
-            <li class="accordion-item">
-              <h2 i18n:translate="citation_note">Zitierhinweise</h2>
-              <ul class="accordion-content">
-                <li>
-                  <p tal:content="structure context/get_citation_string"></p>
-                  <dl>
-                    <dt i18n:translate="url">URL:</dt>
-                    <dd><a tal:attributes="href context/absolute_url"
-                           tal:content="context/absolute_url"></a></dd>
-                    <tal:canonical_uri define="url context/canonical_uri | nothing"
-                                       condition="url">
-                      <dt i18n:translate="heading_first_published">First published:</dt>
-                      <dd><a tal:attributes="href url"
-                        tal:content="url"></a>
-                      </dd>
-                    </tal:canonical_uri>
-                  </dl>
+                  </li>
+                </ul>
+              </li>
+              <li class="accordion-item">
+                <h2 i18n:translate="citation_note">Zitierhinweise</h2>
+                <ul class="accordion-content">
+                  <li>
+                    <p tal:content="structure context/get_citation_string"></p>
+                    <dl>
+                      <dt i18n:translate="url">URL:</dt>
+                      <dd><a tal:attributes="href context/absolute_url"
+                             tal:content="context/absolute_url"></a></dd>
+                      <tal:canonical_uri define="url context/canonical_uri | nothing"
+                                         condition="url">
+                        <dt i18n:translate="heading_first_published">First published:</dt>
+                        <dd><a tal:attributes="href url"
+                               tal:content="url"></a>
+                        </dd>
+                      </tal:canonical_uri>
+                    </dl>
 
-                </li>
-              </ul>
-            </li>
-            <li class="accordion-item">
-              <h2 i18n:translate="license-note-heading">Lizenzhinweis:</h2>
-              <ul class="accordion-content">
-                <li>
-                  <p tal:content="context/getLicense">Dieser Beitrag
-                  unterliegt der Creative-Commons-Lizenz
-                  Namensnennung-Keine kommerzielle Nutzung-Keine
-                  Bearbeitung (CC-BY-NC-ND), darf also unter diesen
-                  Bedingungen elektronisch benutzt, übermittelt,
-                  ausgedruckt und zum Download bereitgestellt
-                  werden. Den Text der Lizenz erreichen Sie hier:</p>
-                  <a tal:condition="context/getLicenseURL | nothing"
-                     tal:attributes="href python:
-                                     context.getLicenseURL()['url']"
-                     tal:content="python: context.getLicenseURL()['msg']">
-                  Licence msg</a>
-                </li>
-              </ul>
-            </li>
-            <li class="accordion-item">
-              <h2 i18n:translate="links-box-heading">Links</h2>
-              <ul class="accordion-content">
-                <li tal:define="online_review_urls view/get_online_review_urls;
-                                published_reviews view/get_published_reviews">
-                  <dl>
+                  </li>
+                </ul>
+              </li>
+              <li class="accordion-item">
+                <h2 i18n:translate="license-note-heading">Lizenzhinweis:</h2>
+                <ul class="accordion-content">
+                  <li>
+                    <p tal:content="context/getLicense">Dieser Beitrag
+                    unterliegt der Creative-Commons-Lizenz
+                    Namensnennung-Keine kommerzielle Nutzung-Keine
+                    Bearbeitung (CC-BY-NC-ND), darf also unter diesen
+                    Bedingungen elektronisch benutzt, übermittelt,
+                    ausgedruckt und zum Download bereitgestellt
+                    werden. Den Text der Lizenz erreichen Sie hier:</p>
+                    <a tal:condition="context/getLicenseURL | nothing"
+                       tal:attributes="href python:
+                                       context.getLicenseURL()['url']"
+                       tal:content="python: context.getLicenseURL()['msg']">
+                    Licence msg</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="accordion-item">
+                <h2 i18n:translate="links-box-heading">Links</h2>
+                <ul class="accordion-content">
+                  <li tal:define="online_review_urls view/get_online_review_urls;
+                                  published_reviews view/get_published_reviews">
+                    <dl>
                       <dt tal:condition="context/uri" i18n:translate="online_accessible">
                         Diese Schrift ist online abrufbar
                       </dt>
@@ -209,16 +209,16 @@
                       <dt tal:condition="not:context/uri" i18n:translate="online_not_accessible">Diese Schrift ist nicht online abrufbar</dt>
                       <dd />
                       <tal:block tal:condition="online_review_urls">
-                      <dt i18n:translate="heading_online_reviews_of_presented_text">
-                        Rezension/en zum praesentierten Werk
-                      </dt>
-                      <dd>
-                        <span tal:repeat="online_review_url online_review_urls">
-                          <a tal:attributes="href online_review_url/url"
-                             tal:content="online_review_url/url">
-                          </a>
-                        </span>
-                      </dd>
+                        <dt i18n:translate="heading_online_reviews_of_presented_text">
+                          Rezension/en zum praesentierten Werk
+                        </dt>
+                        <dd>
+                          <span tal:repeat="online_review_url online_review_urls">
+                            <a tal:attributes="href online_review_url/url"
+                               tal:content="online_review_url/url">
+                            </a>
+                          </span>
+                        </dd>
                       </tal:block>
 
                       <tal:block tal:condition="published_reviews">
@@ -230,15 +230,15 @@
                           </span>
                         </dd>
                       </tal:block>
-                  </dl>
+                    </dl>
 
 
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </span>
       </div>
 
     </metal:portlets>

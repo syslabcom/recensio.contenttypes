@@ -131,8 +131,8 @@ class View(BrowserView):
         context = self.context
         fields = self.context.Schema()._fields
         meta = {}
-        value = False # A field is only displayed if it has a value
         for field in context.metadata_fields:
+            value = False # A field is only displayed if it has a value
             is_macro = False
             if field.startswith("get_"):
                 label = self.custom_metadata_field_labels[field]
@@ -202,7 +202,6 @@ class View(BrowserView):
 
     def get_metadata_context_object(self):
         context = self.context
-        metadata = self.get_metadata()
 
         terms = {}
         introstr = 'ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook'
