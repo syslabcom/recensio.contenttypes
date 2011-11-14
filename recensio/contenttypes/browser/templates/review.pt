@@ -192,7 +192,8 @@
                   </li>
                 </ul>
               </li>
-              <li class="accordion-item">
+              <li class="accordion-item"
+                  tal:condition="python:context.Type().startswith('Presentation')">
                 <h2 i18n:translate="links-box-heading">Links</h2>
                 <ul class="accordion-content">
                   <li tal:define="online_review_urls view/get_online_review_urls;
