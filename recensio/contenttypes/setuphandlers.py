@@ -345,6 +345,7 @@ def recensio_example_content_all(context):
     setViewsOnFoldersUnguarded(context)
     hideAllFoldersUnguarded(context)
 
+@guard(['exampledata'])
 def addExampleContent(context):
     add_number_of_each_review_type(context, 10)
 
