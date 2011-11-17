@@ -1,7 +1,15 @@
 Changelog
 =========
 
-2.1 (unreleased)
+2.2 (2011-11-17)
+----------------
+
+- Adding a guard on the example content setup handler to avoid it running when installing extra products
+  (deroiste)
+- changed subject to lineswidget for performance
+  (pilz)
+
+2.1 (2011-11-14)
 ----------------
 
 - Changed PagePreview image to a blob [pilz]

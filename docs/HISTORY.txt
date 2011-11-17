@@ -4,10 +4,16 @@ Changelog
 2.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Adding a guard on the example content setup handler to avoid it running when installing extra products
+  (deroiste)
+- changed subject to lineswidget for performance
+  (pilz)
 
 
 2.1 (2011-11-14)
 ----------------
 
-- Initial release
+- Changed PagePreview image to a blob [pilz]
+- Bugfix, empty metadata fields being shown [deroiste] #3924
+- Only display links box for Presentations [deroiste] #3118
+
