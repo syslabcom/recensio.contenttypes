@@ -281,11 +281,17 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         """
         self = real_self.magic
         gf = getFormatter
-        args = { 'presentation_of': real_self.directTranslate(Message(u"text_presentation_of", "recensio", default="presentation of:")),
-                 'in':        real_self.directTranslate(Message(u"text_in", "recensio", default="in:")),
-                 'page':      'p.',
-                 ':':         real_self.directTranslate(Message(u"text_colon", "recensio", default=":")),
-               }
+        args = {
+            'presentation_of' : real_self.directTranslate(Message(
+                    u"text_presentation_of", "recensio",
+                    default="presentation of:")),
+            'in'              : real_self.directTranslate(Message(
+                    u"text_in", "recensio", default="in:")),
+            'page'            : real_self.directTranslate(Message(
+                    u"text_pages", "recensio", default="p.")),
+            ':'               : real_self.directTranslate(Message(
+                    u"text_colon", "recensio", default=":")),
+            }
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u'. ')
         hrsg_person = getFormatter(', ')

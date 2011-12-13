@@ -277,13 +277,20 @@ Note: gezähltes Jahr entfernt.
         mag_number = mag_number(
             self.titleJournal, self.volumeNumber, self.issueNumber)
 
-        args = { 'presentation_of': real_self.directTranslate(Message(u"text_presentation_of", "recensio", default="presentation of:")),
-                 'in':        real_self.directTranslate(Message(u"text_in", "recensio", default="in:")),
-                 'page':      'p.',
-                 ':':         real_self.directTranslate(Message(u"text_colon", "recensio", default=":")),
-               }
+        args = {
+            'presentation_of' : real_self.directTranslate(Message(
+                    u"text_presentation_of", "recensio",
+                    default="presentation of:")),
+            'in'              : real_self.directTranslate(Message(
+                    u"text_in", "recensio", default="in:")),
+            'page'            : real_self.directTranslate(Message(
+                    u"text_pages", "recensio", default="p.")),
+            ':'               : real_self.directTranslate(Message(
+                    u"text_colon", "recensio", default=":")),
+            }
         full_citation_inner = getFormatter(
-            u'%(:)s %(presentation_of)s ' % args, u', %(in)s ' % args, ', %(page)s ' % args, u' ')
+            u'%(:)s %(presentation_of)s ' % args, u', %(in)s ' % args,
+            ', %(page)s ' % args, u' ')
         return full_citation_inner(
             escape(rezensent_string), escape(item_string),
             escape(mag_number),

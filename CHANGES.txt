@@ -1,11 +1,10 @@
 Changelog
 =========
 
-2.3 (unreleased)
+2.3 (2011-12-13)
 ----------------
 
-- Nothing changed yet.
-
+- Translate "p." in the citation string #3956 [deroiste]
 
 2.2 (2011-11-17)
 ----------------

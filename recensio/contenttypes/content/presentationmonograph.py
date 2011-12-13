@@ -340,19 +340,27 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
 
         """
         self = real_self.magic
-        args = { 'presentation_of': real_self.directTranslate(Message(u"text_presentation_of", "recensio", default="presentation of:")),
-                 'in':        real_self.directTranslate(Message(u"text_in", "recensio", default="in:")),
-                 'page':      'p.',
-                 ':':         real_self.directTranslate(Message(u"text_colon", "recensio", default=":")),
-               }
+        args = {
+            'presentation_of' : real_self.directTranslate(Message(
+                    u"text_presentation_of", "recensio",
+                    default="presentation of:")),
+            'in'              : real_self.directTranslate(Message(
+                    u"text_in", "recensio", default="in:")),
+            'page'            : real_self.directTranslate(Message(
+                    u"text_pages", "recensio", default="p.")),
+            ':'               : real_self.directTranslate(Message(
+                    u"text_colon", "recensio", default=":")),
+            }
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u'. ', u', ', u'%(:)s ' % args, u', ')
         mag_number_and_year = getFormatter(u', ', u', ', u' ')
         if False:
             _("presentation of")
-        full_citation_inner = getFormatter(u'%(:)s %(presentation_of)s ' % args, u', ')
-        rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
-                                     self.reviewAuthors[0]["firstname"])
+        full_citation_inner = getFormatter(
+            u'%(:)s %(presentation_of)s ' % args, u', ')
+        rezensent_string = rezensent(
+            self.reviewAuthors[0]["lastname"],
+            self.reviewAuthors[0]["firstname"])
         authors_string = self.formatted_authors_editorial
 
         item_string = item(

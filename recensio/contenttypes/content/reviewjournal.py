@@ -86,8 +86,8 @@ class ReviewJournal(BaseReview):
     shortnameJournal = atapi.ATFieldProperty('shortnameJournal')
     volumeNumber = atapi.ATFieldProperty('volumeNumber')
     issueNumber = atapi.ATFieldProperty('issueNumber')
-    officialYearOfPublication = \
-                              atapi.ATFieldProperty('officialYearOfPublication')
+    officialYearOfPublication = atapi.ATFieldProperty(
+        'officialYearOfPublication')
 
     # PageStartEnd
     pageStart = atapi.ATFieldProperty('pageStart')
@@ -252,13 +252,19 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
 
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
-        args = { 'review_of': real_self.directTranslate(Message(u"text_review_of", "recensio", default="review of:")),
-                 'in':        real_self.directTranslate(Message(u"text_in", "recensio", default="in:")),
-                 'page':      'p.',
-                 ':':         real_self.directTranslate(Message(u"text_colon", "recensio", default=":")),
-               }
+        args = {
+            'review_of' : real_self.directTranslate(Message(
+                    u"text_review_of", "recensio", default="review of:")),
+            'in'        : real_self.directTranslate(Message(
+                    u"text_in", "recensio", default="in:")),
+            'page'      : real_self.directTranslate(Message(
+                    u"text_pages", "recensio", default="p.")),
+            ':'         : real_self.directTranslate(Message(
+                    u"text_colon", "recensio", default=":")),
+            }
         citation_formatter = getFormatter(
-            u'%(:)s %(review_of)s ' % args, ', %(in)s ' % args, ', %(page)s ' % args, u', ')
+            u'%(:)s %(review_of)s ' % args, ', %(in)s ' % args, ', %(page)s '
+            % args, u', ')
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),
             escape(reference_mag_string), self.page_start_end_in_print,
