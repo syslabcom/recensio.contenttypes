@@ -32,29 +32,35 @@ class CompletePdfsPortlet(base.Renderer):
     def __init__(self, *args):
         base.Renderer.__init__(self, *args)
         context = aq_inner(self.context)
-        plone_tools = getMultiAdapter((context, self.request), name=u'plone_tools')
-        self.catalog = plone_tools.catalog()        
+        plone_tools = getMultiAdapter(
+            (context, self.request), name=u'plone_tools')
+        self.catalog = plone_tools.catalog()
 
     def render(self):
         return xhtml_compress(self._template())
 
     def _maketitle(self, ob):
-        vol = getattr(ParentGetter(ob).get_parent_object_of_type("Volume"), 'title', None)
-        issue = getattr(ParentGetter(ob).get_parent_object_of_type("Issue"), 'title', None)
+        vol = getattr(
+            ParentGetter(ob).get_parent_object_of_type("Volume"),
+            'title', None)
+        issue = getattr(
+            ParentGetter(ob).get_parent_object_of_type("Issue"),
+            'title', None)
         return "%s - %s" % (vol, issue)
 
     def _data(self):
-        pub = ParentGetter(self.context).get_parent_object_of_type("Publication")
+        pub = ParentGetter(
+            self.context).get_parent_object_of_type("Publication")
         if not pub:
             return []
-        results = self.catalog(path='/'.join(pub.getPhysicalPath()), 
+        results = self.catalog(path='/'.join(pub.getPhysicalPath()),
                                Title='issue.pdf',
                                sort_on='modified',
                                sort_order='descending',
                                Language='*')
         objs = [x.getObject() for x in results[:1]]
         info = [dict(title=self._maketitle(ob),
-                     link=ob.absolute_url()) 
+                     link=ob.absolute_url())
                      for ob in objs]
         return info
 
@@ -63,7 +69,10 @@ class CompletePdfsPortlet(base.Renderer):
 
     @property
     def available(self):
-        return len(self.complete_pdfs()) and self.context.portal_type == 'Document' and ParentGetter(self.context).get_parent_object_of_type("Publication")
+        return (
+            len(self.complete_pdfs()) and
+            self.context.portal_type == 'Document' and
+            ParentGetter(self.context).get_parent_object_of_type("Publication"))
 
 class AddForm(base.AddForm):
     form_fields = form.Fields(ICompletePdfsPortlet)
