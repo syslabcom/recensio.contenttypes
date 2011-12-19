@@ -41,11 +41,14 @@ class CompletePdfsPortlet(base.Renderer):
     def _maketitle(self, ob):
         vol = getattr(
             ParentGetter(ob).get_parent_object_of_type("Volume"),
-            'title', None)
+            'title', '')
         issue = getattr(
             ParentGetter(ob).get_parent_object_of_type("Issue"),
-            'title', None)
-        return "%s - %s" % (vol, issue)
+            'title', '')
+        if issue == '': #3985
+            return vol
+        else:
+            return vol + " - " + issue
 
     def _data(self):
         pub = ParentGetter(
