@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.4dev (unreleased)
+----------------
+
+- Only display an Issue title for the CompletedPdf when the is a
+  relevant Issue #3985 [deroiste]
+
 2.3 (2011-12-13)
 ----------------
 
