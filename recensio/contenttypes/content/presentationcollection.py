@@ -291,13 +291,15 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
                     u"text_pages", "recensio", default="p.")),
             ':'               : real_self.directTranslate(Message(
                     u"text_colon", "recensio", default=":")),
+            'ed'              : real_self.directTranslate(Message(
+                    u"label_abbrev_editor","recensio")),
             }
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u'. ')
         hrsg_person = getFormatter(', ')
         hrsg_company_year = getFormatter(', ')
         hrsg_book = getFormatter(', ', ', ', '%(:)s ' % args)
-        hrsg = getFormatter(' (ed.), ')
+        hrsg = getFormatter(' %(ed)s, ' % args)
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
         authors_string = u' / '.join([getFormatter(', ')\
@@ -316,8 +318,10 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
                                         hrsg_company_year_string)
         hrsg_string = hrsg(hrsg_person_string, hrsg_book_string)
 
-        full_citation = getFormatter(u'%(:)s %(presentation_of)s ' % args, u', %(in)s ' % args,
-                                    u', %(page)s ' % args, ' ')
+        full_citation = getFormatter(
+            u'%(:)s %(presentation_of)s ' % args,
+            u', %(in)s ' % args,
+            u', %(page)s ' % args, ' ')
         return full_citation(escape(rezensent_string),
                              escape(item_string), escape(hrsg_string),
                              self.page_start_end_in_print,

@@ -1,11 +1,12 @@
 Changelog
 =========
 
-2.4dev (unreleased)
+2.4 (2011-12-20)
 ----------------
 
 - Only display an Issue title for the CompletedPdf when the is a
   relevant Issue #3985 [deroiste]
+- Include the translation for "(ed.)" #4031 [deroiste]
 
 2.3 (2011-12-13)
 ----------------
