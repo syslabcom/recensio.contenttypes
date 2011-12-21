@@ -292,7 +292,7 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
             ':'               : real_self.directTranslate(Message(
                     u"text_colon", "recensio", default=":")),
             'ed'              : real_self.directTranslate(Message(
-                    u"label_abbrev_editor","recensio")),
+                    u"label_abbrev_editor","recensio", default="(ed.)")),
             }
         rezensent = getFormatter(u', ')
         item = getFormatter(u', ', u'. ')
