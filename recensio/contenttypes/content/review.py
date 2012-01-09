@@ -228,7 +228,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         self.REQUEST.RESPONSE.setHeader('Content-Length', I.get_size(I))
 
         return I.getRaw(self).data
-        
+
     def get_no_pages(self):
         """
         Return the number of pages that are stored as images
@@ -246,7 +246,10 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             self, "pageStartOfPresentedTextInPrint",
             getattr(
                 self, "pageStartOfReviewInJournal", ""))
-        if page_start == None:
+
+        # page_start is set to 0 when it is left empty in the bulk
+        # import spreadsheet #4054
+        if page_start in (None, 0):
             page_start = ""
         page_start = str(page_start).strip()
 
@@ -254,7 +257,10 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             self, "pageEndOfPresentedTextInPrint",
             getattr(
                 self, "pageEndOfReviewInJournal", ""))
-        if page_end == None:
+
+        # page_end is set to 0 when it is left empty in the bulk
+        # import spreadsheet #4054
+        if page_end in (None, 0):
             page_end = ""
         page_end = str(page_end).strip()
 
