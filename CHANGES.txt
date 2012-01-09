@@ -4,7 +4,8 @@ Changelog
 2.5dev (unreleased)
 -------------------
 
-- Nothing changed yet
+- Don't display "Pages: 0" when page_start and page_end are set to 0
+  during bulk import, refs #4054
 
 2.4 (2011-12-20)
 ----------------
