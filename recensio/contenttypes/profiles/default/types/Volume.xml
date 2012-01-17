@@ -19,7 +19,7 @@
     <element value="File"/>
   </property>
   <property name="allow_discussion">True</property>
-  <property name="default_view">folder_listing</property>
+  <property name="default_view">decorated_folder_listing</property>
   <property name="view_methods">
     <element value="base_view" />
   </property>
