@@ -74,6 +74,12 @@
      for=".interfaces.IIssue"
      />
 
+  <adapter
+     factory=".adapter.parentgetter.ParentGetter"
+     provides="recensio.contenttypes.interfaces.IParentGetter"
+     for="recensio.theme.browser.interfaces.IRedirectToPublication"
+     />
+
   <!-- An image field for Newspaper/Publication logos #3104  -->
   <adapter
       factory=".content.schemata.PublicationExtender"

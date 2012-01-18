@@ -309,6 +309,10 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
                 Message(u"reviewed_by", "recensio",
                         mapping={u"review_authors": reviewer_string}))
 
-        return ' '.join((item_string, reviewer_string))
+
+        return ' '.join((
+
+                item_string,
+                reviewer_string))
 
 atapi.registerType(ReviewJournal, PROJECTNAME)
