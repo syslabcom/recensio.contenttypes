@@ -1,9 +1,11 @@
 Changelog
 =========
 
-2.5dev (unreleased)
+2.5 (2012-01-18)
 -------------------
 
+- redirect-to-publication: redirects from an Issue or Volume to the
+  relevant part of the Publication listing page #3985 [deroiste]
 - Don't display "Pages: 0" when page_start and page_end are set to 0
   during bulk import, refs #4054 [deroiste]
 
