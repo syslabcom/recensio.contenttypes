@@ -155,9 +155,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                     create_pdf.run(input_path=blob_path)
                 else:
                     review = self.getReview()
-                    # Insert the review into a template so we have a valid html file
-                    pdf_template = SimpleZpt("../browser/templates/htmltopdf.pt")
-                    data = pdf_template(context={"review":review}).encode("utf-8")
+                    # Insert the review into a template so we have a
+                    # valid html file
+                    pdf_template = SimpleZpt(
+                        "../browser/templates/htmltopdf.pt")
+                    data = pdf_template(
+                        context={"review":review}).encode("utf-8")
                     with NamedTemporaryFile() as tmp_input:
                         with NamedTemporaryFile() as tmp_output:
                             tmp_input.write(data)
