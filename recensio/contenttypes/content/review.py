@@ -442,45 +442,53 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def formatted_authors_editorial(self):
         """ #3111
         PMs and RMs have an additional field for editors"""
-        authors_and_editors_formatted = []
-        label_editor = ""
-        result = ""
-
-        authors = list(self.getAuthors())
-        
-        editorial = []
-        if hasattr(self, "editorial"):
-            editorial = list(self.getEditorial())
-        if len(editorial) > 0 and editorial != (
-            {'lastname' : '', 'firstname' : ''}):
-            label_editor = recensioTranslate(u"label_abbrev_editor")
-
-        authors_and_editors = authors + editorial
-        authors_and_editors.sort(key=lambda x: x['lastname'])
-
-        for auth_or_ed in authors_and_editors:
-            if auth_or_ed['lastname'] or auth_or_ed['firstname']:
-                if auth_or_ed in authors:
-                    authors_and_editors_formatted.append((
-                            u'%s %s' % (
-                                safe_unicode(auth_or_ed['firstname']),
-                                safe_unicode(auth_or_ed['lastname'])
-                                )
-                            ).strip()
-                                        )
-                else:
-                    authors_and_editors_formatted.append((
-                        u"%s %s %s" % (
-                            safe_unicode(auth_or_ed['firstname']),
-                            safe_unicode(auth_or_ed['lastname']),
-                            label_editor,
+        authors_list = []
+        for author in self.getAuthors():
+            if author['lastname'] or author['firstname']:
+                authors_list.append((
+                        u'%s %s' % (
+                            safe_unicode(author['firstname']),
+                            safe_unicode(author['lastname'])
                             )
                         ).strip()
-                                   )
+                                    )
+        authors_str = u" / ".join(authors_list)
 
-        authors_and_editors_str = u" / ".join(authors_and_editors_formatted)
+        editor_str = ""
+        result = ""
+        if hasattr(self, "editorial"):
+            editorial = self.getEditorial()
+            label_editor = ""
+            if len(editorial) > 0 and editorial != (
+                {'lastname' : '', 'firstname' : ''}):
+                if len(editorial) == 1:
+                    label_editor = recensioTranslate(u"label_abbrev_editor")
+                    editor = editorial[0]
+                    editor_str = (
+                        u"%s %s" % (
+                            safe_unicode(editor['firstname']),
+                            safe_unicode(editor['lastname'])
+                            )
+                        ).strip()
+                else:
+                    label_editor = recensioTranslate(u"label_abbrev_editors")
+                    editors = []
+                    for editor in editorial:
+                        editors.append((
+                            u"%s %s" % (
+                                safe_unicode(editor['firstname']),
+                                safe_unicode(editor['lastname'])
+                                )
+                            ).strip()
+                                       )
+                    editor_str = u" / ".join(editors)
 
-        if result == "" and authors_and_editors_str != "":
-            result = authors_and_editors_str
+                if editor_str != "":
+                    result  = editor_str + " " + label_editor
+                    if authors_str != "":
+                        result = result + ": " + authors_str
+
+        if result == "" and authors_str != "":
+            result = authors_str
 
         return result
