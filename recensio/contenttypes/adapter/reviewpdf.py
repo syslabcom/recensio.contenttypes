@@ -54,15 +54,30 @@ class ReviewPDF(object):
                        "\n%s\n" % split_pdf_pages.errors)
 
             # Convert the pages to .gifs
-            pdfs_to_images = RunSubprocess(
+            # rewritten to have one converter step per page as we have seen process 
+            # sizes larger than 2GB for 60 pages in a batch
+            for filename in glob.glob(split_pdf_pages.tmp_output_dir+"/*.pdf"):
+                pdf_to_image = RunSubprocess(
                 "convert",
                 input_params="-density 250",
-                input_path=split_pdf_pages.tmp_output_dir+"/*.pdf",
+                input_path=filename,
                 output_params="-resize %sx%s" % (size[0], size[1]))
-            pdfs_to_images.output_path = os.path.join(
-                split_pdf_pages.tmp_output_dir,
-                "%04d.gif")
-            pdfs_to_images.run()
+                outputname = '.'.join(filename.split("/")[-1].split('.')[:-1])+'.gif'
+                pdfs_to_images.output_path = os.path.join(
+                    split_pdf_pages.tmp_output_dir,
+                    outputname)
+                pdfs_to_images.run()
+
+            
+#            pdfs_to_images = RunSubprocess(
+#                "convert",
+#                input_params="-density 250",
+#                input_path=split_pdf_pages.tmp_output_dir+"/*.pdf",
+#                output_params="-resize %sx%s" % (size[0], size[1]))
+#            pdfs_to_images.output_path = os.path.join(
+#                split_pdf_pages.tmp_output_dir,
+#                "%04d.gif")
+#            pdfs_to_images.run()
 
             imgfiles = [gif for gif
                         in os.listdir(split_pdf_pages.tmp_output_dir)
