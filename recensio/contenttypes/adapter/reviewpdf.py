@@ -49,25 +49,30 @@ class ReviewPDF(object):
                 "%04d.pdf")
             split_pdf_pages.run()
 
-            msg = ""
+            msg = tuple()
             if split_pdf_pages.errors != "":
-                msg = ("Message from split_pdf_pages:"
-                       "\n%s\n" % split_pdf_pages.errors)
+                msg += ("Message from split_pdf_pages:"
+                       "\n%s\n" % split_pdf_pages.errors,)
 
             # Convert the pages to .gifs
             # rewritten to have one converter step per page as we have seen process 
             # sizes larger than 2GB for 60 pages in a batch
             for filename in glob.glob(split_pdf_pages.tmp_output_dir+"/*.pdf"):
                 pdf_to_image = RunSubprocess(
-                "convert",
-                input_params="-density 250",
-                input_path=filename,
-                output_params="-resize %sx%s" % (size[0], size[1]))
+                    "convert",
+                    input_params="-density 250",
+                    input_path=filename,
+                    output_params="-resize %sx%s" % (size[0], size[1]))
                 outputname = '.'.join(filename.split("/")[-1].split('.')[:-1])+'.gif'
-                pdfs_to_images.output_path = os.path.join(
+                pdf_to_image.output_path = os.path.join(
                     split_pdf_pages.tmp_output_dir,
                     outputname)
-                pdfs_to_images.run()
+                pdf_to_image.run()
+                if pdf_to_image.errors != "":
+                    msg += ("Message from pdfs_to_images:"
+                           "\n%s\n" % pdf_to_image.errors,)
+                    
+                pdf_to_image.clean_up()
 
             
 #            pdfs_to_images = RunSubprocess(
@@ -94,13 +99,13 @@ class ReviewPDF(object):
                 pages.append(img_data)
                 img.close()
 
-            if pdfs_to_images.errors != "":
-                msg = ("Message from pdfs_to_images:"
-                       "\n%s\n" % pdfs_to_images.errors)
+#            if pdfs_to_images.errors != "":
+#                msg = ("Message from pdfs_to_images:"
+#                       "\n%s\n" % pdfs_to_images.errors)
 
             # Remove temporary files
             split_pdf_pages.clean_up()
-            pdfs_to_images.clean_up()
+#            pdfs_to_images.clean_up()
 
             return msg, pages
 
