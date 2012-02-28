@@ -40,7 +40,7 @@ class SimpleZpt(PageTemplateFile):
 
 class SubprocessException(Exception):
     """For exceptions from RunSubprocess"""
-    def __init__(self, message):
+    def __init__(self, message='empty'):
         self.message = message
 
     def __str__(self):
@@ -94,7 +94,7 @@ class RunSubprocess:
         self.program_name = program_name
         self.program = which(program_name, extra_paths)
         if self.program is None:
-            raise SubprocessException("Uable to find the %s program" % (
+            raise SubprocessException("Unable to find the %s program" % (
                     program_name))
         self.tmp_input = None
         self.tmp_output = None

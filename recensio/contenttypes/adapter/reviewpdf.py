@@ -17,8 +17,9 @@ from recensio.contenttypes.helperutilities import SubprocessException
 logger = logging.getLogger('recensio.contenttypes.adapter.reviewpdf.py')
 
 def _getAllPageImages(context, size=(320,452)):
-    # Get the pdf
+    """ Generate the preview images for a pdf """
     pdf = context.get_review_pdf()
+#    import pdb; pdb.set_trace()
     if pdf:
         pdf_data = pdf["blob"].open().read()
     if not pdf or not pdf_data:
@@ -86,7 +87,7 @@ def _getAllPageImages(context, size=(320,452)):
                 imgfields.append(IF)
             setattr(context, 'pagePictures', imgfields)
             
-        return msg
+        return msg or "Successfully converted %s pages" % len(pages)
         
 class ReviewPDF(object):
     """ Adapter to generate a cover image from a review's PDF data
