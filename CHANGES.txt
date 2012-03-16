@@ -4,7 +4,9 @@ Changelog
 2.8 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Ensure that the pdf preview images are flattened and given white
+  background (newer versions of imagemagick do this by default) #4422
+  [deroiste]
 
 
 2.7 (2012-03-04)

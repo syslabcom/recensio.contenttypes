@@ -50,7 +50,8 @@ def _getAllPageImages(context, size=(320,452)):
                 "convert",
                 input_params="-density 250",
                 input_path=filename,
-                output_params="-resize %sx%s" % (size[0], size[1]))
+                output_param s= "-resize %sx%s -background white -flatten" % (
+                        size[0], size[1]))
             outputname = '.'.join(filename.split("/")[-1].split('.')[:-1])+'.gif'
             pdf_to_image.output_path = os.path.join(
                 split_pdf_pages.tmp_output_dir,
