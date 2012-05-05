@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.8 (unreleased)
+2.8 (2012-05-05)
 ----------------
 
 - Ensure that the pdf preview images are flattened and given white
