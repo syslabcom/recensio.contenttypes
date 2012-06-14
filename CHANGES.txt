@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.9 (unreleased)
+2.9 (2012-06-15)
 ----------------
 
 - Changed citation strings. refs #4022
