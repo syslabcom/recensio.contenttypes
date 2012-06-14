@@ -4,7 +4,10 @@ Changelog
 2.9 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Changed citation strings. refs #4022
+  [do3cc]
+- Added external script to recreate preview images
+  [deroiste]
 
 
 2.8 (2012-05-05)
