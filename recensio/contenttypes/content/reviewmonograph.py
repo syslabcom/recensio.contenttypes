@@ -239,7 +239,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
         >>> at_mock.formatted_authors_editorial = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
-        >>> at_mock.title = "Plone 4.0♥"
+        >>> at_mock.title = "Plone 4.0♥?"
         >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname' : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'
@@ -255,7 +255,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> review = ReviewMonographNoMagic(at_mock)
         >>> review.directTranslate = lambda m: m.default
         >>> review.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: review of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665. Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, p. 11-21, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'de Roiste\u2665, Cillian\u2665: review of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665? Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, p. 11-21, <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
 
         Original Spec:
@@ -283,14 +283,18 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
             ':'         : real_self.directTranslate(Message(
                     u"text_colon", "recensio", default=":")),
             }
+        if self.title[-1] in '!?:;.,':
+            title_subtitle = getFormatter(u' ')
+        else:
+            title_subtitle = getFormatter(u'. ')
         rev_details_formatter = getFormatter(
-            u', ', u'. ', u', ', u'%(:)s ' % args, u', ')
+            u', ', u', ', u'%(:)s ' % args, u', ')
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
         authors_string = self.formatted_authors_editorial
-
+        title_subtitle_string = title_subtitle(self.title, self.subtitle)
         item_string = rev_details_formatter(
-            authors_string, self.title, self.subtitle,
+            authors_string, title_subtitle_string,
             self.placeOfPublication, self.publisher,
             self.yearOfPublication)
         mag_year_string = self.yearOfPublication.decode('utf-8')

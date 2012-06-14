@@ -251,7 +251,7 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         >>> at_mock.get = lambda x: None
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerken♥'), ('Alexander', 'Pilz'))]
         >>> at_mock.editorsCollectedEdition = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Tina♥', 'Pecek♥'), ('Wolfgang', 'Thomas'))]
-        >>> at_mock.title = "Plone 4.0 für Dummies♥"
+        >>> at_mock.title = "Plone 4.0 für Dummies♥?"
         >>> at_mock.subtitle = "Plone 4 in 19 Tagen lernen!♥"
         >>> at_mock.titleCollectedEdition = 'Plone 4 komplett. ALLES zu Plone♥'
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
@@ -267,7 +267,7 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         >>> presentation = PresentationCollectionNoMagic(at_mock)
         >>> presentation.directTranslate = lambda m: m.default
         >>> presentation.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0 f\\xfcr Dummies\u2665. Plone 4 in 19 Tagen lernen!\u2665, in: Pecek\u2665, Tina\u2665 / Thomas, Wolfgang (ed.), Plone 4 komplett. ALLES zu Plone\u2665, M\\xfcnchen\u2665, SYSLAB.COM GmbH\u2665, 2010\u2665, p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0 f\\xfcr Dummies\u2665? Plone 4 in 19 Tagen lernen!\u2665, in: Pecek\u2665, Tina\u2665 / Thomas, Wolfgang (ed.), Plone 4 komplett. ALLES zu Plone\u2665, M\\xfcnchen\u2665, SYSLAB.COM GmbH\u2665, 2010\u2665, p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
         Original Specification
 
@@ -295,7 +295,11 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
                     u"label_abbrev_editor","recensio", default="(ed.)")),
             }
         rezensent = getFormatter(u', ')
-        item = getFormatter(u', ', u'. ')
+        if self.title[-1] in '!?:;.,':
+            title_subtitle = getFormatter(u' ')
+        else:
+            title_subtitle = getFormatter(u'. ')
+        item = getFormatter(u', ')
         hrsg_person = getFormatter(', ')
         hrsg_company_year = getFormatter(', ')
         hrsg_book = getFormatter(', ', ', ', '%(:)s ' % args)
@@ -305,9 +309,9 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         authors_string = u' / '.join([getFormatter(', ')\
                                        (x['lastname'], x['firstname'])
                                     for x in self.authors])
+        title_subtitle_string = title_subtitle(self.title, self.subtitle)
         item_string = item(authors_string,
-                           self.title,
-                           self.subtitle)
+                           title_subtitle_string)
         hrsg_person_string = u' / '.join([getFormatter(', ')\
                                         (x['lastname'], x['firstname'])
                                     for x in self.editorsCollectedEdition])

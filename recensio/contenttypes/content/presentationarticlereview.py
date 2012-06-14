@@ -234,7 +234,7 @@ class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
         >>> at_mock.get = lambda x: None
         >>> at_mock.customCitation = ''
         >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerken♥'), ('Alexander', 'Pilz'))]
-        >>> at_mock.title = "Das neue Plone 4.0♥"
+        >>> at_mock.title = "Das neue Plone 4.0♥?"
         >>> at_mock.subtitle = "Alles neu in 2010♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'
@@ -249,7 +249,7 @@ class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
         >>> presentation = PresentationArticleReviewNoMagic(at_mock)
         >>> presentation.directTranslate = lambda m: m.default
         >>> presentation.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665. Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665, p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665? Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665, p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
         Original Specification
 
@@ -263,14 +263,19 @@ Note: gezähltes Jahr entfernt.
         """
         self = real_self.magic
         rezensent = getFormatter(u', ')
-        item = getFormatter(u', ', u'. ')
+        if self.title[-1] in '!?:;.,':
+            title_subtitle = getFormatter(u' ')
+        else:
+            title_subtitle = getFormatter(u'. ')
+        item = getFormatter(u', ')
         mag_number = getFormatter(u', ', u', ')
         rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
                                      self.reviewAuthors[0]["firstname"])
         authors_string = u' / '.join([getFormatter(', ')(x['lastname'],
                                                          x['firstname'])
                                       for x in self.authors])
-        item_string = item(authors_string, self.title, self.subtitle)
+        title_subtitle_string = title_subtitle(self.title, self.subtitle)
+        item_string = item(authors_string, title_subtitle_string)
         mag_year_string = self.yearOfPublication.decode('utf-8')
         mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
             or None
