@@ -4,7 +4,9 @@ Changelog
 2.11 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Removing the functionality to notify new authors if a recension is
+  edited. They still get notified if its published newly #4588
+  [gerken]
 
 
 2.10 (2012-06-19)
