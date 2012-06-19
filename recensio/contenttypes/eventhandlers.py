@@ -34,7 +34,9 @@ def notify_reference_authors_if_changed(obj, evt):
                         log.debug('skipping %s' % mail)
                         skip.append(mail)
     except:
-        log.debug('No previous object version found. Not comparing reference authors')
+        # XXX Temporary only
+        log.warning('No previous object version found. Not comparing reference authors')
+    log.warning("Here are the ignored users: %s" % str(skip))
 
     notify_view = obj.restrictedTraverse('@@mail_new_presentation')
     if notify_view:

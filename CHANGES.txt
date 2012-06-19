@@ -4,7 +4,8 @@ Changelog
 2.10 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Temporary logging with much higher severity who gets notification mails
+  [gerken]
 
 
 2.9 (2012-06-15)
