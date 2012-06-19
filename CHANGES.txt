@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.11 (unreleased)
------------------
+2.10.1 (2012-06-19)
+-------------------
 
 - Removing the functionality to notify new authors if a recension is
   edited. They still get notified if its published newly #4588
