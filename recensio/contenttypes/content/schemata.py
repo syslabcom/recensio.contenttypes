@@ -91,9 +91,13 @@ def finalize_recensio_schema(schema, review_type="review"):
             schema["title"].widget.description = ""
         schema["uri"].widget.visible["edit"] = "visible"
         schema.changeSchemataForField("uri", presented)
+        multiselect_description = _("description_ctrl_for_multiple", default=("Mit gedrückter Strg-Taste können mehrere Zeilen gleichzeitig ausgewählt werden.")
         schema["ddcSubject"].widget.label = _(u"Subject classification")
+        schema["ddcSubject"].widget.description= multiselect_description
         schema['ddcTime'].widget.label = _(u"Time classification")
+        schema["ddcTime"].widget.description= multiselect_description
         schema['ddcPlace'].widget.label = _(u"Regional classification")
+        schema["ddcPlace"].widget.description= multiselect_description
         # fill in the review author first name and last name by default
         # schema['reviewAuthorLastname'].default_method = "get_user_lastname"
         # schema['reviewAuthorFirstname'].default_method = "get_user_firstname"
@@ -248,8 +252,8 @@ ReferenceAuthorsSchema = atapi.Schema((
                     "lastname" : Column(_(u"Lastname")),
                     "firstname" : Column(_(u"Firstname")),
                     "email" : Column(_(u"Email address")),
-                    "address" : Column(_(u"Postal Address")),
-                    "phone" : Column(_(u"Phone number")),
+                    "address" : Column(_(u"Institution")),
+                    "phone" : Column(''),
                     "preferred_language" : SelectColumn(
                         _(u'label_preferred_language'),
                         vocabulary="listRecensioSupportedLanguages"),
@@ -622,7 +626,7 @@ BaseReviewSchema.changeSchemataForField('subject', 'reviewed_text')
 BaseReviewSchema["subject"].schemata = "reviewed_text"
 BaseReviewSchema["subject"].widget = atapi.LinesWidget()
 BaseReviewSchema["subject"].widget.label = _(u"Subject heading")
-BaseReviewSchema["subject"].widget.description = ""
+BaseReviewSchema["subject"].widget.description = _("description_subject", default="Mehrere Schlagwörter bitte untereinander (per Return-Taste) auflisten, keine Kommas verwenden.")
 
 
 CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((

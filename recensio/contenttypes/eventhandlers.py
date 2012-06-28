@@ -12,3 +12,5 @@ def review_pdf_updated_eventhandler(obj, evt):
     if not obj.REQUEST.get('pdf_file'):
         obj.update_generated_pdf()
 
+    interfaces.IReviewPDF(obj).generatePageImages()
+
