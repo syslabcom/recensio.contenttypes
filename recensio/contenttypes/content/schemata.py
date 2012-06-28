@@ -91,7 +91,7 @@ def finalize_recensio_schema(schema, review_type="review"):
             schema["title"].widget.description = ""
         schema["uri"].widget.visible["edit"] = "visible"
         schema.changeSchemataForField("uri", presented)
-        multiselect_description = _("description_ctrl_for_multiple", default=("Mit gedrückter Strg-Taste können mehrere Zeilen gleichzeitig ausgewählt werden.")
+        multiselect_description = _("description_ctrl_for_multiple", default=("Mit gedrückter Strg-Taste können mehrere Zeilen gleichzeitig ausgewählt werden."))
         schema["ddcSubject"].widget.label = _(u"Subject classification")
         schema["ddcSubject"].widget.description= multiselect_description
         schema['ddcTime'].widget.label = _(u"Time classification")
