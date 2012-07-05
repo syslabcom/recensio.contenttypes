@@ -332,14 +332,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                        list(getattr(self, 'referenceAuthors', []))
         for data in field_values:
             if data['lastname'] or data['firstname']:
-                retval.append(('%s, %s' % (
+                retval.append(safe_unicode(('%s, %s' % (
                             data['lastname'], data['firstname'])
-                               ).decode('utf-8').encode('utf-8')
-                              )
+                               )).encode('utf-8'))
         review_author = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first=True)
         if review_author.strip() != ',':
-            retval.append(review_author.encode('utf-8'))
+            retval.append(safe_unicode(review_author).encode('utf-8'))
         return retval
 
     def getAllAuthorDataFulltext(self):
