@@ -119,7 +119,7 @@ class ReviewPDF(object):
         async_args = (self.context, (800, 1131))
         try:
             job = async.queueJob(_getAllPageImages, *async_args)
-        except component.ComponentLookupError:
+        except (component.ComponentLookupError, KeyError):
             logger.error("Could not setup async job, running synchronous")
             apply(_getAllPageImages, async_args)
 #        try:
