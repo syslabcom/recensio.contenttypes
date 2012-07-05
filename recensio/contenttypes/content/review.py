@@ -171,12 +171,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     #                            tmp_output.seek(0)
     #                            data = tmp_output.read()
                             except RuntimeError:
-                                log.error("Tidy was unable to tidy the html for %s" % self.absolute_url())
+                                log.error("Tidy was unable to tidy the html for %s", self.absolute_url())
                         create_pdf.create_tmp_input(suffix=".pdf", data=data)
                     try:
                         create_pdf.run()
                     except RuntimeError:
-                        log.error("Abiword was unable to generate a pdf for %s and created an error pdf" % self.absolute_url())
+                        log.error("Abiword was unable to generate a pdf for %s and created an error pdf", self.absolute_url())
                         create_pdf.create_tmp_input(suffix=".pdf", data="Could not create PDF")
                         create_pdf.run()
 

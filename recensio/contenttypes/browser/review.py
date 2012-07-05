@@ -222,8 +222,21 @@ class View(BrowserView):
                     if callable(value):
                         value = value()
                     terms.update({name: value})
-
-        return introstr + '&' + make_query(terms)
+        new_terms = {}
+        for key, value in terms.items():
+            if isinstance(value, unicode):
+                new_terms[key] = value.encode('utf-8')
+            elif isinstance(value, list):
+                new_value = []
+                for inner_value in value:
+                    if isinstance(inner_value, unicode):
+                        new_value.append(inner_value.encode('utf-8'))
+                    else:
+                        new_value.append(inner_value)
+                new_terms[key] = new_value
+            else:
+                new_terms[key] = value
+        return introstr + '&' + make_query(new_terms)
 
     def get_online_review_urls(self):
         existing_online_review_urls = []
