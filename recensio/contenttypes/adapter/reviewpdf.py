@@ -24,7 +24,7 @@ def _getAllPageImages(context, size=(320,452)):
         pdf_data = pdf["blob"].open().read()
     if not pdf or not pdf_data:
         return "%s has no pdf" %(
-            context.absolute_url), None
+            context.absolute_url()), None
     else:
         # Split the pdf, one file per page
         split_pdf_pages = RunSubprocess(
