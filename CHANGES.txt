@@ -4,7 +4,18 @@ Changelog
 2.10.3 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Async jobs can now handle environments where async is not setup
+  [gerken]
+- Improved error handling in pdf reviewing
+  [gerken]
+- Catched some unicode problems in review view
+  [gerken]
+- Updated helper url in opac/sparql view
+  [gerken]
+- removed some outdated tests
+  [gerken]
+- Some updates for text stuff
+  [gerken]
 
 
 2.10.2 (2012-06-28)
