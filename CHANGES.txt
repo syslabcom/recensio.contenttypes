@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.10.4 (unreleased)
+2.10.4 (2012-08-07)
 -------------------
 
 - Authorsearch now only indexes real authors
