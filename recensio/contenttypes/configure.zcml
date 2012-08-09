@@ -82,6 +82,12 @@
   <adapter
      factory=".adapter.parentgetter.ParentGetter"
      provides="recensio.contenttypes.interfaces.IParentGetter"
+     for=".interfaces.IVolume"
+     />
+
+  <adapter
+     factory=".adapter.parentgetter.ParentGetter"
+     provides="recensio.contenttypes.interfaces.IParentGetter"
      for="recensio.theme.browser.interfaces.IRedirectToPublication"
      />
 
