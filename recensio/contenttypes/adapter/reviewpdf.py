@@ -3,6 +3,8 @@ import logging
 import os
 import subprocess
 import tempfile
+import datetime
+import pytz
 
 from zope import interface
 from zope import component
@@ -60,7 +62,7 @@ def _getAllPageImages(context, size=(320,452)):
             if pdf_to_image.errors != "":
                 msg += ("Message from pdfs_to_images:"
                        "\n%s\n" % pdf_to_image.errors,)
-                
+
             pdf_to_image.clean_up()
 
         imgfiles = [gif for gif
@@ -104,21 +106,19 @@ class ReviewPDF(object):
             self.__class__.__name__, self.context.Title())
     __repr__ = __str__
 
-
-
     def generatePageImages(self):
         """
         generate an image for each page of the pdf
         """
         result = ''
-        i = 1
-        pages = []
         status = 1
         # make this asyncronous
         async = component.getUtility(IAsyncService)
         async_args = (self.context, (800, 1131))
+        when = (datetime.datetime.now(pytz.UTC) +
+            datetime.timedelta(seconds=600))
         try:
-            job = async.queueJob(_getAllPageImages, *async_args)
+            async.queueJobWithDelay(None, when, _getAllPageImages, *async_args)
         except (component.ComponentLookupError, KeyError):
             logger.error("Could not setup async job, running synchronous")
             apply(_getAllPageImages, async_args)
