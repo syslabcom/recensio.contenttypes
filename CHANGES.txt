@@ -1,10 +1,11 @@
 Changelog
 =========
 
-2.10.6 (unreleased)
+2.10.6 (2012-08-14)
 -------------------
 
-- Nothing changed yet.
+- Include support for delayed async jobs
+  [gerken]
 
 
 2.10.5 (2012-08-09)
