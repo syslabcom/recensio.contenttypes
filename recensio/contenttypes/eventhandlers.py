@@ -13,4 +13,3 @@ def review_pdf_updated_eventhandler(obj, evt):
         obj.update_generated_pdf()
 
     interfaces.IReviewPDF(obj).generatePageImages()
-
