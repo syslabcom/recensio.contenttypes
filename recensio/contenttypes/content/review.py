@@ -32,6 +32,7 @@ from recensio.imports.pdf_cut import cutPDF
 from recensio.theme.browser.views import (
     listRecensioSupportedLanguages, listAvailableContentLanguages,
     recensioTranslate)
+from recensio.contenttypes.eventhandlers import review_pdf_updated_eventhandler
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
 
