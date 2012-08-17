@@ -84,11 +84,7 @@ def _getAllPageImages(context, size=(320,452)):
 
         if pages:
             imgfields = []
-            for img in pages:
-                IF = ImageField()
-                IF.set(context, img)
-                imgfields.append(IF)
-            setattr(context, 'pagePictures', imgfields)
+            setattr(context, 'pagePictures', pages)
             
         return msg or "Successfully converted %s pages" % len(pages)
         

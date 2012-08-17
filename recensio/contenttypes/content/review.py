@@ -226,11 +226,10 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             return None
         if no > len(images):
             no = 0
-        I = images[no-1]
         self.REQUEST.RESPONSE.setHeader('Content-Type', 'image/gif')
-        self.REQUEST.RESPONSE.setHeader('Content-Length', I.get_size(I))
+        self.REQUEST.RESPONSE.setHeader('Content-Length', len(images[no - 1]))
 
-        return I.getRaw(self).data
+        return images[no - 1]
 
     def get_no_pages(self):
         """
