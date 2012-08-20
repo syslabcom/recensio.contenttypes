@@ -232,6 +232,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         except TypeError:
             # 17.8.2012 Fallback if upgrade is not done yet
             review_pdf_updated_eventhandler(self, None)
+            images = getattr(self, 'pagePictures', None)
         self.REQUEST.RESPONSE.setHeader('Content-Type', 'image/gif')
         self.REQUEST.RESPONSE.setHeader('Content-Length', len(images[no - 1]))
 
