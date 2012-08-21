@@ -249,7 +249,7 @@ class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
         >>> presentation = PresentationArticleReviewNoMagic(at_mock)
         >>> presentation.directTranslate = lambda m: m.default
         >>> presentation.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665? Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665, p. 11-21 <a href="http://www.syslab.com/@@redirect-to-uuid/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665? Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665, p. 11-21 <a href="http://syslab.com/r/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
 
         Original Specification
 
