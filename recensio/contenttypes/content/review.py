@@ -61,9 +61,11 @@ class BaseNoMagic(object):
     def getUUIDUrl(real_self):
         self = real_self.magic
         base_url = self.portal_url()
-        base_url += '/@@redirect-to-uuid/'
+        if base_url.startswith('http://www.'):
+            base_url = base_url.replace('http://www.', 'http://')
+        base_url += '/r/'
         base_url += self.UID()
-        return '<a href="%s">%s</a>' % (base_url, base_url[:50] + "...")
+        return '<a href="%s">%s</a>' % (base_url, base_url)
         return base_url
 
 
