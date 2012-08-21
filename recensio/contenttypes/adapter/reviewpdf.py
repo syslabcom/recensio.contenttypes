@@ -102,7 +102,7 @@ class ReviewPDF(object):
             self.__class__.__name__, self.context.Title())
     __repr__ = __str__
 
-    def generatePageImages(self):
+    def generatePageImages(self, later=True):
         """
         generate an image for each page of the pdf
         """
@@ -114,7 +114,10 @@ class ReviewPDF(object):
         when = (datetime.datetime.now(pytz.UTC) +
             datetime.timedelta(seconds=600))
         try:
-            async.queueJobWithDelay(None, when, _getAllPageImages, *async_args)
+            if later:
+                async.queueJobWithDelay(None, when, _getAllPageImages, *async_args)
+            else:
+                apply(_getAllPageImages, async_args)
         except (component.ComponentLookupError, KeyError):
             logger.error("Could not setup async job, running synchronous")
             apply(_getAllPageImages, async_args)

@@ -12,4 +12,6 @@ def review_pdf_updated_eventhandler(obj, evt):
     if not obj.REQUEST.get('pdf_file'):
         obj.update_generated_pdf()
 
-    interfaces.IReviewPDF(obj).generatePageImages()
+    # Terrible hack, if this method gets called without a real
+    # object, we assume that the caller wants htis to happen now
+    interfaces.IReviewPDF(obj).generatePageImages(later = evt != None)
