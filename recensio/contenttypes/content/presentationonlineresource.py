@@ -308,7 +308,7 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         >>> presentation = PresentationOnlineResourceNoMagic(at_mock)
         >>> presentation.directTranslate = lambda m: m.default
         >>> presentation.get_citation_string()
-        u'Reinhard\u2665, Manuel\u2665: presentation of: Homepage of SYSLAB.COM GmbH\u2665, http://www.syslab.com/home\u2665, <a href="http://syslab.com/r/12345">http://www.syslab.com/@@redirect-to-uuid/12345...</a>'
+        u'Reinhard\u2665, Manuel\u2665: presentation of: Homepage of SYSLAB.COM GmbH\u2665, http://www.syslab.com/home\u2665, <a href="http://syslab.com/r/12345">http://syslab.com/r/12345...</a>'
 
 
         Original Specification
