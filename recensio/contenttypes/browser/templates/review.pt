@@ -7,7 +7,7 @@
       i18n:domain="recensio">
 
   <metal:js fill-slot="javascript_head_slot">
-    <link rel="canonical" href="#" tal:attributes="href context/canonical_uri" tal:condition="context/canonical_uri | nothing" />
+    <link rel="canonical" href="#" tal:condition="context/canonical_uri | nothing" tal:attributes="href context/canonical_uri" />
     <script type="text/javascript">
     jq(document).ready(function(){
         jq("#accordion-container").accordion({
@@ -197,7 +197,9 @@
                 <h2 i18n:translate="links-box-heading">Links</h2>
                 <ul class="accordion-content">
                   <li tal:define="online_review_urls view/get_online_review_urls;
-                                  published_reviews view/get_published_reviews">
+                                  published_reviews view/get_published_reviews;
+                                  user_home_page context/getReviewAuthorPersonalUrl;
+                                  ">
                     <dl>
                       <dt tal:condition="context/uri" i18n:translate="online_accessible">
                         Diese Schrift ist online abrufbar
@@ -229,6 +231,17 @@
                         <dd tal:repeat="published_review published_reviews">
                           <span tal:replace="published_review/details">
                           </span>
+                        </dd>
+                      </tal:block>
+
+                      <tal:block tal:condition="user_home_page">
+                        <dt i18n:translate="">
+                          Personal webpage URL/URN
+                        </dt>
+                        <dd>
+                            <a tal:attributes="href user_home_page"
+                               tal:content="user_home_page">
+                            </a>
                         </dd>
                       </tal:block>
                     </dl>
