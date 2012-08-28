@@ -17,6 +17,7 @@ from Products.DataGridField.Column import Column
 from Products.DataGridField.SelectColumn import SelectColumn
 from Products.DataGridField.validators import DataGridValidator
 from Products.validation.interfaces.IValidator import IValidator
+from Products.validation import validation
 from plone.app.blob.field import BlobField
 from plone.app.blob.field import ImageField
 from zope.app.component.hooks import getSite
@@ -81,14 +82,6 @@ def finalize_recensio_schema(schema, review_type="review"):
                     schema.changeSchemataForField(field_name,
                                                   associated_publication)
 
-        # Presentations have some addtional text for labels and descriptions
-        if review_type == "presentation":
-            schema["title"].widget.description = _(
-                u'description_presentation_title',
-                default=u"Information on presented work"
-                )
-        else:
-            schema["title"].widget.description = ""
         schema["uri"].widget.visible["edit"] = "visible"
         schema.changeSchemataForField("uri", presented)
         multiselect_description = _("description_ctrl_for_multiple", default=u"Mit gedrückter Strg-Taste können mehrere Zeilen gleichzeitig ausgewählt werden.")
@@ -166,6 +159,15 @@ class hasAtLeastOneAuthor(DataGridValidator):
             return _("message_at_least_one_author_validation_error")
         return True
 
+class isLazyURL:
+    implements(IValidator)
+    name = "is_lazy_url"
+
+    def __call__(self, value, *args, **kwargs):
+        isURL = validation.validatorFor('isURL')
+        if isURL('http://%s' % value) == 1:
+            return 1
+        return isURL(value)
 
 class ImageValidator():
     """
@@ -347,6 +349,7 @@ PresentationSchema = atapi.Schema((
              "case of changes (e.g. change of university).")
     ),
             ),
+#        accessor='getReviewAuthorPersonalUrl',
         ),
     atapi.BooleanField(
         'isLicenceApproved',
@@ -413,6 +416,16 @@ PageStartEndInPDFSchema = atapi.Schema((
 PageStartEndOfPresentedTextInPrintSchema = \
     PageStartEndInPDFSchema.copy() + \
     atapi.Schema((
+    atapi.StringField(
+        'heading__page_number_of_presented_text_in_print',
+        schemata="reviewed_text",
+        widget=atapi.LabelWidget(
+            label=_(
+                u"description_page_number_of_presented_text_in_print",
+                default=(u"Page numbers of the presented article")
+                )
+            ),
+        ),
     atapi.IntegerField(
         'pageStartOfPresentedTextInPrint',
         schemata="presented_text",
@@ -420,8 +433,6 @@ PageStartEndOfPresentedTextInPrintSchema = \
         validators="isInt",
         widget=atapi.IntegerWidget(
             label = _(u"label_page_start_of_presented_text_in_print"),
-            description = _(
-                    u'description_page_number_of_presented_text_in_print'),
             ),
         ),
     atapi.IntegerField(
@@ -437,6 +448,16 @@ PageStartEndOfPresentedTextInPrintSchema = \
 
 
 PageStartEndOfReviewInJournalSchema = atapi.Schema((
+    atapi.StringField(
+        'heading__page_number_of_presented_review_in_journal',
+        schemata="reviewed_text",
+        widget=atapi.LabelWidget(
+            label=_(
+                u"description_page_number_of_presented_review_in_journal",
+                default=(u"Page numbers of the presented article")
+                )
+            ),
+        ),
     atapi.IntegerField(
         'pageStartOfReviewInJournal',
         schemata="review",
@@ -444,8 +465,6 @@ PageStartEndOfReviewInJournalSchema = atapi.Schema((
         validators="isInt",
         widget=atapi.IntegerWidget(
             label = _(u"label_page_start_of_presented_review_in_journal"),
-            description = _(
-                    u'description_page_number_of_presented_review_in_journal'),
             ),
         ),
     atapi.IntegerField(
@@ -665,6 +684,16 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema((
 
 PrintedReviewSchema = CommonReviewSchema.copy() + \
                       atapi.Schema((
+    atapi.StringField(
+        'heading_presented_work',
+        schemata="reviewed_text",
+        widget=atapi.LabelWidget(
+            label=_(
+                u"heading_presented_work",
+                default=(u"Information on presented work")
+                )
+            ),
+        ),
     atapi.StringField(
         'subtitle',
         schemata="reviewed_text",

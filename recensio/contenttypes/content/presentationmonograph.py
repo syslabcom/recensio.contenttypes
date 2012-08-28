@@ -71,18 +71,18 @@ PresentationMonographSchema = BookReviewSchema.copy() + \
         columns=("details",),
         default=[{'details':''}],
         widget=DataGridWidget(
-            label=_(
-    u"label_published_reviews",
-    default=(u"Name of journal/newspaper/yearbook with volume, year and number "
-             "of pages")
-    ),
+            label=_(u"Existing print reviews"),
             description=_(
     u'description_pubished_reviews',
     default=(u"Insert here the place of publication of reviews on your text "
              "that have already been published in print.")
     ),
             columns = {"details" :
-                       Column("")
+                       Column(_(
+    u"label_published_reviews",
+    default=(u"Name of journal/newspaper/yearbook with volume, year and number "
+             "of pages")
+    ))
                        }
             ),
         ),
@@ -219,6 +219,7 @@ class PresentationMonograph(BaseReview):
         "authors",
         "editorial",
         "languageReviewedText",
+        'heading_presented_work',
         "title",
         "subtitle",
         "yearOfPublication",

@@ -31,11 +31,11 @@ PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
         columns=("lastname", "firstname"),
         default=[{'lastname':'', 'firstname':''}],
         widget=DataGridWidget(
-            label=_(u"Institution"),
-            description=_(
-    u'description_institution',
-    default=u"Provider of presented resource (name/institution)"
-    ),
+            label=_(
+        u'description_institution',
+        default=u"Provider of presented resource (name/institution)"
+                ),
+            description=_(u"Institution"),
             columns = {"lastname" : Column(_(u"Last name")),
                        "firstname" : Column(_(u"First name")),
                        },
@@ -147,6 +147,9 @@ PresentationOnlineResourceSchema['ddcSubject'].widget.description = _(
              "subjects, time and area")
     )
 PresentationOnlineResourceSchema['uri'].widget.description = u""
+PresentationOnlineResourceSchema['review'].widget.label = _(
+    u'label_presentation_online_resource_review',
+    default=(u"Description"))
 PresentationOnlineResourceSchema['review'].widget.description = _(
     u'description_presentation_online_resource_review',
     default=(u"What does the online resource provide? Please outline briefly "

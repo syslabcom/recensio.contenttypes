@@ -31,6 +31,16 @@ PresentationArticleReviewSchema = \
     PageStartEndOfPresentedTextInPrintSchema.copy() + \
     atapi.Schema((
         atapi.StringField(
+            'heading_information_journal',
+            schemata="reviewed_text",
+            widget=atapi.LabelWidget(
+                label=_(
+                    u"heading_information_journal",
+                    default=(u"Information on the journal")
+                    )
+                ),
+        ),
+        atapi.StringField(
                 'titleJournal',
                 storage=atapi.AnnotationStorage(),
                 required=True,
@@ -38,10 +48,6 @@ PresentationArticleReviewSchema = \
                     label=_(
                         u"title_journal",
                         default=u"Title (Journal)"
-                        ),
-                    description=_(
-                        u'description_title_journal',
-                        default=u"Information on the journal"
                         ),
                     ),
                 ),
