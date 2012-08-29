@@ -53,13 +53,13 @@ class View(BrowserView):
         # and for fields with multiple values it can happen that if
         # there is no value set, one gets list with one element that
         # is completely empty
-        filter_rule = lambda x: ("".join([x[key] for key in keys])).strip()
+        filter_rule = lambda x: ("".join([x[key] for key in keys if key in x])).strip()
         rows = filter(filter_rule, rows)
         if rows:
             rows_ul = "<ul class='rows_list'>"
             for row in rows:
                 rows_ul += "<li>%s</li>" %(
-                    ", ".join([row[key] for key in keys])
+                    ", ".join([row[key] for key in keys if key in row])
                     )
             rows_ul += "</ul>"
             return rows_ul
