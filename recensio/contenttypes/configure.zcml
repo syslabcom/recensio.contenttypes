@@ -42,8 +42,18 @@
      destination="1001"
      title="Fix missing pdfs"
      description=""
-     profile="recensio.contenttypese:default"
+     profile="recensio.contenttypes:default"
      handler=".setuphandlers.v0to1"
+        />
+
+  <genericsetup:upgradeStep
+     sortkey="2"
+     source="1001"
+     destination="1002"
+     title="Migrate POR institution"
+     description=""
+     profile="recensio.contenttypes:default"
+     handler=".setuphandlers.v1to2"
         />
 
 

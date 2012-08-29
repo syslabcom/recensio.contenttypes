@@ -38,6 +38,10 @@ from recensio.contenttypes.eventhandlers import review_pdf_updated_eventhandler
 from recensio.policy.setuphandlers import setViewsOnFoldersUnguarded, \
     hideAllFoldersUnguarded
 
+from logging import getLogger
+
+log = getLogger('recensio.contenttypes.setuphandlers')
+
 mdfile = os.path.join(os.path.dirname(__file__), 'profiles',
                       'exampledata', 'metadata.xml')
 
@@ -452,3 +456,37 @@ def v0to1(context):
 
     for brain in catalog(query_args):
         review_pdf_updated_eventhandler(brain.getObject(), None)
+
+def v1to2(context):
+    catalog = getToolByName(context, 'portal_catalog')
+
+    pors = catalog(portal_type=['Presentation Online Resource'])
+    migrated = 0
+    for brain in pors:
+        try:
+            obj = brain.getObject()
+        except:
+            log.error('Could not get Object %s' % brain['getId'])
+            continue
+        institution = obj.getInstitution()
+        if len(institution) > 0:
+            unmigrated = [line for line in institution if 'name' not in line]
+            if not unmigrated:
+                continue
+            institution_new = []
+            for line in unmigrated:
+                if not line.get('lastname') and not line.get('firstname'):
+                    continue
+                if not line.get('firstname'):
+                    institution_new.append({'name':line['lastname']})
+                elif not line.get('lastname'):
+                    institution_new.append({'name':line['firstname']})
+                else:
+                    institution_new.append({'name':'%s %s' % (
+                            line['firstname'],
+                            line['lastname'])})
+            obj.setInstitution(tuple(institution_new))
+            migrated += 1
+    log.info('Migrated institution field of %d POR objects' % migrated)
+            
+    

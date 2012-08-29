@@ -25,19 +25,35 @@ from recensio.contenttypes.content.schemata import (
 PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
                                    PresentationSchema.copy() + \
                                    atapi.Schema((
+# v1001 'institution' field, use upgradeStep to migrate
+#    DataGridField(
+#        'institution',
+#        storage=atapi.AnnotationStorage(),
+#        columns=("lastname", "firstname"),
+#        default=[{'lastname':'', 'firstname':''}],
+#        widget=DataGridWidget(
+#            label=_(
+#        u'description_institution',
+#        default=u"Provider of presented resource (name/institution)"
+#                ),
+#            description=_(u"Institution"),
+#            columns = {"lastname" : Column(_(u"Last name")),
+#                       "firstname" : Column(_(u"First name")),
+#                       },
+#            ),
+#        ),
     DataGridField(
         'institution',
         storage=atapi.AnnotationStorage(),
-        columns=("lastname", "firstname"),
-        default=[{'lastname':'', 'firstname':''}],
+        columns=("name",),
+        default=[{'name':'',}],
         widget=DataGridWidget(
             label=_(
         u'description_institution',
         default=u"Provider of presented resource (name/institution)"
                 ),
             description=_(u"Institution"),
-            columns = {"lastname" : Column(_(u"Last name")),
-                       "firstname" : Column(_(u"First name")),
+            columns = {"name" : Column(""),
                        },
             ),
         ),
