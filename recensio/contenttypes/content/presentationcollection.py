@@ -175,12 +175,14 @@ class PresentationCollection(BaseReview):
     # Reorder the fields as required
     ordered_fields = [
         # Presented Text
+        "heading_presented_work",
         "isbn",
         "uri",
         "authors",
         "languageReviewedText",
         "title",
         "subtitle",
+        "heading__page_number_of_presented_text_in_print",
         "pageStartOfPresentedTextInPrint",
         "pageEndOfPresentedTextInPrint",
         "titleCollectedEdition",

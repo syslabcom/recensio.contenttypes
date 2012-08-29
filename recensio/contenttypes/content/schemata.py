@@ -71,6 +71,7 @@ def finalize_recensio_schema(schema, review_type="review"):
 
                 if field_name in ["issn", "isbn",
                                   "titleCollectedEdition",
+                                  "heading_information_journal",
                                   "titleJournal", "shortnameJournal",
                                   "editorsCollectedEdition",
                                   "yearOfPublication",
@@ -96,8 +97,12 @@ def finalize_recensio_schema(schema, review_type="review"):
         # schema['reviewAuthorFirstname'].default_method = "get_user_firstname"
         schema['languageReview'].widget.label = _(
             u"Language(s) of presentation")
-        schema['languageReviewedText'].widget.label = _(
-            u"Language(s) of presented work")
+        if review_type == "presentation_online":
+            schema['languageReviewedText'].widget.label = _(
+                u"Language(s) of presented resource")
+        else:
+            schema['languageReviewedText'].widget.label = _(
+                u"Language(s) of presented work")
         # Note: The characterLimit validator checks the portal_type to
         # see if it should be applied or not. Setting it here didn't
         # seem to work

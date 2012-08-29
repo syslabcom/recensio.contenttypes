@@ -165,6 +165,7 @@ class PresentationArticleReview(BaseReview):
     ordered_fields = [
         # Presented Text
         "issn",
+        "heading_presented_work",
         "uri",
         "authors",
         "languageReviewedText",
@@ -172,8 +173,10 @@ class PresentationArticleReview(BaseReview):
         "subtitle",
         "pageStart",
         "pageEnd",
+        "heading__page_number_of_presented_text_in_print",
         "pageStartOfPresentedTextInPrint",
         "pageEndOfPresentedTextInPrint",
+        "heading_information_journal",
         "titleJournal",
         "shortnameJournal",
         "yearOfPublication",
