@@ -501,7 +501,8 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         return result
 
     def setLazyUrl(self, field, value):
-        if not value.startswith('http://'):
+        if isinstance(value, basestring) and value and \
+                not value.startswith('http://'):
             value = 'http://' + value
         self.getField(field).set(self, value)
 
