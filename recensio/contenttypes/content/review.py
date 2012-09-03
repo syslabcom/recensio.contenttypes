@@ -499,3 +499,18 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             result = authors_str
 
         return result
+
+    def setLazyUrl(self, field, value):
+        if not value.startswith('http://'):
+            value = 'http://' + value
+        self.getField(field).set(self, value)
+
+    def setReviewAuthorPersonalUrl(self, value):
+        self.setLazyUrl('reviewAuthorPersonalUrl', value)
+
+    def setUri(self, value):
+        self.setLazyUrl('uri', value)
+
+    def setCanonical_uri(self, value):
+        self.setLazyUrl('canonical_uri', value)
+        
