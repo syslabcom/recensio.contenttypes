@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.10.8 (unreleased)
+2.10.8 (2012-09-07)
 -------------------
 
 - Added support for making async things optionally not async.
