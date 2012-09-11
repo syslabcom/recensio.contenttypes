@@ -335,7 +335,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def getAllAuthorData(self):
         retval = []
         field_values = list(getattr(self, 'authors', []))
-        field_values += list(getattr, self, 'editorial', [])
+        field_values += list(getattr(self, 'editorial', []))
         for data in field_values:
             if data['lastname'] or data['firstname']:
                 retval.append(safe_unicode(('%s, %s' % (
