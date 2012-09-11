@@ -308,12 +308,21 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
 
         Original Specification
 
-        [Titel online resource]
+        [Titel online resource] ()
 
         perspectivia.net – Publikationsplattform für die Geisteswissenschaften
         """
         self = real_self.magic
-        return self.title.decode('utf-8')
+        rezensent_string = getFormatter(' ')(self.reviewAuthors[0]["firstname"],
+                                             self.reviewAuthors[0]["lastname"])
+        if rezensent_string:
+            rezensent_string = "(%s)" % real_self.directTranslate(
+                Message(u"presented_by", "recensio",
+                        mapping={u"review_authors": rezensent_string}))
+        full_citation = getFormatter(' ')
+        return full_citation(
+            self.title.decode('utf-8'),
+            rezensent_string)
 
     def get_citation_string(real_self):
         """

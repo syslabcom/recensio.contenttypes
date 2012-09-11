@@ -221,6 +221,7 @@ class PresentationArticleReview(BaseReview):
         "metadata_recensioID", "idBvb"]
 
     def getDecoratedTitle(self):
+        return PresentationArticleReviewNoMagic(self).getDecoratedTitle()
         return u": ".join((self.formatted_authors_editorial,
                            self.punctuated_title_and_subtitle))
 
@@ -309,6 +310,23 @@ Note: gezähltes Jahr entfernt.
             escape(rezensent_string), escape(item_string),
             escape(mag_number),
             self.page_start_end_in_print, real_self.getUUIDUrl())
+
+    def getDecoratedTitle(self):
+        """
+        Dude, where is my doctest?
+        """
+        self = real_self.magic
+        rezensent_string = getFormatter(' ')(self.reviewAuthors[0]["firstname"],
+                                             self.reviewAuthors[0]["lastname"])
+        if rezensent_string:
+            rezensent_string = "(%s)" % real_self.directTranslate(
+                Message(u"presented_by", "recensio",
+                        mapping={u"review_authors": rezensent_string}))
+        full_citation = getFormatter(': ', ' ')
+        return full_citation(
+            self.formatted_authors_editorial,
+            self.punctuated_title_and_subtitle,
+            rezensent_string)
 
 atapi.registerType(PresentationArticleReview, PROJECTNAME)
 
