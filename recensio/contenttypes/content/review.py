@@ -347,6 +347,11 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             u' / ', ', ', self.reviewAuthors, lastname_first=True)
         if review_author.strip() != ',':
             retval.append(safe_unicode(review_author).encode('utf-8'))
+
+        # also get comment authors
+        conversation = IConversation(self)
+        for comment in conversation.getComments():
+            retval.append(safe_unicode(comment.author_name).encode('utf-8'))
         return retval
 
     def getAllAuthorDataFulltext(self):
