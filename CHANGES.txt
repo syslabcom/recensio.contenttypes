@@ -4,7 +4,8 @@ Changelog
 2.10.9 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Added hotfix for #5983.
+  [gerken]
 
 
 2.10.8.2 (2012-09-10)
