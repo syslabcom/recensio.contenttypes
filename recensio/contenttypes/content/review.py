@@ -333,6 +333,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         return retval
 
     def getAllAuthorData(self):
+        membership_tool = getToolByName(self, 'portal_membership')
         retval = []
         field_values = list(getattr(self, 'authors', []))
         field_values += list(getattr(self, 'editorial', []))
@@ -349,7 +350,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         # also get comment authors
         conversation = IConversation(self)
         for comment in conversation.getComments():
-            retval.append(safe_unicode(comment.author_name).encode('utf-8'))
+            member = membership_tool.getMemberById(comment.author_username)
+            if not member:
+                continue
+            retval.append(safe_unicode(('%s, %s' % (
+                          member.getProperty('lastname'),
+                          member.getProperty('firstname'))
+                         )).encode('utf-8'))
         return retval
 
     def getAllAuthorDataFulltext(self):
