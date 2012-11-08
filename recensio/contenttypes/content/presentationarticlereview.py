@@ -302,7 +302,7 @@ Note: gezähltes Jahr entfernt.
             escape(mag_number),
             self.page_start_end_in_print, real_self.getUUIDUrl())
 
-    def getDecoratedTitle(self):
+    def getDecoratedTitle(real_self):
         """
         Dude, where is my doctest?
         """
