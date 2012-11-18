@@ -38,7 +38,7 @@ long_description = (
     'Download\n'
     '********\n')
 
-tests_require = ['zope.testing', 'mock']
+tests_require = ['zope.testing', 'mock', 'recensio.policy']
 
 setup(name='recensio.contenttypes',
       version=version,
@@ -67,6 +67,7 @@ setup(name='recensio.contenttypes',
                         'html5lib',
                         'pyPdf',
                         'reportlab',
+                        'plone.app.discussion',
                         ],
       tests_require=tests_require,
       extras_require=dict(test=tests_require),
