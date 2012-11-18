@@ -86,7 +86,7 @@ class BaseReviewNoMagic(BaseNoMagic):
             self.get_volume_title(), self.get_issue_title())
         if self.canonical_uri:
             url = self.canonical_uri
-            short_url = len(url) < 30 and url or url[:27] + "..."
+            short_url = len(url) < 60 and url or url[:57] + "..."
             retval.append('<a href="%s">%s</a>'
                           % (url, short_url))
 
