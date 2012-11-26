@@ -441,7 +441,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         # wf = getToolByName(self, 'portal_workflow')
         for comment in conversation.getComments():
             # if wf.getInfoFor(comment, 'review_state') == 'published':
-                value = " ".join([data, comment.getText().encode('utf8')])
+                value = " ".join([data, comment.getText()])
 
         return value
 
