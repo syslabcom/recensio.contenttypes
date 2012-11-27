@@ -123,14 +123,6 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def listRecensioSupportedLanguages(self):
         return listRecensioSupportedLanguages()
 
-    def setIsLicenceApproved(self, value):
-        """
-        The user needs to check the box every time they change the
-        review to ensure they approve of the licence, so we don't want
-        to save the value.
-        """
-        pass
-
     def update_generated_pdf(self):
         """
         If there isn't a custom pdf version of the review, generate
