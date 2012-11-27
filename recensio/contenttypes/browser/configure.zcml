@@ -27,6 +27,8 @@
      permission="zope2.View"
      />
 
+  <include package="Products.CMFCore" />
+
   <browser:page
      for="*"
      name="migratePagePreview"

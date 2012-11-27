@@ -123,14 +123,6 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def listRecensioSupportedLanguages(self):
         return listRecensioSupportedLanguages()
 
-    def setIsLicenceApproved(self, value):
-        """
-        The user needs to check the box every time they change the
-        review to ensure they approve of the licence, so we don't want
-        to save the value.
-        """
-        pass
-
     def update_generated_pdf(self):
         """
         If there isn't a custom pdf version of the review, generate
@@ -441,7 +433,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         # wf = getToolByName(self, 'portal_workflow')
         for comment in conversation.getComments():
             # if wf.getInfoFor(comment, 'review_state') == 'published':
-                value = " ".join([data, comment.getText().encode('utf8')])
+                value = " ".join([data, comment.getText()])
 
         return value
 

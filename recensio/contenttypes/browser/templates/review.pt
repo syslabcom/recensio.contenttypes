@@ -97,10 +97,10 @@
     </div>
 
     <metal:portlets fill-slot="portlets_two_slot"
-                    tal:define="pdf python:context.get_review_pdf()"
-                    tal:condition="pdf">
+                    tal:define="pdf python:context.get_review_pdf()">
       <div class="portlet" id="portletDownload"
-           tal:define="pdf_ob python:pdf['blob']">
+           tal:define="pdf_ob python:pdf and pdf['blob']"
+           tal:condition="pdf">
         <p class="download pdf">
           <a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
              href="PartB.pdf"
