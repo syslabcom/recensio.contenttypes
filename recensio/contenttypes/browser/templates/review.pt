@@ -84,6 +84,16 @@
               tal:condition="view/do_visit_canonical_uri"
               tal:attributes="src string:${context/canonical_uri}?recensio=true"></iframe>
 
+      <div id="facebook-like"
+           tal:define="url_quote_plus python:modules['Products.PythonScripts.standard'].url_quote_plus;
+                       locale python:{'de':'de_DE', 'en':'en_GB', 'fr':'fr_FR'}[context.portal_languages.getPreferredLanguage()];
+                       url python:'http://www.facebook.com/plugins/like.php?locale=' + locale + '&amp;href=' + url_quote_plus(context.absolute_url()) + '&amp;layout=button_count&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35';">
+        <iframe tal:attributes="src url; scrolling string:no; frameborder string:0; allowTransparency string:true"></iframe>
+      </div>
+      <div id="twitter-it">
+        <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+      </div>
+
     </div>
 
     <metal:portlets fill-slot="portlets_two_slot"
