@@ -10,31 +10,35 @@
     <link rel="canonical" href="#" tal:condition="context/canonical_uri | nothing" tal:attributes="href context/canonical_uri" />
     <script type="text/javascript">
     jq(document).ready(function(){
+        
         jq("#accordion-container").accordion({
             head     : "h2",
             el       : ".h",
             initShow : "li.opened-on-load"});
 
-        jq("a[rel=contactSheet]").fancybox({
-            'transitionIn'   : 'elastic',
-            'transitionOut'  : 'elastic',
-            'speedIn'        : 800,
-            'speedOut'       : 300,
-            'titlePosition'  : 'over',
-            'overlayOpacity' : 0.3,
-            'overlayColor'   : '#000',
-            'width'          : 850,
-            'height'         : 1000,
-            'titleFormat'    : function(title, currentArray,
-                                        currentIndex, currentOpts) {
-                return 'Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? '  ' + title : '') + '';
-            }
-        });
+		jq('a[rel=contactSheet]').fancybox({
+                type           : 'iframe',
+                transitionIn   : 'elastic',
+                transitionOut  : 'elastic',
+                speedIn        : 800,
+                speedOut       : 300,
+                titlePosition  : 'over',
+                overlayOpacity : 0.3,
+                overlayColor   : '#000',
+                width          : 850,
+                height         : 1000,
+                titleFormat    : function(title, currentArray, 
+                                          currentIndex, currentOpts) {
+                    return 'Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? '  ' + title : '') + '';
+                }
+
+            });
+		    
         jq("a#toctrigger").fancybox({
             'hideOnContentClick': true
         });
-
-        // add <a> tags to URLs
+        
+    // add <a> tags to URLs
         urlpattern = "\\b((?:[a-z][\\w-]+:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))";
         jq("#mainContent").highlight(urlpattern);
     });
