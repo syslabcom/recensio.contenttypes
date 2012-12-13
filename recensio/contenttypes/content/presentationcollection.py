@@ -96,6 +96,8 @@ PresentationCollectionSchema["referenceAuthors"].widget.description = _(
              "below as subject heading.")
     )
 
+PresentationCollectionSchema["canonical_uri"].widget.visible = {'edit': 'invisible', 'view': 'invisible'}
+
 finalize_recensio_schema(PresentationCollectionSchema,
                          review_type="presentation_collection")
 

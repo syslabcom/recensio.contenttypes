@@ -134,6 +134,7 @@ PresentationMonographSchema["referenceAuthors"].widget.description = _(
              "below as subject heading.")
     )
 
+PresentationMonographSchema["canonical_uri"].widget.visible = {'edit': 'invisible', 'view': 'invisible'}
 
 finalize_recensio_schema(PresentationMonographSchema,
                          review_type="presentation")

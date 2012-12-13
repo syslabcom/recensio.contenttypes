@@ -180,6 +180,7 @@ PresentationOnlineResourceSchema['review'].widget.description = _(
              "after three working days. ")
     )
 
+PresentationOnlineResourceSchema["canonical_uri"].widget.visible = {'edit': 'invisible', 'view': 'invisible'}
 
 finalize_recensio_schema(PresentationOnlineResourceSchema,
                          review_type="presentation_online")
