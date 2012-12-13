@@ -176,9 +176,13 @@ class PresentationCollection(BaseReview):
 
     # Reorder the fields as required
     ordered_fields = [
+
+       #Associated Edited Volume
+        "isbn",
+        "titleCollectedEdition",
+
         # Presented Text
         "heading_presented_work",
-        "isbn",
         "uri",
         "authors",
         "languageReviewedText",
@@ -187,7 +191,6 @@ class PresentationCollection(BaseReview):
         "heading__page_number_of_presented_text_in_print",
         "pageStartOfPresentedTextInPrint",
         "pageEndOfPresentedTextInPrint",
-        "titleCollectedEdition",
         "editorsCollectedEdition",
         "yearOfPublication",
         "placeOfPublication",
