@@ -228,9 +228,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             review_pdf_updated_eventhandler(self, None)
             images = getattr(self, 'pagePictures', None)
         self.REQUEST.RESPONSE.setHeader('Content-Type', 'image/gif')
-        self.REQUEST.RESPONSE.setHeader('Content-Length', len(images[no - 1]))
+        self.REQUEST.RESPONSE.setHeader('Content-Length', I.get_size(I))
 
-        return images[no - 1]
+        return I.getRaw(self).data
 
     def get_no_pages(self):
         """
