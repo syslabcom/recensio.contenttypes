@@ -59,3 +59,25 @@ class migratePagePreview(BrowserView):
             log("Success: %s converted\n" % result.getPath())
                 
         return
+        
+        
+        
+# Code to kill old pagePictures from history
+# PH = portal.portal_historiesstorage
+# REP = PH._getZVCRepo()
+# cnt = 0
+# for zvh in REP.objectValues():
+#   for vid in zvh.getVersionIds():
+#   data = zvh.getVersionById(vid)._data
+#   wob = data.getWrappedObject()
+#   if not hasattr(wob, 'object'):
+#       continue
+#   rob = wob.object
+#   if hasattr(rob, 'pagePictures'):
+#     pp = rob.pagePictures
+#     if len(pp)>0 and type(pp[0]) == type(''):
+#       print "found one"
+#       rob.pagePictures = []
+#       rob._p_changed = 1
+#       
+#       
