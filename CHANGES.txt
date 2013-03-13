@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.1 (unreleased)
+3.0.1 (2013-03-13)
 ------------------
 
 - Reintroduce pagePictures as Blobs that was accidentally removed in August
