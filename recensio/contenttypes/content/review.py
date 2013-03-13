@@ -222,14 +222,16 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         if no > len(images):
             no = 0
         try:
-            len(images[no - 1])
+            I = images[no-1]
+            I.get_size(self)
         except TypeError:
             # 17.8.2012 Fallback if upgrade is not done yet
             review_pdf_updated_eventhandler(self, None)
             images = getattr(self, 'pagePictures', None)
+            
         I = images[no-1]
         self.REQUEST.RESPONSE.setHeader('Content-Type', 'image/gif')
-        self.REQUEST.RESPONSE.setHeader('Content-Length', I.get_size(I))
+        self.REQUEST.RESPONSE.setHeader('Content-Length', I.get_size(self))
 
         return I.getRaw(self).data
 

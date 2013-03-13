@@ -11,7 +11,7 @@ from Products.Five.browser.pagetemplatefile import PageTemplateFile
 # Use an environment variable to enable time consuming shell commands
 RUN_SHELL_COMMANDS = os.environ.get("RUN_SHELL_COMMANDS", False)
 
-log = logging.getLogger('recensio.theme/helperutilities.py')
+log = logging.getLogger('recensio.contenttypes/helperutilities.py')
 
 def which(program_name, extra_paths=[]):
     """
