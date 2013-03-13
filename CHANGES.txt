@@ -4,7 +4,8 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Reintroduce pagePictures as Blobs that was accidentally removed in August
+  [pilz]
 
 
 3.0.0 (2013-02-15)
