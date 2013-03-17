@@ -146,10 +146,11 @@ class ReviewJournal(BaseReview):
     # An ordered list of fields used for the metadata area of the view
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
+        "metadata_start_end_pages",
         "metadata_review_author", "languageReview",
         "languageReviewedText", "editor", "title", "shortnameJournal",
         "yearOfPublication", "officialYearOfPublication",
-        "volumeNumber", "issueNumber", "metadata_start_end_pages",
+        "volumeNumber", "issueNumber",
         "placeOfPublication", "publisher", "issn", "urn",
         "ddcSubject", "ddcTime", "ddcPlace", "subject",
         "canonical_uri", "metadata_recensioID", "idBvb"]
