@@ -218,7 +218,8 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         """
         images = getattr(self, 'pagePictures', None)
         if images is None:
-            return None
+            review_pdf_updated_eventhandler(self, None)
+            images = getattr(self, 'pagePictures', None)
         if no > len(images):
             no = 0
         try:
