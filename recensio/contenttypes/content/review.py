@@ -212,12 +212,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         else:
             return pdf
 
-    def get_page_image(self, no=1):
+    def get_page_image(self, no=1, refresh=False):
         """
         Return a page of the review text
         """
         images = getattr(self, 'pagePictures', None)
-        if images is None:
+        if images is None or refresh:
             review_pdf_updated_eventhandler(self, None)
             images = getattr(self, 'pagePictures', None)
         if no > len(images):
