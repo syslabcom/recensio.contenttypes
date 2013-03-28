@@ -4,18 +4,12 @@
 from random import Random
 import os
 
-from swiss.tabular import XlsReader
-
-from Acquisition import aq_inner, aq_parent, aq_base, aq_chain, aq_get
 from OFS.Image import File
 from Testing import makerequest
 from zope.app.component.hooks import getSite
 from zope.component import createObject
 from zope.component import getMultiAdapter
-from zope.container.contained import ObjectAddedEvent
-from zope.container.contained import notifyContainerModified
 from zope.event import notify
-from zope.lifecycleevent import ObjectCreatedEvent
 from zope.publisher.browser import TestRequest
 from DateTime import DateTime
 
@@ -27,10 +21,14 @@ from plone.portlets.constants import CONTEXT_CATEGORY
 
 from recensio.contenttypes.content.reviewmonograph import ReviewMonograph
 
-from recensio.contenttypes.content.presentationarticlereview import PresentationArticleReview
-from recensio.contenttypes.content.presentationcollection import PresentationCollection
-from recensio.contenttypes.content.presentationmonograph import PresentationMonograph
-from recensio.contenttypes.content.presentationonlineresource import PresentationOnlineResource
+from recensio.contenttypes.content.presentationarticlereview import\
+    PresentationArticleReview
+from recensio.contenttypes.content.presentationcollection import\
+    PresentationCollection
+from recensio.contenttypes.content.presentationmonograph import\
+    PresentationMonograph
+from recensio.contenttypes.content.presentationonlineresource import\
+    PresentationOnlineResource
 from recensio.contenttypes.content.reviewjournal import ReviewJournal
 from recensio.contenttypes.interfaces import IReview
 from recensio.contenttypes.eventhandlers import review_pdf_updated_eventhandler
@@ -81,8 +79,8 @@ def add_number_of_each_review_type(context, number_of_each):
                     'test_content', 'Review.pdf'), 'r')
     pdf_obj = File(id='test-pdf', title='Test Pdf', file=pdf_file,
                    content_type='application/pdf')
-    word_doc_file = open(os.path.join(os.path.dirname(__file__), 'tests'
-                         , 'test_content', 'Review.doc'), 'r')
+    word_doc_file = open(os.path.join(os.path.dirname(__file__), 'tests',
+        'test_content', 'Review.doc'), 'r')
     word_doc_obj = File(id='test-word-doc', title='Test Word Doc',
                         file=word_doc_file,
                         content_type='application/msword')
@@ -488,5 +486,9 @@ def v1to2(context):
             obj.setInstitution(tuple(institution_new))
             migrated += 1
     log.info('Migrated institution field of %d POR objects' % migrated)
-            
-    
+
+
+def v2to3(context):
+    catalog = getToolByName(context, 'portal_catalog')
+    for index in ['commentators', 'authors']:
+        catalog.manage_reindexIndex(index)

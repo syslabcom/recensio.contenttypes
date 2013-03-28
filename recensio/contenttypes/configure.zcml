@@ -56,6 +56,16 @@
      handler=".setuphandlers.v1to2"
         />
 
+  <genericsetup:upgradeStep
+     sortkey="3"
+     source="1002"
+     destination="1003"
+     title="Update indexes"
+     description=""
+     profile="recensio.contenttypes:default"
+     handler=".setuphandlers.v2to3"
+        />
+
 
   <!-- if a Review or Presentation has been edited or updated, update
        the pdf version of it if necessary -->
