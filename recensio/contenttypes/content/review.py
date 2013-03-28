@@ -228,7 +228,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             # 17.8.2012 Fallback if upgrade is not done yet
             review_pdf_updated_eventhandler(self, None)
             images = getattr(self, 'pagePictures', None)
-            
+
         I = images[no-1]
         self.REQUEST.RESPONSE.setHeader('Content-Type', 'image/gif')
         self.REQUEST.RESPONSE.setHeader('Content-Length', I.get_size(self))
@@ -330,31 +330,18 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         return retval
 
     def getAllAuthorData(self):
-        membership_tool = getToolByName(self, 'portal_membership')
         retval = []
         field_values = list(getattr(self, 'authors', []))
         field_values += list(getattr(self, 'editorial', []))
         for data in field_values:
             if data['lastname'] or data['firstname']:
                 retval.append(safe_unicode(('%s, %s' % (
-                            data['lastname'], data['firstname'])
-                               )).encode('utf-8'))
+                    data['lastname'], data['firstname'])
+                )).encode('utf-8'))
         review_author = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first=True)
         if review_author.strip() != ',':
             retval.append(safe_unicode(review_author).encode('utf-8'))
-
-        # also get comment authors
-        conversation = IConversation(self)
-        for comment in conversation.getComments():
-            member = membership_tool.getMemberById(comment.author_username)
-            if not member:
-                continue
-            retval.append(safe_unicode(('%s, %s' % (
-                          member.getProperty('lastname'),
-                          member.getProperty('firstname'))
-                         )).encode('utf-8'))
-        return retval
 
     def getAllAuthorDataFulltext(self):
         authors = " ".join(self.getAllAuthorData())
