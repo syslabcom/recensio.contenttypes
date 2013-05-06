@@ -285,16 +285,16 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> review = ReviewJournalNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a
         >>> review.getDecoratedTitle()
-        u'Plone Mag, 1, 3 (2010/2009) (reviewed_by)'
+        u'Plone Mag, 1 (2010/2009), 3 (reviewed_by)'
         """
         self = real_self.magic
 
-        item = getFormatter(', ', ', ', ' ')
+        item = getFormatter(', ', ' ', ', ')
         mag_year = getFormatter('/')(self.officialYearOfPublication,
                                      self.yearOfPublication)
         mag_year = mag_year and '(' + mag_year + ')' or None
         item_string = item(
-            self.title, self.volumeNumber, self.issueNumber, mag_year)
+            self.title, self.volumeNumber, mag_year, self.issueNumber)
 
         if lastname_first:
             reviewer_string = get_formatted_names(
