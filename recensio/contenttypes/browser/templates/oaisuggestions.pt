@@ -4,7 +4,7 @@
     <div id="missing-required-fields" style="display:None;" i18n:translate="missing_required_fields">
         Some required fields are empty. Please check both grey tabs
     </div>
-        
+
     <div style="display:none;" class="oaisuggestion" id="oaisuggestiontemplateempty">
         <span i18n:translate="">
         No results found
@@ -97,6 +97,12 @@
             </tr>
             <tr class='oai_year'>
                 <td class="key" i18n:translate="" >Year
+                </td>
+                <td class="value">
+                </td>
+            </tr>
+            <tr class="oai_bv">
+                <td class="key" i18n:translate="">URN number
                 </td>
                 <td class="value">
                 </td>
