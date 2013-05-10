@@ -4,7 +4,8 @@ Changelog
 3.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added upgrade steps to update indexes
+  [do3cc]
 
 
 3.0.2 (2013-03-13)
