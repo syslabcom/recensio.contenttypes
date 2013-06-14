@@ -25,4 +25,6 @@
     meta_type="Factory-based Type Information with dynamic views" />
   <object name="Issue"
     meta_type="Factory-based Type Information with dynamic views" />
+ <object name="Topic"
+    meta_type="Factory-based Type Information with dynamic views"/>
 </object>
