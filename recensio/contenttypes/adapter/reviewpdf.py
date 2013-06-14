@@ -29,9 +29,12 @@ def _getAllPageImages(context, size=(320,452)):
             context.absolute_url()), None
     else:
         # Split the pdf, one file per page
-        split_pdf_pages = RunSubprocess(
-            "pdftk",
-            output_params="burst output")
+        try:
+            split_pdf_pages = RunSubprocess(
+                "pdftk",
+                output_params="burst output")
+        except SubprocessException, e:
+            return e
         split_pdf_pages.create_tmp_input(suffix=".pdf", data=pdf_data)
         split_pdf_pages.create_tmp_output_dir()
         split_pdf_pages.output_path = os.path.join(
