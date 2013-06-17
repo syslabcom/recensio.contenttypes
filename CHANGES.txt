@@ -4,7 +4,8 @@ Changelog
 3.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- #7470 Add BV number field to all review and presentation types
+  [deroiste]
 
 
 3.0.3 (2013-05-10)

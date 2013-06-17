@@ -641,6 +641,18 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     ),
     atapi.StringField(
+        'bv',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"BV-Number"),
+            description=_(
+                    'description_bv_number',
+                    default='Filled in by the editorial staff'
+                    ),
+        ),
+    ),
+    atapi.StringField(
         'canonical_uri',
         schemata="review",
         storage=atapi.AnnotationStorage(),

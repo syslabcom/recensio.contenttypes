@@ -263,7 +263,9 @@ class PresentationOnlineResource(BaseReview):
         "languageReview",
         "isLicenceApproved",
         "canonical_uri",
-        "urn",]
+        "urn",
+        "bv",
+    ]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

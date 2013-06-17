@@ -249,6 +249,7 @@ class PresentationMonograph(BaseReview):
         "isLicenceApproved",
         "canonical_uri",
         "urn",
+        "bv",
         ]
 
     for i, field in enumerate(ordered_fields):

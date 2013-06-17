@@ -138,7 +138,8 @@ class ReviewJournal(BaseReview):
         "customCitation",
         "canonical_uri",
         "urn",
-        ]
+        "bv",
+    ]
 
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)

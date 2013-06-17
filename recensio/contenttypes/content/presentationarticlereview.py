@@ -204,7 +204,8 @@ class PresentationArticleReview(BaseReview):
         "referenceAuthors",
         "isLicenceApproved",
         "canonical_uri",
-        "urn"
+        "urn",
+        "bv",
         ]
 
     for i, field in enumerate(ordered_fields):
