@@ -645,7 +645,7 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata="review",
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"BV-Number"),
+            label=_(u"BV Number"),
             description=_(
                     'description_bv_number',
                     default='Filled in by the editorial staff'

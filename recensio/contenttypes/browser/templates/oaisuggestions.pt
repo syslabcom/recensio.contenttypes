@@ -101,12 +101,12 @@
                 <td class="value">
                 </td>
             </tr>
-<!--            <tr class="oai_bv">
-                <td class="key" i18n:translate="">URN number
+           <tr class="oai_bv">
+                <td class="key" i18n:translate="">BV Number
                 </td>
                 <td class="value">
                 </td>
-            </tr>-->
+            </tr>
         </table>
         <div style="display:None;" id="missing_exlanation" i18n:translate="" >
             Recensio does not know how to safe these categories. We attach them
