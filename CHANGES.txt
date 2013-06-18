@@ -6,6 +6,8 @@ Changelog
 
 - #7470 Add BV Number field to all review and presentation types and
   enable the OAI suggestion for BV Number [deroiste]
+- #7128 Fix thumb generation for images, some review/presentation
+  images are stored as strings (pre-blob, I presume) [deroiste]
 
 
 3.0.3 (2013-05-10)

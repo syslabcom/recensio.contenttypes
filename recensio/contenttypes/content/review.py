@@ -225,7 +225,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         try:
             I = images[no-1]
             I.get_size(self)
-        except TypeError:
+        except (TypeError, AttributeError):
             # 17.8.2012 Fallback if upgrade is not done yet
             review_pdf_updated_eventhandler(self, None)
             images = getattr(self, 'pagePictures', None)
