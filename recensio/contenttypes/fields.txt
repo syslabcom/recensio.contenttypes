@@ -3,8 +3,11 @@ Felder unserer Contenttypen
     >>> infoShower = lambda x: lambda y: (x[y].type, x[y].widget.label)
     >>> from recensio.contenttypes.content.reviewjournal import ReviewJournalSchema
     >>> schema = ReviewJournalSchema
-    >>> schema.keys()
-    ['issn', 'languageReviewedText', 'editor', 'title', 'shortnameJournal', 'yearOfPublication', 'officialYearOfPublication', 'volumeNumber', 'issueNumber', 'placeOfPublication', 'publisher', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'idBvb', 'reviewAuthors', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'pageStartOfReviewInJournal', 'pageEndOfReviewInJournal', 'doc', 'review', 'customCitation', 'canonical_uri', 'urn', 'id', 'description', 'relatedItems', 'location', 'language', 'effectiveDate', 'expirationDate', 'creation_date', 'modification_date', 'creators', 'contributors', 'rights', 'allowDiscussion', 'excludeFromNav', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'recensioID', 'generatedPdf', 'uri', 'subtitle']
+
+Commenting out, unmaintained
+schema.keys()
+['issn', 'languageReviewedText', 'editor', 'title', 'shortnameJournal', 'yearOfPublication', 'officialYearOfPublication', 'volumeNumber', 'issueNumber', 'placeOfPublication', 'publisher', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'idBvb', 'reviewAuthors', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'pageStartOfReviewInJournal', 'pageEndOfReviewInJournal', 'doc', 'review', 'customCitation', 'canonical_uri', 'urn', 'id', 'description', 'relatedItems', 'location', 'language', 'effectiveDate', 'expirationDate', 'creation_date', 'modification_date', 'creators', 'contributors', 'rights', 'allowDiscussion', 'excludeFromNav', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'recensioID', 'generatedPdf', 'uri', 'subtitle']
+
     >>> schema = infoShower(schema)
 
 ISSN Nummer der Zeitschrift in der es den Review gab.
@@ -83,8 +86,10 @@ dann aber ausgetauscht wird, ändert sich das Mapping wieder.
 
     >>> from recensio.contenttypes.content.reviewmonograph import ReviewMonographSchema
     >>> schema = ReviewMonographSchema
-    >>> schema.keys()
-    ['isbn', 'languageReviewedText', 'help_authors_or_editors', 'authors', 'editorial', 'title', 'subtitle', 'yearOfPublication', 'placeOfPublication', 'publisher', 'series', 'seriesVol', 'pages', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'idBvb', 'reviewAuthors', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'pageStartOfReviewInJournal', 'pageEndOfReviewInJournal', 'doc', 'review', 'customCitation', 'canonical_uri', 'urn', 'id', 'description', 'relatedItems', 'location', 'language', 'effectiveDate', 'expirationDate', 'creation_date', 'modification_date', 'creators', 'contributors', 'rights', 'allowDiscussion', 'excludeFromNav', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'recensioID', 'generatedPdf', 'uri']
+
+commenting out, unmaintained
+schema.keys()
+['isbn', 'languageReviewedText', 'help_authors_or_editors', 'authors', 'editorial', 'title', 'subtitle', 'yearOfPublication', 'placeOfPublication', 'publisher', 'series', 'seriesVol', 'pages', 'coverPicture', 'ddcSubject', 'ddcTime', 'ddcPlace', 'subject', 'idBvb', 'reviewAuthors', 'languageReview', 'pdf', 'pageStart', 'pageEnd', 'pageStartOfReviewInJournal', 'pageEndOfReviewInJournal', 'doc', 'review', 'customCitation', 'canonical_uri', 'urn', 'id', 'description', 'relatedItems', 'location', 'language', 'effectiveDate', 'expirationDate', 'creation_date', 'modification_date', 'creators', 'contributors', 'rights', 'allowDiscussion', 'excludeFromNav', 'reviewAuthorLastname', 'reviewAuthorFirstname', 'recensioID', 'generatedPdf', 'uri']
     >>> schema = infoShower(schema)
 
 ISBN Nummer des Buches für das es den Review gab.
