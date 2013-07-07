@@ -4,6 +4,9 @@ Changelog
 2.2 (unreleased)
 ----------------
 
+- #7128 Fix thumb generation for images [deroiste]
+- #7470 Add BV number field to all review and presentation types [deroiste]
+- Test fixes [deroiste, ckirchhoff]
 - Adding a guard on the example content setup handler to avoid it running when installing extra products
   (deroiste)
 - changed subject to lineswidget for performance
