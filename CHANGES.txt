@@ -4,7 +4,7 @@ Changelog
 3.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- fixed wrong method call in getDecoratedTitle, fixes #8130 (pilz)
 
 
 3.0.4 (2013-07-07)
