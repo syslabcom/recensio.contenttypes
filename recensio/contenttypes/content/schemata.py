@@ -214,7 +214,7 @@ class characterLimit():
         # TODO: setting the validator via the finalize_recensio_schema
         # method didn't work so I'm setting it here manually.
         is_review = kwargs["instance"]["portal_type"].startswith("Review")
-        if is_review or character_count <= 4000:
+        if is_review or character_count <= 6000:
             return 1
         else:
             return translate(
