@@ -205,7 +205,6 @@ class characterLimit():
         # "value" is a byte string. We need to decode it before we can
         # count the number of chars. We make the assumption that it is
         # utf-8 encoded
-        LIMIT = 4000
         html = fromstring(value.decode("utf-8"))
         # extract the text from the html
         textblocks = html.xpath("//text()")
@@ -215,14 +214,7 @@ class characterLimit():
         # TODO: setting the validator via the finalize_recensio_schema
         # method didn't work so I'm setting it here manually.
         is_review = kwargs["instance"]["portal_type"].startswith("Review")
-
-        site = getSite()
-        user_id = site.portal_membership.getAuthenticatedMember().getId()
-        results = site.portal_catalog(commentators=user_id)
-        if len(results) > 0:
-            LIMIT = 6000
-
-        if is_review or character_count <= LIMIT:
+        if is_review or character_count <= 4000:
             return 1
         else:
             return translate(
