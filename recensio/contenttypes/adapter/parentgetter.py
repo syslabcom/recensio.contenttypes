@@ -24,6 +24,8 @@ class ParentGetter(object):
     def get_parent_object_of_type(self, meta_type):
         """ Return the object of a particular type which is
         the parent of the current object."""
+        if self.context.meta_type == meta_type:
+            return self.context
         obj = Acquisition.aq_inner(self.context)
         while not isinstance(obj, PloneSite):
             obj = Acquisition.aq_parent(obj)
