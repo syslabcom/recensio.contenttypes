@@ -399,6 +399,8 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def SearchableText(self):
         data = super(BaseReview, self).SearchableText()
 
+        data = " ".join([data, self.review])
+
         # get text from pdf
         datastream = ""
         pdfdata = ""
@@ -418,16 +420,16 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 log("Error while trying to convert file contents to 'text/plain' "
                     "in %r.getIndexable(): %s" % (self, e))
             pdfdata = str(datastream)
-        value = " ".join([data, pdfdata])
+        data = " ".join([data, pdfdata])
 
         # get text from comments
         conversation = IConversation(self)
         # wf = getToolByName(self, 'portal_workflow')
         for comment in conversation.getComments():
             # if wf.getInfoFor(comment, 'review_state') == 'published':
-                value = " ".join([data, comment.getText()])
+                data = " ".join([data, comment.getText()])
 
-        return value
+        return data
 
     @property
     def punctuated_title_and_subtitle(self):
