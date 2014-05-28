@@ -28,6 +28,7 @@ from recensio.contenttypes.helperutilities import (
     RunSubprocess, SimpleZpt, SubprocessException)
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
 from recensio.imports.pdf_cut import cutPDF
+from recensio.policy.indexer import isbn
 
 from recensio.theme.browser.views import (
     listRecensioSupportedLanguages, listAvailableContentLanguages,
@@ -400,6 +401,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         data = super(BaseReview, self).SearchableText()
 
         data = " ".join([data, self.review])
+        data = " ".join([data, isbn(self)()])
 
         # get text from pdf
         datastream = ""
