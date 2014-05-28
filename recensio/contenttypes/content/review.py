@@ -400,7 +400,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def SearchableText(self):
         data = super(BaseReview, self).SearchableText()
 
-        data = " ".join([data, self.review])
+        data = " ".join([data, self.getReview()])
         data = " ".join([data, isbn(self)()])
 
         # get text from pdf

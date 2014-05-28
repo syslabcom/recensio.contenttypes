@@ -152,6 +152,12 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
     random = Random()
     random.seed('recensio.syslab.com')
 
+    def isbn():
+        for idx in range(1000):
+            yield (lambda s: '-'.join([s[:3], s[3:5], s[5:10], s[10:12], s[12]]))(str(9788360448396 + idx))
+
+    isbn_generator = isbn()
+
     def test_data():
         '''Randomise the values in certain fields
         '''
@@ -179,7 +185,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
             'editorCollectedEdition': u'',
             'institution': [dict(institution=u'', lastname=u'',
                             firstname=u'')],
-            'isbn': u'978-83-60448-39-7',
+            'isbn': isbn_generator.next(),
             'isLicenceApproved': True,
             'issn': u'1822-4016',
             'issue': u'5',
