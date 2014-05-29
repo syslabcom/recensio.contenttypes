@@ -19,4 +19,14 @@ class TestSearch(unittest.TestCase):
         self.assertIn('Czernowitz', text)
         self.assertIn('TEXT TEXT', text)
         self.assertIn('PDF PDF', text)
+        self.assertIn(
+            self.review.getAuthors()[0]['lastname'].encode('utf-8'), text)
+        self.assertIn(self.review.Creator(), text)
+
+        self.assertIn(self.review.Title(), text)
+        self.assertIn(self.review.getSubtitle(), text)
+        self.assertIn(self.review.getYearOfPublication(), text)
+        self.assertIn(self.review.getPlaceOfPublication(), text)
+        self.assertIn(self.review.getPublisher(), text)
+        self.assertIn(self.review.getSeries(), text)
         self.assertIn('9788360448417', text)

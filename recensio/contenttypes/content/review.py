@@ -400,7 +400,15 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def SearchableText(self):
         data = super(BaseReview, self).SearchableText()
 
+        if hasattr(self, 'getSubtitle'):
+            data = " ".join([data, self.getSubtitle()])
         data = " ".join([data, self.getReview()])
+
+        data = " ".join([data, self.Creator()])
+        if hasattr(self, 'getYearOfPublication'):
+            data = " ".join([data, self.getYearOfPublication()])
+        if hasattr(self, 'getPlaceOfPublication'):
+            data = " ".join([data, self.getPlaceOfPublication()])
         data = " ".join([data, isbn(self)()])
 
         # get text from pdf
