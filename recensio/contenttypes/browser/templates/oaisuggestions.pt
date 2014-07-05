@@ -89,6 +89,18 @@
                 <td class="value">
                 </td>
             </tr>
+            <tr class='oai_series'>
+                <td class="key" i18n:translate="" >Series
+                </td>
+                <td class="value">
+                </td>
+            </tr>
+            <tr class='oai_seriesVol'>
+                <td class="key" i18n:translate="" >Series (vol.)
+                </td>
+                <td class="value">
+                </td>
+            </tr>
             <tr class='oai_pages'>
                 <td class="key" i18n:translate="" >Pages
                 </td>
