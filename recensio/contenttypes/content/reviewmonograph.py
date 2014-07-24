@@ -5,7 +5,7 @@
 from cgi import escape
 from zope.i18nmessageid import Message
 from zope.interface import implements
-
+from zope.component import getMultiAdapter
 from Products.Archetypes import atapi
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
@@ -18,6 +18,7 @@ from recensio.contenttypes.content.schemata import (
     PagecountSchema, ReviewSchema, SerialSchema,
     finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewMonograph
+from recensio.contenttypes.interfaces import IDecoratedTitle
 from recensio.contenttypes.citation import getFormatter
 from recensio.theme.browser.views import editorTypes
 
@@ -179,7 +180,8 @@ class ReviewMonograph(BaseReview):
         return self.get_title_from_parent_of_type("Issue")
 
     def getDecoratedTitle(self, lastname_first=False):
-        return ReviewMonographNoMagic(self).getDecoratedTitle(lastname_first)
+        title_adapter = getMultiAdapter((self, self.REQUEST), IDecoratedTitle)
+        return title_adapter.getDecoratedTitle(self, lastname_first)
 
     def get_citation_string(self):
         return ReviewMonographNoMagic(self).get_citation_string()
@@ -191,46 +193,6 @@ class ReviewMonograph(BaseReview):
         return ReviewMonographNoMagic(self).getFirstPublicationData()
 
 class ReviewMonographNoMagic(BaseReviewNoMagic):
-
-    def getDecoratedTitle(real_self, lastname_first=False):
-        """
-        >>> from mock import Mock
-        >>> at_mock = Mock()
-        >>> at_mock.customCitation = ''
-        >>> at_mock.formatted_authors_editorial = "Patrick Gerken / Alexander Pilz"
-        >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
-        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
-        >>> review = ReviewMonographNoMagic(at_mock)
-        >>> review.directTranslate = lambda a: a
-        >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (reviewed_by)'
-
-        Original Spec:
-        [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel] (reviewed by [Rezensent Vorname] [Rezensent Nachname])
-
-        Analog, Werkautoren kann es mehrere geben (Siehe Citation)
-
-        Hans Meier: Geschichte des Abendlandes. Ein Abriss (reviewed by Klaus Müller)
-
-        """
-        self = real_self.magic
-
-        name_part_separator = " "
-        if lastname_first:
-            name_part_separator = ", "
-        authors_string = self.formatted_authors_editorial
-
-        rezensent_string = get_formatted_names(u' / ', ' ', self.reviewAuthors,
-                                               lastname_first = lastname_first)
-        if rezensent_string:
-            rezensent_string = "(%s)" % real_self.directTranslate(
-                Message(u"reviewed_by", "recensio",
-                        mapping={u"review_authors": rezensent_string}))
-
-        full_citation = getFormatter(': ', ' ')
-        return full_citation(
-            authors_string, self.punctuated_title_and_subtitle,
-            rezensent_string)
 
     def get_citation_string(real_self):
         """

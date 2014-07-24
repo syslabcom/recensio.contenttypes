@@ -122,4 +122,11 @@
       factory=".content.schemata.PublicationExtender"
       provides="archetypes.schemaextender.interfaces.ISchemaExtender" />
 
+  <adapter
+     factory=".adapter.decoratedtitle.DecoratedTitle"
+     provides="recensio.contenttypes.interfaces.IDecoratedTitle"
+     for=".interfaces.IReviewMonograph
+          recensio.theme.interfaces.IRecensioLayer"
+     />
+
 </configure>

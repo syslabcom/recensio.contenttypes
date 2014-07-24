@@ -11,7 +11,6 @@ import logging
 from ZODB.POSException import ConflictError
 from ZODB.blob import Blob
 from zope.app.component.hooks import getSite
-from zope.i18n import translate
 from zope.interface import implements
 
 from plone.app.blob.utils import openBlob
@@ -22,10 +21,13 @@ from Products.Archetypes import atapi
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 
+
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
-from recensio.contenttypes.helperutilities import (
-    RunSubprocess, SimpleZpt, SubprocessException)
+from recensio.contenttypes.helperutilities import RunSubprocess
+from recensio.contenttypes.helperutilities import SimpleZpt
+from recensio.contenttypes.helperutilities import SubprocessException
+from recensio.contenttypes.helperutilities import translate_message
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
 from recensio.imports.pdf_cut import cutPDF
 from recensio.policy.indexer import isbn
@@ -53,11 +55,8 @@ class BaseNoMagic(object):
     def __init__(self, at_object):
         self.magic = at_object
 
-    def directTranslate(self, msgid):
-        site = getSite()
-        language = getToolByName(
-            site, 'portal_languages').getPreferredLanguage()
-        return translate(msgid, target_language = language)
+    def directTranslate(self, msg):
+        translate_message(msg)
 
     def getUUIDUrl(real_self):
         self = real_self.magic

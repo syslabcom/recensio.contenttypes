@@ -41,3 +41,9 @@ class IParentGetter(Interface):
         Return the title of the first object of a particular type
         which is a parent of the current object.
         """
+
+class IDecoratedTitle(Interface):
+    """Format the heading in a very particlar way, per content type"""
+
+    def getDecoratedTitle(self, lastname=False):
+        """Return the formatted title"""
