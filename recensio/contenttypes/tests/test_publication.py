@@ -3,6 +3,8 @@
 Tests for the Publication content type and items it can contain
 """
 import unittest2 as unittest
+from plone.app.testing import login
+from plone.app.testing import SITE_OWNER_NAME
 from recensio.contenttypes.interfaces.review import IParentGetter
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
 
@@ -50,14 +52,29 @@ class TestParentGetter(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer["portal"]
         self.publication = self.portal["sample-reviews"]["newspapera"]
-        self.review = self.publication['summer']['issue-2'].objectValues()[0]
+        self.volume = self.publication['summer']
+        self.review = self.volume['issue-2'].objectValues()[0]
+        login(self.layer['app'], SITE_OWNER_NAME)
+        rm_id = self.volume.invokeFactory(
+            'Review Monograph', id='rm1')
+        self.review2 = self.volume[rm_id]
 
-    def test_get_parent_of_review_monograph(self):
+    def test_get_parent_publication_of_review_monograph(self):
         result = IParentGetter(self.review).get_parent_object_of_type(
             'Publication')
         self.assertEqual(result, self.publication)
 
-    def test_get_parent_of_publication(self):
+    def test_get_parent_publication_of_publication(self):
         result = IParentGetter(self.publication).get_parent_object_of_type(
             'Publication')
         self.assertEqual(result, self.publication)
+
+    def test_get_parent_volume_of_review_monograph(self):
+        result = IParentGetter(self.review).get_parent_object_of_type(
+            'Volume')
+        self.assertEqual(result, self.volume)
+
+    def test_get_parent_issue_fails(self):
+        result = IParentGetter(self.review2).get_parent_object_of_type(
+            'Issue')
+        self.assertEqual(result, None)

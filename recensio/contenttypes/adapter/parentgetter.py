@@ -21,14 +21,21 @@ class ParentGetter(object):
             return obj.Title()
         return ''
 
+    def is_of_type_or_subtype(self, obj, meta_type):
+        return (
+            (hasattr(obj, 'meta_type') and obj.meta_type == meta_type) or
+            (meta_type == 'Publication' and
+                interfaces.publication.IPublication.providedBy(obj))
+        )
+
     def get_parent_object_of_type(self, meta_type):
         """ Return the object of a particular type which is
         the parent of the current object."""
-        if hasattr(self.context, 'meta_type') and self.context.meta_type == meta_type:
+        if self.is_of_type_or_subtype(self.context, meta_type):
             return self.context
         obj = Acquisition.aq_inner(self.context)
         while not isinstance(obj, PloneSite):
             obj = Acquisition.aq_parent(obj)
-            if hasattr(obj, 'meta_type') and obj.meta_type == meta_type:
+            if self.is_of_type_or_subtype(obj, meta_type):
                 return obj
         return None
