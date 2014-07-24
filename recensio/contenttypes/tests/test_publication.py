@@ -55,9 +55,9 @@ class TestParentGetter(unittest.TestCase):
     def test_get_parent_of_review_monograph(self):
         result = IParentGetter(self.review).get_parent_object_of_type(
             'Publication')
-        self.assertTrue(result, self.publication)
+        self.assertEqual(result, self.publication)
 
     def test_get_parent_of_publication(self):
         result = IParentGetter(self.publication).get_parent_object_of_type(
             'Publication')
-        self.assertTrue(result, self.publication)
+        self.assertEqual(result, self.publication)
