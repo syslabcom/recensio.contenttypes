@@ -3,8 +3,9 @@
 Tests for the Publication content type and items it can contain
 """
 import unittest2 as unittest
-
+from recensio.contenttypes.interfaces.review import IParentGetter
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
+
 
 class TestPublication(unittest.TestCase):
     """
@@ -40,3 +41,23 @@ class TestPublication(unittest.TestCase):
         self.publication.licence = custom_licence
         self.assertEqual(custom_licence,
                          self.review.getLicense())
+
+
+class TestParentGetter(unittest.TestCase):
+    """ """
+    layer = RECENSIO_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.publication = self.portal["sample-reviews"]["newspapera"]
+        self.review = self.publication['summer']['issue-2'].objectValues()[0]
+
+    def test_get_parent_of_review_monograph(self):
+        result = IParentGetter(self.review).get_parent_object_of_type(
+            'Publication')
+        self.assertTrue(result, self.publication)
+
+    def test_get_parent_of_publication(self):
+        result = IParentGetter(self.publication).get_parent_object_of_type(
+            'Publication')
+        self.assertTrue(result, self.publication)
