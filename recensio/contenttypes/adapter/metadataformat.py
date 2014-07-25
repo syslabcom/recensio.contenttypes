@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 from Products.CMFPlone.utils import safe_unicode
 from recensio.contenttypes.citation import getFormatter
-from recensio.contenttypes.content.review import get_formatted_names
+from recensio.contenttypes.helperutilities import get_formatted_names
 from recensio.contenttypes.helperutilities import translate_message
 from recensio.contenttypes.interfaces import IMetadataFormat
 from recensio.theme.browser.views import recensioTranslate
@@ -9,7 +9,7 @@ from zope import interface
 from zope.i18nmessageid import Message
 
 
-class MetadataFormat(object):
+class BaseMetadataFormat(object):
     interface.implements(IMetadataFormat)
 
     def __init__(self, context, request):

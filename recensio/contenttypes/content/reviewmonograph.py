@@ -11,12 +11,13 @@ from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
-    BaseReview, BaseReviewNoMagic, get_formatted_names)
+    BaseReview, BaseReviewNoMagic)
 from recensio.contenttypes.content.schemata import (
     BookReviewSchema, CoverPictureSchema, EditorialSchema,
     PageStartEndInPDFSchema, PageStartEndOfReviewInJournalSchema,
     PagecountSchema, ReviewSchema, SerialSchema,
     finalize_recensio_schema)
+from recensio.contenttypes.helperutilities import get_formatted_names
 from recensio.contenttypes.interfaces import IReviewMonograph
 from recensio.contenttypes.interfaces import IMetadataFormat
 from recensio.contenttypes.citation import getFormatter

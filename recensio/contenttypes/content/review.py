@@ -23,6 +23,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 
 from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.adapter.metadataformat import BaseMetadataFormat
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.helperutilities import RunSubprocess
 from recensio.contenttypes.helperutilities import SimpleZpt
@@ -30,6 +31,7 @@ from recensio.contenttypes.helperutilities import SubprocessException
 from recensio.contenttypes.helperutilities import translate_message
 from recensio.contenttypes.interfaces import IMetadataFormat
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
+from recensio.contenttypes.helperutilities import get_formatted_names
 from recensio.imports.pdf_cut import cutPDF
 from recensio.policy.indexer import isbn
 
@@ -39,17 +41,6 @@ from recensio.theme.browser.views import (
 from recensio.contenttypes.eventhandlers import review_pdf_updated_eventhandler
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
-
-def get_formatted_names(full_name_separator, name_part_separator,
-                        names, lastname_first=False):
-    name_part1 = "firstname"
-    name_part2 = "lastname"
-    if lastname_first:
-        name_part1 = "lastname"
-        name_part2 = "firstname"
-    return full_name_separator.join(
-        [getFormatter(name_part_separator)(x[name_part1], x[name_part2])
-         for x in names])
 
 
 class BaseNoMagic(object):
@@ -472,3 +463,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     def setCanonical_uri(self, value):
         self.setLazyUrl('canonical_uri', value)
+
+
+class MetadataFormat(BaseMetadataFormat):
+    pass

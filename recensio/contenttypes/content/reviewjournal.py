@@ -13,11 +13,12 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
-    BaseReview, BaseReviewNoMagic, get_formatted_names)
+    BaseReview, BaseReviewNoMagic)
 from recensio.contenttypes.content.schemata import (
     CoverPictureSchema, JournalReviewSchema, PageStartEndInPDFSchema,
     PageStartEndOfReviewInJournalSchema, ReviewSchema,
     finalize_recensio_schema)
+from recensio.contenttypes.helperutilities import get_formatted_names
 from recensio.contenttypes.interfaces import IReviewJournal
 
 ReviewJournalSchema = JournalReviewSchema.copy() + \

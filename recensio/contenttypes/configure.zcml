@@ -123,7 +123,7 @@
       provides="archetypes.schemaextender.interfaces.ISchemaExtender" />
 
   <adapter
-     factory=".adapter.metadataformat.MetadataFormat"
+     factory=".content.review.MetadataFormat"
      provides="recensio.contenttypes.interfaces.IMetadataFormat"
      for=".interfaces.IReviewMonograph
           recensio.theme.interfaces.IRecensioLayer"

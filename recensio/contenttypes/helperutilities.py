@@ -1,9 +1,10 @@
 """
 Helper utilities for recensio.contenttypes
 """
-from plone import api
-from zope.i18n import translate
 from Products.Five.browser.pagetemplatefile import PageTemplateFile
+from plone import api
+from recensio.contenttypes.citation import getFormatter
+from zope.i18n import translate
 
 import tempfile
 import os
@@ -191,3 +192,15 @@ def translate_message(msg):
     lang_tool = api.portal.get_tool("portal_languages")
     language = lang_tool.getPreferredLanguage()
     return translate(msg, target_language = language)
+
+
+def get_formatted_names(full_name_separator, name_part_separator,
+                        names, lastname_first=False):
+    name_part1 = "firstname"
+    name_part2 = "lastname"
+    if lastname_first:
+        name_part1 = "lastname"
+        name_part2 = "firstname"
+    return full_name_separator.join(
+        [getFormatter(name_part_separator)(x[name_part1], x[name_part2])
+         for x in names])
