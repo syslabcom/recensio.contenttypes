@@ -42,8 +42,12 @@ class IParentGetter(Interface):
         which is a parent of the current object.
         """
 
-class IDecoratedTitle(Interface):
-    """Format the heading in a very particlar way, per content type"""
 
-    def getDecoratedTitle(self, lastname=False):
+class IMetadataFormat(Interface):
+    """Format titles, author names and other metadata in a specific way for each content type"""
+
+    def getDecoratedTitle(self, obj, lastname=False):
         """Return the formatted title"""
+
+    def formatted_authors_editorial(self, obj):
+        """Format the authors and editorial fields appropriately"""

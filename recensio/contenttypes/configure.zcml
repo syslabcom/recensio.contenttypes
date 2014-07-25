@@ -123,8 +123,8 @@
       provides="archetypes.schemaextender.interfaces.ISchemaExtender" />
 
   <adapter
-     factory=".adapter.decoratedtitle.DecoratedTitle"
-     provides="recensio.contenttypes.interfaces.IDecoratedTitle"
+     factory=".adapter.metadataformat.MetadataFormat"
+     provides="recensio.contenttypes.interfaces.IMetadataFormat"
      for=".interfaces.IReviewMonograph
           recensio.theme.interfaces.IRecensioLayer"
      />

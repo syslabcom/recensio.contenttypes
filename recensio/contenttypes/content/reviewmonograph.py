@@ -18,7 +18,7 @@ from recensio.contenttypes.content.schemata import (
     PagecountSchema, ReviewSchema, SerialSchema,
     finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewMonograph
-from recensio.contenttypes.interfaces import IDecoratedTitle
+from recensio.contenttypes.interfaces import IMetadataFormat
 from recensio.contenttypes.citation import getFormatter
 from recensio.theme.browser.views import editorTypes
 
@@ -180,8 +180,8 @@ class ReviewMonograph(BaseReview):
         return self.get_title_from_parent_of_type("Issue")
 
     def getDecoratedTitle(self, lastname_first=False):
-        title_adapter = getMultiAdapter((self, self.REQUEST), IDecoratedTitle)
-        return title_adapter.getDecoratedTitle(self, lastname_first)
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.getDecoratedTitle(self, lastname_first)
 
     def get_citation_string(self):
         return ReviewMonographNoMagic(self).get_citation_string()
@@ -201,7 +201,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
-        >>> at_mock.formatted_authors_editorial = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
+        >>> at_mock.formatted_authors_editorial() = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.title = "Plone 4.0♥?"
         >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname' : 'de Roiste♥'}]
@@ -254,7 +254,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
             u', ', u', ', u'%(:)s ' % args, u', ')
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
-        authors_string = self.formatted_authors_editorial
+        authors_string = self.formatted_authors_editorial()
         title_subtitle_string = title_subtitle(self.title, self.subtitle)
         item_string = rev_details_formatter(
             authors_string, title_subtitle_string,

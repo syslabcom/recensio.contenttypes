@@ -353,7 +353,7 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
                         mapping={u"review_authors": rezensent_string}))
         full_citation = getFormatter(': ', ' ')
         return full_citation(
-            self.formatted_authors_editorial,
+            self.formatted_authors_editorial(),
             self.punctuated_title_and_subtitle,
             rezensent_string)
 

@@ -286,7 +286,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
-        >>> at_mock.formatted_authors_editorial = "Patrick Gerken / Alexander Pilz"
+        >>> at_mock.formatted_authors_editorial() = "Patrick Gerken / Alexander Pilz"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = PresentationMonographNoMagic(at_mock)
@@ -309,7 +309,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
                         mapping={u"review_authors": rezensent_string}))
         full_citation = getFormatter(': ', ' ')
         return full_citation(
-            self.formatted_authors_editorial,
+            self.formatted_authors_editorial(),
             self.punctuated_title_and_subtitle,
             rezensent_string)
 
@@ -320,7 +320,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.get = lambda x: None
-        >>> at_mock.formatted_authors_editorial = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
+        >>> at_mock.formatted_authors_editorial() = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.title = "Plone 4.0♥?"
         >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
@@ -369,7 +369,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         rezensent_string = rezensent(
             self.reviewAuthors[0]["lastname"],
             self.reviewAuthors[0]["firstname"])
-        authors_string = self.formatted_authors_editorial
+        authors_string = self.formatted_authors_editorial()
         title_subtitle_string = title_subtitle(self.title, self.subtitle)
         item_string = item(
             authors_string, title_subtitle_string,
