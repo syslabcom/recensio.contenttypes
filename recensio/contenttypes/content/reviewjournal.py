@@ -10,6 +10,7 @@ from Products.Archetypes import atapi
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.adapter.metadataformat import BaseMetadataFormat
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
@@ -19,7 +20,10 @@ from recensio.contenttypes.content.schemata import (
     PageStartEndOfReviewInJournalSchema, ReviewSchema,
     finalize_recensio_schema)
 from recensio.contenttypes.helperutilities import get_formatted_names
+from recensio.contenttypes.helperutilities import translate_message
+from recensio.contenttypes.interfaces import IMetadataFormat
 from recensio.contenttypes.interfaces import IReviewJournal
+from zope.component import getMultiAdapter
 
 ReviewJournalSchema = JournalReviewSchema.copy() + \
                       CoverPictureSchema.copy() + \
@@ -103,7 +107,6 @@ class ReviewJournal(BaseReview):
     # ReviewJournal
     editor = atapi.ATFieldProperty('editor')
 
-
     # Reorder the fields as required
     ordered_fields = [
         # Reviewed Text schemata
@@ -161,8 +164,7 @@ class ReviewJournal(BaseReview):
         """ Equivalent of 'titleJournal'"""
         return self.get_title_from_parent_of_type("Publication")
 
-    get_journal_title = get_publication_title #2542
-
+    get_journal_title = get_publication_title  # 2542
 
     def get_publication_object(self):
         return self.get_parent_object_of_type("Publication")
@@ -187,15 +189,15 @@ class ReviewJournal(BaseReview):
         return ReviewJournalNoMagic(self).get_citation_string()
 
     def getDecoratedTitle(self, lastname_first=False):
-        """
-        """
-        return ReviewJournalNoMagic(self).getDecoratedTitle(lastname_first)
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.getDecoratedTitle(self, lastname_first)
 
     def getLicense(self):
         return ReviewJournalNoMagic(self).getLicense()
 
     def getFirstPublicationData(self):
         return ReviewJournalNoMagic(self).getFirstPublicationData()
+
 
 class ReviewJournalNoMagic(BaseReviewNoMagic):
 
@@ -274,7 +276,10 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
             location)
         return citation_string
 
-    def getDecoratedTitle(real_self, lastname_first=False):
+
+class MetadataFormat(BaseMetadataFormat):
+
+    def getDecoratedTitle(self, obj, lastname_first=False):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
@@ -289,33 +294,24 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> review.getDecoratedTitle()
         u'Plone Mag, 1 (2010/2009), 3 (reviewed_by)'
         """
-        self = real_self.magic
-
         item = getFormatter(', ', ' ', ', ')
-        mag_year = getFormatter('/')(self.officialYearOfPublication,
-                                     self.yearOfPublication)
+        mag_year = getFormatter('/')(obj.officialYearOfPublication, obj.yearOfPublication)
         mag_year = mag_year and '(' + mag_year + ')' or None
         item_string = item(
-            self.title, self.volumeNumber, mag_year, self.issueNumber)
+            obj.title, obj.volumeNumber, mag_year, obj.issueNumber)
 
         if lastname_first:
             reviewer_string = get_formatted_names(
-                u' / ', ', ', self.reviewAuthors,
-                lastname_first = lastname_first)
+                u' / ', ', ', obj.reviewAuthors, lastname_first=lastname_first)
         else:
             reviewer_string = get_formatted_names(
-                u' / ', ' ', self.reviewAuthors,
-                lastname_first = lastname_first)
+                u' / ', ' ', obj.reviewAuthors, lastname_first=lastname_first)
 
         if reviewer_string:
-            reviewer_string = "(%s)" % real_self.directTranslate(
+            reviewer_string = "(%s)" % translate_message(
                 Message(u"reviewed_by", "recensio",
                         mapping={u"review_authors": reviewer_string}))
 
-
-        return ' '.join((
-
-                item_string,
-                reviewer_string))
+        return ' '.join((item_string, reviewer_string))
 
 atapi.registerType(ReviewJournal, PROJECTNAME)
