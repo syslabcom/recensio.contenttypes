@@ -6,4 +6,16 @@
                title="Configure the secondary navigation portlets"
                description="The secondary navigation e.g. for /ueberuns is generated from a portlet in the left hand portlet manager and put in place with xdv" 
                />
+    <import-step id="recensio_policy_setup_homepage" version="20100824-01"
+            handler="recensio.policy.setuphandlers.setupHomepage"
+            description="Set up the home page"
+            title="Set up the home page" />
+    <import-step id="recensio_policy_set_content_languages" version="20100824-01"
+            handler="recensio.policy.setuphandlers.setImportedContentLanguages"
+            description="Set languages of imported content"
+            title="Set imported content languages" />
+    <import-step id="recensio_policy_publish_imported_content" version="20100824-01"
+            handler="recensio.policy.setuphandlers.publishimportedcontent"
+            description="Publish imported content"
+            title="Publish imported content" />
 </import-steps>
