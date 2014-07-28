@@ -16,6 +16,7 @@ from Products.DataGridField.Column import Column
 from Products.CMFCore.utils import getToolByName
 
 from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.adapter.metadataformat import BaseMetadataFormat
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
@@ -24,8 +25,11 @@ from recensio.contenttypes.content.schemata import (
     BookReviewSchema, CoverPictureSchema, EditorialSchema,
     PagecountSchema, PresentationSchema, ReferenceAuthorsSchema,
     SerialSchema, finalize_recensio_schema)
+from recensio.contenttypes.helperutilities import translate_message
+from recensio.contenttypes.interfaces import IMetadataFormat
 from recensio.contenttypes.interfaces import IPresentationMonograph
 from recensio.theme.browser.views import editorTypes
+from zope.component import getMultiAdapter
 
 PresentationMonographSchema = BookReviewSchema.copy() + \
                               CoverPictureSchema.copy() + \
@@ -269,7 +273,8 @@ class PresentationMonograph(BaseReview):
         return editorTypes()
 
     def getDecoratedTitle(self):
-        return PresentationMonographNoMagic(self).getDecoratedTitle()
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.getDecoratedTitle(self)
 
     def get_citation_string(self):
         return PresentationMonographNoMagic(self).get_citation_string()
@@ -281,37 +286,6 @@ class PresentationMonograph(BaseReview):
         return PresentationMonographNoMagic(self).getLicenseURL()
 
 class PresentationMonographNoMagic(BasePresentationNoMagic):
-
-    def getDecoratedTitle(real_self):
-        """
-        >>> from mock import Mock
-        >>> at_mock = Mock()
-        >>> at_mock.formatted_authors_editorial() = "Patrick Gerken / Alexander Pilz"
-        >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
-        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
-        >>> review = PresentationMonographNoMagic(at_mock)
-        >>> review.directTranslate = lambda a: a
-        >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (presented_by)'
-
-        Original Specification
-
-        [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel]
-
-        Hans Meier: Geschichte des Abendlandes. Ein Abriss
-        """
-        self = real_self.magic
-        rezensent_string = getFormatter(' ')(self.reviewAuthors[0]["firstname"],
-                                             self.reviewAuthors[0]["lastname"])
-        if rezensent_string:
-            rezensent_string = "(%s)" % real_self.directTranslate(
-                Message(u"presented_by", "recensio",
-                        mapping={u"review_authors": rezensent_string}))
-        full_citation = getFormatter(': ', ' ')
-        return full_citation(
-            self.formatted_authors_editorial(),
-            self.punctuated_title_and_subtitle,
-            rezensent_string)
 
     def get_citation_string(real_self):
         """
@@ -380,3 +354,36 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
             real_self.getUUIDUrl())
 
 atapi.registerType(PresentationMonograph, PROJECTNAME)
+
+
+class MetadataFormat(BaseMetadataFormat):
+
+    def getDecoratedTitle(self, obj):
+        """
+        >>> from mock import Mock
+        >>> at_mock = Mock()
+        >>> at_mock.formatted_authors_editorial() = "Patrick Gerken / Alexander Pilz"
+        >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
+        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
+        >>> review = PresentationMonographNoMagic(at_mock)
+        >>> review.directTranslate = lambda a: a
+        >>> review.getDecoratedTitle()
+        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (presented_by)'
+
+        Original Specification
+
+        [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel]
+
+        Hans Meier: Geschichte des Abendlandes. Ein Abriss
+        """
+        rezensent_string = getFormatter(' ')(
+            obj.reviewAuthors[0]["firstname"], obj.reviewAuthors[0]["lastname"])
+        if rezensent_string:
+            rezensent_string = "(%s)" % translate_message(
+                Message(u"presented_by", "recensio", mapping={u"review_authors": rezensent_string}))
+        full_citation = getFormatter(': ', ' ')
+        return full_citation(
+            obj.formatted_authors_editorial(),
+            obj.punctuated_title_and_subtitle,
+            rezensent_string,
+        )

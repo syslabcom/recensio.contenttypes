@@ -286,4 +286,3 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         return citation_string
 
 atapi.registerType(ReviewMonograph, PROJECTNAME)
-

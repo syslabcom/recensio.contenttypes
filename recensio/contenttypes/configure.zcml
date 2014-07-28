@@ -150,4 +150,18 @@
           recensio.theme.interfaces.IRecensioLayer"
      />
 
+  <adapter
+     factory=".content.presentationmonograph.MetadataFormat"
+     provides="recensio.contenttypes.interfaces.IMetadataFormat"
+     for=".interfaces.IPresentationMonograph
+          recensio.theme.interfaces.IRecensioLayer"
+     />
+
+  <adapter
+     factory=".content.presentationonlineresource.MetadataFormat"
+     provides="recensio.contenttypes.interfaces.IMetadataFormat"
+     for=".interfaces.IPresentationOnlineResource
+          recensio.theme.interfaces.IRecensioLayer"
+     />
+
 </configure>

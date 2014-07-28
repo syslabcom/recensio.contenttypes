@@ -12,14 +12,18 @@ from Products.Archetypes import atapi
 from Products.DataGridField import DataGridField, DataGridWidget
 from Products.DataGridField.Column import Column
 
-from recensio.contenttypes.interfaces import IPresentationOnlineResource
 from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.adapter.metadataformat import BaseMetadataFormat
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.interfaces import IPresentationOnlineResource
 from recensio.contenttypes.content.review import (
     BasePresentationNoMagic, BaseReview)
 from recensio.contenttypes.content.schemata import (
     CommonReviewSchema, PresentationSchema, finalize_recensio_schema)
+from recensio.contenttypes.helperutilities import translate_message
+from recensio.contenttypes.interfaces import IMetadataFormat
+from zope.component import getMultiAdapter
 
 
 PresentationOnlineResourceSchema = CommonReviewSchema.copy() + \
@@ -286,7 +290,8 @@ class PresentationOnlineResource(BaseReview):
                        "metadata_recensioID"]
 
     def getDecoratedTitle(self):
-        return PresentationOnlineResourceNoMagic(self).getDecoratedTitle()
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.getDecoratedTitle(self)
 
     def get_citation_string(self):
         return PresentationOnlineResourceNoMagic(self).get_citation_string()
@@ -297,36 +302,8 @@ class PresentationOnlineResource(BaseReview):
     def getLicenseURL(self):
         return PresentationOnlineResourceNoMagic(self).getLicenseURL()
 
+
 class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
-
-    def getDecoratedTitle(real_self):
-        """
-        #commented out, because it is unmaintained
-        # >>> from mock import Mock
-        # >>> at_mock = Mock()
-        # >>> at_mock.customCitation = ''
-        # >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH'
-        # >>> presentation = PresentationOnlineResourceNoMagic(at_mock)
-        # >>> presentation.getDecoratedTitle()
-        # u'Homepage of SYSLAB.COM GmbH'
-
-        # Original Specification
-
-        # [Titel online resource] ()
-
-        # perspectivia.net – Publikationsplattform für die Geisteswissenschaften
-        """
-        self = real_self.magic
-        rezensent_string = getFormatter(' ')(self.reviewAuthors[0]["firstname"],
-                                             self.reviewAuthors[0]["lastname"])
-        if rezensent_string:
-            rezensent_string = "(%s)" % real_self.directTranslate(
-                Message(u"presented_by", "recensio",
-                        mapping={u"review_authors": rezensent_string}))
-        full_citation = getFormatter(' ')
-        return full_citation(
-            self.title.decode('utf-8'),
-            rezensent_string)
 
     def get_citation_string(real_self):
         """
@@ -371,3 +348,32 @@ class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
         return full_citation(escape(rezensent_string), item_string)
 
 atapi.registerType(PresentationOnlineResource, PROJECTNAME)
+
+
+class MetadataFormat(BaseMetadataFormat):
+
+    def getDecoratedTitle(self, obj):
+        """
+        #commented out, because it is unmaintained
+        # >>> from mock import Mock
+        # >>> at_mock = Mock()
+        # >>> at_mock.customCitation = ''
+        # >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH'
+        # >>> presentation = PresentationOnlineResourceNoMagic(at_mock)
+        # >>> presentation.getDecoratedTitle()
+        # u'Homepage of SYSLAB.COM GmbH'
+
+        # Original Specification
+
+        # [Titel online resource] ()
+
+        # perspectivia.net – Publikationsplattform für die Geisteswissenschaften
+        """
+        rezensent_string = getFormatter(' ')(
+            obj.reviewAuthors[0]["firstname"], obj.reviewAuthors[0]["lastname"])
+        if rezensent_string:
+            rezensent_string = "(%s)" % translate_message(
+                Message(u"presented_by", "recensio",
+                        mapping={u"review_authors": rezensent_string}))
+        full_citation = getFormatter(' ')
+        return full_citation(obj.title.decode('utf-8'), rezensent_string)
