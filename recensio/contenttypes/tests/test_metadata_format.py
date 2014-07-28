@@ -52,3 +52,23 @@ class TestMetadataFormat(unittest.TestCase):
         generated_title = reviewjournal.getDecoratedTitle()
         correct_title = u'Plone Mag, 1 (2010/2009), 3 (rezensiert von Cillian de Róiste)'
         self.assertEqual(correct_title, generated_title)
+
+    def test_presentationarticlereview_decorated_title(self):
+        member_folder = self.portal.Members.fake_member
+        par_id = member_folder.invokeFactory(
+            'Presentation Article Review',
+            id='par1',
+            title=u'À la recherche d’une paix de compromis',
+            subtitle=u'Kessler, Haguenin et la diplomatie secrète de l’hiver 1916-1917',
+            authors=({'firstname': 'Landry', 'lastname': 'Charrier'},),
+            reviewAuthors=({'firstname': 'Landry', 'lastname': 'Charrier'},),
+            yearOfPublication="2010",
+            volumeNumber="11",
+        )
+        presentationarticlereview = member_folder[par_id]
+        generated_title = presentationarticlereview.getDecoratedTitle()
+        correct_title = (
+            u'Landry Charrier: À la recherche d’une paix de '
+            u'compromis. Kessler, Haguenin et la diplomatie secrète de '
+            u'l’hiver 1916-1917 (präsentiert von Landry Charrier)')
+        self.assertEqual(correct_title, generated_title)

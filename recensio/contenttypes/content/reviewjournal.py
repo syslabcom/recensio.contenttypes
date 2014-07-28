@@ -276,6 +276,8 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
             location)
         return citation_string
 
+atapi.registerType(ReviewJournal, PROJECTNAME)
+
 
 class MetadataFormat(BaseMetadataFormat):
 
@@ -314,4 +316,4 @@ class MetadataFormat(BaseMetadataFormat):
 
         return ' '.join((item_string, reviewer_string))
 
-atapi.registerType(ReviewJournal, PROJECTNAME)
+
