@@ -70,5 +70,26 @@ class TestMetadataFormat(unittest.TestCase):
         correct_title = (
             u'Landry Charrier: À la recherche d’une paix de '
             u'compromis. Kessler, Haguenin et la diplomatie secrète de '
-            u'l’hiver 1916-1917 (präsentiert von Landry Charrier)')
+            u'l’hiver 1916-1917 (präsentiert von Landry Charrier)'
+        )
+        self.assertEqual(correct_title, generated_title)
+
+    def test_presentationcollection_decorated_title(self):
+        member_folder = self.portal.Members.fake_member
+        par_id = member_folder.invokeFactory(
+            'Presentation Collection',
+            id='pc1',
+            title=u'Christmas Truce',
+            subtitle=u'Die Amateurfotos vom Weihnachtsfrieden 1914 und ihre Karriere',
+            authors=({'firstname': 'Christian', 'lastname': ' Bunnenberg'},),
+            reviewAuthors=({'firstname': 'Christian', 'lastname': 'Bunnenberg'},),
+            yearOfPublication="2009",
+        )
+        presentationcollection = member_folder[par_id]
+        generated_title = presentationcollection.getDecoratedTitle()
+        correct_title = (
+            u'Christian Bunnenberg: Christmas Truce. Die Amateurfotos vom '
+            u'Weihnachtsfrieden 1914 und ihre Karriere (präsentiert von '
+            u'Christian Bunnenberg)'
+        )
         self.assertEqual(correct_title, generated_title)

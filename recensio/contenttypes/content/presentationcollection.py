@@ -23,6 +23,11 @@ from recensio.contenttypes.content.schemata import (
     PageStartEndOfPresentedTextInPrintSchema, PagecountSchema,
     PresentationSchema, ReferenceAuthorsSchema, SerialSchema,
     finalize_recensio_schema)
+from recensio.contenttypes.adapter.metadataformat import BaseMetadataFormat
+from recensio.contenttypes.helperutilities import translate_message
+from recensio.contenttypes.interfaces import IMetadataFormat
+from zope.component import getMultiAdapter
+
 
 PresentationCollectionSchema = \
     BookReviewSchema.copy() + \
@@ -234,9 +239,8 @@ class PresentationCollection(BaseReview):
         "subject", "uri", "urn", "metadata_recensioID", "idBvb"]
 
     def getDecoratedTitle(self):
-        return PresentationCollectionNoMagic(self).getDecoratedTitle()
-#        return u": ".join((self.formatted_authors_editorial,
-#                           self.punctuated_title_and_subtitle))
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.getDecoratedTitle(self)
 
     def get_citation_string(self):
         return PresentationCollectionNoMagic(self).get_citation_string()
@@ -246,6 +250,7 @@ class PresentationCollection(BaseReview):
 
     def getLicenseURL(self):
         return PresentationCollectionNoMagic(self).getLicenseURL()
+
 
 class PresentationCollectionNoMagic(BasePresentationNoMagic):
 
@@ -340,21 +345,27 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
                              self.page_start_end_in_print,
                              real_self.getUUIDUrl())
 
-    def getDecoratedTitle(real_self):
+
+atapi.registerType(PresentationCollection, PROJECTNAME)
+
+
+class MetadataFormat(BaseMetadataFormat):
+
+    def getDecoratedTitle(self, obj, lastname_first=False):
+        """ c8e875fad4406ea16ca5189e3ca0a31e
+        Christian Bunnenberg: Christmas Truce. Die Amateurfotos vom
+        Weihnachtsfrieden 1914 und ihre Karriere (präsentiert von
+        Christian Bunnenberg)
         """
-        Dude, where is my doctest?
-        """
-        self = real_self.magic
-        rezensent_string = getFormatter(' ')(self.reviewAuthors[0]["firstname"],
-                                             self.reviewAuthors[0]["lastname"])
+        rezensent_string = getFormatter(' ')(
+            obj.reviewAuthors[0]["firstname"], obj.reviewAuthors[0]["lastname"])
         if rezensent_string:
-            rezensent_string = "(%s)" % real_self.directTranslate(
+            rezensent_string = "(%s)" % translate_message(
                 Message(u"presented_by", "recensio",
                         mapping={u"review_authors": rezensent_string}))
         full_citation = getFormatter(': ', ' ')
         return full_citation(
-            self.formatted_authors_editorial(),
-            self.punctuated_title_and_subtitle,
-            rezensent_string)
-
-atapi.registerType(PresentationCollection, PROJECTNAME)
+            obj.formatted_authors_editorial(),
+            obj.punctuated_title_and_subtitle,
+            rezensent_string,
+        )

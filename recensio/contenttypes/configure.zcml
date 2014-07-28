@@ -143,4 +143,11 @@
           recensio.theme.interfaces.IRecensioLayer"
      />
 
+  <adapter
+     factory=".content.presentationcollection.MetadataFormat"
+     provides="recensio.contenttypes.interfaces.IMetadataFormat"
+     for=".interfaces.IPresentationCollection
+          recensio.theme.interfaces.IRecensioLayer"
+     />
+
 </configure>
