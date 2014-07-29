@@ -5,19 +5,21 @@
 from cgi import escape
 from zope.i18nmessageid import Message
 from zope.interface import implements
-
+from zope.component import getMultiAdapter
 from Products.Archetypes import atapi
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
-    BaseReview, BaseReviewNoMagic, get_formatted_names)
+    BaseReview, BaseReviewNoMagic)
 from recensio.contenttypes.content.schemata import (
     BookReviewSchema, CoverPictureSchema, EditorialSchema,
     PageStartEndInPDFSchema, PageStartEndOfReviewInJournalSchema,
     PagecountSchema, ReviewSchema, SerialSchema,
     finalize_recensio_schema)
+from recensio.contenttypes.helperutilities import get_formatted_names
 from recensio.contenttypes.interfaces import IReviewMonograph
+from recensio.contenttypes.interfaces import IMetadataFormat
 from recensio.contenttypes.citation import getFormatter
 from recensio.theme.browser.views import editorTypes
 
@@ -179,7 +181,8 @@ class ReviewMonograph(BaseReview):
         return self.get_title_from_parent_of_type("Issue")
 
     def getDecoratedTitle(self, lastname_first=False):
-        return ReviewMonographNoMagic(self).getDecoratedTitle(lastname_first)
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.getDecoratedTitle(self, lastname_first)
 
     def get_citation_string(self):
         return ReviewMonographNoMagic(self).get_citation_string()
@@ -192,46 +195,6 @@ class ReviewMonograph(BaseReview):
 
 class ReviewMonographNoMagic(BaseReviewNoMagic):
 
-    def getDecoratedTitle(real_self, lastname_first=False):
-        """
-        >>> from mock import Mock
-        >>> at_mock = Mock()
-        >>> at_mock.customCitation = ''
-        >>> at_mock.formatted_authors_editorial = "Patrick Gerken / Alexander Pilz"
-        >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
-        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
-        >>> review = ReviewMonographNoMagic(at_mock)
-        >>> review.directTranslate = lambda a: a
-        >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (reviewed_by)'
-
-        Original Spec:
-        [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel] (reviewed by [Rezensent Vorname] [Rezensent Nachname])
-
-        Analog, Werkautoren kann es mehrere geben (Siehe Citation)
-
-        Hans Meier: Geschichte des Abendlandes. Ein Abriss (reviewed by Klaus Müller)
-
-        """
-        self = real_self.magic
-
-        name_part_separator = " "
-        if lastname_first:
-            name_part_separator = ", "
-        authors_string = self.formatted_authors_editorial
-
-        rezensent_string = get_formatted_names(u' / ', ' ', self.reviewAuthors,
-                                               lastname_first = lastname_first)
-        if rezensent_string:
-            rezensent_string = "(%s)" % real_self.directTranslate(
-                Message(u"reviewed_by", "recensio",
-                        mapping={u"review_authors": rezensent_string}))
-
-        full_citation = getFormatter(': ', ' ')
-        return full_citation(
-            authors_string, self.punctuated_title_and_subtitle,
-            rezensent_string)
-
     def get_citation_string(real_self):
         """
         Either return the custom citation or the generated one
@@ -239,7 +202,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
-        >>> at_mock.formatted_authors_editorial = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
+        >>> at_mock.formatted_authors_editorial = lambda: u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.title = "Plone 4.0♥?"
         >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname' : 'de Roiste♥'}]
@@ -292,7 +255,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
             u', ', u', ', u'%(:)s ' % args, u', ')
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
-        authors_string = self.formatted_authors_editorial
+        authors_string = self.formatted_authors_editorial()
         title_subtitle_string = title_subtitle(self.title, self.subtitle)
         item_string = rev_details_formatter(
             authors_string, title_subtitle_string,
@@ -323,4 +286,3 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         return citation_string
 
 atapi.registerType(ReviewMonograph, PROJECTNAME)
-

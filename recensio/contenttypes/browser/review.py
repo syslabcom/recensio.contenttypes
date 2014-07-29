@@ -16,7 +16,8 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from recensio.contenttypes import contenttypesMessageFactory as _
-from recensio.contenttypes.content.review import get_formatted_names
+from recensio.contenttypes.helperutilities import get_formatted_names
+
 
 class View(BrowserView):
     """Moderation View

@@ -122,4 +122,46 @@
       factory=".content.schemata.PublicationExtender"
       provides="archetypes.schemaextender.interfaces.ISchemaExtender" />
 
+  <adapter
+     factory=".content.review.MetadataFormat"
+     provides="recensio.contenttypes.interfaces.IMetadataFormat"
+     for=".interfaces.IReviewMonograph
+          recensio.theme.interfaces.IRecensioLayer"
+     />
+
+  <adapter
+     factory=".content.reviewjournal.MetadataFormat"
+     provides="recensio.contenttypes.interfaces.IMetadataFormat"
+     for=".interfaces.IReviewJournal
+          recensio.theme.interfaces.IRecensioLayer"
+     />
+
+  <adapter
+     factory=".content.presentationarticlereview.MetadataFormat"
+     provides="recensio.contenttypes.interfaces.IMetadataFormat"
+     for=".interfaces.IPresentationArticleReview
+          recensio.theme.interfaces.IRecensioLayer"
+     />
+
+  <adapter
+     factory=".content.presentationcollection.MetadataFormat"
+     provides="recensio.contenttypes.interfaces.IMetadataFormat"
+     for=".interfaces.IPresentationCollection
+          recensio.theme.interfaces.IRecensioLayer"
+     />
+
+  <adapter
+     factory=".content.presentationmonograph.MetadataFormat"
+     provides="recensio.contenttypes.interfaces.IMetadataFormat"
+     for=".interfaces.IPresentationMonograph
+          recensio.theme.interfaces.IRecensioLayer"
+     />
+
+  <adapter
+     factory=".content.presentationonlineresource.MetadataFormat"
+     provides="recensio.contenttypes.interfaces.IMetadataFormat"
+     for=".interfaces.IPresentationOnlineResource
+          recensio.theme.interfaces.IRecensioLayer"
+     />
+
 </configure>

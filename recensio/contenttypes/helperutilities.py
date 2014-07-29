@@ -1,12 +1,16 @@
 """
 Helper utilities for recensio.contenttypes
 """
+from Products.Five.browser.pagetemplatefile import PageTemplateFile
+from plone import api
+from recensio.contenttypes.citation import getFormatter
+from zope.i18n import translate
+
 import tempfile
 import os
 import subprocess
 import logging
 
-from Products.Five.browser.pagetemplatefile import PageTemplateFile
 
 # Use an environment variable to enable time consuming shell commands
 RUN_SHELL_COMMANDS = os.environ.get("RUN_SHELL_COMMANDS", False)
@@ -177,3 +181,26 @@ class RunSubprocess:
             for tmp_file in os.listdir(tmp_dir):
                 os.remove(os.path.join(tmp_dir, tmp_file))
             os.removedirs(tmp_dir)
+
+
+def translate_message(msg):
+    """Translate a Message() into the current language
+
+    TODO: recensio.theme.browser.views.recensioTranslate does the same
+    thing, except for a msgid with the "recensio" domain hard coded.
+    """
+    lang_tool = api.portal.get_tool("portal_languages")
+    language = lang_tool.getPreferredLanguage()
+    return translate(msg, target_language = language)
+
+
+def get_formatted_names(full_name_separator, name_part_separator,
+                        names, lastname_first=False):
+    name_part1 = "firstname"
+    name_part2 = "lastname"
+    if lastname_first:
+        name_part1 = "lastname"
+        name_part2 = "firstname"
+    return full_name_separator.join(
+        [getFormatter(name_part_separator)(x[name_part1], x[name_part2])
+         for x in names])

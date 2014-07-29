@@ -11,7 +11,7 @@ import logging
 from ZODB.POSException import ConflictError
 from ZODB.blob import Blob
 from zope.app.component.hooks import getSite
-from zope.i18n import translate
+from zope.component import getMultiAdapter
 from zope.interface import implements
 
 from plone.app.blob.utils import openBlob
@@ -23,10 +23,15 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 
 from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.adapter.metadataformat import BaseMetadataFormat
 from recensio.contenttypes.citation import getFormatter
-from recensio.contenttypes.helperutilities import (
-    RunSubprocess, SimpleZpt, SubprocessException)
+from recensio.contenttypes.helperutilities import RunSubprocess
+from recensio.contenttypes.helperutilities import SimpleZpt
+from recensio.contenttypes.helperutilities import SubprocessException
+from recensio.contenttypes.helperutilities import translate_message
+from recensio.contenttypes.interfaces import IMetadataFormat
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
+from recensio.contenttypes.helperutilities import get_formatted_names
 from recensio.imports.pdf_cut import cutPDF
 from recensio.policy.indexer import isbn
 
@@ -37,27 +42,13 @@ from recensio.contenttypes.eventhandlers import review_pdf_updated_eventhandler
 
 log = logging.getLogger('recensio.contentypes/content/review.py')
 
-def get_formatted_names(full_name_separator, name_part_separator,
-                        names, lastname_first=False):
-    name_part1 = "firstname"
-    name_part2 = "lastname"
-    if lastname_first:
-        name_part1 = "lastname"
-        name_part2 = "firstname"
-    return full_name_separator.join(
-        [getFormatter(name_part_separator)(x[name_part1], x[name_part2])
-         for x in names])
-
 
 class BaseNoMagic(object):
     def __init__(self, at_object):
         self.magic = at_object
 
-    def directTranslate(self, msgid):
-        site = getSite()
-        language = getToolByName(
-            site, 'portal_languages').getPreferredLanguage()
-        return translate(msgid, target_language = language)
+    def directTranslate(self, msg):
+        translate_message(msg)
 
     def getUUIDUrl(real_self):
         self = real_self.magic
@@ -454,60 +445,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         else:
             return getFormatter(". ")(title, subtitle)
 
-    @property
     def formatted_authors_editorial(self):
-        """ #3111
-        PMs and RMs have an additional field for editors"""
-        authors_list = []
-        for author in self.getAuthors():
-            if author['lastname'] or author['firstname']:
-                authors_list.append((
-                        u'%s %s' % (
-                            safe_unicode(author['firstname']),
-                            safe_unicode(author['lastname'])
-                            )
-                        ).strip()
-                                    )
-        authors_str = u" / ".join(authors_list)
-
-        editor_str = ""
-        result = ""
-        if hasattr(self, "editorial"):
-            editorial = self.getEditorial()
-            label_editor = ""
-            if len(editorial) > 0 and editorial != (
-                {'lastname' : '', 'firstname' : ''}):
-                if len(editorial) == 1:
-                    label_editor = recensioTranslate(u"label_abbrev_editor")
-                    editor = editorial[0]
-                    editor_str = (
-                        u"%s %s" % (
-                            safe_unicode(editor['firstname']),
-                            safe_unicode(editor['lastname'])
-                            )
-                        ).strip()
-                else:
-                    label_editor = recensioTranslate(u"label_abbrev_editors")
-                    editors = []
-                    for editor in editorial:
-                        editors.append((
-                            u"%s %s" % (
-                                safe_unicode(editor['firstname']),
-                                safe_unicode(editor['lastname'])
-                                )
-                            ).strip()
-                                       )
-                    editor_str = u" / ".join(editors)
-
-                if editor_str != "":
-                    result  = editor_str + " " + label_editor
-                    if authors_str != "":
-                        result = result + ": " + authors_str
-
-        if result == "" and authors_str != "":
-            result = authors_str
-
-        return result
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.formatted_authors_editorial(self)
 
     def setLazyUrl(self, field, value):
         if isinstance(value, basestring) and value and \
@@ -524,3 +464,6 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def setCanonical_uri(self, value):
         self.setLazyUrl('canonical_uri', value)
 
+
+class MetadataFormat(BaseMetadataFormat):
+    pass

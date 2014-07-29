@@ -2,9 +2,12 @@
 """
 Tests for the Publication content type and items it can contain
 """
+from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
+from recensio.theme.interfaces import IRecensioLayer
+from zope.interface import directlyProvides
+
 import unittest2 as unittest
 
-from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
 
 class TestCitationString(unittest.TestCase):
     """
@@ -12,6 +15,10 @@ class TestCitationString(unittest.TestCase):
     layer = RECENSIO_INTEGRATION_TESTING
 
     def setUp(self):
+        # register the browser layer
+        self.request = self.layer["request"]
+        directlyProvides(self.request, IRecensioLayer)
+
         self.portal      = self.layer["portal"]
         self.publication = self.portal["sample-reviews"]["newspapera"]
         self.review_mono = self.portal.portal_catalog.search(
