@@ -277,6 +277,7 @@ class PresentationMonograph(BaseReview):
         return metadata_format.getDecoratedTitle(self)
 
     def get_citation_string(self):
+        import pdb; pdb.set_trace()
         return PresentationMonographNoMagic(self).get_citation_string()
 
     def getLicense(self):
@@ -294,7 +295,7 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.get = lambda x: None
-        >>> at_mock.formatted_authors_editorial() = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
+        >>> at_mock.formatted_authors_editorial = lambda: u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.title = "Plone 4.0♥?"
         >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
@@ -359,23 +360,6 @@ atapi.registerType(PresentationMonograph, PROJECTNAME)
 class MetadataFormat(BaseMetadataFormat):
 
     def getDecoratedTitle(self, obj):
-        """
-        >>> from mock import Mock
-        >>> at_mock = Mock()
-        >>> at_mock.formatted_authors_editorial() = "Patrick Gerken / Alexander Pilz"
-        >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
-        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
-        >>> review = PresentationMonographNoMagic(at_mock)
-        >>> review.directTranslate = lambda a: a
-        >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (presented_by)'
-
-        Original Specification
-
-        [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel]
-
-        Hans Meier: Geschichte des Abendlandes. Ein Abriss
-        """
         rezensent_string = getFormatter(' ')(
             obj.reviewAuthors[0]["firstname"], obj.reviewAuthors[0]["lastname"])
         if rezensent_string:

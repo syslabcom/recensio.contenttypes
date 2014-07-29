@@ -21,7 +21,7 @@ class BaseMetadataFormat(object):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
-        >>> at_mock.formatted_authors_editorial() = "Patrick Gerken / Alexander Pilz"
+        >>> at_mock.formatted_authors_editorial = lambda: "Patrick Gerken / Alexander Pilz"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = ReviewMonographNoMagic(at_mock)

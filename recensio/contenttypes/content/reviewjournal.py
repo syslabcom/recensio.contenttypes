@@ -282,20 +282,6 @@ atapi.registerType(ReviewJournal, PROJECTNAME)
 class MetadataFormat(BaseMetadataFormat):
 
     def getDecoratedTitle(self, obj, lastname_first=False):
-        """
-        >>> from mock import Mock
-        >>> at_mock = Mock()
-        >>> at_mock.title = "Plone Mag"
-        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
-        >>> at_mock.yearOfPublication = '2009'
-        >>> at_mock.officialYearOfPublication = '2010'
-        >>> at_mock.volumeNumber = '1'
-        >>> at_mock.issueNumber = '3'
-        >>> review = ReviewJournalNoMagic(at_mock)
-        >>> review.directTranslate = lambda a: a
-        >>> review.getDecoratedTitle()
-        u'Plone Mag, 1 (2010/2009), 3 (reviewed_by)'
-        """
         item = getFormatter(', ', ' ', ', ')
         mag_year = getFormatter('/')(obj.officialYearOfPublication, obj.yearOfPublication)
         mag_year = mag_year and '(' + mag_year + ')' or None
@@ -315,5 +301,3 @@ class MetadataFormat(BaseMetadataFormat):
                         mapping={u"review_authors": reviewer_string}))
 
         return ' '.join((item_string, reviewer_string))
-
-

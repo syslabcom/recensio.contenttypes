@@ -16,8 +16,10 @@ from plone.app.blob.utils import openBlob
 from plone.app.testing import (
     TEST_USER_ID, TEST_USER_NAME, TEST_USER_PASSWORD, setRoles)
 from plone.testing.z2 import Browser
-
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
+from recensio.theme.interfaces import IRecensioLayer
+from zope.interface import directlyProvides
+
 
 def raising(self, info):
     import traceback
@@ -35,6 +37,9 @@ class TestStringFormatting(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        # register the browser layer
+        self.request = self.layer["request"]
+        directlyProvides(self.request, IRecensioLayer)
 
         self.get_obj_of_type = lambda meta_type:\
             self.portal.portal_catalog(
