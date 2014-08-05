@@ -4,7 +4,14 @@ Changelog
 3.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- added series and seriesVol to oaisuggestions template, refs #9813 [reinhardt]
+- use int values for allowDiscussion, fixes "ValueError: invalid literal for
+  int() with base 10: 'False'" [reinhardt]
+- added more metadata to SearchableText, refs #9472 [reinhardt]
+- added isbn to SearchableText, refs #9472 [reinhardt]
+- Fixed SearchableText. PDF text was overwritten by comment text and main text
+  was missing. Refs #9472 [reinhardt]
+- more initial content [pilz]
 
 
 3.0.5 (2013-12-09)
