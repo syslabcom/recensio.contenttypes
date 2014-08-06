@@ -243,7 +243,8 @@ class PresentationCollection(BaseReview):
         return metadata_format.getDecoratedTitle(self)
 
     def get_citation_string(self):
-        return PresentationCollectionNoMagic(self).get_citation_string()
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.get_citation_string(self)
 
     def getLicense(self):
         return PresentationCollectionNoMagic(self).getLicense()
@@ -253,8 +254,34 @@ class PresentationCollection(BaseReview):
 
 
 class PresentationCollectionNoMagic(BasePresentationNoMagic):
+    pass
 
-    def get_citation_string(real_self):
+
+atapi.registerType(PresentationCollection, PROJECTNAME)
+
+
+class MetadataFormat(BaseMetadataFormat):
+
+    def getDecoratedTitle(self, obj, lastname_first=False):
+        """ c8e875fad4406ea16ca5189e3ca0a31e
+        Christian Bunnenberg: Christmas Truce. Die Amateurfotos vom
+        Weihnachtsfrieden 1914 und ihre Karriere (präsentiert von
+        Christian Bunnenberg)
+        """
+        rezensent_string = getFormatter(' ')(
+            obj.reviewAuthors[0]["firstname"], obj.reviewAuthors[0]["lastname"])
+        if rezensent_string:
+            rezensent_string = "(%s)" % translate_message(
+                Message(u"presented_by", "recensio",
+                        mapping={u"review_authors": rezensent_string}))
+        full_citation = getFormatter(': ', ' ')
+        return full_citation(
+            obj.formatted_authors_editorial(),
+            obj.punctuated_title_and_subtitle,
+            rezensent_string,
+        )
+
+    def get_citation_string(self, obj):
         """
         NOTE: There is no differentiation between title and subtitle of
         the collection book.
@@ -293,23 +320,22 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
 
         Meier, Hans: presentation of: Meier, Hans, Geschichte des Abendlandes. Ein Abriss, in: Müller, Hans (ed.), Geschichte des Morgen- und Abendlandes. Eine Übersicht, München: Oldenbourg, 2010, www.recensio.net/##
         """
-        self = real_self.magic
         gf = getFormatter
         args = {
-            'presentation_of' : real_self.directTranslate(Message(
+            'presentation_of' : translate_message(Message(
                     u"text_presentation_of", "recensio",
                     default="presentation of:")),
-            'in'              : real_self.directTranslate(Message(
+            'in'              : translate_message(Message(
                     u"text_in", "recensio", default="in:")),
-            'page'            : real_self.directTranslate(Message(
+            'page'            : translate_message(Message(
                     u"text_pages", "recensio", default="p.")),
-            ':'               : real_self.directTranslate(Message(
+            ':'               : translate_message(Message(
                     u"text_colon", "recensio", default=":")),
-            'ed'              : real_self.directTranslate(Message(
+            'ed'              : translate_message(Message(
                     u"label_abbrev_editor","recensio", default="(ed.)")),
             }
         rezensent = getFormatter(u', ')
-        if self.title[-1] in '!?:;.,':
+        if obj.title[-1] in '!?:;.,':
             title_subtitle = getFormatter(u' ')
         else:
             title_subtitle = getFormatter(u'. ')
@@ -318,21 +344,21 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
         hrsg_company_year = getFormatter(', ')
         hrsg_book = getFormatter(', ', ', ', '%(:)s ' % args)
         hrsg = getFormatter(' %(ed)s, ' % args)
-        rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
-                                     self.reviewAuthors[0]["firstname"])
+        rezensent_string = rezensent(obj.reviewAuthors[0]["lastname"],
+                                     obj.reviewAuthors[0]["firstname"])
         authors_string = u' / '.join([getFormatter(', ')\
                                        (x['lastname'], x['firstname'])
-                                    for x in self.authors])
-        title_subtitle_string = title_subtitle(self.title, self.subtitle)
+                                    for x in obj.authors])
+        title_subtitle_string = title_subtitle(obj.title, obj.subtitle)
         item_string = item(authors_string,
                            title_subtitle_string)
         hrsg_person_string = u' / '.join([getFormatter(', ')\
                                         (x['lastname'], x['firstname'])
-                                    for x in self.editorsCollectedEdition])
-        hrsg_company_year_string = hrsg_company_year(self.publisher, \
-                                                     self.yearOfPublication)
-        hrsg_book_string = hrsg_book(self.titleCollectedEdition, \
-                                     self.placeOfPublication, \
+                                    for x in obj.editorsCollectedEdition])
+        hrsg_company_year_string = hrsg_company_year(obj.publisher, \
+                                                     obj.yearOfPublication)
+        hrsg_book_string = hrsg_book(obj.titleCollectedEdition, \
+                                     obj.placeOfPublication, \
                                         hrsg_company_year_string)
         hrsg_string = hrsg(hrsg_person_string, hrsg_book_string)
 
@@ -342,30 +368,5 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
             u', %(page)s ' % args, ' ')
         return full_citation(escape(rezensent_string),
                              escape(item_string), escape(hrsg_string),
-                             self.page_start_end_in_print,
-                             real_self.getUUIDUrl())
-
-
-atapi.registerType(PresentationCollection, PROJECTNAME)
-
-
-class MetadataFormat(BaseMetadataFormat):
-
-    def getDecoratedTitle(self, obj, lastname_first=False):
-        """ c8e875fad4406ea16ca5189e3ca0a31e
-        Christian Bunnenberg: Christmas Truce. Die Amateurfotos vom
-        Weihnachtsfrieden 1914 und ihre Karriere (präsentiert von
-        Christian Bunnenberg)
-        """
-        rezensent_string = getFormatter(' ')(
-            obj.reviewAuthors[0]["firstname"], obj.reviewAuthors[0]["lastname"])
-        if rezensent_string:
-            rezensent_string = "(%s)" % translate_message(
-                Message(u"presented_by", "recensio",
-                        mapping={u"review_authors": rezensent_string}))
-        full_citation = getFormatter(': ', ' ')
-        return full_citation(
-            obj.formatted_authors_editorial(),
-            obj.punctuated_title_and_subtitle,
-            rezensent_string,
-        )
+                             obj.page_start_end_in_print,
+                             obj.getUUIDUrl())

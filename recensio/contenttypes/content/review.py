@@ -48,7 +48,7 @@ class BaseNoMagic(object):
         self.magic = at_object
 
     def directTranslate(self, msg):
-        translate_message(msg)
+        return translate_message(msg)
 
     def getUUIDUrl(real_self):
         self = real_self.magic
@@ -464,6 +464,14 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def setCanonical_uri(self, value):
         self.setLazyUrl('canonical_uri', value)
 
+    def getUUIDUrl(self):
+        base_url = self.portal_url()
+        if base_url.startswith('http://www.'):
+            base_url = base_url.replace('http://www.', 'http://')
+        base_url += '/r/'
+        base_url += self.UID()
+        return '<a href="%s">%s</a>' % (base_url, base_url)
+        return base_url
 
 class MetadataFormat(BaseMetadataFormat):
     pass

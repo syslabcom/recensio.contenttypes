@@ -277,8 +277,8 @@ class PresentationMonograph(BaseReview):
         return metadata_format.getDecoratedTitle(self)
 
     def get_citation_string(self):
-        import pdb; pdb.set_trace()
-        return PresentationMonographNoMagic(self).get_citation_string()
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.get_citation_string(self)
 
     def getLicense(self):
         return PresentationMonographNoMagic(self).getLicense()
@@ -287,8 +287,28 @@ class PresentationMonograph(BaseReview):
         return PresentationMonographNoMagic(self).getLicenseURL()
 
 class PresentationMonographNoMagic(BasePresentationNoMagic):
+    pass
 
-    def get_citation_string(real_self):
+
+atapi.registerType(PresentationMonograph, PROJECTNAME)
+
+
+class MetadataFormat(BaseMetadataFormat):
+
+    def getDecoratedTitle(self, obj):
+        rezensent_string = getFormatter(' ')(
+            obj.reviewAuthors[0]["firstname"], obj.reviewAuthors[0]["lastname"])
+        if rezensent_string:
+            rezensent_string = "(%s)" % translate_message(
+                Message(u"presented_by", "recensio", mapping={u"review_authors": rezensent_string}))
+        full_citation = getFormatter(': ', ' ')
+        return full_citation(
+            obj.formatted_authors_editorial(),
+            obj.punctuated_title_and_subtitle,
+            rezensent_string,
+        )
+
+    def get_citation_string(self, obj):
         """
         I think the in... part does not make sense for this content type
         Either return the custom citation or the generated one
@@ -317,20 +337,19 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         Meier, Hans: presentation of: Meier, Hans, Geschichte des Abendlandes. Ein Abriss, München: Oldenbourg, 2010, in: Zeitschrift für Geschichte, 39, 3 (2008/2009), www.recensio.net/##
 
         """
-        self = real_self.magic
         args = {
-            'presentation_of' : real_self.directTranslate(Message(
+            'presentation_of' : translate_message(Message(
                     u"text_presentation_of", "recensio",
                     default="presentation of:")),
-            'in'              : real_self.directTranslate(Message(
+            'in'              : translate_message(Message(
                     u"text_in", "recensio", default="in:")),
-            'page'            : real_self.directTranslate(Message(
+            'page'            : translate_message(Message(
                     u"text_pages", "recensio", default="p.")),
-            ':'               : real_self.directTranslate(Message(
+            ':'               : translate_message(Message(
                     u"text_colon", "recensio", default=":")),
             }
         rezensent = getFormatter(u', ')
-        if self.title[-1] in '!?:;.,':
+        if obj.title[-1] in '!?:;.,':
             title_subtitle = getFormatter(u' ')
         else:
             title_subtitle = getFormatter(u'. ')
@@ -342,32 +361,12 @@ class PresentationMonographNoMagic(BasePresentationNoMagic):
         full_citation_inner = getFormatter(
             u'%(:)s %(presentation_of)s ' % args, u', ')
         rezensent_string = rezensent(
-            self.reviewAuthors[0]["lastname"],
-            self.reviewAuthors[0]["firstname"])
-        authors_string = self.formatted_authors_editorial()
-        title_subtitle_string = title_subtitle(self.title, self.subtitle)
+            obj.reviewAuthors[0]["lastname"],
+            obj.reviewAuthors[0]["firstname"])
+        authors_string = obj.formatted_authors_editorial()
+        title_subtitle_string = title_subtitle(obj.title, obj.subtitle)
         item_string = item(
             authors_string, title_subtitle_string,
-            self.placeOfPublication, self.publisher,
-            self.yearOfPublication)
-        return full_citation_inner(
-            escape(rezensent_string), escape(item_string),
-            real_self.getUUIDUrl())
-
-atapi.registerType(PresentationMonograph, PROJECTNAME)
-
-
-class MetadataFormat(BaseMetadataFormat):
-
-    def getDecoratedTitle(self, obj):
-        rezensent_string = getFormatter(' ')(
-            obj.reviewAuthors[0]["firstname"], obj.reviewAuthors[0]["lastname"])
-        if rezensent_string:
-            rezensent_string = "(%s)" % translate_message(
-                Message(u"presented_by", "recensio", mapping={u"review_authors": rezensent_string}))
-        full_citation = getFormatter(': ', ' ')
-        return full_citation(
-            obj.formatted_authors_editorial(),
-            obj.punctuated_title_and_subtitle,
-            rezensent_string,
-        )
+            obj.placeOfPublication, obj.publisher,
+            obj.yearOfPublication)
+        return full_citation_inner(escape(rezensent_string), escape(item_string), obj.getUUIDUrl())

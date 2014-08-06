@@ -186,7 +186,8 @@ class ReviewJournal(BaseReview):
         The years of the magazine article reviewing the other magazine does
         not exist.
         """
-        return ReviewJournalNoMagic(self).get_citation_string()
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.get_citation_string(self)
 
     def getDecoratedTitle(self, lastname_first=False):
         metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
@@ -200,8 +201,36 @@ class ReviewJournal(BaseReview):
 
 
 class ReviewJournalNoMagic(BaseReviewNoMagic):
+    pass
 
-    def get_citation_string(real_self):
+
+atapi.registerType(ReviewJournal, PROJECTNAME)
+
+
+class MetadataFormat(BaseMetadataFormat):
+
+    def getDecoratedTitle(self, obj, lastname_first=False):
+        item = getFormatter(', ', ' ', ', ')
+        mag_year = getFormatter('/')(obj.officialYearOfPublication, obj.yearOfPublication)
+        mag_year = mag_year and '(' + mag_year + ')' or None
+        item_string = item(
+            obj.title, obj.volumeNumber, mag_year, obj.issueNumber)
+
+        if lastname_first:
+            reviewer_string = get_formatted_names(
+                u' / ', ', ', obj.reviewAuthors, lastname_first=lastname_first)
+        else:
+            reviewer_string = get_formatted_names(
+                u' / ', ' ', obj.reviewAuthors, lastname_first=lastname_first)
+
+        if reviewer_string:
+            reviewer_string = "(%s)" % translate_message(
+                Message(u"reviewed_by", "recensio",
+                        mapping={u"review_authors": reviewer_string}))
+
+        return ' '.join((item_string, reviewer_string))
+
+    def get_citation_string(self, obj):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
@@ -234,37 +263,36 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         The years of the magazine article reviewing the other magazine does
         not exist.
         """
-        self = real_self.magic
-        if self.customCitation:
-            return scrubHTML(self.customCitation).decode('utf8')
+        if obj.customCitation:
+            return scrubHTML(obj.customCitation).decode('utf8')
 
         rev_details_formatter = getFormatter(u', ', u', ', u' ')
-        mag_year = getFormatter('/')(self.officialYearOfPublication,
-                                     self.yearOfPublication)
+        mag_year = getFormatter('/')(obj.officialYearOfPublication,
+                                     obj.yearOfPublication)
         mag_year = mag_year and '(' + mag_year + ')' or None
-        item_string = rev_details_formatter(self.title, self.volumeNumber,
-                                            self.issueNumber, mag_year)
+        item_string = rev_details_formatter(obj.title, obj.volumeNumber,
+                                            obj.issueNumber, mag_year)
 
         reference_mag = getFormatter(', ',  ', ')
-        reference_mag_string = reference_mag(self.get_publication_title(),
-                                             self.get_volume_title(),
-                                             self.get_issue_title())
+        reference_mag_string = reference_mag(obj.get_publication_title(),
+                                             obj.get_volume_title(),
+                                             obj.get_issue_title())
 
-        location = real_self.getUUIDUrl()
-        if getattr(self, "canonical_uri", False): #3102
-            location = real_self.directTranslate(
+        location = obj.getUUIDUrl()
+        if getattr(obj, "canonical_uri", False): #3102
+            location = translate_message(
                 Message(u"label_downloaded_via_recensio", "recensio"))
 
         rezensent_string = get_formatted_names(
-            u' / ', ', ', self.reviewAuthors, lastname_first = True)
+            u' / ', ', ', obj.reviewAuthors, lastname_first = True)
         args = {
-            'review_of' : real_self.directTranslate(Message(
+            'review_of' : translate_message(Message(
                     u"text_review_of", "recensio", default="review of:")),
-            'in'        : real_self.directTranslate(Message(
+            'in'        : translate_message(Message(
                     u"text_in", "recensio", default="in:")),
-            'page'      : real_self.directTranslate(Message(
+            'page'      : translate_message(Message(
                     u"text_pages", "recensio", default="p.")),
-            ':'         : real_self.directTranslate(Message(
+            ':'         : translate_message(Message(
                     u"text_colon", "recensio", default=":")),
             }
         citation_formatter = getFormatter(
@@ -272,32 +300,6 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
             % args, u', ')
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),
-            escape(reference_mag_string), self.page_start_end_in_print,
+            escape(reference_mag_string), obj.page_start_end_in_print,
             location)
         return citation_string
-
-atapi.registerType(ReviewJournal, PROJECTNAME)
-
-
-class MetadataFormat(BaseMetadataFormat):
-
-    def getDecoratedTitle(self, obj, lastname_first=False):
-        item = getFormatter(', ', ' ', ', ')
-        mag_year = getFormatter('/')(obj.officialYearOfPublication, obj.yearOfPublication)
-        mag_year = mag_year and '(' + mag_year + ')' or None
-        item_string = item(
-            obj.title, obj.volumeNumber, mag_year, obj.issueNumber)
-
-        if lastname_first:
-            reviewer_string = get_formatted_names(
-                u' / ', ', ', obj.reviewAuthors, lastname_first=lastname_first)
-        else:
-            reviewer_string = get_formatted_names(
-                u' / ', ' ', obj.reviewAuthors, lastname_first=lastname_first)
-
-        if reviewer_string:
-            reviewer_string = "(%s)" % translate_message(
-                Message(u"reviewed_by", "recensio",
-                        mapping={u"review_authors": reviewer_string}))
-
-        return ' '.join((item_string, reviewer_string))
