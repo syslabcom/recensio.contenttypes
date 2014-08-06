@@ -294,7 +294,8 @@ class PresentationOnlineResource(BaseReview):
         return metadata_format.getDecoratedTitle(self)
 
     def get_citation_string(self):
-        return PresentationOnlineResourceNoMagic(self).get_citation_string()
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.get_citation_string(self)
 
     def getLicense(self):
         return PresentationOnlineResourceNoMagic(self).getLicense()
@@ -304,48 +305,8 @@ class PresentationOnlineResource(BaseReview):
 
 
 class PresentationOnlineResourceNoMagic(BasePresentationNoMagic):
+    pass
 
-    def get_citation_string(real_self):
-        """
-        >>> from mock import Mock
-        >>> at_mock = Mock()
-        >>> at_mock.reviewAuthors = [{'firstname' : 'Manuel♥', 'lastname'  : 'Reinhard♥'}]
-        >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH♥'
-        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
-        >>> at_mock.UID = lambda :'12345'
-        >>> at_mock.uri = 'http://www.syslab.com/home♥'
-        >>> presentation = PresentationOnlineResourceNoMagic(at_mock)
-        >>> presentation.directTranslate = lambda m: m.default
-        >>> presentation.get_citation_string()
-        u'Reinhard\u2665, Manuel\u2665: presentation of: Homepage of SYSLAB.COM GmbH\u2665, http://www.syslab.com/home\u2665, <a href="http://syslab.com/r/12345">http://syslab.com/r/12345</a>'
-
-
-        Original Specification
-
-        [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Titel online resource], [URL online resource], URL recensio.
-
-        Meier, Hans: presentation of:  perspectivia.net – Publikationsplattform für die Geisteswissenschaften, www.perspectivia.net, www.recensio.net/##
-        """
-        self = real_self.magic
-        args = {
-            'presentation_of' : real_self.directTranslate(Message(
-                    u"text_presentation_of", "recensio",
-                    default="presentation of:")),
-            'in'              : real_self.directTranslate(Message(
-                    u"text_in", "recensio", default="in:")),
-            'page'            : real_self.directTranslate(Message(
-                    u"text_pages", "recensio", default="p.")),
-            ':'               : real_self.directTranslate(Message(
-                    u"text_colon", "recensio", default=":")),
-               }
-        rezensent = getFormatter(u', ')
-        item = getFormatter(u', ', u', ')
-        full_citation = getFormatter(u'%(:)s %(presentation_of)s ' % args)
-        rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
-                                     self.reviewAuthors[0]["firstname"])
-        item_string = item(escape(self.title), escape(self.uri),
-                           real_self.getUUIDUrl())
-        return full_citation(escape(rezensent_string), item_string)
 
 atapi.registerType(PresentationOnlineResource, PROJECTNAME)
 
@@ -377,3 +338,44 @@ class MetadataFormat(BaseMetadataFormat):
                         mapping={u"review_authors": rezensent_string}))
         full_citation = getFormatter(' ')
         return full_citation(obj.title.decode('utf-8'), rezensent_string)
+
+    def get_citation_string(self, obj):
+        """
+        >>> from mock import Mock
+        >>> at_mock = Mock()
+        >>> at_mock.reviewAuthors = [{'firstname' : 'Manuel♥', 'lastname'  : 'Reinhard♥'}]
+        >>> at_mock.title = 'Homepage of SYSLAB.COM GmbH♥'
+        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
+        >>> at_mock.UID = lambda :'12345'
+        >>> at_mock.uri = 'http://www.syslab.com/home♥'
+        >>> presentation = PresentationOnlineResourceNoMagic(at_mock)
+        >>> presentation.directTranslate = lambda m: m.default
+        >>> presentation.get_citation_string()
+        u'Reinhard\u2665, Manuel\u2665: presentation of: Homepage of SYSLAB.COM GmbH\u2665, http://www.syslab.com/home\u2665, <a href="http://syslab.com/r/12345">http://syslab.com/r/12345</a>'
+
+
+        Original Specification
+
+        [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Titel online resource], [URL online resource], URL recensio.
+
+        Meier, Hans: presentation of:  perspectivia.net – Publikationsplattform für die Geisteswissenschaften, www.perspectivia.net, www.recensio.net/##
+        """
+        args = {
+            'presentation_of' : translate_message(Message(
+                    u"text_presentation_of", "recensio",
+                    default="presentation of:")),
+            'in'              : translate_message(Message(
+                    u"text_in", "recensio", default="in:")),
+            'page'            : translate_message(Message(
+                    u"text_pages", "recensio", default="p.")),
+            ':'               : translate_message(Message(
+                    u"text_colon", "recensio", default=":")),
+               }
+        rezensent = getFormatter(u', ')
+        item = getFormatter(u', ', u', ')
+        full_citation = getFormatter(u'%(:)s %(presentation_of)s ' % args)
+        rezensent_string = rezensent(obj.reviewAuthors[0]["lastname"],
+                                     obj.reviewAuthors[0]["firstname"])
+        item_string = item(escape(obj.title), escape(obj.uri),
+                           obj.getUUIDUrl())
+        return full_citation(escape(rezensent_string), item_string)

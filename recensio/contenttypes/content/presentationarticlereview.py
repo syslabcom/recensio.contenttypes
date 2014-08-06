@@ -228,7 +228,8 @@ class PresentationArticleReview(BaseReview):
         return metadata_format.getDecoratedTitle(self)
 
     def get_citation_string(self):
-        return PresentationArticleReviewNoMagic(self).get_citation_string()
+        metadata_format = getMultiAdapter((self, self.REQUEST), IMetadataFormat)
+        return metadata_format.get_citation_string(self)
 
     def getLicense(self):
         return PresentationArticleReviewNoMagic(self).getLicense()
@@ -238,8 +239,33 @@ class PresentationArticleReview(BaseReview):
 
 
 class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
+    pass
 
-    def get_citation_string(real_self):
+atapi.registerType(PresentationArticleReview, PROJECTNAME)
+
+
+class MetadataFormat(BaseMetadataFormat):
+
+    def getDecoratedTitle(self, obj, lastname_first=False):
+        """ 2f962f0f0fc3ab5dd794b5430ea860c5
+        Landry Charrier: À la recherche d’une paix de
+        compromis. Kessler, Haguenin et la diplomatie secrète de
+        l’hiver 1916-1917 (presented by Landry Charrier)
+        """
+        rezensent_string = getFormatter(' ')(
+            obj.reviewAuthors[0]["firstname"], obj.reviewAuthors[0]["lastname"])
+        if rezensent_string:
+            rezensent_string = "(%s)" % translate_message(
+                Message(u"presented_by", "recensio",
+                        mapping={u"review_authors": rezensent_string}))
+        full_citation = getFormatter(': ', ' ')
+        return full_citation(
+            obj.formatted_authors_editorial(),
+            obj.punctuated_title_and_subtitle,
+            rezensent_string,
+        )
+
+    def get_citation_string(self, obj):
         """
         Either return the custom citation or the generated one
         >>> from mock import Mock
@@ -274,36 +300,34 @@ Note: gezähltes Jahr entfernt.
         Meier, Hans: presentation of: Meier, Hans, Geschichte des Abendlandes. Ein Abriss, in: Zeitschrift für Geschichte, 39, 3 (2008/2009), www.recensio.net/##
 
         """
-        self = real_self.magic
         rezensent = getFormatter(u', ')
-        if self.title[-1] in '!?:;.,':
+        if obj.title[-1] in '!?:;.,':
             title_subtitle = getFormatter(u' ')
         else:
             title_subtitle = getFormatter(u'. ')
         item = getFormatter(u', ')
         mag_number = getFormatter(u', ', u', ')
-        rezensent_string = rezensent(self.reviewAuthors[0]["lastname"],
-                                     self.reviewAuthors[0]["firstname"])
-        authors_string = u' / '.join([getFormatter(', ')(x['lastname'],
-                                                         x['firstname'])
-                                      for x in self.authors])
-        title_subtitle_string = title_subtitle(self.title, self.subtitle)
+        rezensent_string = rezensent(
+            obj.reviewAuthors[0]["lastname"], obj.reviewAuthors[0]["firstname"])
+        authors_string = u' / '.join([
+            getFormatter(', ')(x['lastname'], x['firstname']) for x in obj.authors])
+        title_subtitle_string = title_subtitle(obj.title, obj.subtitle)
         item_string = item(authors_string, title_subtitle_string)
-        mag_year_string = self.yearOfPublication.decode('utf-8')
+        mag_year_string = obj.yearOfPublication.decode('utf-8')
         mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
             or None
         mag_number = mag_number(
-            self.titleJournal, self.volumeNumber, self.issueNumber)
+            obj.titleJournal, obj.volumeNumber, obj.issueNumber)
 
         args = {
-            'presentation_of' : real_self.directTranslate(Message(
+            'presentation_of' : translate_message(Message(
                     u"text_presentation_of", "recensio",
                     default="presentation of:")),
-            'in'              : real_self.directTranslate(Message(
+            'in'              : translate_message(Message(
                     u"text_in", "recensio", default="in:")),
-            'page'            : real_self.directTranslate(Message(
+            'page'            : translate_message(Message(
                     u"text_pages", "recensio", default="p.")),
-            ':'               : real_self.directTranslate(Message(
+            ':'               : translate_message(Message(
                     u"text_colon", "recensio", default=":")),
             }
         full_citation_inner = getFormatter(
@@ -312,28 +336,4 @@ Note: gezähltes Jahr entfernt.
         return full_citation_inner(
             escape(rezensent_string), escape(item_string),
             escape(mag_number),
-            self.page_start_end_in_print, real_self.getUUIDUrl())
-
-atapi.registerType(PresentationArticleReview, PROJECTNAME)
-
-
-class MetadataFormat(BaseMetadataFormat):
-
-    def getDecoratedTitle(self, obj, lastname_first=False):
-        """ 2f962f0f0fc3ab5dd794b5430ea860c5
-        Landry Charrier: À la recherche d’une paix de
-        compromis. Kessler, Haguenin et la diplomatie secrète de
-        l’hiver 1916-1917 (presented by Landry Charrier)
-        """
-        rezensent_string = getFormatter(' ')(
-            obj.reviewAuthors[0]["firstname"], obj.reviewAuthors[0]["lastname"])
-        if rezensent_string:
-            rezensent_string = "(%s)" % translate_message(
-                Message(u"presented_by", "recensio",
-                        mapping={u"review_authors": rezensent_string}))
-        full_citation = getFormatter(': ', ' ')
-        return full_citation(
-            obj.formatted_authors_editorial(),
-            obj.punctuated_title_and_subtitle,
-            rezensent_string,
-        )
+            obj.page_start_end_in_print, obj.getUUIDUrl())
