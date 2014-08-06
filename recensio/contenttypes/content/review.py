@@ -48,7 +48,7 @@ class BaseNoMagic(object):
         self.magic = at_object
 
     def directTranslate(self, msg):
-        translate_message(msg)
+        return translate_message(msg)
 
     def getUUIDUrl(real_self):
         self = real_self.magic
