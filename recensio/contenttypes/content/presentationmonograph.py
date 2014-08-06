@@ -277,7 +277,6 @@ class PresentationMonograph(BaseReview):
         return metadata_format.getDecoratedTitle(self)
 
     def get_citation_string(self):
-        import pdb; pdb.set_trace()
         return PresentationMonographNoMagic(self).get_citation_string()
 
     def getLicense(self):
