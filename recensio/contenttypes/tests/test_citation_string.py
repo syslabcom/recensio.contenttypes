@@ -9,6 +9,7 @@ from zope.interface import directlyProvides
 import unittest2 as unittest
 
 
+@unittest.skip("Obsolete, covered by TestMetadataFormat")
 class TestCitationString(unittest.TestCase):
     """
     """

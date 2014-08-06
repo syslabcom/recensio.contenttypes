@@ -134,7 +134,7 @@ class TestMetadataFormat(unittest.TestCase):
         )
         self.assertEqual(correct_title, generated_title)
 
-    def test_review_citation_string_title(self):
+    def test_review_monograph_citation_string_title(self):
         item_id = "rm1"
         self.issue.invokeFactory(
             'Review Monograph',
