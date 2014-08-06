@@ -4,6 +4,7 @@ from recensio.contenttypes.content import reviewmonograph, reviewjournal,\
     presentationarticlereview, presentationcollection, presentationmonograph,\
     presentationonlineresource
 
+@unittest.skip("Obsolete, see TestMetadataFormat")
 def test_suite():
     suite = doctest.DocTestSuite(reviewjournal)
     suite.addTests(doctest.DocTestSuite(reviewmonograph))
