@@ -8,14 +8,20 @@ from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
 from recensio.contenttypes.content import container
 
-# -*- Message Factory Imported Here -*-
+from recensio.contenttypes import contenttypesMessageFactory as _
 
 from recensio.contenttypes.interfaces import IVolume
 from recensio.contenttypes.config import PROJECTNAME
 
 VolumeSchema = folder.ATFolderSchema.copy() + atapi.Schema((
 
-    # -*- Your Archetypes field definitions here ... -*-
+    atapi.StringField(
+        'yearOfPublication',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Year of publication"),
+        ),
+    ),
 
 ))
 
