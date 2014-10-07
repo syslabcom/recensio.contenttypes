@@ -19,7 +19,8 @@ VolumeSchema = folder.ATFolderSchema.copy() + atapi.Schema((
         'yearOfPublication',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
-            label=_(u"Year of publication"),
+            label=_(u"label_metadata_official_year_of_publication",
+                    default=u"Official year of publication"),
         ),
     ),
 
