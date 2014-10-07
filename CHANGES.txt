@@ -4,7 +4,7 @@ Changelog
 3.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- added field yearOfPublication to Volume type, refs #10554 [reinhardt]
 
 
 3.1 (2014-08-05)
