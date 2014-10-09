@@ -1,4 +1,5 @@
 from DateTime import DateTime
+from cgi import escape
 from os import fstat
 from webdav.common import rfc1123_date
 import recensio.theme
@@ -59,7 +60,7 @@ class View(BrowserView):
             rows_ul = "<ul class='rows_list'>"
             for row in rows:
                 rows_ul += "<li>%s</li>" %(
-                    ", ".join([row[key] for key in keys if key in row and row[key]])
+                    ", ".join([escape(row[key]) for key in keys if key in row and row[key]])
                     )
             rows_ul += "</ul>"
             return rows_ul
