@@ -43,6 +43,15 @@ log = getLogger('recensio.contenttypes.setuphandlers')
 mdfile = os.path.join(os.path.dirname(__file__), 'profiles',
                       'exampledata', 'metadata.xml')
 
+ALL_TYPES = [
+    PresentationArticleReview,
+    PresentationOnlineResource,
+    ReviewMonograph,
+    PresentationMonograph,
+    PresentationCollection,
+    ReviewJournal,
+]
+
 
 def addOneItem(context, type, data):
     '''Add an item and fire the ObjectInitializedEvent
@@ -65,13 +74,12 @@ def addOneItem(context, type, data):
     return obj
 
 
-def add_number_of_each_review_type(context, number_of_each):
+def add_number_of_each_review_type(portal, number_of_each,
+                                   rez_classes=ALL_TYPES):
     '''Add a particular number of each Review/Presentation type
 
     This is useful for testing
     '''
-
-    portal = context.getSite()
 
     # Prepare values for the Review/Presentation fields
 
@@ -236,14 +244,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                              title='Sample Reviews')
     sample_reviews = portal.get('sample-reviews')
 
-    for rez_class in [
-        PresentationArticleReview,
-        PresentationOnlineResource,
-        ReviewMonograph,
-        PresentationMonograph,
-        PresentationCollection,
-        ReviewJournal,
-        ]:
+    for rez_class in rez_classes:
 
         # Fill in all fields with dummy content data = test_data() for
         # field in rez_class.ordered_fields: try: data[field] =
@@ -296,10 +297,10 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
 
         for i in range(number_of_each):
             data = test_data()
-            if i / (number_of_each / 3) == 1:
+            if i / 3 == 1:
                 data['languageReviewedText'] = 'fr'
                 data['languageReview'] = 'en'
-            elif i / (number_of_each / 3) == 2:
+            elif i / 3 == 2:
                 data['languageReviewedText'] = 'de'
                 data['languageReview'] = 'fr'
             data['shortnameJournal'] = 'Zeitschrift 1'
@@ -315,7 +316,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
         rezensionen.invokeFactory('Folder', 'zeitschriften')
     zeitschriften = rezensionen.zeitschriften
     if 'sehepunkte' not in zeitschriften.objectIds():
-        zeitschriften.invokeFactory('Presentation', 'sehepunkte')
+        zeitschriften.invokeFactory('Publication', 'sehepunkte')
     sehepunkte = zeitschriften.sehepunkte
     sehepunkte.invokeFactory('Volume', 'vol1')
     sp_vol1 = sehepunkte.vol1
@@ -325,7 +326,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
     sp_issue1.invokeFactory('Review Journal', 'sp-rj', **test_data())
 
     if 'francia-recensio' not in zeitschriften.objectIds():
-        zeitschriften.invokeFactory('Presentation', 'francia-recensio')
+        zeitschriften.invokeFactory('Publication', 'francia-recensio')
     francia_recensio = zeitschriften['francia-recensio']
     francia_recensio.invokeFactory('Volume', 'vol1')
     fr_vol1 = francia_recensio.vol1
@@ -382,14 +383,16 @@ def recensio_example_content_all(context):
 
 @guard(['exampledata'])
 def addExampleContent(context):
-    add_number_of_each_review_type(context, 10)
+    portal = context.getSite()
+    add_number_of_each_review_type(portal, 10)
 
 
 @guard(['exampledata'])
 def addOneOfEachReviewType(context):
     '''TODO: remove this? It isn\'t being used anywhere'''
 
-    add_number_of_each_review_type(context, 1)
+    portal = context.getSite()
+    add_number_of_each_review_type(portal, 1)
 
 
 @guard(['default'])
