@@ -1,5 +1,4 @@
 import unittest2 as unittest
-from plone.app.testing import applyProfile
 from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing.interfaces import TEST_USER_NAME
@@ -9,7 +8,6 @@ from recensio.contenttypes.setuphandlers import add_number_of_each_review_type
 from recensio.contenttypes.content.reviewjournal import ReviewJournal
 from recensio.contenttypes.content.reviewmonograph import ReviewMonograph
 from recensio.policy.tests.layer import RECENSIO_BARE_INTEGRATION_TESTING
-from recensio.policy.tests.layer import RECENSIO_FUNCTIONAL_TESTING
 
 
 class TestDOI(unittest.TestCase):
@@ -39,7 +37,6 @@ class TestDOI(unittest.TestCase):
 
     def test_autogenerate_doi_field(self):
         intids = getUtility(IIntIds)
-        intids.register(self.review_a0)
         self.assertEqual(
             self.review_a0.getDoi(),
             '10.15463/rec.{0}'.format(intids.getId(self.review_a0)))
