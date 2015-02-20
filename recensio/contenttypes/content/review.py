@@ -11,8 +11,10 @@ import logging
 from ZODB.POSException import ConflictError
 from ZODB.blob import Blob
 from zope.app.component.hooks import getSite
+from zope.component import getUtility
 from zope.i18n import translate
 from zope.interface import implements
+from zope.intid.interfaces import IIntIds
 
 from plone.app.blob.utils import openBlob
 from plone.app.discussion.interfaces import IConversation
@@ -524,3 +526,10 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def setCanonical_uri(self, value):
         self.setLazyUrl('canonical_uri', value)
 
+    def getDoi(self):
+        if self.doi:
+            return self.doi
+        else:
+            intids = getUtility(IIntIds)
+            obj_id = intids.register(self)
+            return '10.15463/rec.{0}'.format(obj_id)

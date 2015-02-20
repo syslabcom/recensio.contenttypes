@@ -66,6 +66,16 @@
      handler=".setuphandlers.v2to3"
         />
 
+  <genericsetup:upgradeStep
+     sortkey="4"
+     source="1003"
+     destination="1004"
+     title="Activate intids"
+     description="Install plone.app.intid for use with DOI generation"
+     profile="recensio.contenttypes:default"
+     handler=".setuphandlers.v3to4"
+        />
+
 
   <!-- if a Review or Presentation has been edited or updated, update
        the pdf version of it if necessary -->

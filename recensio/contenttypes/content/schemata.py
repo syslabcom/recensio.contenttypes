@@ -304,6 +304,22 @@ ReviewSchema = atapi.Schema((
             rows=3,
             ),
         ),
+    atapi.StringField(
+        'doi',
+        accessor='getDoi',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(
+                u"label_doi",
+                default=(u"DOI")
+            ),
+            description=_(
+                u"description_doi",
+                default=(u"Digital Object Identifier"),
+            ),
+        ),
+    ),
     ))
 
 PresentationSchema = atapi.Schema((

@@ -63,6 +63,7 @@ class ReviewJournal(BaseReview):
     subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
     doc = atapi.ATFieldProperty('doc')
+    doi = atapi.ATFieldProperty('doi')
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
     uri = atapi.ATFieldProperty('uri')

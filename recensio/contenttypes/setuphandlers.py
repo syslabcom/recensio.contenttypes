@@ -9,11 +9,14 @@ from Testing import makerequest
 from zope.app.component.hooks import getSite
 from zope.component import createObject
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.event import notify
 from zope.publisher.browser import TestRequest
 from DateTime import DateTime
 
+from collective.solr.interfaces import ISolrConnectionConfig
 from Products.Archetypes.event import ObjectInitializedEvent
+from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.utils import getToolByName
 from plone.app.discussion.interfaces import IConversation
 from plone.app.portlets.utils import assignment_mapping_from_key
@@ -503,3 +506,22 @@ def v2to3(context):
     catalog = getToolByName(context, 'portal_catalog')
     for index in ['commentators', 'authors']:
         catalog.manage_reindexIndex(index)
+
+
+def v3to4(context):
+    # We temporarily set solr's max_results to the number of total objects
+    # because plone.app.intid does an unbounded search with no b_size. This
+    # works around this error:
+    # AttributeError: 'NoneType' object has no attribute 'getPath'
+    catalog = getToolByName(context, 'portal_catalog')
+    query = {'object_provides': IContentish.__identifier__,
+             'Language': 'all',
+             'b_size': 0}
+    num_objects = len(catalog(query))
+    solrconf = getUtility(ISolrConnectionConfig)
+    max_results = solrconf.max_results
+    solrconf.max_results = num_objects
+
+    context.runAllImportStepsFromProfile('profile-plone.app.intid:default')
+
+    solrconf.max_results = max_results

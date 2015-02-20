@@ -58,6 +58,7 @@ class ReviewMonograph(BaseReview):
     subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
     doc = atapi.ATFieldProperty('doc')
+    doi = atapi.ATFieldProperty('doi')
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
     canonical_uri = atapi.ATFieldProperty('canonical_uri')
