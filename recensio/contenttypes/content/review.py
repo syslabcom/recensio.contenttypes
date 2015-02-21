@@ -18,6 +18,7 @@ from zope.intid.interfaces import IIntIds
 
 from plone.app.blob.utils import openBlob
 from plone.app.discussion.interfaces import IConversation
+from plone.registry.interfaces import IRegistry
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
 from Products.Archetypes import atapi
@@ -31,6 +32,7 @@ from recensio.contenttypes.helperutilities import (
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
 from recensio.imports.pdf_cut import cutPDF
 from recensio.policy.indexer import isbn
+from recensio.policy.interfaces import IRecensioSettings
 
 from recensio.theme.browser.views import (
     listRecensioSupportedLanguages, listAvailableContentLanguages,
@@ -530,6 +532,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         if self.doi:
             return self.doi
         else:
+            registry = getUtility(IRegistry)
+            settings = registry.forInterface(IRecensioSettings)
+            prefix = settings.doi_prefix
             intids = getUtility(IIntIds)
             obj_id = intids.register(self)
-            return '10.15463/rec.{0}'.format(obj_id)
+            return '{0}{1}'.format(prefix, obj_id)
