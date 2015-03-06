@@ -191,14 +191,6 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             if size > 0:
                 pdf["size"] = size
                 pdf["blob"] = self.pdf.blob
-        if size == 0 and hasattr(self, "generatedPdf"):
-            generated_pdf = self.generatedPdf
-            pdf_blob = openBlob(generated_pdf)
-            size = fstat(pdf_blob.fileno()).st_size
-            pdf_blob.close()
-            if size > 0:
-                pdf["size"] = size
-                pdf["blob"] = generated_pdf
         if pdf == {}:
             return None
         else:

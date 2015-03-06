@@ -65,7 +65,8 @@
 
         <a rel="contactSheet" id="preview-image" href="#"
            tal:attributes="href string:${here/absolute_url}/@@pageviewer; class string:iframe"
-           tal:define="no_pages context/get_no_pages">
+           tal:define="no_pages context/get_no_pages"
+           tal:condition="no_pages">
           <img src="get_page_image"
                tal:attributes="src view/get_preview_img_url"/>
         </a>
