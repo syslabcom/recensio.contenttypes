@@ -44,9 +44,9 @@ def get_formatted_names(full_name_separator, name_part_separator,
     if lastname_first:
         name_part1 = "lastname"
         name_part2 = "firstname"
-    return full_name_separator.join(
+    return escape(full_name_separator.join(
         [getFormatter(name_part_separator)(x[name_part1], x[name_part2])
-         for x in names])
+         for x in names]))
 
 
 class BaseNoMagic(object):
@@ -507,7 +507,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         if result == "" and authors_str != "":
             result = authors_str
 
-        return result
+        return escape(result)
 
     def setLazyUrl(self, field, value):
         if isinstance(value, basestring) and value and \
