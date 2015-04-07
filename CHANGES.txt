@@ -4,7 +4,7 @@ Changelog
 3.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- escape authors/editors/reviewers in review title, refs #10782 [reinhardt]
 
 
 3.1.1 (2014-10-07)
