@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1.2 (unreleased)
+3.1.2 (2015-04-07)
 ------------------
 
 - escape authors/editors/reviewers in review title, refs #10782 [reinhardt]
