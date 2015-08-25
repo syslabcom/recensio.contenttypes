@@ -307,7 +307,6 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
                 data['languageReview'] = 'fr'
             data['shortnameJournal'] = 'Zeitschrift 1'
             data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
-            data['canonical_uri'] = u'http://example.com/reviews/' + str(i)
             obj = addOneItem(container, rez_class, data)
 
     # Create sample sehepunkte and francia reviews
