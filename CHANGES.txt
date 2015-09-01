@@ -1,10 +1,11 @@
 Changelog
 =========
 
-3.1.3 (unreleased)
+3.1.3 (2015-09-01)
 ------------------
 
-- Nothing changed yet.
+- render the new region_values_bsb in the oaisuggestions, refs #10622
+  [reinhardt]
 
 
 3.1.2 (2015-04-07)
