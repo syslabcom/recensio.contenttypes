@@ -1,5 +1,6 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
+   xmlns:cmf="http://namespaces.zope.org/cmf"
    xmlns:five="http://namespaces.zope.org/five"
    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
    xmlns:i18n="http://namespaces.zope.org/i18n"
@@ -11,6 +12,8 @@
   <include package=".content" />
   <include package=".portlets" />
   <include package="archetypes.schemaextender" />
+
+  <cmf:registerDirectory name="recensio_contenttypes" recursive="True"/>
 
   <genericsetup:registerProfile
      name="default"
@@ -74,6 +77,16 @@
      description="Install plone.app.intid for use with DOI generation"
      profile="recensio.contenttypes:default"
      handler=".setuphandlers.v3to4"
+        />
+
+  <genericsetup:upgradeStep
+     sortkey="5"
+     source="1004"
+     destination="1005"
+     title="Activate skin"
+     description="Activate skins folder"
+     profile="recensio.contenttypes:default"
+     handler=".setuphandlers.v4to5"
         />
 
 

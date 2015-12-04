@@ -528,13 +528,10 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def setCanonical_uri(self, value):
         self.setLazyUrl('canonical_uri', value)
 
-    def getDoi(self):
-        if self.doi:
-            return self.doi
-        else:
-            registry = getUtility(IRegistry)
-            settings = registry.forInterface(IRecensioSettings)
-            prefix = settings.doi_prefix
-            intids = getUtility(IIntIds)
-            obj_id = intids.register(self)
-            return '{0}{1}'.format(prefix, obj_id)
+    def generateDoi(self):
+        registry = getUtility(IRegistry)
+        settings = registry.forInterface(IRecensioSettings)
+        prefix = settings.doi_prefix
+        intids = getUtility(IIntIds)
+        obj_id = intids.register(self)
+        return '{0}{1}'.format(prefix, obj_id)

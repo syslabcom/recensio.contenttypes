@@ -525,3 +525,7 @@ def v3to4(context):
     context.runAllImportStepsFromProfile('profile-plone.app.intid:default')
 
     solrconf.max_results = max_results
+
+def v4to5(context):
+    context.runImportStepFromProfile('profile-recensio.contenttypes:default',
+                                     'skins')

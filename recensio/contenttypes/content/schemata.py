@@ -26,6 +26,7 @@ from zope.interface import implements
 from zope.component import adapts
 
 from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.browser.widgets import StringFallbackWidget
 from recensio.contenttypes.interfaces.publication import IPublication
 from recensio.theme.interfaces import IRecensioLayer
 
@@ -306,10 +307,10 @@ ReviewSchema = atapi.Schema((
         ),
     atapi.StringField(
         'doi',
-        accessor='getDoi',
+        default_method="generateDoi",
         schemata="review",
         storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
+        widget=StringFallbackWidget(
             label=_(
                 u"label_doi",
                 default=(u"DOI")
@@ -317,6 +318,10 @@ ReviewSchema = atapi.Schema((
             description=_(
                 u"description_doi",
                 default=(u"Digital Object Identifier"),
+            ),
+            label_fallback_value=_(
+                u"label_doi_fallback",
+                default=(u"Automatisch generierter Wert"),
             ),
         ),
     ),
