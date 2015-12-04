@@ -201,6 +201,8 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
             'volume': '2',
             'pageStart': '2',
             'pageEnd': '3',
+            'pageStartOfReviewInJournal': '2',
+            'pageEndOfReviewInJournal': '3',
             'pdf': pdf_obj,
             'languageReviewedText': 'en',
             'languageReview': 'de',
