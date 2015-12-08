@@ -75,6 +75,11 @@
                   i18n:translate="label_jump_to_add_comment">Kommentieren</button>
         </p>
         <p>
+          <form action="dara_update" method="POST" tal:attributes="action string:${context/absolute_url}/dara_update">
+            <button value="Dara Update" type="submit">Dara Update</button>
+          </form>
+        </p>
+        <p>
           <a tal:condition="python:getattr(context, 'tableOfContents', None)" id="toctrigger" href="#reviewtoc" i18n:translate="show_reviewtoc_trigger">Inhaltsverzeichnis anzeigen</a>
         </p>
         <div style="display:none"><pre id="reviewtoc" tal:condition="python:hasattr(context, 'tableOfContents')" tal:content="structure context/tableOfContents" /></div>
