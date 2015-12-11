@@ -18,6 +18,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.content.review import get_formatted_names
+from recensio.contenttypes.interfaces import IParentGetter
 
 class View(BrowserView):
     """Moderation View
@@ -282,6 +283,11 @@ class View(BrowserView):
     def do_visit_canonical_uri(self):
         url = getattr(self.context, "canonical_uri", "")
         return "www.perspectivia.net/content/publikationen/francia" in url
+
+    def isDoiRegistrationActive(self):
+        parent_getter = IParentGetter(self.context)
+        publication = parent_getter.get_parent_object_of_type('Publication')
+        return publication.isDoiRegistrationActive()
 
     def __call__(self):
         return self.template()

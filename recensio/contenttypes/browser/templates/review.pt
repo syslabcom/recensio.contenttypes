@@ -74,7 +74,7 @@
                   value="Kommentieren"
                   i18n:translate="label_jump_to_add_comment">Kommentieren</button>
         </p>
-        <p>
+        <p tal:condition="view/isDoiRegistrationActive">
           <form action="dara_update" method="POST" tal:attributes="action string:${context/absolute_url}/dara_update">
             <button value="Dara Update" type="submit">Dara Update</button>
           </form>
