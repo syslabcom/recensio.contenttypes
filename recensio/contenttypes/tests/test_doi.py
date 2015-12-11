@@ -38,5 +38,5 @@ class TestDOI(unittest.TestCase):
     def test_autogenerate_doi_field(self):
         intids = getUtility(IIntIds)
         self.assertEqual(
-            self.review_a0.getDoi(),
+            self.review_a0.generateDoi(),
             '10.15463/rec.{0}'.format(intids.getId(self.review_a0)))
