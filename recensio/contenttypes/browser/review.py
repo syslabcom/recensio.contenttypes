@@ -1,3 +1,4 @@
+from AccessControl.SecurityManagement import getSecurityManager
 from DateTime import DateTime
 from cgi import escape
 from os import fstat
@@ -284,10 +285,11 @@ class View(BrowserView):
         url = getattr(self.context, "canonical_uri", "")
         return "www.perspectivia.net/content/publikationen/francia" in url
 
-    def isDoiRegistrationActive(self):
-        parent_getter = IParentGetter(self.context)
-        publication = parent_getter.get_parent_object_of_type('Publication')
-        return publication.isDoiRegistrationActive()
+    def show_dara_update(self):
+        sm = getSecurityManager()
+        if not sm.checkPermission('Manage portal', self.context):
+            return False
+        return self.context.isDoiRegistrationActive()
 
     def __call__(self):
         return self.template()
