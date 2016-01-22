@@ -157,7 +157,7 @@ class ReviewMonograph(BaseReview):
         "editorial", "title", "subtitle", "yearOfPublication",
         "placeOfPublication", "publisher", "series", "seriesVol",
         "pages", "isbn", "urn", "ddcSubject", "ddcTime", "ddcPlace",
-        "subject", "canonical_uri", "metadata_recensioID", "idBvb"]
+        "subject", "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
 
     def editorTypes(self):
         return editorTypes()

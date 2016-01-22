@@ -317,11 +317,12 @@ ReviewSchema = atapi.Schema((
             ),
             description=_(
                 u"description_doi",
-                default=(u"Digital Object Identifier"),
+                default=(u"Digital Object Identifier. Leave empty to use the "
+                         "automatically generated value."),
             ),
             label_fallback_value=_(
                 u"label_doi_fallback",
-                default=(u"Automatisch generierter Wert"),
+                default=(u"Automatically generated value"),
             ),
         ),
     ),

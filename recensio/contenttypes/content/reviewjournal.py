@@ -155,7 +155,7 @@ class ReviewJournal(BaseReview):
         "volumeNumber", "issueNumber",
         "placeOfPublication", "publisher", "issn", "urn",
         "ddcSubject", "ddcTime", "ddcPlace", "subject",
-        "canonical_uri", "metadata_recensioID", "idBvb"]
+        "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
 
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""
