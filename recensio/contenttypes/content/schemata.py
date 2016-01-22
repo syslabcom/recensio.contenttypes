@@ -8,6 +8,7 @@ from archetypes.schemaextender.field import ExtensionField
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaExtender
 
+from AccessControl import ClassSecurityInfo
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
 from Products.Archetypes import atapi
@@ -227,6 +228,15 @@ class characterLimit():
                 )
 
 
+class ForceDefaulStringField(atapi.StringField):
+    security = ClassSecurityInfo()
+
+    security.declarePrivate('get')
+    def get(self, instance, **kwargs):
+        value = super(ForceDefaulStringField, self).get(instance, **kwargs)
+        return value or self.getDefault(instance)
+
+
 CoverPictureSchema = atapi.Schema((
     ImageField(
         'coverPicture',
@@ -305,7 +315,7 @@ ReviewSchema = atapi.Schema((
             rows=3,
             ),
         ),
-    atapi.StringField(
+    ForceDefaulStringField(
         'doi',
         default_method="generateDoi",
         schemata="review",
