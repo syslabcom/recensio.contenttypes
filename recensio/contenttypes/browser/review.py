@@ -185,6 +185,11 @@ class View(BrowserView):
                     label = self.get_label(fields, field, context.meta_type)
                     value = ('<a href="%s">%s</a>'
                              % (url, url))
+            elif field == 'doi':
+                doi = context.getDoi()
+                label = self.get_label(fields, field, context.meta_type)
+                value = ('<a rel="doi" href="http://dx.doi.org/%s">%s</a>'
+                         % (doi, doi))
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
