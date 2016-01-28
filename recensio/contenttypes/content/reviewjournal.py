@@ -63,6 +63,7 @@ class ReviewJournal(BaseReview):
     subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
     doc = atapi.ATFieldProperty('doc')
+    doi = atapi.ATFieldProperty('doi')
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
     uri = atapi.ATFieldProperty('uri')
@@ -154,7 +155,7 @@ class ReviewJournal(BaseReview):
         "volumeNumber", "issueNumber",
         "placeOfPublication", "publisher", "issn", "urn",
         "ddcSubject", "ddcTime", "ddcPlace", "subject",
-        "canonical_uri", "metadata_recensioID", "idBvb"]
+        "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
 
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""
