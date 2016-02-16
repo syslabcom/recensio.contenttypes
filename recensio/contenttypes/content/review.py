@@ -28,7 +28,7 @@ from Products.CMFPlone.utils import safe_unicode
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.helperutilities import (
-    RunSubprocess, SimpleZpt, SubprocessException)
+    RunSubprocess, SimpleZpt, SimpleSubprocess, SubprocessException)
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
 from recensio.imports.pdf_cut import cutPDF
 from recensio.policy.indexer import isbn
@@ -166,17 +166,30 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                             tmp_input.write(data)
                             tmp_input.flush()
                             try:
-                                pass
-    #                            SimpleSubprocess('/usr/bin/tidy', '-o', tmp_output.name, tmp_input.name, exitcodes=[0,1])
-    #                            tmp_output.seek(0)
-    #                            data = tmp_output.read()
+                                SimpleSubprocess(
+                                    '/usr/bin/tidy',
+                                    '-o',
+                                    tmp_output.name,
+                                    tmp_input.name,
+                                    exitcodes=[0, 1],
+                                )
+                                tmp_output.seek(0)
+                                data = tmp_output.read()
                             except RuntimeError:
-                                log.error("Tidy was unable to tidy the html for %s", self.absolute_url(), exc_info=True)
+                                log.error(
+                                    "Tidy was unable to tidy the html for %s",
+                                    self.absolute_url(),
+                                    exc_info=True,
+                                )
                         create_pdf.create_tmp_input(suffix=".pdf", data=data)
                     try:
                         create_pdf.run()
                     except RuntimeError:
-                        log.error("Abiword was unable to generate a pdf for %s and created an error pdf", self.absolute_url(), exc_info=True)
+                        log.error(
+                            "Abiword was unable to generate a pdf for %s and created an error pdf",
+                            self.absolute_url(),
+                            exc_info=True,
+                        )
                         create_pdf.create_tmp_input(suffix=".pdf", data="Could not create PDF")
                         create_pdf.run()
 
