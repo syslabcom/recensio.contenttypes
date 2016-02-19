@@ -18,20 +18,6 @@ PublicationSchema = folder.ATFolderSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
 
-    atapi.BooleanField(
-        'doiRegistrationActive',
-        accessor='isDoiRegistrationActive',
-        storage=atapi.AnnotationStorage(),
-        default=True,
-        widget=atapi.BooleanWidget(
-            label=_(u"Activate DOI registration"),
-            description=_(
-                u'description_activate_doi_registration',
-                default=(u"Activates the registration of DOIs at da|ra"),
-            ),
-        ),
-    ),
-
 ))
 
 # Set storage on fields copied from ATFolderSchema, making sure
@@ -58,7 +44,5 @@ class Publication(container.Container):
     description = atapi.ATFieldProperty('description')
 
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
-
-    doiRegistrationActive = atapi.ATFieldProperty('doiRegistrationActive')
 
 atapi.registerType(Publication, PROJECTNAME)

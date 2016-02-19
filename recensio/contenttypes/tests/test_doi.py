@@ -22,14 +22,15 @@ class TestDOI(unittest.TestCase):
             self.portal, 1, rez_classes=[ReviewMonograph, ReviewJournal])
 
         self.newspapera = self.portal['sample-reviews']['newspapera']
-        issue_2_a = self.newspapera['summer']['issue-2']
-        self.review_a0 = issue_2_a.objectValues()[0]
-        self.review_a1 = issue_2_a.objectValues()[1]
+        self.issue_2_a = self.newspapera['summer']['issue-2']
+        self.review_a0 = self.issue_2_a.objectValues()[0]
+        self.review_a1 = self.issue_2_a.objectValues()[1]
 
         login(self.portal, TEST_USER_NAME)
 
     def test_doi_export_active_by_default(self):
-        self.assertTrue(self.newspapera.isDoiRegistrationActive())
+        self.assertTrue(self.newspapera['summer'].isDoiRegistrationActive())
+        self.assertTrue(self.issue_2_a.isDoiRegistrationActive())
 
     def test_set_doi_field(self):
         self.review_a0.setDoi('custom/doi.12345')
