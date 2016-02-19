@@ -25,7 +25,7 @@
       <metal:use use-macro="field_macro | context/widgets/field/macros/edit">
         <tal:body metal:fill-slot="widget_body">
         <div class="generated-doi">
-            <label class="" tal:content="widget/label_fallback_value">Automatisch generierter Wert</label>
+            <label class="fallback" tal:content="widget/label_fallback_value">Automatisch generierter Wert</label>
             <input type="text" readonly="1" name="" id="" value="10.15463/rec.xxxxxxx" size="30"
                    tal:attributes="name python:fieldName + '_fallback';
                                    id python:fieldName + '_fallback';
