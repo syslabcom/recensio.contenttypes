@@ -6,7 +6,7 @@ import os
 
 from OFS.Image import File
 from Testing import makerequest
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 from zope.component import createObject
 from zope.component import getMultiAdapter
 from zope.component import getUtility

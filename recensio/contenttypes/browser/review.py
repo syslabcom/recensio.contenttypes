@@ -5,7 +5,7 @@ from os import fstat
 from webdav.common import rfc1123_date
 import recensio.theme
 from ZODB.blob import Blob
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 from ZTUtils import make_query
 
 from plone.app.blob.download import handleRequestRange

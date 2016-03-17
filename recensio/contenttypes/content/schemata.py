@@ -21,7 +21,7 @@ from Products.validation.interfaces.IValidator import IValidator
 from Products.validation import validation
 from plone.app.blob.field import BlobField
 from plone.app.blob.field import ImageField
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implements
 from zope.component import adapts
