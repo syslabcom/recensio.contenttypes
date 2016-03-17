@@ -294,7 +294,10 @@ class View(BrowserView):
         sm = getSecurityManager()
         if not sm.checkPermission('Manage portal', self.context):
             return False
-        return self.context.isDoiRegistrationActive()
+        try:
+            return self.context.isDoiRegistrationActive()
+        except AttributeError:
+            return False
 
     def __call__(self):
         return self.template()
