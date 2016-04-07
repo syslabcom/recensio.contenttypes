@@ -186,10 +186,20 @@ class View(BrowserView):
                     value = ('<a href="%s">%s</a>'
                              % (url, url))
             elif field == 'doi':
-                doi = context.getDoi()
-                label = self.get_label(fields, field, context.meta_type)
-                value = ('<a rel="doi" href="http://dx.doi.org/%s">%s</a>'
-                         % (doi, doi))
+                try:
+                    doi_active = self.context.isDoiRegistrationActive()
+                except AttributeError:
+                    doi_active = False
+                # If DOI registration is not active and the object has only the
+                # auto-generated DOI, i.e. the user has not supplied their own,
+                # then we don't want to show the DOI. See #12126-86
+                if not doi_active and context.getDoi() == context.generateDoi():
+                    value = False
+                else:
+                    doi = context.getDoi()
+                    label = self.get_label(fields, field, context.meta_type)
+                    value = ('<a rel="doi" href="http://dx.doi.org/%s">%s</a>'
+                            % (doi, doi))
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
