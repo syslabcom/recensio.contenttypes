@@ -10,7 +10,7 @@ import logging
 
 from ZODB.POSException import ConflictError
 from ZODB.blob import Blob
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 from zope.component import getUtility
 from zope.i18n import translate
 from zope.interface import implements
