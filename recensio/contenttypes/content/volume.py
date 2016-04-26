@@ -13,7 +13,25 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.interfaces import IVolume
 from recensio.contenttypes.config import PROJECTNAME
 
-VolumeSchema = folder.ATFolderSchema.copy() + atapi.Schema((
+DoiSettingsSchema = atapi.Schema((
+
+    atapi.BooleanField(
+        'doiRegistrationActive',
+        accessor='isDoiRegistrationActive',
+        storage=atapi.AnnotationStorage(),
+        default=True,
+        widget=atapi.BooleanWidget(
+            label=_(u"Activate DOI registration"),
+            description=_(
+                u'description_activate_doi_registration',
+                default=(u"Activates the registration of DOIs at da|ra"),
+            ),
+        ),
+    ),
+
+))
+
+VolumeSchema = folder.ATFolderSchema.copy() + DoiSettingsSchema.copy() + atapi.Schema((
 
     atapi.StringField(
         'yearOfPublication',
@@ -50,5 +68,7 @@ class Volume(container.Container):
     description = atapi.ATFieldProperty('description')
 
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
+
+    doiRegistrationActive = atapi.ATFieldProperty('doiRegistrationActive')
 
 atapi.registerType(Volume, PROJECTNAME)

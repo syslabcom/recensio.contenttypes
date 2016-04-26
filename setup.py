@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '3.1.4.dev0'
+version = '4.0.1.dev0'
 
 long_description = (
     read('README.txt')
@@ -68,6 +68,7 @@ setup(name='recensio.contenttypes',
                         'pyPdf',
                         'reportlab',
                         'plone.app.discussion',
+                        'plone.app.intid',
                         ],
       tests_require=tests_require,
       extras_require=dict(test=tests_require),

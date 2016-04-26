@@ -1,10 +1,11 @@
+from AccessControl.SecurityManagement import getSecurityManager
 from DateTime import DateTime
 from cgi import escape
 from os import fstat
 from webdav.common import rfc1123_date
 import recensio.theme
 from ZODB.blob import Blob
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 from ZTUtils import make_query
 
 from plone.app.blob.download import handleRequestRange
@@ -18,6 +19,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.content.review import get_formatted_names
+from recensio.contenttypes.interfaces import IParentGetter
 
 class View(BrowserView):
     """Moderation View
@@ -183,6 +185,21 @@ class View(BrowserView):
                     label = self.get_label(fields, field, context.meta_type)
                     value = ('<a href="%s">%s</a>'
                              % (url, url))
+            elif field == 'doi':
+                try:
+                    doi_active = self.context.isDoiRegistrationActive()
+                except AttributeError:
+                    doi_active = False
+                # If DOI registration is not active and the object has only the
+                # auto-generated DOI, i.e. the user has not supplied their own,
+                # then we don't want to show the DOI. See #12126-86
+                if not doi_active and context.getDoi() == context.generateDoi():
+                    value = False
+                else:
+                    doi = context.getDoi()
+                    label = self.get_label(fields, field, context.meta_type)
+                    value = ('<a rel="doi" href="http://dx.doi.org/%s">%s</a>'
+                            % (doi, doi))
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
@@ -282,6 +299,15 @@ class View(BrowserView):
     def do_visit_canonical_uri(self):
         url = getattr(self.context, "canonical_uri", "")
         return "www.perspectivia.net/content/publikationen/francia" in url
+
+    def show_dara_update(self):
+        sm = getSecurityManager()
+        if not sm.checkPermission('Manage portal', self.context):
+            return False
+        try:
+            return self.context.isDoiRegistrationActive()
+        except AttributeError:
+            return False
 
     def __call__(self):
         return self.template()

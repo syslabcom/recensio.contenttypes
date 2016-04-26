@@ -8,6 +8,7 @@ from archetypes.schemaextender.field import ExtensionField
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaExtender
 
+from AccessControl import ClassSecurityInfo
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
 from Products.Archetypes import atapi
@@ -20,12 +21,13 @@ from Products.validation.interfaces.IValidator import IValidator
 from Products.validation import validation
 from plone.app.blob.field import BlobField
 from plone.app.blob.field import ImageField
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implements
 from zope.component import adapts
 
 from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.browser.widgets import StringFallbackWidget
 from recensio.contenttypes.interfaces.publication import IPublication
 from recensio.theme.interfaces import IRecensioLayer
 
@@ -226,6 +228,15 @@ class characterLimit():
                 )
 
 
+class ForceDefaulStringField(atapi.StringField):
+    security = ClassSecurityInfo()
+
+    security.declarePrivate('get')
+    def get(self, instance, **kwargs):
+        value = super(ForceDefaulStringField, self).get(instance, **kwargs)
+        return value or self.getDefault(instance)
+
+
 CoverPictureSchema = atapi.Schema((
     ImageField(
         'coverPicture',
@@ -304,6 +315,27 @@ ReviewSchema = atapi.Schema((
             rows=3,
             ),
         ),
+    ForceDefaulStringField(
+        'doi',
+        default_method="generateDoi",
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        widget=StringFallbackWidget(
+            label=_(
+                u"label_doi",
+                default=(u"DOI")
+            ),
+            description=_(
+                u"description_doi",
+                default=(u"Digital Object Identifier. Leave empty to use the "
+                         "automatically generated value."),
+            ),
+            label_fallback_value=_(
+                u"label_doi_fallback",
+                default=(u"Automatically generated value"),
+            ),
+        ),
+    ),
     ))
 
 PresentationSchema = atapi.Schema((

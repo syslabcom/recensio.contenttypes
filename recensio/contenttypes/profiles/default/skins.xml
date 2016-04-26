@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<object name="portal_skins"
+        meta_type="Plone Skins Tool"
+        allow_any="False"
+        cookie_persistence="False"
+        request_varname="plone_skin">
+
+    <object name="recensio.contenttypes"
+        meta_type="Filesystem Directory View"
+        directory="recensio.contenttypes:skins/recensio_contenttypes"/>
+
+    <skin-path name="Plone Default">
+        <layer name="recensio.contenttypes"
+            insert-after="custom"/>
+    </skin-path>
+
+    <skin-path name="Plone Classic Theme">
+        <layer name="recensio.contenttypes"
+            insert-after="custom"/>
+    </skin-path>
+
+    <skin-path name="Sunburst Theme">
+        <layer name="recensio.contenttypes"
+            insert-after="custom"/>
+    </skin-path>
+
+</object>

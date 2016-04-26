@@ -10,12 +10,15 @@ import logging
 
 from ZODB.POSException import ConflictError
 from ZODB.blob import Blob
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
+from zope.component import getUtility
 from zope.i18n import translate
 from zope.interface import implements
+from zope.intid.interfaces import IIntIds
 
 from plone.app.blob.utils import openBlob
 from plone.app.discussion.interfaces import IConversation
+from plone.registry.interfaces import IRegistry
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
 from Products.Archetypes import atapi
@@ -25,10 +28,11 @@ from Products.CMFPlone.utils import safe_unicode
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.helperutilities import (
-    RunSubprocess, SimpleZpt, SubprocessException)
+    RunSubprocess, SimpleZpt, SimpleSubprocess, SubprocessException)
 from recensio.contenttypes.interfaces.review import IReview, IParentGetter
 from recensio.imports.pdf_cut import cutPDF
 from recensio.policy.indexer import isbn
+from recensio.policy.interfaces import IRecensioSettings
 
 from recensio.theme.browser.views import (
     listRecensioSupportedLanguages, listAvailableContentLanguages,
@@ -162,17 +166,30 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                             tmp_input.write(data)
                             tmp_input.flush()
                             try:
-                                pass
-    #                            SimpleSubprocess('/usr/bin/tidy', '-o', tmp_output.name, tmp_input.name, exitcodes=[0,1])
-    #                            tmp_output.seek(0)
-    #                            data = tmp_output.read()
+                                SimpleSubprocess(
+                                    '/usr/bin/tidy',
+                                    '-o',
+                                    tmp_output.name,
+                                    tmp_input.name,
+                                    exitcodes=[0, 1],
+                                )
+                                tmp_output.seek(0)
+                                data = tmp_output.read()
                             except RuntimeError:
-                                log.error("Tidy was unable to tidy the html for %s", self.absolute_url(), exc_info=True)
+                                log.error(
+                                    "Tidy was unable to tidy the html for %s",
+                                    self.absolute_url(),
+                                    exc_info=True,
+                                )
                         create_pdf.create_tmp_input(suffix=".pdf", data=data)
                     try:
                         create_pdf.run()
                     except RuntimeError:
-                        log.error("Abiword was unable to generate a pdf for %s and created an error pdf", self.absolute_url(), exc_info=True)
+                        log.error(
+                            "Abiword was unable to generate a pdf for %s and created an error pdf",
+                            self.absolute_url(),
+                            exc_info=True,
+                        )
                         create_pdf.create_tmp_input(suffix=".pdf", data="Could not create PDF")
                         create_pdf.run()
 
@@ -524,3 +541,10 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def setCanonical_uri(self, value):
         self.setLazyUrl('canonical_uri', value)
 
+    def generateDoi(self):
+        registry = getUtility(IRegistry)
+        settings = registry.forInterface(IRecensioSettings)
+        prefix = settings.doi_prefix
+        intids = getUtility(IIntIds)
+        obj_id = intids.register(self)
+        return '{0}{1}'.format(prefix, obj_id)

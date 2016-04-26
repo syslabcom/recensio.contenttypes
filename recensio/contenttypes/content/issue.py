@@ -12,8 +12,9 @@ from recensio.contenttypes.content import container
 
 from recensio.contenttypes.interfaces import IIssue
 from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.content.volume import DoiSettingsSchema
 
-IssueSchema = folder.ATFolderSchema.copy() + atapi.Schema((
+IssueSchema = folder.ATFolderSchema.copy() + DoiSettingsSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
 
@@ -43,5 +44,7 @@ class Issue(container.Container):
     description = atapi.ATFieldProperty('description')
 
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
+
+    doiRegistrationActive = atapi.ATFieldProperty('doiRegistrationActive')
 
 atapi.registerType(Issue, PROJECTNAME)

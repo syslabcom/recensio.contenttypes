@@ -58,6 +58,7 @@ class ReviewMonograph(BaseReview):
     subject = atapi.ATFieldProperty('subject')
     pdf = atapi.ATFieldProperty('pdf')
     doc = atapi.ATFieldProperty('doc')
+    doi = atapi.ATFieldProperty('doi')
     review = atapi.ATFieldProperty('review')
     customCitation = atapi.ATFieldProperty('customCitation')
     canonical_uri = atapi.ATFieldProperty('canonical_uri')
@@ -156,7 +157,7 @@ class ReviewMonograph(BaseReview):
         "editorial", "title", "subtitle", "yearOfPublication",
         "placeOfPublication", "publisher", "series", "seriesVol",
         "pages", "isbn", "urn", "ddcSubject", "ddcTime", "ddcPlace",
-        "subject", "canonical_uri", "metadata_recensioID", "idBvb"]
+        "subject", "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
 
     def editorTypes(self):
         return editorTypes()

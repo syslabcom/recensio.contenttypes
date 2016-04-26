@@ -74,6 +74,11 @@
                   value="Kommentieren"
                   i18n:translate="label_jump_to_add_comment">Kommentieren</button>
         </p>
+        <p tal:condition="view/show_dara_update">
+          <form action="dara_update" method="POST" tal:attributes="action string:${context/absolute_url}/dara_update">
+            <button value="Dara Update" type="submit">Dara Update</button>
+          </form>
+        </p>
         <p>
           <a tal:condition="python:getattr(context, 'tableOfContents', None)" id="toctrigger" href="#reviewtoc" i18n:translate="show_reviewtoc_trigger">Inhaltsverzeichnis anzeigen</a>
         </p>
@@ -88,12 +93,6 @@
               tal:condition="view/do_visit_canonical_uri"
               tal:attributes="src string:${context/canonical_uri}?recensio=true"></iframe>
 
-      <div id="facebook-like"
-           tal:define="url_quote_plus python:modules['Products.PythonScripts.standard'].url_quote_plus;
-                       locale python:{'de':'de_DE', 'en':'en_GB', 'fr':'fr_FR'}[context.portal_languages.getPreferredLanguage()];
-                       url python:'http://www.facebook.com/plugins/like.php?locale=' + locale + '&amp;href=' + url_quote_plus(context.absolute_url()) + '&amp;layout=button_count&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35';">
-        <iframe tal:attributes="src url; scrolling string:no; frameborder string:0; allowTransparency string:true"></iframe>
-      </div>
       <div id="twitter-it">
         <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
       </div>
@@ -115,12 +114,6 @@
         </p>
       </div>
 
-      <div id="facebook-like"
-           tal:define="url_quote_plus python:modules['Products.PythonScripts.standard'].url_quote_plus;
-                       locale python:{'de':'de_DE', 'en':'en_GB', 'fr':'fr_FR'}[context.portal_languages.getPreferredLanguage()];
-                       url python:'http://www.facebook.com/plugins/like.php?locale=' + locale + '&amp;href=' + url_quote_plus(context.absolute_url()) + '&amp;layout=button_count&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35';">
-        <iframe tal:attributes="src url; scrolling string:no; frameborder string:0; allowTransparency string:true"></iframe>
-      </div>
       <div id="twitter-it">
         <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
       </div>

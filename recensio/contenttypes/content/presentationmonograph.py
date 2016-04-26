@@ -3,7 +3,7 @@ from Products.PortalTransforms.transforms.safe_html import scrubHTML
 """Definition of the Presentation Monograph content type
 """
 from cgi import escape
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import implements
