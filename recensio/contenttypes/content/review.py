@@ -169,6 +169,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                                 SimpleSubprocess(
                                     '/usr/bin/tidy',
                                     '-utf8',
+                                    '-numeric',
                                     '-o',
                                     tmp_output.name,
                                     tmp_input.name,
