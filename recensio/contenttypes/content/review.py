@@ -168,6 +168,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                             try:
                                 SimpleSubprocess(
                                     '/usr/bin/tidy',
+                                    '-utf8',
                                     '-o',
                                     tmp_output.name,
                                     tmp_input.name,
@@ -181,7 +182,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                                     self.absolute_url(),
                                     exc_info=True,
                                 )
-                        create_pdf.create_tmp_input(suffix=".pdf", data=data)
+                        create_pdf.create_tmp_input(suffix=".html", data=data)
                     try:
                         create_pdf.run()
                     except RuntimeError:
@@ -190,7 +191,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                             self.absolute_url(),
                             exc_info=True,
                         )
-                        create_pdf.create_tmp_input(suffix=".pdf", data="Could not create PDF")
+                        create_pdf.create_tmp_input(suffix=".html", data="Could not create PDF")
                         create_pdf.run()
 
                 pdf_file = open(create_pdf.output_path, "r")
