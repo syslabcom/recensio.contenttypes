@@ -544,6 +544,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         self.setLazyUrl('canonical_uri', value)
 
     def generateDoi(self):
+        factorytool = getToolByName(self, 'portal_factory', None)
+        if factorytool is not None and factorytool.isTemporary(self):
+            return ''
         registry = getUtility(IRegistry)
         settings = registry.forInterface(IRecensioSettings)
         prefix = settings.doi_prefix

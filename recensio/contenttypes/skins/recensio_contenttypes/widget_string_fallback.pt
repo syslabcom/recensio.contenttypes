@@ -26,12 +26,13 @@
         <tal:body metal:fill-slot="widget_body">
         <div class="generated-doi">
             <label class="fallback" tal:content="widget/label_fallback_value">Automatisch generierter Wert</label>
-            <input type="text" readonly="1" name="" id="" value="10.15463/rec.xxxxxxx" size="30"
+            <input tal:condition="python:field.getDefault(here)" type="text" readonly="1" name="" id="" value="10.15463/rec.xxxxxxx" size="30"
                    tal:attributes="name python:fieldName + '_fallback';
                                    id python:fieldName + '_fallback';
                                    value python:field.getDefault(here);
                                    size widget/size;"
                    />
+            <span tal:condition="not:python:field.getDefault(here)" tal:content="widget/label_fallback_unavailable">noch nicht verfügbar</span>
         </div>
         <input
                type="text"

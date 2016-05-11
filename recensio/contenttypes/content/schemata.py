@@ -334,6 +334,10 @@ ReviewSchema = atapi.Schema((
                 u"label_doi_fallback",
                 default=(u"Automatically generated value"),
             ),
+            label_fallback_unavailable=_(
+                u"label_doi_fallback_unavailable",
+                default=(u"not yet available"),
+            ),
         ),
     ),
     ))

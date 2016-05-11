@@ -8,6 +8,7 @@ class StringFallbackWidget(atapi.StringWidget):
     _properties = atapi.StringWidget._properties.copy()
     _properties.update({
         'label_fallback_value': 'Fallback',
+        'label_fallback_unavailable': 'N/A',
         'macro': 'widget_string_fallback',
     })
 
@@ -33,3 +34,4 @@ registerWidget(StringFallbackWidget,
                )
 
 registerPropertyType('label_fallback_value', 'string', StringFallbackWidget)
+registerPropertyType('label_fallback_unavailable', 'string', StringFallbackWidget)
