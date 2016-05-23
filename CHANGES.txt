@@ -4,7 +4,10 @@ Changelog
 4.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Run tidy in utf8 mode. Also fixed tmp file suffixes. Refs #13490 [reinhardt]
+- Force numeric entities, fixes swallowing of content by abiword, refs #13490
+  [reinhardt]
+- Don't auto-generate DOI for temporary objects. Refs #13627 [reinhardt]
 
 
 4.0.0 (2016-04-25)
