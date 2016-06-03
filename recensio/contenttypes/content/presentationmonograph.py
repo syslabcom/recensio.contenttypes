@@ -1,5 +1,5 @@
-from Products.PortalTransforms.transforms.safe_html import scrubHTML
 #-*- coding: utf-8 -*-
+from Products.PortalTransforms.transforms.safe_html import scrubHTML
 """Definition of the Presentation Monograph content type
 """
 from cgi import escape
