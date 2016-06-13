@@ -128,7 +128,7 @@
         <form>
             <input type="button" class="useit" i18n:attributes="value" value="Take it over" />
         </form>
-        <a href="http://lod.b3kat.de/page/isbn/YOURISBN" i18n:translate="label_opac_source">Source of search results</a>
+        <a href="http://lod.b3kat.de/page/isbn/YOURISBN" class="source_link"><tal:label i18n:translate="label_opac_source">Source of search results</tal:label> (<span class="source_name">OPAC</span>)</a>
     </div>
     <div class="missing_explanation_2" id="missing_explanation_2_template" style="display:None">
         <p i18n:translate="" >We were unable to select some of the classifications, would you mind to find the most appropriate once and select them manually?</p>
