@@ -10,18 +10,22 @@ rev_types = [
     "Presentation Collection", "Presentation Article Review",
     "Presentation Online Resource", "Review Journal" ]
 
-feb_brains = [
-    i for i in pc.searchResults({
-            "portal_type": rev_types,
-            "modified" : {
-                "query": [DateTime(2012,2,7)],
-                "range": "min", "sort_on" : "modified", "sort_order": "reverse"
-                }
-            })]
+query = {
+    "path": '/'.join(portal.getPhysicalPath()),
+    "portal_type": rev_types,
+    "modified": {
+        "query": [DateTime(2012, 2, 7)],
+        "range": "min", "sort_on": "modified", "sort_order": "reverse"
+        }
+}
+feb_brains = pc.searchResults(query)
+if None in feb_brains:
+    query['b_size'] = len(feb_brains)
+    feb_brains = pc.searchResults(query)
+
 
 def main():
     for brain in feb_brains:
         obj = brain.getObject()
         obj.update_generated_pdf()
         print reviewpdf._getAllPageImages(obj, (800,1131))
-
