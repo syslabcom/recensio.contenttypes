@@ -4,15 +4,24 @@ Tests for the Publication content type and items it can contain
 """
 import unittest2 as unittest
 
-from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
+from plone.app.testing.helpers import login
+from plone.app.testing.interfaces import SITE_OWNER_NAME
+from recensio.contenttypes.setuphandlers import add_number_of_each_review_type
+from recensio.contenttypes.content.reviewjournal import ReviewJournal
+from recensio.contenttypes.content.reviewmonograph import ReviewMonograph
+from recensio.policy.tests.layer import RECENSIO_BARE_INTEGRATION_TESTING
 
 class TestCitationString(unittest.TestCase):
     """
     """
-    layer = RECENSIO_INTEGRATION_TESTING
+    layer = RECENSIO_BARE_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal      = self.layer["portal"]
+        login(self.layer['app'], SITE_OWNER_NAME)
+        add_number_of_each_review_type(
+            self.portal, 1, rez_classes=[ReviewMonograph, ReviewJournal])
+
         self.publication = self.portal["sample-reviews"]["newspapera"]
         self.review_mono = self.portal.portal_catalog.search(
             {"portal_type" :"Review Monograph",
