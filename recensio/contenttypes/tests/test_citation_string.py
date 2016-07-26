@@ -9,6 +9,7 @@ from plone.app.testing.interfaces import SITE_OWNER_NAME
 from recensio.contenttypes.setuphandlers import add_number_of_each_review_type
 from recensio.contenttypes.content.reviewjournal import ReviewJournal
 from recensio.contenttypes.content.reviewmonograph import ReviewMonograph
+from recensio.contenttypes.interfaces import IParentGetter
 from recensio.policy.tests.layer import RECENSIO_BARE_INTEGRATION_TESTING
 
 class TestCitationString(unittest.TestCase):
@@ -30,6 +31,8 @@ class TestCitationString(unittest.TestCase):
                     }
              }
             )[0].getObject()
+        pg = IParentGetter(self.review_mono)
+        self.issue_mono = pg.get_parent_object_of_type('Issue')
         self.review_jour = self.portal.portal_catalog.search(
             {"portal_type" :"Review Journal",
              "path"        :{
@@ -37,10 +40,17 @@ class TestCitationString(unittest.TestCase):
                     }
              }
             )[0].getObject()
+        pg = IParentGetter(self.review_jour)
+        self.issue_jour = pg.get_parent_object_of_type('Issue')
 
     def test_review_citation_wrt_canonical_uri(self):
         """ Reviews which have a canonical_uri should not link to the
         recensio url in the citation #3102 """
+
+        self.review_mono.doi = None
+        self.issue_mono.setDoiRegistrationActive(False)
+        self.review_jour.doi = None
+        self.issue_jour.setDoiRegistrationActive(False)
 
         monograph_citation = self.review_mono.get_citation_string()
         self.assertEquals('<a href="http://nohost/plone' in monograph_citation,
@@ -85,3 +95,47 @@ class TestCitationString(unittest.TestCase):
         self.review_mono.pageEndOfReviewInJournal = ""
         self.assertEquals(
             self.review_mono.page_start_end_in_print, "")
+
+    def test_doi_link(self):
+        self.review_mono.doi = None
+        self.issue_mono.setDoiRegistrationActive(False)
+        self.assertNotIn('<a rel="doi"',
+                         self.review_mono.get_citation_string())
+        self.assertIn('<a href="http://nohost/plone',
+                      self.review_mono.get_citation_string())
+        self.review_mono.doi = '10.15463/rec.724704480'
+        self.assertIn('<a rel="doi" '
+                      'href="http://dx.doi.org/10.15463/rec.724704480">'
+                      '10.15463/rec.724704480</a>',
+                      self.review_mono.get_citation_string())
+        self.assertNotIn('<a href="http://nohost/plone',
+                         self.review_mono.get_citation_string())
+
+        self.review_jour.doi = None
+        self.issue_jour.setDoiRegistrationActive(False)
+        self.assertNotIn('<a rel="doi"',
+                         self.review_jour.get_citation_string())
+        self.assertIn('<a href="http://nohost/plone',
+                      self.review_jour.get_citation_string())
+        self.review_jour.doi = '10.15463/rec.724704481'
+        self.assertIn('<a rel="doi" '
+                      'href="http://dx.doi.org/10.15463/rec.724704481">'
+                      '10.15463/rec.724704481</a>',
+                      self.review_jour.get_citation_string())
+        self.assertNotIn('<a href="http://nohost/plone',
+                         self.review_jour.get_citation_string())
+
+    def test_doi_link_with_canonical_uri(self):
+        self.review_mono.doi = '10.15463/rec.724704480'
+        self.review_mono.canonical_uri = "http://example.com"
+        self.assertIn('<a rel="doi" '
+                      'href="http://dx.doi.org/10.15463/rec.724704480">'
+                      '10.15463/rec.724704480</a>',
+                      self.review_mono.get_citation_string())
+
+        self.review_jour.doi = '10.15463/rec.724704481'
+        self.review_jour.canonical_uri = "http://example.com"
+        self.assertIn('<a rel="doi" '
+                      'href="http://dx.doi.org/10.15463/rec.724704481">'
+                      '10.15463/rec.724704481</a>',
+                      self.review_jour.get_citation_string())

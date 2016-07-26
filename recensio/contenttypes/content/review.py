@@ -13,6 +13,7 @@ from ZODB.blob import Blob
 from zope.component.hooks import getSite
 from zope.component import getUtility
 from zope.i18n import translate
+from zope.i18nmessageid import Message
 from zope.interface import implements
 from zope.intid.interfaces import IIntIds
 
@@ -98,6 +99,30 @@ class BaseReviewNoMagic(BaseNoMagic):
         elif reference_mag_string:
             retval.append(escape(reference_mag_string))
         return retval
+
+    def get_citation_location(real_self):
+        self = real_self.magic
+        location = u''
+        try:
+            doi_active = self.isDoiRegistrationActive()
+        except AttributeError:
+            doi_active = False
+        # If DOI registration is not active and the object has only the
+        # auto-generated DOI, i.e. the user has not supplied their own,
+        # then we don't want to show the DOI. See #12126-86
+        has_doi = doi_active or self.getDoi() != self.generateDoi()
+        has_canonical_uri = getattr(self, "canonical_uri", False)
+        if has_doi:
+            doi = self.getDoi()
+            location += (u'<a rel="doi" href="http://dx.doi.org/%s">%s</a>'
+                    % (doi, doi))
+        if has_canonical_uri: #3102
+            location += real_self.directTranslate(
+                Message(u"label_downloaded_via_recensio", "recensio"))
+        if not has_canonical_uri and not has_doi:
+            location += real_self.getUUIDUrl()
+
+        return location
 
 
 class BasePresentationNoMagic(BaseNoMagic):
