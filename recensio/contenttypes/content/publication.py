@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Definition of the Publication content type
 """
 
@@ -16,7 +17,21 @@ from recensio.contenttypes.config import PROJECTNAME
 
 PublicationSchema = folder.ATFolderSchema.copy() + atapi.Schema((
 
-    # -*- Your Archetypes field definitions here ... -*-
+    atapi.BooleanField(
+        'useCanonicalUriForBVID',
+        accessor='isUseCanonicalUriForBVID',
+        storage=atapi.AnnotationStorage(),
+        default=False,
+        widget=atapi.BooleanWidget(
+            label=_(u"Original-URL für BVID-Export"),
+            description=_(
+                u'description_use_canonical_for_bvid',
+                default=(u"Benutze die Original-URL von Rezensionen dieser "
+                         "Zeitschrift im BVID-Export. Ist diese Option "
+                         "deaktiviert wird die recensio.net-URL verwendet."),
+            ),
+        ),
+    ),
 
 ))
 
@@ -43,6 +58,6 @@ class Publication(container.Container):
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
 
-    # -*- Your ATSchema to Python Property Bridges Here ... -*-
+    useCanonicalUriForBVID = atapi.ATFieldProperty('useCanonicalUriForBVID')
 
 atapi.registerType(Publication, PROJECTNAME)
