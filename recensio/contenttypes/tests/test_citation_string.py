@@ -97,26 +97,30 @@ class TestCitationString(unittest.TestCase):
             self.review_mono.page_start_end_in_print, "")
 
     def test_doi_link(self):
+        # No custom DOI and no canonical_uri: Show UUID URL
         self.review_mono.doi = None
         self.issue_mono.setDoiRegistrationActive(False)
         self.assertNotIn('<a rel="doi"',
                          self.review_mono.get_citation_string())
-        self.assertIn('<a href="http://nohost/plone',
+        self.assertIn('<a href="http://nohost/plone/r/',
                       self.review_mono.get_citation_string())
+        # Custom DOI and no canonical_uri: Show doi.org URL
         self.review_mono.doi = '10.15463/rec.724704480'
         self.assertIn('<a rel="doi" '
                       'href="http://dx.doi.org/10.15463/rec.724704480">'
                       '10.15463/rec.724704480</a>',
                       self.review_mono.get_citation_string())
-        self.assertNotIn('<a href="http://nohost/plone',
+        self.assertNotIn('<a href="http://nohost/plone/r/',
                          self.review_mono.get_citation_string())
 
+        # No custom DOI and no canonical_uri: Show UUID URL
         self.review_jour.doi = None
         self.issue_jour.setDoiRegistrationActive(False)
         self.assertNotIn('<a rel="doi"',
                          self.review_jour.get_citation_string())
         self.assertIn('<a href="http://nohost/plone',
                       self.review_jour.get_citation_string())
+        # Custom DOI and no canonical_uri: Show doi.org URL
         self.review_jour.doi = '10.15463/rec.724704481'
         self.assertIn('<a rel="doi" '
                       'href="http://dx.doi.org/10.15463/rec.724704481">'
@@ -126,6 +130,8 @@ class TestCitationString(unittest.TestCase):
                          self.review_jour.get_citation_string())
 
     def test_doi_link_with_canonical_uri(self):
+        # Custom DOI and canonical_uri: Show doi.org URL. canonical_uri is also
+        # shown in the default view, but not as part of the citation string.
         self.review_mono.doi = '10.15463/rec.724704480'
         self.review_mono.canonical_uri = "http://example.com"
         self.assertIn('<a rel="doi" '
