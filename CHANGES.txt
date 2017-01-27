@@ -1,10 +1,17 @@
 Changelog
 =========
 
-4.0.2 (unreleased)
+4.1.1 (unreleased)
 ------------------
 
 - Added toggle for using canonical_uri in BVID export, refs #14156
+  [reinhardt]
+
+
+4.1.0 (2017-01-27)
+------------------
+
+- Töchter, refs #13569, #13568
   [reinhardt]
 
 
