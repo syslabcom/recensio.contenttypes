@@ -248,10 +248,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
                                              self.get_volume_title(),
                                              self.get_issue_title())
 
-        location = real_self.getUUIDUrl()
-        if getattr(self, "canonical_uri", False): #3102
-            location = real_self.directTranslate(
-                Message(u"label_downloaded_via_recensio", "recensio"))
+        location = real_self.get_citation_location()
 
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
