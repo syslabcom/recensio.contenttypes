@@ -102,7 +102,7 @@ class BaseReviewNoMagic(BaseNoMagic):
 
     def get_citation_location(real_self):
         self = real_self.magic
-        location = u''
+        location = []
         try:
             doi_active = self.isDoiRegistrationActive()
         except AttributeError:
@@ -114,15 +114,15 @@ class BaseReviewNoMagic(BaseNoMagic):
         has_canonical_uri = getattr(self, "canonical_uri", False)
         if has_doi:
             doi = self.getDoi()
-            location += (u'<a rel="doi" href="http://dx.doi.org/%s">%s</a>'
-                    % (doi, doi))
+            location.append(u'DOI: <a rel="doi" href="http://dx.doi.org/%s">%s</a>'
+                            % (doi, doi))
         if has_canonical_uri: #3102
-            location += real_self.directTranslate(
-                Message(u"label_downloaded_via_recensio", "recensio"))
+            location.append(real_self.directTranslate(
+                Message(u"label_downloaded_via_recensio", "recensio")))
         if not has_canonical_uri and not has_doi:
-            location += real_self.getUUIDUrl()
+            location.append(real_self.getUUIDUrl())
 
-        return location
+        return u', '.join(location)
 
 
 class BasePresentationNoMagic(BaseNoMagic):

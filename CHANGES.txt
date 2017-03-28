@@ -4,7 +4,8 @@ Changelog
 4.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Show DOI in citation. Refs #13714
+  [reinhardt]
 
 
 4.1.1 (2017-01-27)
