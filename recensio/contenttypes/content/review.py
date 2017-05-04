@@ -114,7 +114,7 @@ class BaseReviewNoMagic(BaseNoMagic):
         has_canonical_uri = getattr(self, "canonical_uri", False)
         if has_doi:
             doi = self.getDoi()
-            location.append(u'DOI: <a rel="doi" href="http://dx.doi.org/%s">%s</a>'
+            location.append(u'DOI: <a href="http://dx.doi.org/%s">%s</a>'
                             % (doi, doi))
         if has_canonical_uri: #3102
             location.append(real_self.directTranslate(
