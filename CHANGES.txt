@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.3.0 (unreleased)
+4.2.1 (2017-06-12)
 ------------------
 
 - Removed 'rel' attribute from citation. Fixes PDF generation. Refs #15189
