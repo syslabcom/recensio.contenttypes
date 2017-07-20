@@ -17,6 +17,7 @@ from zope.i18nmessageid import Message
 from zope.interface import implements
 from zope.intid.interfaces import IIntIds
 
+from plone import api
 from plone.app.blob.utils import openBlob
 from plone.app.discussion.interfaces import IConversation
 from plone.registry.interfaces import IRegistry
@@ -118,7 +119,11 @@ class BaseReviewNoMagic(BaseNoMagic):
                             % (doi, doi))
         if has_canonical_uri: #3102
             location.append(real_self.directTranslate(
-                Message(u"label_downloaded_via_recensio", "recensio")))
+                Message(u"label_downloaded_via_recensio",
+                        "recensio",
+                        mapping={'portal': api.portal.get().Title()}
+                        )
+            ))
         if not has_canonical_uri and not has_doi:
             location.append(real_self.getUUIDUrl())
 

@@ -4,7 +4,8 @@ Changelog
 4.3.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Insert portal title into "downloaded via" note in citation. Refs #15448
+  [reinhardt]
 
 
 4.2.1 (2017-06-12)
