@@ -4,6 +4,8 @@ Changelog
 4.3.0 (unreleased)
 ------------------
 
+- Added field "PPN". Refs #15431
+  [reinhardt]
 - Insert portal title into "downloaded via" note in citation. Refs #15448
   [reinhardt]
 

@@ -143,6 +143,7 @@ class ReviewMonograph(BaseReview):
         "canonical_uri",
         "urn",
         "bv",
+        "ppn",
     ]
 
     for i, field in enumerate(ordered_fields):
