@@ -80,10 +80,17 @@ class ReviewJournal(BaseReview):
     yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
     placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
     publisher = atapi.ATFieldProperty('publisher')
+    yearOfPublicationOnline = atapi.ATFieldProperty('yearOfPublicationOnline')
+    placeOfPublicationOnline = atapi.ATFieldProperty('placeOfPublicationOnline')
+    publisherOnline = atapi.ATFieldProperty('publisherOnline')
     idBvb = atapi.ATFieldProperty('idBvb')
 
     # Journal
     issn = atapi.ATFieldProperty('issn')
+    issn_online = atapi.ATFieldProperty('issn_online')
+    issn = atapi.ATFieldProperty('url_journal')
+    issn = atapi.ATFieldProperty('urn_journal')
+    issn = atapi.ATFieldProperty('doi_journal')
     shortnameJournal = atapi.ATFieldProperty('shortnameJournal')
     volumeNumber = atapi.ATFieldProperty('volumeNumber')
     issueNumber = atapi.ATFieldProperty('issueNumber')
@@ -108,6 +115,10 @@ class ReviewJournal(BaseReview):
     ordered_fields = [
         # Reviewed Text schemata
         "issn",
+        "issn_online",
+        "url_journal",
+        "urn_journal",
+        "doi_journal",
         "languageReviewedText",
         "editor",
         "title", # Title of the journal
@@ -118,6 +129,9 @@ class ReviewJournal(BaseReview):
         "issueNumber",
         "placeOfPublication",
         "publisher",
+        "yearOfPublicationOnline",
+        "placeOfPublicationOnline",
+        "publisherOnline",
         "coverPicture",
         "ddcSubject",
         "ddcTime",
@@ -154,7 +168,11 @@ class ReviewJournal(BaseReview):
         "languageReviewedText", "editor", "title", "shortnameJournal",
         "yearOfPublication", "officialYearOfPublication",
         "volumeNumber", "issueNumber",
-        "placeOfPublication", "publisher", "issn", "urn",
+        "placeOfPublication", "publisher",
+        "yearOfPublicationOnline",
+        "placeOfPublicationOnline", "publisherOnline",
+        "issn", "issn_online",
+        "url_journal", "urn_journal", "doi_journal", "urn",
         "ddcSubject", "ddcTime", "ddcPlace", "subject",
         "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
 

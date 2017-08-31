@@ -573,6 +573,18 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def setCanonical_uri(self, value):
         self.setLazyUrl('canonical_uri', value)
 
+    def setUrl_monograph(self, value):
+        self.setLazyUrl('url_monograph', value)
+
+    def setUrn_monograph(self, value):
+        self.setLazyUrl('urn_monograph', value)
+
+    def setUrl_journal(self, value):
+        self.setLazyUrl('url_journal', value)
+
+    def setUrn_journal(self, value):
+        self.setLazyUrl('urn_journal', value)
+
     def generateDoi(self):
         factorytool = getToolByName(self, 'portal_factory', None)
         if factorytool is not None and factorytool.isTemporary(self):

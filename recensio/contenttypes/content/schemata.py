@@ -797,6 +797,31 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
         searchable=True,
         ),
     atapi.StringField(
+        'yearOfPublicationOnline',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Year of publication (Online)"),
+            ),
+        ),
+    atapi.StringField(
+        'placeOfPublicationOnline',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Place of publication (Online)"),
+            ),
+        ),
+    atapi.StringField(
+        'publisherOnline',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Publisher (Online)"),
+            ),
+        searchable=True,
+        ),
+    atapi.StringField(
         'idBvb',
         schemata="reviewed_text",
         storage=atapi.AnnotationStorage(),
@@ -824,6 +849,47 @@ BookReviewSchema = PrintedReviewSchema.copy() + \
     ),
             ),
         ),
+    atapi.StringField(
+        'isbn_online',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"ISBN (Online)"),
+            description=_(
+    u'description_isbn_online',
+    default=(u"With or without hyphens. In case of several numbers please "
+             "choose the hard cover edition.")
+    ),
+            ),
+        ),
+    atapi.StringField(
+        'url_monograph',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators = (isLazyURL,),
+        mutator = 'setUrl_monograph',
+        widget=atapi.StringWidget(
+            label=_(u"URL (Monographie)"),
+        ),
+    ),
+    atapi.StringField(
+        'urn_monograph',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators = (isLazyURL,),
+        mutator = 'setUrn_monograph',
+        widget=atapi.StringWidget(
+            label=_(u"URN (Monographie)"),
+        ),
+    ),
+    atapi.StringField(
+        'doi_monograph',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"DOI (Monographie)"),
+        ),
+    ),
     ))
 BookReviewSchema["authors"].widget.label=_(u"Author (monograph)")
 
@@ -870,6 +936,46 @@ JournalReviewSchema = schemata.ATContentTypeSchema.copy() + \
     ),
             ),
         ),
+    atapi.StringField(
+        'issn_online',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"ISSN Online"),
+            description=_(
+    u'description_issn_online',
+    default=(u"With or without hyphens.")
+    ),
+            ),
+        ),
+    atapi.StringField(
+        'url_journal',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators = (isLazyURL,),
+        mutator = 'setUrl_journal',
+        widget=atapi.StringWidget(
+            label=_(u"URL (Zeitschrift)"),
+        ),
+    ),
+    atapi.StringField(
+        'urn_journal',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators = (isLazyURL,),
+        mutator = 'setUrn_journal',
+        widget=atapi.StringWidget(
+            label=_(u"URN (Zeitschrift)"),
+        ),
+    ),
+    atapi.StringField(
+        'doi_journal',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"DOI (Zeitschrift)"),
+        ),
+    ),
     atapi.StringField(
         'shortnameJournal',
         schemata="reviewed_text",

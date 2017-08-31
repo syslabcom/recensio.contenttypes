@@ -78,6 +78,9 @@ class ReviewMonograph(BaseReview):
     yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
     placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
     publisher = atapi.ATFieldProperty('publisher')
+    yearOfPublicationOnline = atapi.ATFieldProperty('yearOfPublicationOnline')
+    placeOfPublicationOnline = atapi.ATFieldProperty('placeOfPublicationOnline')
+    publisherOnline = atapi.ATFieldProperty('publisherOnline')
     idBvb = atapi.ATFieldProperty('idBvb')
 
     # Authors
@@ -85,6 +88,10 @@ class ReviewMonograph(BaseReview):
 
     # Book
     isbn = atapi.ATFieldProperty('isbn')
+    isbn_online = atapi.ATFieldProperty('isbn_online')
+    issn = atapi.ATFieldProperty('url_monograph')
+    issn = atapi.ATFieldProperty('urn_monograph')
+    issn = atapi.ATFieldProperty('doi_monograph')
 
     # Cover Picture
     coverPicture = atapi.ATFieldProperty('coverPicture')
@@ -110,6 +117,10 @@ class ReviewMonograph(BaseReview):
     ordered_fields = [
         # Reviewed Text schemata
         "isbn",
+        "isbn_online",
+        "url_monograph",
+        "urn_monograph",
+        "doi_monograph",
         "languageReviewedText",
         'help_authors_or_editors',
         "authors",
@@ -119,6 +130,9 @@ class ReviewMonograph(BaseReview):
         "yearOfPublication",
         "placeOfPublication",
         "publisher",
+        "yearOfPublicationOnline",
+        "placeOfPublicationOnline",
+        "publisherOnline",
         "series",
         "seriesVol",
         "pages",
@@ -156,8 +170,13 @@ class ReviewMonograph(BaseReview):
         "metadata_start_end_pages", "metadata_review_author",
         "languageReview", "languageReviewedText", "authors",
         "editorial", "title", "subtitle", "yearOfPublication",
-        "placeOfPublication", "publisher", "series", "seriesVol",
-        "pages", "isbn", "urn", "ddcSubject", "ddcTime", "ddcPlace",
+        "placeOfPublication", "publisher",
+        "yearOfPublicationOnline",
+        "placeOfPublicationOnline", "publisherOnline",
+        "series", "seriesVol",
+        "pages", "isbn", "isbn_online",
+        "url_monograph", "urn_monograph", "doi_monograph", "urn",
+        "ddcSubject", "ddcTime", "ddcPlace",
         "subject", "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
 
     def editorTypes(self):
