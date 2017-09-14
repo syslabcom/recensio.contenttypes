@@ -458,7 +458,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             data = " ".join([data, self.getYearOfPublication()])
         if hasattr(self, 'getPlaceOfPublication'):
             data = " ".join([data, self.getPlaceOfPublication()])
-        data = " ".join([data, isbn(self)()])
+        data = " ".join([data] + isbn(self)())
+
+        if hasattr(self, 'getYearOfPublicationOnline'):
+            data = " ".join([data, self.getYearOfPublicationOnline()])
+        if hasattr(self, 'getPlaceOfPublicationOnline'):
+            data = " ".join([data, self.getPlaceOfPublicationOnline()])
 
         # get text from pdf
         datastream = ""
