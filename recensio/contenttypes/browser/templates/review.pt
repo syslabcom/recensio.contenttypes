@@ -64,10 +64,22 @@
         </p>
 
         <a rel="contactSheet" id="preview-image" href="#"
+           tal:condition="not:context/isUseExternalFulltext"
            tal:attributes="href string:${here/absolute_url}/@@pageviewer; class string:iframe"
            tal:define="no_pages context/get_no_pages">
           <img src="get_page_image"
                tal:attributes="src view/get_preview_img_url"/>
+        </a>
+        <a id="cover-image" href="#"
+           tal:condition="context/isUseExternalFulltext"
+           tal:define="doi python:context.getDoi(); custom_cover context/getCustomCoverImage;"
+           tal:attributes="href python:view.get_doi_url_if_active() or context.getCanonical_uri()">
+          <img src="@@images/customCoverImage/mini"
+               tal:condition="custom_cover"
+               tal:attributes="src string:${context/absolute_url}/@@images/customCoverImage/mini"/>
+           <p i18n:translate="" 
+               tal:condition="not:custom_cover">
+               Zum Volltext</p>
         </a>
         <p>
           <button onclick="window.location = '#commenting';"
@@ -104,13 +116,20 @@
       <div class="portlet" id="portletDownload"
            tal:define="pdf_ob python:pdf and pdf['blob']"
            tal:condition="pdf">
-        <p class="download pdf">
+        <p class="download pdf" tal:condition="not:context/isUseExternalFulltext">
           <a tal:attributes="href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage()"
              href="PartB.pdf"
              target="_blank"
              i18n:translate="download_as"
              >Download as <strong>PDF</strong><br />
           <em class="discrete">(<span i18n:name="download_size" tal:replace="python: pdf_ob and pdf['size']/1024 or 0" /> kb)</em></a>
+        </p>
+        <p class="external fulltext pdf" tal:condition="context/isUseExternalFulltext">
+          <a tal:attributes="href python:view.get_doi_url_if_active() or context.getCanonical_uri()"
+             href="http://dx.doi.org/12345.678"
+             target="_blank"
+             i18n:translate="">
+             Zum Volltext</a>
         </p>
       </div>
 

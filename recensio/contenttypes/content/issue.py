@@ -13,12 +13,16 @@ from recensio.contenttypes.content import container
 from recensio.contenttypes.interfaces import IIssue
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.volume import DoiSettingsSchema
+from recensio.contenttypes.content.volume import FulltextSettingsSchema
 
-IssueSchema = folder.ATFolderSchema.copy() + DoiSettingsSchema.copy() + atapi.Schema((
+IssueSchema = (
+    folder.ATFolderSchema.copy() + DoiSettingsSchema.copy() +
+    FulltextSettingsSchema.copy() + atapi.Schema((
 
-    # -*- Your Archetypes field definitions here ... -*-
+        # -*- Your Archetypes field definitions here ... -*-
 
-))
+    ))
+)
 
 # Set storage on fields copied from ATFolderSchema, making sure
 # they work well with the python bridge properties.
@@ -46,5 +50,6 @@ class Issue(container.Container):
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
 
     doiRegistrationActive = atapi.ATFieldProperty('doiRegistrationActive')
+    useExternalFulltext = atapi.ATFieldProperty('useExternalFulltext')
 
 atapi.registerType(Issue, PROJECTNAME)
