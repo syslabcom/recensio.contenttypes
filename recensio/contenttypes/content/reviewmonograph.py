@@ -8,7 +8,9 @@ from zope.interface import implements
 
 from Products.Archetypes import atapi
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
+from Products.validation.interfaces.IValidator import IValidator
 
+from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
     BaseReview, BaseReviewNoMagic, get_formatted_names)
@@ -22,6 +24,19 @@ from recensio.contenttypes.citation import getFormatter
 from recensio.theme.browser.views import editorTypes
 
 
+class YearOfPublicationValidator(object):
+    implements(IValidator)
+    name = ""
+
+    def __call__(self, value, *args, **kwargs):
+        request = kwargs['REQUEST']
+        if not (value or request.form.get('yearOfPublicationOnline')):
+            return _(u'message_year_of_publication_validation_error',
+                     default=(u'Please fill in at least one of the fields '
+                              '"Year of publication" and "Year of publication '
+                              '(online)".'))
+
+
 ReviewMonographSchema = BookReviewSchema.copy() + \
                         CoverPictureSchema.copy() + \
                         EditorialSchema.copy() + \
@@ -32,7 +47,8 @@ ReviewMonographSchema = BookReviewSchema.copy() + \
                         SerialSchema.copy()
 
 ReviewMonographSchema['title'].storage = atapi.AnnotationStorage()
-ReviewMonographSchema['yearOfPublication'].required = True
+ReviewMonographSchema['yearOfPublication'].validators = (
+    YearOfPublicationValidator())
 finalize_recensio_schema(ReviewMonographSchema)
 
 
