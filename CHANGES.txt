@@ -6,6 +6,8 @@ Changelog
 
 - Allow showing external link instead of directly using full text. Refs #15625
   [reinhardt]
+- Added extra fields for ebooks. Refs #15676
+  [reinhardt]
 - Added field "PPN". Refs #15431
   [reinhardt]
 - Insert portal title into "downloaded via" note in citation. Refs #15448

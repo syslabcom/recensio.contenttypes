@@ -135,22 +135,24 @@
         <p i18n:translate="" >Thank you!</p>
         <ul></ul>
     </div>
-    <span class="discreet" style="display:None" id="automatic_import_note" i18n:translate="">automatic import of metadata</span>
+    <span class="discreet" style="display:None" id="automatic_import_note_tmpl" i18n:translate="">automatic import of metadata</span>
 
     <select id="ddcPlace_bsb">
         <option value="42.5" tal:repeat="ddc view/getDdcPlace" tal:attributes="value python:ddc[0]" tal:content="python:ddc[1]">Deutschland</option>
     </select>
     <script type="text/javascript">
         jq(document).ready(function(){
-            jq('#isbn').after('<input type="button" rel="#oaisuggestions" value="OPAC" id="opac_query"/>').next().after(jq('#automatic_import_note').show());
-            jq('#opac_query[rel]').overlay({
-                left: '200px',
-                onBeforeLoad: function(){
-                    getDataFromOAI(jq('#isbn').val());
-                    jq('#oaisuggestions .spinner').show();
-                },
-                onClose: function(){jq('div.oaisuggestion:not(#oaisuggestiontemplate):not(#oaisuggestiontemplateempty)').remove();},
-            });
+            for (var postfixes = ['', '_online'], i = 0; i<postfixes.length; i++) {
+                jq('#isbn' + postfixes[i]).after('<input type="button" rel="#oaisuggestions" value="OPAC" id="opac_query' + postfixes[i] + '"/>').next().after(jq('#automatic_import_note_tmpl').clone().attr('id', 'automatic_import_note' + postfixes[i]).show());
+                jq('#opac_query' + postfixes[i] + '[rel]').overlay({
+                    left: '200px',
+                    onBeforeLoad: function(){
+                        getDataFromOAI(jq('#isbn' + postfixes[i]).val());
+                        jq('#oaisuggestions .spinner').show();
+                    },
+                    onClose: function(){jq('div.oaisuggestion:not(#oaisuggestiontemplate):not(#oaisuggestiontemplateempty)').remove();},
+                });
+            }
         });
         jq(document).ready(function(){
             var missing=false;

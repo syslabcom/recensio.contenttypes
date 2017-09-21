@@ -458,7 +458,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             data = " ".join([data, self.getYearOfPublication()])
         if hasattr(self, 'getPlaceOfPublication'):
             data = " ".join([data, self.getPlaceOfPublication()])
-        data = " ".join([data, isbn(self)()])
+        data = " ".join([data] + isbn(self)())
+
+        if hasattr(self, 'getYearOfPublicationOnline'):
+            data = " ".join([data, self.getYearOfPublicationOnline()])
+        if hasattr(self, 'getPlaceOfPublicationOnline'):
+            data = " ".join([data, self.getPlaceOfPublicationOnline()])
 
         # get text from pdf
         datastream = ""
@@ -572,6 +577,18 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     def setCanonical_uri(self, value):
         self.setLazyUrl('canonical_uri', value)
+
+    def setUrl_monograph(self, value):
+        self.setLazyUrl('url_monograph', value)
+
+    def setUrn_monograph(self, value):
+        self.setLazyUrl('urn_monograph', value)
+
+    def setUrl_journal(self, value):
+        self.setLazyUrl('url_journal', value)
+
+    def setUrn_journal(self, value):
+        self.setLazyUrl('urn_journal', value)
 
     def generateDoi(self):
         factorytool = getToolByName(self, 'portal_factory', None)
