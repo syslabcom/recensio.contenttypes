@@ -31,18 +31,39 @@ DoiSettingsSchema = atapi.Schema((
 
 ))
 
-VolumeSchema = folder.ATFolderSchema.copy() + DoiSettingsSchema.copy() + atapi.Schema((
+FulltextSettingsSchema = atapi.Schema((
 
-    atapi.StringField(
-        'yearOfPublication',
+    atapi.BooleanField(
+        'useExternalFulltext',
+        accessor='isUseExternalFulltext',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"label_metadata_official_year_of_publication",
-                    default=u"Official year of publication"),
+        default=False,
+        widget=atapi.BooleanWidget(
+            label=_(u"Use external full text"),
+            description=_(
+                u'description_use_external_full_text',
+                default=(u"Don't show the full text of contained reviews "
+                         "directly but link to the external source instead."),
+            ),
         ),
     ),
-
 ))
+
+VolumeSchema = (
+    folder.ATFolderSchema.copy() + DoiSettingsSchema.copy() +
+    FulltextSettingsSchema.copy() + atapi.Schema((
+
+        atapi.StringField(
+            'yearOfPublication',
+            storage=atapi.AnnotationStorage(),
+            widget=atapi.StringWidget(
+                label=_(u"label_metadata_official_year_of_publication",
+                        default=u"Official year of publication"),
+            ),
+        ),
+
+    ))
+)
 
 # Set storage on fields copied from ATFolderSchema, making sure
 # they work well with the python bridge properties.
@@ -70,5 +91,6 @@ class Volume(container.Container):
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
 
     doiRegistrationActive = atapi.ATFieldProperty('doiRegistrationActive')
+    useExternalFulltext = atapi.ATFieldProperty('useExternalFulltext')
 
 atapi.registerType(Volume, PROJECTNAME)

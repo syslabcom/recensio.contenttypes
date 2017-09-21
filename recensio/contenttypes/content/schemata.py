@@ -340,6 +340,20 @@ ReviewSchema = atapi.Schema((
             ),
         ),
     ),
+    ImageField(
+        'customCoverImage',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        required=False,
+        widget=atapi.FileWidget(
+            label=_(u"Custom cover image"),
+            description=_(
+                u"description_custom_cover_image",
+                default=u"Image that will be shown as a link to the external "
+                "full text. Only used if \"Use external full text\" is "
+                "activated on the volume or issue."),
+        ),
+    ),
     ))
 
 PresentationSchema = atapi.Schema((
