@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.3.0 (unreleased)
+4.3.0 (2017-09-21)
 ------------------
 
 - Allow showing external link instead of directly using full text. Refs #15625
@@ -38,7 +38,7 @@ Changelog
 4.1.0 (2017-01-27)
 ------------------
 
-- Töchter, refs #13569, #13568
+- TÃ¶chter, refs #13569, #13568
   [reinhardt]
 
 
