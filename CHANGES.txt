@@ -4,7 +4,9 @@ Changelog
 4.3.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Review view: Don't break if certain attributes are missing (as with
+  presentations). Refs #15982
+  [reinhardt]
 
 
 4.3.0 (2017-09-21)
