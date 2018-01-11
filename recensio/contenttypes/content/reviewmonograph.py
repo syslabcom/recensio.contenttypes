@@ -290,6 +290,9 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock.UID = lambda :'12345'
         >>> at_mock.canonical_uri = ''
         >>> at_mock.page_start_end_in_print = '11-21'
+        >>> at_mock.isDoiRegistrationActive = lambda: False
+        >>> at_mock.getDoi = lambda: None
+        >>> at_mock.generateDoi = lambda: None
         >>> review = ReviewMonographNoMagic(at_mock)
         >>> review.directTranslate = lambda m: m.default
         >>> review.get_citation_string()
