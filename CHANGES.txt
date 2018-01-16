@@ -4,7 +4,8 @@ Changelog
 4.3.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Replaced Twitter button with new social media buttons. Refs #16159
+  [reinhardt]
 
 
 4.3.1 (2017-11-16)

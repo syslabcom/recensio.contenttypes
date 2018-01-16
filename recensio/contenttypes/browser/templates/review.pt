@@ -105,10 +105,6 @@
               tal:condition="view/do_visit_canonical_uri"
               tal:attributes="src string:${context/canonical_uri}?recensio=true"></iframe>
 
-      <div id="twitter-it">
-        <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-      </div>
-
     </div>
 
     <metal:portlets fill-slot="portlets_two_slot"
@@ -133,8 +129,18 @@
         </p>
       </div>
 
-      <div id="twitter-it">
-        <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+      <div id="social-media-content">
+          <img tal:attributes="src string:${context/absolute_url}/++resource++recensio.theme.images/social-media-icons.png" src="++resource++recensio.theme.images/social-media-icons.png" alt="Social Media Buttons" id="social-media-buttons-content" usemap="#socialmap-content" />
+          <map name="socialmap-content">
+              <area tal:attributes="href string:https://www.facebook.com/sharer/sharer.php?u=${context/absolute_url}"
+                    shape="rect" coords="0,0,30,30" alt="fb" href="https://www.facebook.com/sharer/sharer.php?u=http://www.recensio.net">
+              <area tal:attributes="href string:http://twitter.com/home?status=${context/absolute_url}"
+                    shape="rect" coords="30,0,60,30" alt="twitter" href="http://twitter.com/home?status=http://www.recensio.net">
+              <area tal:attributes="href string:https://www.linkedin.com/shareArticle?mini=true&amp;url=${context/absolute_url}"
+                    shape="rect" coords="60,0,90,30" alt="twitter" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://www.recensio.net">
+              <area tal:attributes="href string:https://plus.google.com/share?url=${context/absolute_url}"
+                    shape="rect" coords="90,0,120,30" alt="twitter" href="https://plus.google.com/share?url=http://www.recensio.net">
+          </map>
       </div>
 
       <div tal:define="metadata_field_names context/metadata_fields;
