@@ -6,6 +6,9 @@ Changelog
 
 - Metadata accordion: SVGs to replace GIFs. Refs #16175
   [reinhardt]
+- Review view: Only show commenting button if commenting is enabled.
+  Refs #16221
+  [reinhardt]
 
 
 4.3.2 (2018-01-18)

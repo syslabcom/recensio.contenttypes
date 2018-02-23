@@ -84,6 +84,7 @@
         <p>
           <button onclick="window.location = '#commenting';"
                   value="Kommentieren"
+                  tal:condition="context/conversation_view/enabled|nothing"
                   i18n:translate="label_jump_to_add_comment">Kommentieren</button>
         </p>
         <p tal:condition="view/show_dara_update">
