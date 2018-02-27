@@ -33,13 +33,31 @@ class TestPublication(unittest.TestCase):
 
     def test_review_licence(self):
         """ Ensure that when a custom licence is set on the
-        Publication this is visibile on it's child review"""
+        Publication this is visibile on its child review"""
         default_review_licence = u'license-note-review'
         self.assertEqual(default_review_licence,
                          self.review.getLicense())
         custom_licence = u"Custom Licence"
         self.publication.licence = custom_licence
         self.assertEqual(custom_licence,
+                         self.review.getLicense())
+
+        issue = self.review.aq_parent
+        volume = issue.aq_parent
+
+        volume_licence = u"Custom Volume Licence"
+        volume.licence = volume_licence
+        self.assertEqual(volume_licence,
+                         self.review.getLicense())
+
+        issue_licence = u"Custom Issue Licence"
+        issue.licence = issue_licence
+        self.assertEqual(issue_licence,
+                         self.review.getLicense())
+
+        review_licence = u"Custom Review Licence"
+        self.review.licence = review_licence
+        self.assertEqual(review_licence,
                          self.review.getLicense())
 
 

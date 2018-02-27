@@ -15,8 +15,8 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
     BaseReview, BaseReviewNoMagic, get_formatted_names)
 from recensio.contenttypes.content.schemata import (
-    CoverPictureSchema, JournalReviewSchema, PageStartEndInPDFSchema,
-    PageStartEndOfReviewInJournalSchema, ReviewSchema,
+    CoverPictureSchema, JournalReviewSchema, LicenceSchema,
+    PageStartEndInPDFSchema, PageStartEndOfReviewInJournalSchema, ReviewSchema,
     finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewJournal
 
@@ -24,7 +24,7 @@ ReviewJournalSchema = JournalReviewSchema.copy() + \
                       CoverPictureSchema.copy() + \
                       PageStartEndInPDFSchema.copy() + \
                       PageStartEndOfReviewInJournalSchema.copy() + \
-                      ReviewSchema.copy() + \
+                      ReviewSchema.copy() + LicenceSchema.copy() + \
                       atapi.Schema((
     atapi.StringField(
         'editor',
@@ -41,7 +41,7 @@ ReviewJournalSchema['title'].storage = atapi.AnnotationStorage()
 ReviewJournalSchema['title'].widget.label = _(u"Title (journal)")
 ReviewJournalSchema['subtitle'].widget.visible={
     "view":"hidden", "edit":"hidden"}
-finalize_recensio_schema(ReviewJournalSchema)
+finalize_recensio_schema(ReviewJournalSchema, review_type="review_journal")
 
 class ReviewJournal(BaseReview):
     """Review Journal"""

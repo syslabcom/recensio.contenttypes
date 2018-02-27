@@ -8,6 +8,7 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
 from recensio.contenttypes.content import container
+from recensio.contenttypes.content.schemata import LicenceSchema
 
 # -*- Message Factory Imported Here -*-
 
@@ -15,7 +16,8 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.interfaces import IPublication
 from recensio.contenttypes.config import PROJECTNAME
 
-PublicationSchema = folder.ATFolderSchema.copy() + atapi.Schema((
+PublicationSchema = folder.ATFolderSchema.copy() + \
+    atapi.Schema((
 
     atapi.BooleanField(
         'useCanonicalUriForBVID',
@@ -33,7 +35,7 @@ PublicationSchema = folder.ATFolderSchema.copy() + atapi.Schema((
         ),
     ),
 
-))
+)) + LicenceSchema.copy()
 
 # Set storage on fields copied from ATFolderSchema, making sure
 # they work well with the python bridge properties.

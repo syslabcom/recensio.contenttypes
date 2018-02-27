@@ -16,7 +16,7 @@ from recensio.contenttypes.content.review import (
     BaseReview, BaseReviewNoMagic, get_formatted_names)
 from recensio.contenttypes.content.schemata import (
     BookReviewSchema, CoverPictureSchema, EditorialSchema,
-    PageStartEndInPDFSchema, PageStartEndOfReviewInJournalSchema,
+    LicenceSchema, PageStartEndInPDFSchema, PageStartEndOfReviewInJournalSchema,
     PagecountSchema, ReviewSchema, SerialSchema,
     finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewMonograph
@@ -44,12 +44,13 @@ ReviewMonographSchema = BookReviewSchema.copy() + \
                         PageStartEndOfReviewInJournalSchema.copy() + \
                         PagecountSchema.copy() + \
                         ReviewSchema.copy() + \
-                        SerialSchema.copy()
+                        SerialSchema.copy() + \
+                        LicenceSchema.copy()
 
 ReviewMonographSchema['title'].storage = atapi.AnnotationStorage()
 ReviewMonographSchema['yearOfPublication'].validators = (
     YearOfPublicationValidator())
-finalize_recensio_schema(ReviewMonographSchema)
+finalize_recensio_schema(ReviewMonographSchema, review_type="review_monograph")
 
 
 class ReviewMonograph(BaseReview):
@@ -174,6 +175,7 @@ class ReviewMonograph(BaseReview):
         "urn",
         "bv",
         "ppn",
+        "licence",
     ]
 
     for i, field in enumerate(ordered_fields):

@@ -12,6 +12,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 
 from recensio.contenttypes.interfaces import IVolume
 from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.content.schemata import LicenceSchema
 
 DoiSettingsSchema = atapi.Schema((
 
@@ -62,7 +63,7 @@ VolumeSchema = (
             ),
         ),
 
-    ))
+    )) + LicenceSchema.copy()
 )
 
 # Set storage on fields copied from ATFolderSchema, making sure

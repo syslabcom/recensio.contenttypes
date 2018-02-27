@@ -108,6 +108,9 @@ def finalize_recensio_schema(schema, review_type="review"):
         # Note: The characterLimit validator checks the portal_type to
         # see if it should be applied or not. Setting it here didn't
         # seem to work
+    elif review_type in ["review_monograph",
+                         "review_journal"]:
+        schema.changeSchemataForField('licence', 'review')
 
     hidden_fields = ["allowDiscussion", "contributors", "creators",
                      "description", "description", "effectiveDate",
@@ -1028,6 +1031,28 @@ JournalReviewSchema['yearOfPublication'].widget.label = _(
     u"Actual year of publication")
 
 
+LicenceSchema = atapi.Schema((
+
+        atapi.StringField(
+            'licence',
+            widget = atapi.TextAreaWidget(
+                label = _(
+                    u'label_publication_licence',
+                    default = u'Publication Licence'),
+                description = _(
+                    u'description_publication_licence',
+                    default = (
+                        u'Please specify the licence terms under which reviews '
+                        'may be used. This text will be displayed on the front '
+                        'page of the PDF version and to the side of the web '
+                        'version of each review for this publication.'
+                        )
+                    ),
+                rows = 3,
+                )
+            )
+))
+
 class PublicationLogoWatermarkField(ExtensionField, ImageField):
     """ Newspaper/Publication watermark logo #3104 """
 
@@ -1057,25 +1082,6 @@ class PublicationExtender(object):
                     )
                 )
             ),
-
-        PublicationLicenceField(
-            'licence',
-            widget = atapi.TextAreaWidget(
-                label = _(
-                    u'label_publication_licence',
-                    default = u'Publication Licence'),
-                description = _(
-                    u'description_publication_licence',
-                    default = (
-                        u'Please specify the licence terms under which reviews '
-                        'may be used. This text will be displayed on the front '
-                        'page of the PDF version and to the side of the web '
-                        'version of each review for this publication.'
-                        )
-                    ),
-                rows = 3,
-                )
-            )
         ]
 
     def __init__(self, context):

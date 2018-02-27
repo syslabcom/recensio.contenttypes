@@ -81,8 +81,15 @@ class BaseReviewNoMagic(BaseNoMagic):
         self = real_self.magic
         publication = self.get_parent_object_of_type("Publication")
         publication_licence = ""
+        current = self
         if publication != None:
-            publication_licence = getattr(publication, "licence", "")
+            while current != publication:
+                publication_licence = getattr(current, "licence", "")
+                if publication_licence:
+                    break
+                current = current.aq_parent
+            if not publication_licence:
+                publication_licence = getattr(publication, "licence", "")
         return True and publication_licence or _('license-note-review')
 
     def getFirstPublicationData(real_self):

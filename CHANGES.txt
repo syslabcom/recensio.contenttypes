@@ -9,6 +9,10 @@ Changelog
 - Review view: Only show commenting button if commenting is enabled.
   Refs #16221
   [reinhardt]
+- Licence can be entered on Volume, Issue and Review as well as on Publication.
+  Licence text is treated as HTML.
+  Refs #16194
+  [reinhardt]
 
 
 4.3.2 (2018-01-18)

@@ -12,12 +12,13 @@ from recensio.contenttypes.content import container
 
 from recensio.contenttypes.interfaces import IIssue
 from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.content.schemata import LicenceSchema
 from recensio.contenttypes.content.volume import DoiSettingsSchema
 from recensio.contenttypes.content.volume import FulltextSettingsSchema
 
 IssueSchema = (
     folder.ATFolderSchema.copy() + DoiSettingsSchema.copy() +
-    FulltextSettingsSchema.copy() + atapi.Schema((
+    FulltextSettingsSchema.copy() + LicenceSchema.copy() + atapi.Schema((
 
         # -*- Your Archetypes field definitions here ... -*-
 
