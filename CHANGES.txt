@@ -13,6 +13,9 @@ Changelog
   Licence text is treated as HTML.
   Refs #16194
   [reinhardt]
+- Allow hiding URL in citation rules box. Also hide URL if external full text
+  is used. Refs #16234
+  [reinhardt]
 
 
 4.3.2 (2018-01-18)

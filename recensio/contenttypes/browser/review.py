@@ -317,5 +317,16 @@ class View(BrowserView):
         except AttributeError:
             return False
 
+    def is_url_shown_in_citation_note(self):
+        is_external_fulltext = getattr(
+            self.context,
+            'isUseExternalFulltext',
+            lambda: False)()
+        is_url_shown_via_review = getattr(
+            self.context,
+            'isURLShownInCitationNote',
+            lambda: False)()
+        return not is_external_fulltext and is_url_shown_via_review
+
     def __call__(self):
         return self.template()

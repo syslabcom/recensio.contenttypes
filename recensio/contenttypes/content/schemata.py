@@ -357,6 +357,24 @@ ReviewSchema = atapi.Schema((
                 "activated on the volume or issue."),
         ),
     ),
+    atapi.BooleanField(
+        'URLShownInCitationNote',
+        schemata="review",
+        storage=atapi.AnnotationStorage(),
+        accessor='isURLShownInCitationNote',
+        default=True,
+        widget=atapi.BooleanWidget(
+            label=_(u'label_is_url_shown_in_citation_note',
+                    default=u"Show URL in citation rules box"),
+            description=_(
+                u'description_is_url_shown_in_citation_note',
+                default=(u"Show the URL of the review in the \"Citation "
+                         "rules\" box. This does not affect the actual "
+                         "citation string nor the display of the Original URL."
+                         )
+                ),
+            )
+        )
     ))
 
 PresentationSchema = atapi.Schema((
