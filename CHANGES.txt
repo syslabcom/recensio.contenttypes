@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.3.3 (unreleased)
+4.4.0 (2018-03-05)
 ------------------
 
 - Metadata accordion: SVGs to replace GIFs. Refs #16175
