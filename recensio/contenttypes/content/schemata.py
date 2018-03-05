@@ -369,8 +369,11 @@ ReviewSchema = atapi.Schema((
             description=_(
                 u'description_is_url_shown_in_citation_note',
                 default=(u"Show the URL of the review in the \"Citation "
-                         "rules\" box. This does not affect the actual "
-                         "citation string nor the display of the Original URL."
+                         "rules\" box. This has no effect if an external full "
+                         "text is used for the review, in which case the URL "
+                         "is always hidden. Note that this setting does not "
+                         "affect the actual citation string nor the display "
+                         "of the Original URL."
                          )
                 ),
             )
