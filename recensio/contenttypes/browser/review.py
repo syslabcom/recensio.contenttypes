@@ -18,10 +18,11 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.browser.canonical import CanonicalURLHelper
 from recensio.contenttypes.content.review import get_formatted_names
 from recensio.contenttypes.interfaces import IParentGetter
 
-class View(BrowserView):
+class View(BrowserView, CanonicalURLHelper):
     """Moderation View
     """
     template = ViewPageTemplateFile('templates/review.pt')
@@ -329,4 +330,7 @@ class View(BrowserView):
         return not is_external_fulltext and is_url_shown_via_review
 
     def __call__(self):
+        canonical_url = self.get_canonical_url()
+        if canonical_url != self.request['ACTUAL_URL']:
+            return self.request.response.redirect(canonical_url, status=301)
         return self.template()
