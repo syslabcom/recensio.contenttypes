@@ -6,6 +6,8 @@ Changelog
 
 - Don't show "downloaded via" for reviews that use an external full text.
   #REC-984
+- Support for adjusted CSS in separate accordion items on review view.
+  #REC-984
 
 
 4.4.1 (2018-05-25)
