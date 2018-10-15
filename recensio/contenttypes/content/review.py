@@ -124,7 +124,7 @@ class BaseReviewNoMagic(BaseNoMagic):
             doi = self.getDoi()
             location.append(u'DOI: <a href="http://dx.doi.org/%s">%s</a>'
                             % (doi, doi))
-        if has_canonical_uri: #3102
+        if has_canonical_uri and not self.isUseExternalFulltext(): #3102 #REC-984
             location.append(real_self.directTranslate(
                 Message(u"label_downloaded_via_recensio",
                         "recensio",

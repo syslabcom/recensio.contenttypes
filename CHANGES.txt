@@ -4,7 +4,8 @@ Changelog
 4.4.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Don't show "downloaded via" for reviews that use an external full text.
+  #REC-984
 
 
 4.4.1 (2018-05-25)
