@@ -570,33 +570,6 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
         return escape(result)
 
-    def setLazyUrl(self, field, value):
-        if isinstance(value, basestring) and value and \
-                not value.startswith('http://'):
-            value = 'http://' + value
-        self.getField(field).set(self, value)
-
-    def setReviewAuthorPersonalUrl(self, value):
-        self.setLazyUrl('reviewAuthorPersonalUrl', value)
-
-    def setUri(self, value):
-        self.setLazyUrl('uri', value)
-
-    def setCanonical_uri(self, value):
-        self.setLazyUrl('canonical_uri', value)
-
-    def setUrl_monograph(self, value):
-        self.setLazyUrl('url_monograph', value)
-
-    def setUrn_monograph(self, value):
-        self.setLazyUrl('urn_monograph', value)
-
-    def setUrl_journal(self, value):
-        self.setLazyUrl('url_journal', value)
-
-    def setUrn_journal(self, value):
-        self.setLazyUrl('urn_journal', value)
-
     def generateDoi(self):
         factorytool = getToolByName(self, 'portal_factory', None)
         if factorytool is not None and factorytool.isTemporary(self):
