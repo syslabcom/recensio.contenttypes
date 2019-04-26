@@ -121,7 +121,7 @@
             </tr>
         </table>
         <div style="display:None;" id="missing_exlanation" i18n:translate="" >
-            Recensio does not know how to safe these categories. We attach them
+            Recensio does not know how to save these categories. We attach them
             to the document below. Please try to find matching categories.
             The hints below will be removed when you reload or safe the page.
         </div>
@@ -142,17 +142,26 @@
     </select>
     <script type="text/javascript">
         jq(document).ready(function(){
-            for (var postfixes = ['', '_online'], i = 0; i<postfixes.length; i++) {
-                jq('#isbn' + postfixes[i]).after('<input type="button" rel="#oaisuggestions" value="OPAC" id="opac_query' + postfixes[i] + '"/>').next().after(jq('#automatic_import_note_tmpl').clone().attr('id', 'automatic_import_note' + postfixes[i]).show());
-                jq('#opac_query' + postfixes[i] + '[rel]').overlay({
-                    left: '200px',
-                    onBeforeLoad: function(){
-                        getDataFromOAI(jq('#isbn' + postfixes[i]).val());
-                        jq('#oaisuggestions .spinner').show();
-                    },
-                    onClose: function(){jq('div.oaisuggestion:not(#oaisuggestiontemplate):not(#oaisuggestiontemplateempty)').remove();},
-                });
-            }
+            postfix = '';
+            jq('#isbn').after('<input type="button" rel="#oaisuggestions" value="OPAC" id="opac_query"/>').next().after(jq('#automatic_import_note_tmpl').clone().attr('id', 'automatic_import_note').show());
+            jq('#opac_query[rel]').overlay({
+                left: '200px',
+                onBeforeLoad: function(){
+                    getDataFromOAI(jq('#isbn').val());
+                    jq('#oaisuggestions .spinner').show();
+                },
+                onClose: function(){jq('div.oaisuggestion:not(#oaisuggestiontemplate):not(#oaisuggestiontemplateempty)').remove();},
+            });
+
+            jq('#isbn_online').after('<input type="button" rel="#oaisuggestions" value="OPAC" id="opac_query_online"/>').next().after(jq('#automatic_import_note_tmpl').clone().attr('id', 'automatic_import_note_online').show());
+            jq('#opac_query_online[rel]').overlay({
+                left: '200px',
+                onBeforeLoad: function(){
+                    getDataFromOAI(jq('#isbn_online').val());
+                    jq('#oaisuggestions .spinner').show();
+                },
+                onClose: function(){jq('div.oaisuggestion:not(#oaisuggestiontemplate):not(#oaisuggestiontemplateempty)').remove();},
+            });
         });
         jq(document).ready(function(){
             var missing=false;
