@@ -4,7 +4,8 @@ Changelog
 4.4.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Review view: Provide titles for accordion boxes and contained links so that
+  zotero metadata string is not visible. #FLOW-444
 
 
 4.4.2 (2018-12-12)

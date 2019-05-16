@@ -193,19 +193,19 @@ class View(BrowserView, CanonicalURLHelper):
                 url = context.canonical_uri
                 if url:
                     label = self.get_label(fields, field, context.meta_type)
-                    value = ('<a rel="canonical_uri" href="%s">%s</a>'
-                             % (url, url))
+                    value = ('<a rel="canonical_uri" href="%s" title="%s">%s</a>'
+                             % (url, url, url))
             elif field == 'uri':
                 url = context.uri
                 if url:
                     label = self.get_label(fields, field, context.meta_type)
-                    value = ('<a href="%s">%s</a>'
-                             % (url, url))
+                    value = ('<a href="%s" title="%s">%s</a>'
+                             % (url, url, url))
             elif field == 'doi':
                 doi_url = self.get_doi_url_if_active()
                 if doi_url:
-                    value = ('<a rel="doi" href="%s">%s</a>' %
-                            (doi_url, context.getDoi()))
+                    value = ('<a rel="doi" href="%s" title="%s">%s</a>' %
+                            (doi_url, doi_url, context.getDoi()))
                     label = self.get_label(fields, field, context.meta_type)
                 else:
                     label = None

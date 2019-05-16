@@ -152,7 +152,7 @@
 
           <div id="accordion-container">
             <ul class="accordion">
-              <li class="accordion-item" id="metadata">
+              <li class="accordion-item" id="metadata" title="metadata" i18n:attributes="title">
                 <h2>
 
                     <a class="trigger">
@@ -197,7 +197,7 @@
                   </li>
                 </ul>
               </li>
-              <li class="accordion-item" id="citation">
+              <li class="accordion-item" id="citation" title="citation_note" i18n:attributes="title">
                 <h2>
 
                     <a class="trigger">
@@ -217,13 +217,17 @@
                     <dl>
                       <tal:absolute_url condition="view/is_url_shown_in_citation_note">
                         <dt i18n:translate="url">URL:</dt>
-                        <dd><a tal:attributes="href context/absolute_url"
+                        <dd><a tal:attributes="href context/absolute_url;
+                                               title context/absolute_url;
+                                               "
                                 tal:content="context/absolute_url"></a></dd>
                       </tal:absolute_url>
                       <tal:canonical_uri define="url context/canonical_uri | nothing"
                                          condition="url">
                         <dt i18n:translate="heading_first_published">First published:</dt>
-                        <dd><a tal:attributes="href url"
+                        <dd><a tal:attributes="href url;
+                                               title url;
+                                               "
                                tal:content="url"></a>
                         </dd>
                       </tal:canonical_uri>
@@ -232,7 +236,7 @@
                   </li>
                 </ul>
               </li>
-              <li class="accordion-item" id="license">
+              <li class="accordion-item" id="license" title="license-note-heading" i18n:attributes="title">
                 <h2>
 
                     <a class="trigger">
@@ -263,7 +267,7 @@
                   </li>
                 </ul>
               </li>
-              <li class="accordion-item" id="online-publication"
+              <li class="accordion-item" id="online-publication" title="links-box-heading" i18n:attributes="title"
                   tal:condition="python:context.Type().startswith('Presentation')">
                 <h2 i18n:translate="links-box-heading">Links</h2>
                 <ul class="accordion-content">
