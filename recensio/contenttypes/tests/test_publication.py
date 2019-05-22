@@ -3,8 +3,20 @@
 Tests for the Publication content type and items it can contain
 """
 import unittest2 as unittest
+from contextlib import contextmanager
+from plone import api
 from recensio.contenttypes.interfaces.review import IParentGetter
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
+
+
+@contextmanager
+def change_language(request, language):
+    language_tool = api.portal.get_tool('portal_languages')
+    request.form['set_language'] = language
+    language_tool.setLanguageBindings()
+    yield request
+    del request.form['set_language']
+    language_tool.setLanguageBindings()
 
 
 class TestPublication(unittest.TestCase):
@@ -14,6 +26,7 @@ class TestPublication(unittest.TestCase):
 
     def setUp(self):
         self.portal      = self.layer["portal"]
+        self.request     = self.layer["request"]
         self.publication = self.portal["sample-reviews"]["newspapera"]
         self.review      = self.portal.portal_catalog.search(
             {"portal_type" :"Review Monograph",
@@ -34,13 +47,26 @@ class TestPublication(unittest.TestCase):
     def test_review_licence(self):
         """ Ensure that when a custom licence is set on the
         Publication this is visibile on its child review"""
+        language_tool = api.portal.get_tool('portal_languages')
+        language_tool.use_cookie_negotiation = True
         default_review_licence = u'license-note-review'
-        self.assertEqual(default_review_licence,
-                         self.review.getLicense())
+        with change_language(self.request, 'de'):
+            self.assertEqual(default_review_licence,
+                             self.review.getLicense())
+        with change_language(self.request, 'en'):
+            self.assertEqual(default_review_licence,
+                             self.review.getLicense())
+
         custom_licence = u"Custom Licence"
+        custom_licence_en = u"Custom Licence English"
         self.publication.licence = custom_licence
-        self.assertEqual(custom_licence,
-                         self.review.getLicense())
+        self.publication.licence_en = custom_licence_en
+        with change_language(self.request, 'de'):
+            self.assertEqual(custom_licence,
+                             self.review.getLicense())
+        with change_language(self.request, 'en'):
+            self.assertEqual(custom_licence_en,
+                             self.review.getLicense())
 
         issue = self.review.aq_parent
         volume = issue.aq_parent

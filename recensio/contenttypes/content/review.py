@@ -78,18 +78,24 @@ class BaseNoMagic(object):
 
 class BaseReviewNoMagic(BaseNoMagic):
     def getLicense(real_self):
+        language_tool = api.portal.get_tool('portal_languages')
+        language = language_tool.getPreferredLanguage()
+        if language == 'en':
+            field = "licence_en"
+        else:
+            field = "licence"
         self = real_self.magic
         publication = self.get_parent_object_of_type("Publication")
         publication_licence = ""
         current = self
         if publication != None:
             while current != publication:
-                publication_licence = getattr(current, "licence", "")
+                publication_licence = getattr(current, field, "")
                 if publication_licence:
                     break
                 current = current.aq_parent
             if not publication_licence:
-                publication_licence = getattr(publication, "licence", "")
+                publication_licence = getattr(publication, field, "")
         return True and publication_licence or _('license-note-review')
 
     def getFirstPublicationData(real_self):
