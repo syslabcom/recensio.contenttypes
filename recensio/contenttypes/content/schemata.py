@@ -808,6 +808,20 @@ PrintedReviewSchema = CommonReviewSchema.copy() + \
             label=_(u"Subtitle"),
             ),
         ),
+    DataGridField(
+        'additionalTitles',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        columns=("title", "subtitle"),
+        default=[],
+        widget=DataGridWidget(
+            label = _(u"Additional titles (other languages)"),
+            columns = {"title" : Column(_(u"Title")),
+                       "subtitle" : Column(_(u"Subtitle")),
+                       }
+            ),
+        searchable=True,
+        ),
     # Q: DateTimeField or perhaps IntegerField ?
     atapi.StringField(
         'yearOfPublication',

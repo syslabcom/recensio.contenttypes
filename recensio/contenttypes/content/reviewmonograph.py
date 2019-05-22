@@ -92,6 +92,7 @@ class ReviewMonograph(BaseReview):
 
     # Printed
     subtitle = atapi.ATFieldProperty('subtitle')
+    additionalTitles = atapi.ATFieldProperty('additionalTitles')
     yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
     placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
     publisher = atapi.ATFieldProperty('publisher')
@@ -144,6 +145,7 @@ class ReviewMonograph(BaseReview):
         "editorial",
         "title",
         "subtitle",
+        "additionalTitles",
         "yearOfPublication",
         "placeOfPublication",
         "publisher",
@@ -279,8 +281,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
         >>> at_mock.formatted_authors_editorial = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
-        >>> at_mock.title = "Plone 4.0♥?"
-        >>> at_mock.subtitle = "Das Benutzerhandbuch♥"
+        >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0♥? Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname' : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'
         >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
@@ -326,16 +327,12 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
             ':'         : real_self.directTranslate(Message(
                     u"text_colon", "recensio", default=":")),
             }
-        if self.title[-1] in '!?:;.,':
-            title_subtitle = getFormatter(u' ')
-        else:
-            title_subtitle = getFormatter(u'. ')
         rev_details_formatter = getFormatter(
             u', ', u', ', u'%(:)s ' % args, u', ')
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
         authors_string = self.formatted_authors_editorial
-        title_subtitle_string = title_subtitle(self.title, self.subtitle)
+        title_subtitle_string = self.punctuated_title_and_subtitle
         item_string = rev_details_formatter(
             authors_string, title_subtitle_string,
             self.placeOfPublication, self.publisher,

@@ -458,6 +458,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
         if hasattr(self, 'getSubtitle'):
             data = " ".join([data, self.getSubtitle()])
+        if hasattr(self, 'getAdditionalTitles'):
+            for t in self.getAdditionalTitles():
+                data = " ".join([data, t['title'], t['subtitle'], ])
         data = " ".join([data, self.getReview()])
 
         data = " ".join([data, self.Creator()])
@@ -509,11 +512,22 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         have the subtitle field"""
         title = self.title
         subtitle = self.subtitle
-        last_char = title[-1]
-        if last_char in ["!", "?", ":", ";", ".", ","]:
-            return getFormatter(" ")(title, subtitle)
-        else:
-            return getFormatter(". ")(title, subtitle)
+        titles = [(self.title, self.subtitle), ] + [
+            (additional["title"], additional["subtitle"])
+            for additional in self.getAdditionalTitles()
+        ]
+
+        def format(title, subtitle):
+            last_char = title[-1]
+            if last_char in ["!", "?", ":", ";", ".", ","]:
+                return getFormatter(" ")(title, subtitle)
+            else:
+                return getFormatter(". ")(title, subtitle)
+
+        return " / ".join([
+            format(title, subtitle) for title, subtitle in titles
+            if title
+        ])
 
     @property
     def formatted_authors_editorial(self):

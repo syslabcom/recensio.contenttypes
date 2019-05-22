@@ -209,6 +209,9 @@ class View(BrowserView, CanonicalURLHelper):
                     label = self.get_label(fields, field, context.meta_type)
                 else:
                     label = None
+            elif field == "title":
+                label = self.get_label(fields, field, context.meta_type)
+                value = context.punctuated_title_and_subtitle
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
