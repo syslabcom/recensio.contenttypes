@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.4.3 (unreleased)
+4.5.0 (2019-06-05)
 ------------------
 
 - Review view: Provide titles for accordion boxes and contained links so that
