@@ -211,7 +211,24 @@ class View(BrowserView, CanonicalURLHelper):
                     label = None
             elif field == "title":
                 label = self.get_label(fields, field, context.meta_type)
-                value = context.punctuated_title_and_subtitle
+                titles = [context.title]
+                titles.extend(
+                    [
+                        additional["title"]
+                        for additional in context.getAdditionalTitles()
+                    ]
+                )
+                value = '/'.join(titles)
+            elif field == "subtitle":
+                label = self.get_label(fields, field, context.meta_type)
+                subtitles = [context.subtitle]
+                subtitles.extend(
+                    [
+                        additional["subtitle"]
+                        for additional in context.getAdditionalTitles()
+                    ]
+                )
+                value = '/'.join(subtitles)
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
