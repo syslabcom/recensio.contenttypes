@@ -111,6 +111,7 @@ def finalize_recensio_schema(schema, review_type="review"):
     elif review_type in ["review_monograph",
                          "review_journal",
                          "review_article_journal",
+                         "review_article_collection",
                          ]:
         schema.changeSchemataForField('licence', 'review')
 
@@ -1089,6 +1090,39 @@ LicenceSchema = atapi.Schema((
                 )
             )
 ))
+
+
+ArticleSchema = atapi.Schema((
+    atapi.StringField(
+        'url_article',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators = (isLazyURL,),
+        mutator = 'setUrl_article',
+        widget=atapi.StringWidget(
+            label=_(u"URL (Aufsatz)"),
+        ),
+    ),
+    atapi.StringField(
+        'urn_article',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators = (isLazyURL,),
+        mutator = 'setUrn_article',
+        widget=atapi.StringWidget(
+            label=_(u"URN (Aufsatz)"),
+        ),
+    ),
+    atapi.StringField(
+        'doi_article',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"DOI (Aufsatz)"),
+        ),
+    ),
+))
+
 
 class PublicationLogoWatermarkField(ExtensionField, ImageField):
     """ Newspaper/Publication watermark logo #3104 """

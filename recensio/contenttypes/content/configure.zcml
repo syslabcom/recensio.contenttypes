@@ -45,6 +45,12 @@
         interface="..interfaces.IReviewArticleJournal"
         />
   </class>
+  <class class=".reviewarticlecollection.ReviewArticleCollection">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.IReviewArticleCollection"
+        />
+  </class>
   <class class=".publication.Publication">
     <require
         permission="zope2.View"

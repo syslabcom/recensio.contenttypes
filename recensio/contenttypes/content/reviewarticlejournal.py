@@ -15,7 +15,8 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
     BaseReview, BaseReviewNoMagic, get_formatted_names)
 from recensio.contenttypes.content.schemata import (
-    AuthorsSchema, CoverPictureSchema, JournalReviewSchema, LicenceSchema,
+    ArticleSchema, AuthorsSchema, CoverPictureSchema, JournalReviewSchema,
+    LicenceSchema,
     PageStartEndInPDFSchema, PageStartEndOfReviewInJournalSchema, ReviewSchema,
     finalize_recensio_schema, isLazyURL)
 from recensio.contenttypes.interfaces import IReviewArticleJournal
@@ -26,6 +27,7 @@ ReviewArticleJournalSchema = JournalReviewSchema.copy() + \
                       PageStartEndOfReviewInJournalSchema.copy() + \
                       AuthorsSchema.copy() + \
                       ReviewSchema.copy() + LicenceSchema.copy() + \
+                      ArticleSchema.copy() + \
                       atapi.Schema((
     atapi.StringField(
         'editor',
@@ -46,39 +48,11 @@ ReviewArticleJournalSchema = JournalReviewSchema.copy() + \
                     ),
                 ),
             ),
-    atapi.StringField(
-        'url_article',
-        schemata="reviewed_text",
-        storage=atapi.AnnotationStorage(),
-        validators = (isLazyURL,),
-        mutator = 'setUrl_article',
-        widget=atapi.StringWidget(
-            label=_(u"URL (Aufsatz)"),
-        ),
-    ),
-    atapi.StringField(
-        'urn_article',
-        schemata="reviewed_text",
-        storage=atapi.AnnotationStorage(),
-        validators = (isLazyURL,),
-        mutator = 'setUrn_article',
-        widget=atapi.StringWidget(
-            label=_(u"URN (Aufsatz)"),
-        ),
-    ),
-    atapi.StringField(
-        'doi_article',
-        schemata="reviewed_text",
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"DOI (Aufsatz)"),
-        ),
-    ),
 ))
 
 ReviewArticleJournalSchema['title'].storage = atapi.AnnotationStorage()
 
-ReviewArticleJournalSchema['heading__page_number_of_presented_review_in_journal'].label = _(u"Page numbers of the reviewed article")
+ReviewArticleJournalSchema['heading__page_number_of_presented_review_in_journal'].label = _(u"Seitenangaben des rezensierten Aufsatzes")
 ReviewArticleJournalSchema['doc'].widget.condition = 'python:False'
 ReviewArticleJournalSchema['heading_presented_work'].widget.condition = 'python:False'
 finalize_recensio_schema(ReviewArticleJournalSchema, review_type="review_article_journal")
@@ -153,7 +127,6 @@ class ReviewArticleJournal(BaseReview):
 
     # Reorder the fields as required
     journal_fields = [
-        # Reviewed Text schemata
         "issn",
         "issn_online",
         "url_journal",
@@ -211,9 +184,9 @@ class ReviewArticleJournal(BaseReview):
     ordered_fields = journal_fields + article_fields + review_fields
 
     for field in journal_fields:
-        schema.changeSchemataForField(field, 'journal')
+        schema.changeSchemataForField(field, 'Zeitschrift')
     for field in article_fields:
-        schema.changeSchemataForField(field, 'article')
+        schema.changeSchemataForField(field, 'Aufsatz')
     for i, field in enumerate(ordered_fields):
         schema.moveField(field, pos=i)
 

@@ -17,6 +17,7 @@
     <element value="Review Journal"/>
     <element value="Review Monograph"/>
     <element value="Review Article Journal"/>
+    <element value="Review Article Collection"/>
     <element value="File"/>
   </property>
   <property name="allow_discussion">True</property>
