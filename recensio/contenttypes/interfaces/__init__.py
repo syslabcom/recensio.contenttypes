@@ -8,4 +8,5 @@ from presentationcollection import IPresentationCollection
 from presentationmonograph import IPresentationMonograph
 from review import IReview, IReviewPDF, IParentGetter
 from reviewjournal import IReviewJournal
+from reviewarticlejournal import IReviewArticleJournal
 from reviewmonograph import IReviewMonograph

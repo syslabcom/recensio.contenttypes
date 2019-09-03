@@ -109,7 +109,9 @@ def finalize_recensio_schema(schema, review_type="review"):
         # see if it should be applied or not. Setting it here didn't
         # seem to work
     elif review_type in ["review_monograph",
-                         "review_journal"]:
+                         "review_journal",
+                         "review_article_journal",
+                         ]:
         schema.changeSchemataForField('licence', 'review')
 
     hidden_fields = ["allowDiscussion", "contributors", "creators",
