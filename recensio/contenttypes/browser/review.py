@@ -212,22 +212,24 @@ class View(BrowserView, CanonicalURLHelper):
             elif field == "title":
                 label = self.get_label(fields, field, context.meta_type)
                 titles = [context.title]
-                titles.extend(
-                    [
-                        additional["title"]
-                        for additional in context.getAdditionalTitles()
-                    ]
-                )
+                if 'additionalTitles' in context.schema:
+                    titles.extend(
+                        [
+                            additional["title"]
+                            for additional in context.getAdditionalTitles()
+                        ]
+                    )
                 value = '/'.join(titles)
             elif field == "subtitle":
                 label = self.get_label(fields, field, context.meta_type)
                 subtitles = [context.subtitle]
-                subtitles.extend(
-                    [
-                        additional["subtitle"]
-                        for additional in context.getAdditionalTitles()
-                    ]
-                )
+                if 'additionalTitles' in context.schema:
+                    subtitles.extend(
+                        [
+                            additional["subtitle"]
+                            for additional in context.getAdditionalTitles()
+                        ]
+                    )
                 value = '/'.join(subtitles)
             else:
                 if field == "ddcSubject":

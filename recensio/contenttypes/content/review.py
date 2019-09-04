@@ -512,10 +512,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         have the subtitle field"""
         title = self.title
         subtitle = self.subtitle
-        titles = [(self.title, self.subtitle), ] + [
-            (additional["title"], additional["subtitle"])
-            for additional in self.getAdditionalTitles()
-        ]
+        titles = [(self.title, self.subtitle), ]
+        if 'additionalTitles' in self.schema:
+            titles = titles + [
+                (additional["title"], additional["subtitle"])
+                for additional in self.getAdditionalTitles()
+            ]
 
         def format(title, subtitle):
             last_char = title[-1]

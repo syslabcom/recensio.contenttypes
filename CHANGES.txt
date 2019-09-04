@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - Multipart Titles: Show title and subtitle separately in metadata box. #FLOW-559
+- Multipart Titles: Removed field from rj type. #FLOW-559
 
 
 4.5.0 (2019-06-05)
