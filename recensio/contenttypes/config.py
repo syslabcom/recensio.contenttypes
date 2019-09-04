@@ -10,6 +10,7 @@ ADD_PERMISSIONS = {
     'ReviewJournal': 'recensio.contenttypes: Add Review Journal',
     'ReviewArticleJournal': 'recensio.contenttypes: Add Review Article Journal',
     'ReviewArticleCollection': 'recensio.contenttypes: Add Review Article Collection',
+    'ReviewExhibition': 'recensio.contenttypes: Add Review Exhibition',
     'PresentationMonograph': 'recensio.contenttypes: Add Presentation Monograph',
     'ReviewMonograph': 'recensio.contenttypes: Add Review Monograph',
     'Publication': 'recensio.contenttypes: Add Publication',
@@ -20,6 +21,6 @@ ADD_PERMISSIONS = {
 PORTAL_TYPES = ['Presentation Online Resource', 'Presentation Article Review',
     'Presentation Collection', 'Presentation Monograph',
     'Review Journal', 'Review Monograph',
-    'Review Article Journal', 'Review Article Collection',
+    'Review Article Journal', 'Review Article Collection', 'Review Exhibition',
     'Publication', 'Volume', 'Issue'
     ]

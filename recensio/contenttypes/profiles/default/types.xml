@@ -19,6 +19,8 @@
     meta_type="Factory-based Type Information with dynamic views" />
   <object name="Review Article Collection"
     meta_type="Factory-based Type Information with dynamic views" />
+  <object name="Review Exhibition"
+    meta_type="Factory-based Type Information with dynamic views" />
   <object name="Presentation Monograph"
     meta_type="Factory-based Type Information with dynamic views" />
   <object name="Review Monograph"

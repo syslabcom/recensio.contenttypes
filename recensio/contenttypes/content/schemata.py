@@ -112,6 +112,7 @@ def finalize_recensio_schema(schema, review_type="review"):
                          "review_journal",
                          "review_article_journal",
                          "review_article_collection",
+                         "review_exhibition",
                          ]:
         schema.changeSchemataForField('licence', 'review')
 
