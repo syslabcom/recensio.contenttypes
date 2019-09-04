@@ -24,19 +24,6 @@ from recensio.contenttypes.citation import getFormatter
 from recensio.theme.browser.views import editorTypes
 
 
-class YearOfPublicationValidator(object):
-    implements(IValidator)
-    name = ""
-
-    def __call__(self, value, *args, **kwargs):
-        request = kwargs['REQUEST']
-        if not (value or request.form.get('yearOfPublicationOnline')):
-            return _(u'message_year_of_publication_validation_error',
-                     default=(u'Please fill in at least one of the fields '
-                              '"Year of publication" and "Year of publication '
-                              '(online)".'))
-
-
 ReviewExhibitionSchema = ExhibitionSchema.copy() + \
                         PageStartEndInPDFSchema.copy() + \
                         ReviewSchema.copy() + \
@@ -84,39 +71,14 @@ class ReviewExhibition(BaseReview):
     ddcSubject = atapi.ATFieldProperty('ddcSubject')
     ddcTime = atapi.ATFieldProperty('ddcTime')
 
-    #Editorial
-    editorial = atapi.ATFieldProperty('editorial')
-
-    # Printed
+    # Exhibition
     subtitle = atapi.ATFieldProperty('subtitle')
-    additionalTitles = atapi.ATFieldProperty('additionalTitles')
-    yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
-    placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
-    publisher = atapi.ATFieldProperty('publisher')
-    yearOfPublicationOnline = atapi.ATFieldProperty('yearOfPublicationOnline')
-    placeOfPublicationOnline = atapi.ATFieldProperty('placeOfPublicationOnline')
-    publisherOnline = atapi.ATFieldProperty('publisherOnline')
-
-    # Authors
-    authors = atapi.ATFieldProperty('authors')
-
-    # Book
-    isbn = atapi.ATFieldProperty('isbn')
-    isbn_online = atapi.ATFieldProperty('isbn_online')
-    url_monograph = atapi.ATFieldProperty('url_monograph')
-    urn_monograph = atapi.ATFieldProperty('urn_monograph')
-    doi_monograph = atapi.ATFieldProperty('doi_monograph')
-
-    # Cover Picture
-    coverPicture = atapi.ATFieldProperty('coverPicture')
+    url_exhibition = atapi.ATFieldProperty('url_exhibition')
+    doi_exhibition = atapi.ATFieldProperty('doi_exhibition')
 
     # PageStartEnd
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
-
-    # Serial
-    series = atapi.ATFieldProperty('series')
-    seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Reorder the fields as required for the edit view
     ordered_fields = [
@@ -159,13 +121,8 @@ class ReviewExhibition(BaseReview):
     metadata_fields = [
         "metadata_review_type_code",
         "metadata_start_end_pages", "metadata_review_author",
-        "languageReview", "languageReviewedText", "authors",
+        "languageReview", "languageReviewedText",
         "exhibitor", "curators", "title", "subtitle", "dates",
-        "placeOfPublication", "publisher",
-        "yearOfPublicationOnline",
-        "placeOfPublicationOnline", "publisherOnline",
-        "series", "seriesVol",
-        "pages", "isbn", "isbn_online",
         "url_exhibition", "doi_exhibition", "urn",
         "ddcSubject", "ddcTime", "ddcPlace",
         "subject", "canonical_uri", "metadata_recensioID", "doi"]
@@ -227,11 +184,6 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
         """
         self = real_self.magic
 
-        name_part_separator = " "
-        if lastname_first:
-            name_part_separator = ", "
-        authors_string = self.formatted_authors_editorial
-
         rezensent_string = get_formatted_names(u' / ', ' ', self.reviewAuthors,
                                                lastname_first = lastname_first)
         if rezensent_string:
@@ -241,7 +193,7 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
 
         full_citation = getFormatter(': ', ' ')
         return full_citation(
-            authors_string, self.punctuated_title_and_subtitle,
+            self.punctuated_title_and_subtitle,
             rezensent_string)
 
     def get_citation_string(real_self):
@@ -254,12 +206,6 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
         >>> at_mock.formatted_authors_editorial = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0♥? Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname' : 'de Roiste♥'}]
-        >>> at_mock.yearOfPublication = '2009♥'
-        >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
-        >>> at_mock.placeOfPublication = 'München♥'
-        >>> at_mock.get_issue_title = lambda :'Open Source Mag 1♥'
-        >>> at_mock.get_volume_title = lambda :'Open Source Mag Vol 1♥'
-        >>> at_mock.get_publication_title = lambda :'Open Source♥'
         >>> at_mock.portal_url = lambda :'http://www.syslab.com'
         >>> at_mock.UID = lambda :'12345'
         >>> at_mock.canonical_uri = ''
@@ -302,20 +248,10 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
             u', ', u', ', u'%(:)s ' % args, u', ')
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
-        authors_string = self.formatted_authors_editorial
         title_subtitle_string = self.punctuated_title_and_subtitle
         item_string = rev_details_formatter(
-            authors_string, title_subtitle_string,
-            self.placeOfPublication, self.publisher,
-            self.yearOfPublication)
-        mag_year_string = self.yearOfPublication.decode('utf-8')
-        mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
-            or None
-
-        mag_number_formatter = getFormatter(u', ', u', ')
-        mag_number_string = mag_number_formatter(
-            self.get_publication_title(), self.get_volume_title(),
-            self.get_issue_title())
+            title_subtitle_string,
+        )
 
         location = real_self.get_citation_location()
 
@@ -324,11 +260,8 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
 
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),
-            escape(mag_number_string),
             self.page_start_end_in_print, location)
 
         return citation_string
 
 atapi.registerType(ReviewExhibition, PROJECTNAME)
-
-
