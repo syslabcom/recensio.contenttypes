@@ -15,9 +15,9 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
     BaseReview, BaseReviewNoMagic, get_formatted_names)
 from recensio.contenttypes.content.schemata import (
-    BookReviewSchema, CoverPictureSchema, EditorialSchema,
-    LicenceSchema, PageStartEndInPDFSchema, PageStartEndOfReviewInJournalSchema,
-    PagecountSchema, ReviewSchema, SerialSchema,
+    ExhibitionSchema,
+    LicenceSchema, PageStartEndInPDFSchema,
+    ReviewSchema,
     finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewExhibition
 from recensio.contenttypes.citation import getFormatter
@@ -37,19 +37,16 @@ class YearOfPublicationValidator(object):
                               '(online)".'))
 
 
-ReviewExhibitionSchema = BookReviewSchema.copy() + \
-                        CoverPictureSchema.copy() + \
-                        EditorialSchema.copy() + \
+ReviewExhibitionSchema = ExhibitionSchema.copy() + \
                         PageStartEndInPDFSchema.copy() + \
-                        PageStartEndOfReviewInJournalSchema.copy() + \
-                        PagecountSchema.copy() + \
                         ReviewSchema.copy() + \
-                        SerialSchema.copy() + \
                         LicenceSchema.copy()
 
 ReviewExhibitionSchema['title'].storage = atapi.AnnotationStorage()
-ReviewExhibitionSchema['yearOfPublication'].validators = (
-    YearOfPublicationValidator())
+ReviewExhibitionSchema['doc'].widget.condition = 'python:False'
+ReviewExhibitionSchema['languageReviewedText'].widget.condition = 'python:False'
+for field in ['title', 'ddcSubject', 'ddcPlace', 'ddcTime', 'subject']:
+    ReviewExhibitionSchema.changeSchemataForField(field, 'Ausstellung')
 finalize_recensio_schema(ReviewExhibitionSchema, review_type="review_exhibition")
 
 
@@ -99,7 +96,6 @@ class ReviewExhibition(BaseReview):
     yearOfPublicationOnline = atapi.ATFieldProperty('yearOfPublicationOnline')
     placeOfPublicationOnline = atapi.ATFieldProperty('placeOfPublicationOnline')
     publisherOnline = atapi.ATFieldProperty('publisherOnline')
-    idBvb = atapi.ATFieldProperty('idBvb')
 
     # Authors
     authors = atapi.ATFieldProperty('authors')
@@ -118,49 +114,24 @@ class ReviewExhibition(BaseReview):
     pageStart = atapi.ATFieldProperty('pageStart')
     pageEnd = atapi.ATFieldProperty('pageEnd')
 
-    #PageStartEndOfReviewInJournal
-    pageStartOfReviewInJournal = atapi.ATFieldProperty(
-        'pageStartOfReviewInJournal')
-    pageEndOfReviewInJournal = atapi.ATFieldProperty(
-        'pageEndOfReviewInJournal')
-
-    # Pagecount
-    pages = atapi.ATFieldProperty('pages')
-
     # Serial
     series = atapi.ATFieldProperty('series')
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
     # Reorder the fields as required for the edit view
     ordered_fields = [
-        # Reviewed Text schemata
-        "isbn",
-        "isbn_online",
-        "url_monograph",
-        "urn_monograph",
-        "doi_monograph",
-        "languageReviewedText",
-        'help_authors_or_editors',
-        "authors",
-        "editorial",
-        "title",
-        "subtitle",
-        "additionalTitles",
-        "yearOfPublication",
-        "placeOfPublication",
-        "publisher",
-        "yearOfPublicationOnline",
-        "placeOfPublicationOnline",
-        "publisherOnline",
-        "series",
-        "seriesVol",
-        "pages",
-        "coverPicture",
+        # Exhibition schemata
+        'exhibitor',
+        'curators',
+        'dates',
+        'title',
+        'subtitle',
+        'url_exhibition',
+        'doi_exhibition',
         "ddcSubject",
         "ddcTime",
         "ddcPlace",
         "subject",
-        "idBvb",
 
         # Review schemata
         "reviewAuthors",
@@ -168,9 +139,6 @@ class ReviewExhibition(BaseReview):
         "pdf",
         "pageStart",
         "pageEnd",
-        "pageStartOfReviewInJournal",
-        "pageEndOfReviewInJournal",
-        "doc",
         "review",
         "customCitation",
         "canonical_uri",
@@ -178,6 +146,9 @@ class ReviewExhibition(BaseReview):
         "bv",
         "ppn",
         "licence",
+        "doi",
+        "customCoverImage",
+        "URLShownInCitationNote",
     ]
 
     for i, field in enumerate(ordered_fields):
@@ -186,18 +157,18 @@ class ReviewExhibition(BaseReview):
     # An ordered list of fields used for the metadata area of the view
 
     metadata_fields = [
-        "metadata_review_type_code", "get_journal_title",
+        "metadata_review_type_code",
         "metadata_start_end_pages", "metadata_review_author",
         "languageReview", "languageReviewedText", "authors",
-        "editorial", "title", "subtitle", "yearOfPublication",
+        "exhibitor", "curators", "title", "subtitle", "dates",
         "placeOfPublication", "publisher",
         "yearOfPublicationOnline",
         "placeOfPublicationOnline", "publisherOnline",
         "series", "seriesVol",
         "pages", "isbn", "isbn_online",
-        "url_monograph", "urn_monograph", "doi_monograph", "urn",
+        "url_exhibition", "doi_exhibition", "urn",
         "ddcSubject", "ddcTime", "ddcPlace",
-        "subject", "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
+        "subject", "canonical_uri", "metadata_recensioID", "doi"]
 
     def editorTypes(self):
         return editorTypes()

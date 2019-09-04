@@ -1124,6 +1124,76 @@ ArticleSchema = atapi.Schema((
     ),
 ))
 
+ExhibitionSchema = CommonReviewSchema.copy() + \
+                   atapi.Schema((
+    atapi.StringField(
+        'exhibitor',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Ausstellende Institution"),
+            ),
+        searchable=True,
+    ),
+    DataGridField(
+        'curators',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        columns=("lastname", "firstname"),
+        default=[{'lastname':'', 'firstname':''}],
+        widget=DataGridWidget(
+            label = _(u"Kurator / Mitwirkende"),
+            columns = {"lastname" : Column(_(u"Last name")),
+                       "firstname" : Column(_(u"First name")),
+                       }
+        ),
+        searchable=True,
+    ),
+    DataGridField(
+        'dates',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        columns=("place", "start", "end", "year"),
+        default=[{'place': '', 'start': '', 'end': '', 'year': ''}],
+        widget=DataGridWidget(
+            label = _(u"Ort / Laufzeit"),
+            columns = {
+                "place" : Column(_(u"Ort")),
+                "start" : Column(_(u"Laufzeit Anfang")),
+                "end" : Column(_(u"Laufzeit Ende")),
+                "year" : Column(_(u"Jahr (gezählt / bzw. normiert)")),
+            }
+        ),
+        searchable=True,
+    ),
+    atapi.StringField(
+        'subtitle',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Subtitle"),
+        ),
+    ),
+    atapi.StringField(
+        'url_exhibition',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        validators = (isLazyURL,),
+        mutator = 'setUrl_exhibition',
+        widget=atapi.StringWidget(
+            label=_(u"URL der Website"),
+        ),
+    ),
+    atapi.StringField(
+        'doi_exhibition',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"DOI der Website"),
+        ),
+    ),
+))
+
 
 class PublicationLogoWatermarkField(ExtensionField, ImageField):
     """ Newspaper/Publication watermark logo #3104 """
