@@ -24,3 +24,18 @@ PORTAL_TYPES = ['Presentation Online Resource', 'Presentation Article Review',
     'Review Article Journal', 'Review Article Collection', 'Review Exhibition',
     'Publication', 'Volume', 'Issue'
     ]
+
+PRESENTATION_TYPES = [
+    'Presentation Online Resource',
+    'Presentation Article Review',
+    'Presentation Collection',
+    'Presentation Monograph',
+]
+
+REVIEW_TYPES = [
+    'Review Journal',
+    'Review Monograph',
+    'Review Article Journal',
+    'Review Article Collection',
+    'Review Exhibition',
+]
