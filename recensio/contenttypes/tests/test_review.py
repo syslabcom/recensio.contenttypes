@@ -9,6 +9,7 @@ class TestReviewTitle(unittest.TestCase):
         obj = BaseReview(None)
         obj.title = u"Die spanische Verfassung von 1812"
         obj.subtitle = u"Der Beginn des europäischen Konstitutionalismus"
+        obj.schema._fields['additionalTitles'] = 'dummy'
         obj.getAdditionalTitles = lambda: []
         self.assertEqual(
             obj.punctuated_title_and_subtitle,
@@ -20,6 +21,7 @@ class TestReviewTitle(unittest.TestCase):
         obj = BaseReview(None)
         obj.title = u"Die spanische Verfassung von 1812"
         obj.subtitle = u"Der Beginn des europäischen Konstitutionalismus"
+        obj.schema._fields['additionalTitles'] = 'dummy'
         obj.getAdditionalTitles = lambda: [
             {
                 "title": u"La Constitución española de 1812",
