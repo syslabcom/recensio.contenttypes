@@ -19,6 +19,9 @@
     <type portal_type="Review Journal" />
     <type portal_type="Presentation Monograph" />
     <type portal_type="Review Monograph" />
+    <type portal_type="Review Article Journal" />
+    <type portal_type="Review Article Collection" />
+    <type portal_type="Review Exhibition" />
     <type portal_type="Review" />
   </factorytypes>
 </object>

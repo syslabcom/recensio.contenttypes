@@ -2,7 +2,7 @@
 <object name="Review Article Collection"
    meta_type="Factory-based Type Information with dynamic views"
    i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-  <property name="title" i18n:translate="title_review_article_collection">Review Article Collection</property>
+  <property name="title" i18n:translate="title_review_article_collection">Review Article Edited Volume</property>
   <property name="description"
     i18n:translate="">description_review_article_collection</property>
   <property name="content_meta_type">ReviewArticleCollection</property>
