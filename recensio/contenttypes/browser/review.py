@@ -178,7 +178,11 @@ class View(BrowserView, CanonicalURLHelper):
                 value = self.list_rows(context[field], "lastname", "firstname")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
-                value = context.translate(context.portal_type)
+                # Short cut - translation is not picked up for some reason
+                if context.portal_type == "Review Article Collection":
+                    value = "Review Article Edited Volume"
+                else:
+                    value = context.translate(context.portal_type)
             elif field == "referenceAuthors":
                 label = _("label_metadata_reference_authors")
                 value = self.list_rows(context[field],
