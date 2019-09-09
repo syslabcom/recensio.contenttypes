@@ -78,24 +78,22 @@ class BaseNoMagic(object):
 
 class BaseReviewNoMagic(BaseNoMagic):
     def getLicense(real_self):
-        language_tool = api.portal.get_tool('portal_languages')
-        language = language_tool.getPreferredLanguage()
-        if language == 'en':
-            field = "licence_en"
-        else:
-            field = "licence"
         self = real_self.magic
         publication = self.get_parent_object_of_type("Publication")
         publication_licence = ""
         current = self
-        if publication != None:
-            while current != publication:
-                publication_licence = getattr(current, field, "")
+        if publication is not None:
+            while current != publication.aq_parent:
+                licence_obj = current.getLicence_ref()
+                if licence_obj:
+                    licence_translated = licence_obj.getTranslation()
+                    publication_licence = licence_translated.getText()
+                else:
+                    publication_licence = getattr(
+                        current.aq_base, 'licence', "")
                 if publication_licence:
                     break
                 current = current.aq_parent
-            if not publication_licence:
-                publication_licence = getattr(publication, field, "")
         return True and publication_licence or _('license-note-review')
 
     def getFirstPublicationData(real_self):
@@ -496,7 +494,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                     )
             except (ConflictError, KeyboardInterrupt):
                 raise
-            except Exception, e:
+            except Exception as e:
                 log("Error while trying to convert file contents to 'text/plain' "
                     "in %r.getIndexable(): %s" % (self, e))
             pdfdata = str(datastream)

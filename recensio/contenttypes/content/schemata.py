@@ -4,6 +4,7 @@
 from lxml.html import fromstring
 from PIL import Image
 
+from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 from archetypes.schemaextender.field import ExtensionField
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaExtender
@@ -111,7 +112,7 @@ def finalize_recensio_schema(schema, review_type="review"):
     elif review_type in ["review_monograph",
                          "review_journal"]:
         schema.changeSchemataForField('licence', 'review')
-        schema.changeSchemataForField('licence_en', 'review')
+        schema.changeSchemataForField('licence_ref', 'review')
 
     hidden_fields = ["allowDiscussion", "contributors", "creators",
                      "description", "description", "effectiveDate",
@@ -194,7 +195,7 @@ class ImageValidator():
                 Image.open(value)
                 value.seek(0)
                 return True
-            except IOError, e:
+            except IOError as e:
                 return _(str(e))
 
 class characterLimit():
@@ -1087,21 +1088,27 @@ LicenceSchema = atapi.Schema((
                 rows = 3,
                 )
             ),
-        atapi.StringField(
-            'licence_en',
-            widget = atapi.TextAreaWidget(
-                label = _(
-                    u'label_publication_licence_en',
-                    default = u'Publication Licence (English)'),
-                description = _(
-                    u'description_publication_licence_en',
-                    default = (
-                        u'English translation of the licence'
-                        )
+        atapi.ReferenceField(
+            'licence_ref',
+            widget=ReferenceBrowserWidget(
+                label=_(
+                    u'label_publication_licence_ref',
+                    default=u'Publication Licence (Translated)',
+                ),
+                description=_(
+                    u'description_publication_licence_ref',
+                    default=(
+                        u'To specify a licence text that will be '
+                        'displayed in the current UI language, select a '
+                        'page that has been translated with the platform\'s '
+                        'translation mechanism.'
                     ),
-                rows = 3,
-                )
+                ),
             ),
+            allowed_types=('Document', ),
+            multiValued=0,
+            relationship="custom_licence"
+        ),
 ))
 
 class PublicationLogoWatermarkField(ExtensionField, ImageField):
