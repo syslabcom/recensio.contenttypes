@@ -6,6 +6,8 @@ Changelog
 
 - Multipart Titles: Show title and subtitle separately in metadata box. #FLOW-559
 - Multipart Titles: Removed field from rj type. #FLOW-559
+- Zotero Export: Include works author in title field and use review author for
+  author field. #FLOW-651
 
 
 4.5.0 (2019-06-05)

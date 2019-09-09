@@ -38,7 +38,7 @@ class View(BrowserView, CanonicalURLHelper):
         'issn':                 'rft.issn',
         'isbn':                 'rft.isbn',
         'publisher':            'rft.pub',
-        'authors':              'rft.au',
+        'metadata_review_author': 'rft.au',
         'placeOfPublication':   'rft.place',
         'yearOfPublication':    'rft.date',
         'series':               'rft.series',
@@ -259,10 +259,18 @@ class View(BrowserView, CanonicalURLHelper):
             if field in self.openurl_terms:
                 name = self.openurl_terms[field]
 
-                if field == 'authors':
+                if field == 'metadata_review_author':
                     terms.update(
                         {name: ["%s %s" %(au['firstname'], au['lastname'])
-                                for au in context[field]]})
+                                for au in context['reviewAuthors']]})
+                elif field == 'title':
+                    authors = ', '.join(
+                        ["%s %s" % (au['firstname'], au['lastname'])
+                         for au in context['authors']]
+                    )
+                    terms.update(
+                        {name: "%s: %s" % (authors, context[field])}
+                    )
                 elif field == "pages":
                     value = self.context.page_start_end_in_print
                     terms.update({name: value})
