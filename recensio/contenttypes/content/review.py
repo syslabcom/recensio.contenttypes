@@ -505,6 +505,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
         return data
 
+    def format(self, title, subtitle):
+        last_char = title[-1]
+        if last_char in ["!", "?", ":", ";", ".", ","]:
+            return getFormatter(" ")(title, subtitle)
+        else:
+            return getFormatter(". ")(title, subtitle)
+
     @property
     def punctuated_title_and_subtitle(self):
         """ #3129
@@ -519,22 +526,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 for additional in self.getAdditionalTitles()
             ]
 
-        def format(title, subtitle):
-            last_char = title[-1]
-            if last_char in ["!", "?", ":", ";", ".", ","]:
-                return getFormatter(" ")(title, subtitle)
-            else:
-                return getFormatter(". ")(title, subtitle)
-
         return " / ".join([
-            format(title, subtitle) for title, subtitle in titles
+            self.format(title, subtitle) for title, subtitle in titles
             if title
         ])
 
     @property
-    def formatted_authors_editorial(self):
-        """ #3111
-        PMs and RMs have an additional field for editors"""
+    def formatted_authors(self):
         authors_list = []
         for author in self.getAuthors():
             if author['lastname'] or author['firstname']:
@@ -545,7 +543,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                             )
                         ).strip()
                                     )
-        authors_str = u" / ".join(authors_list)
+        return u" / ".join(authors_list)
+
+    @property
+    def formatted_authors_editorial(self):
+        """ #3111
+        PMs and RMs have an additional field for editors"""
+        authors_str = self.formatted_authors
 
         editor_str = ""
         result = ""

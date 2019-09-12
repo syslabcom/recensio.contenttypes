@@ -46,7 +46,31 @@ ReviewArticleCollectionSchema = BookReviewSchema.copy() + \
                         ArticleSchema.copy() + \
                         ReviewSchema.copy() + \
                         SerialSchema.copy() + \
-                        LicenceSchema.copy()
+                        LicenceSchema.copy() + \
+                        atapi.Schema((
+    atapi.StringField(
+            'titleEditedVolume',
+            storage=atapi.AnnotationStorage(),
+            required=True,
+            widget=atapi.StringWidget(
+                label=_(
+                    u"title_edited_volume",
+                    default=u"Title (Edited Volume)"
+                    ),
+                ),
+            ),
+    atapi.StringField(
+            'subtitleEditedVolume',
+            storage=atapi.AnnotationStorage(),
+            required=False,
+            widget=atapi.StringWidget(
+                label=_(
+                    u"subtitle_edited_volume",
+                    default=u"Subtitle (Edited Volume)"
+                    ),
+                ),
+            ),
+))
 
 ReviewArticleCollectionSchema['title'].storage = atapi.AnnotationStorage()
 
@@ -60,6 +84,7 @@ ReviewArticleCollectionSchema['additionalTitles'].widget.condition = 'python:Fal
 ReviewArticleCollectionSchema['editorial'].required = True
 ReviewArticleCollectionSchema['editorial'].widget.label = _(u"Herausgeber")
 ReviewArticleCollectionSchema['heading_presented_work'].widget.condition = 'python:False'
+ReviewArticleCollectionSchema['languageReviewedText'].label = _(u"Sprache (Aufsatz)")
 finalize_recensio_schema(ReviewArticleCollectionSchema, review_type="review_article_collection")
 
 
@@ -141,6 +166,9 @@ class ReviewArticleCollection(BaseReview):
     series = atapi.ATFieldProperty('series')
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
+    titleEditedVolume = atapi.ATFieldProperty('titleEditedVolume')
+    subtitleEditedVolume = atapi.ATFieldProperty('subtitleEditedVolume')
+
     # Reorder the fields as required for the edit view
     collection_fields = [
         "isbn",
@@ -150,6 +178,8 @@ class ReviewArticleCollection(BaseReview):
         "doi_monograph",
         'help_authors_or_editors',
         "editorial",
+        "titleEditedVolume",
+        "subtitleEditedVolume",
         "yearOfPublication",
         "placeOfPublication",
         "publisher",
@@ -166,8 +196,8 @@ class ReviewArticleCollection(BaseReview):
         "url_article",
         "urn_article",
         "doi_article",
-        "authors",
         "languageReviewedText",
+        "authors",
         "title",
         "subtitle",
         "heading__page_number_of_presented_review_in_journal",
@@ -209,17 +239,20 @@ class ReviewArticleCollection(BaseReview):
 
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
-        "metadata_start_end_pages", "metadata_review_author",
-        "languageReview", "languageReviewedText", "authors",
-        "editorial", "title", "subtitle", "yearOfPublication",
+        "metadata_review_author", "languageReview",
+        "languageReviewedText",
+        "editorial", "titleEditedVolume", "subtitleEditedVolume",
+        "yearOfPublication",
         "placeOfPublication", "publisher",
         "yearOfPublicationOnline",
         "placeOfPublicationOnline", "publisherOnline",
         "series", "seriesVol",
         "pages", "isbn", "isbn_online",
         "url_monograph", "urn_monograph", "doi_monograph", "urn",
-        "ddcSubject", "ddcTime", "ddcPlace",
-        "subject", "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
+        "authors", "title", "subtitle",
+        "metadata_start_end_pages",
+        "ddcSubject", "ddcTime", "ddcPlace", "subject",
+        "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
 
     def editorTypes(self):
         return editorTypes()
@@ -281,7 +314,7 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         name_part_separator = " "
         if lastname_first:
             name_part_separator = ", "
-        authors_string = self.formatted_authors_editorial
+        authors_string = self.formatted_authors
 
         rezensent_string = get_formatted_names(u' / ', ' ', self.reviewAuthors,
                                                lastname_first = lastname_first)
@@ -289,10 +322,18 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
             rezensent_string = "(%s)" % real_self.directTranslate(
                 Message(u"reviewed_by", "recensio",
                         mapping={u"review_authors": rezensent_string}))
+        edited_volume = getFormatter(': ')
+        edited_volume_string = edited_volume(
+            get_formatted_names(u' / ', ' ', self.getEditorial(),
+                                lastname_first = lastname_first),
+            self.titleEditedVolume,
+        )
 
-        full_citation = getFormatter(': ', ' ')
+        full_citation = getFormatter(': ', ', in: ', ' ')
         return full_citation(
-            authors_string, self.punctuated_title_and_subtitle,
+            authors_string,
+            self.punctuated_title_and_subtitle,
+            edited_volume_string,
             rezensent_string)
 
     def get_citation_string(real_self):
@@ -350,15 +391,21 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
                     u"text_colon", "recensio", default=":")),
             }
         rev_details_formatter = getFormatter(
-            u', ', u', ', u'%(:)s ' % args, u', ')
+            u', ', u', %(in)s ' % args, u'%(:)s ' % args)
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
-        authors_string = self.formatted_authors_editorial
+        authors_string = self.formatted_authors
+        editorial_string = get_formatted_names(
+            u' / ', ' ', self.getEditorial(),
+            lastname_first=False)
+        edited_volume_string = self.format(
+            self.titleEditedVolume,
+            self.subtitleEditedVolume,
+        )
         title_subtitle_string = self.punctuated_title_and_subtitle
         item_string = rev_details_formatter(
             authors_string, title_subtitle_string,
-            self.placeOfPublication, self.publisher,
-            self.yearOfPublication)
+            editorial_string, edited_volume_string)
         mag_year_string = self.yearOfPublication.decode('utf-8')
         mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
             or None

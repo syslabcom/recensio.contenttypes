@@ -128,6 +128,19 @@ class View(BrowserView, CanonicalURLHelper):
             if field == "editor":
                 return _(u"label_metadata_editor",
                          default=u"Editor")
+        elif meta_type.startswith("ReviewArticle"):
+            if field == "languageReviewedText":
+                return _(u"label_metadata_language_article",
+                        default=u"Sprache (Aufsatz)")
+            elif field == "authors":
+                return _(u"label_metadata_authors_article",
+                         default=u"Autoren des Aufsatzes")
+            elif field == "titleEditedVolume":
+                return _(u"label_metadata_title_edited_volume",
+                         default=u"Title (edited volume)")
+            elif field == "subtitleEditedVolume":
+                return _(u"label_metadata_subtitle_edited_volume",
+                         default=u"Subtitle (edited volume)")
 
         return _(fields[field].widget.label)
 
@@ -178,11 +191,7 @@ class View(BrowserView, CanonicalURLHelper):
                 value = self.list_rows(context[field], "lastname", "firstname")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
-                # Short cut - translation is not picked up for some reason
-                if context.portal_type == "Review Article Collection":
-                    value = "Review Article Edited Volume"
-                else:
-                    value = context.translate(context.portal_type)
+                value = context.translate(context.portal_type)
             elif field == "referenceAuthors":
                 label = _("label_metadata_reference_authors")
                 value = self.list_rows(context[field],

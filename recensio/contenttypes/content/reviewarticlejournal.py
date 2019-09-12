@@ -55,6 +55,7 @@ ReviewArticleJournalSchema['title'].storage = atapi.AnnotationStorage()
 ReviewArticleJournalSchema['heading__page_number_of_presented_review_in_journal'].label = _(u"Seitenangaben des rezensierten Aufsatzes")
 ReviewArticleJournalSchema['doc'].widget.condition = 'python:False'
 ReviewArticleJournalSchema['heading_presented_work'].widget.condition = 'python:False'
+ReviewArticleJournalSchema['languageReviewedText'].label = _(u"Sprache (Aufsatz)")
 finalize_recensio_schema(ReviewArticleJournalSchema, review_type="review_article_journal")
 
 class ReviewArticleJournal(BaseReview):
@@ -105,6 +106,7 @@ class ReviewArticleJournal(BaseReview):
     issn = atapi.ATFieldProperty('url_journal')
     issn = atapi.ATFieldProperty('urn_journal')
     issn = atapi.ATFieldProperty('doi_journal')
+    titleJournal = atapi.ATFieldProperty('titleJournal')
     shortnameJournal = atapi.ATFieldProperty('shortnameJournal')
     volumeNumber = atapi.ATFieldProperty('volumeNumber')
     issueNumber = atapi.ATFieldProperty('issueNumber')
@@ -193,9 +195,8 @@ class ReviewArticleJournal(BaseReview):
     # An ordered list of fields used for the metadata area of the view
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
-        "metadata_start_end_pages",
         "metadata_review_author", "languageReview",
-        "languageReviewedText", "editor", "title", "shortnameJournal",
+        "languageReviewedText", "editor", "titleJournal", "shortnameJournal",
         "yearOfPublication", "officialYearOfPublication",
         "volumeNumber", "issueNumber",
         "placeOfPublication", "publisher",
@@ -203,6 +204,7 @@ class ReviewArticleJournal(BaseReview):
         "placeOfPublicationOnline", "publisherOnline",
         "issn", "issn_online",
         "url_journal", "urn_journal", "doi_journal", "urn",
+        "authors", "title", "metadata_start_end_pages",
         "ddcSubject", "ddcTime", "ddcPlace", "subject",
         "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
 
@@ -345,8 +347,9 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
                                      self.yearOfPublication)
         mag_year = mag_year and '(' + mag_year + ')' or None
         item_string = item(
-            self.title, self.volumeNumber, mag_year, self.issueNumber)
+            self.titleJournal, self.issueNumber, mag_year, self.volumeNumber)
 
+        authors_string = self.formatted_authors_editorial
         if lastname_first:
             reviewer_string = get_formatted_names(
                 u' / ', ', ', self.reviewAuthors,
@@ -362,10 +365,12 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
                         mapping={u"review_authors": reviewer_string}))
 
 
-        return ' '.join((
-
+        full_citation = getFormatter(': ', ', in: ', ' ')
+        return full_citation(
+                authors_string,
+                self.title, 
                 item_string,
-                reviewer_string))
+                reviewer_string)
 
 atapi.registerType(ReviewArticleJournal, PROJECTNAME)
 
