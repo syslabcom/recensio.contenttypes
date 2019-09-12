@@ -84,7 +84,10 @@ class BaseReviewNoMagic(BaseNoMagic):
         current = self
         if publication is not None:
             while current != publication.aq_parent:
-                licence_obj = current.getLicence_ref()
+                if hasattr(current, 'getLicence_ref'):
+                    licence_obj = current.getLicence_ref()
+                else:
+                    licence_obj = None
                 if licence_obj:
                     licence_translated = licence_obj.getTranslation()
                     publication_licence = licence_translated.getText()
