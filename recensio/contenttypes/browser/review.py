@@ -266,7 +266,7 @@ class View(BrowserView, CanonicalURLHelper):
                 elif field == 'title':
                     authors = ', '.join(
                         ["%s %s" % (au['firstname'], au['lastname'])
-                         for au in context['authors']]
+                         for au in context.get('authors', [])]
                     )
                     terms.update(
                         {name: "%s: %s" % (authors, context[field])}
