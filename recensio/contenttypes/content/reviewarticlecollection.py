@@ -166,6 +166,11 @@ class ReviewArticleCollection(BaseReview):
     series = atapi.ATFieldProperty('series')
     seriesVol = atapi.ATFieldProperty('seriesVol')
 
+    # Article
+    pageStartOfArticle = atapi.ATFieldProperty('pageStartOfArticle')
+    pageEndOfArticle = atapi.ATFieldProperty('pageEndOfArticle')
+
+    # Custom
     titleEditedVolume = atapi.ATFieldProperty('titleEditedVolume')
     subtitleEditedVolume = atapi.ATFieldProperty('subtitleEditedVolume')
 
@@ -200,9 +205,9 @@ class ReviewArticleCollection(BaseReview):
         "authors",
         "title",
         "subtitle",
-        "heading__page_number_of_presented_review_in_journal",
-        "pageStartOfReviewInJournal",
-        "pageEndOfReviewInJournal",
+        "heading__page_number_of_article_in_journal_or_edited_volume",
+        "pageStartOfArticle",
+        "pageEndOfArticle",
         "ddcSubject",
         "ddcTime",
         "ddcPlace",
@@ -214,6 +219,9 @@ class ReviewArticleCollection(BaseReview):
         "pdf",
         "pageStart",
         "pageEnd",
+        "heading__page_number_of_presented_review_in_journal",
+        "pageStartOfReviewInJournal",
+        "pageEndOfReviewInJournal",
         "doc",
         "review",
         "customCitation",
@@ -240,7 +248,10 @@ class ReviewArticleCollection(BaseReview):
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
         "metadata_review_author", "languageReview",
+        "metadata_start_end_pages",
         "languageReviewedText",
+        "authors", "title", "subtitle",
+        "metadata_start_end_pages_article",
         "editorial", "titleEditedVolume", "subtitleEditedVolume",
         "yearOfPublication",
         "placeOfPublication", "publisher",
@@ -249,8 +260,6 @@ class ReviewArticleCollection(BaseReview):
         "series", "seriesVol",
         "pages", "isbn", "isbn_online",
         "url_monograph", "urn_monograph", "doi_monograph", "urn",
-        "authors", "title", "subtitle",
-        "metadata_start_end_pages",
         "ddcSubject", "ddcTime", "ddcPlace", "subject",
         "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
 
@@ -383,6 +392,8 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         args = {
             'review_of' : real_self.directTranslate(Message(
                     u"text_review_of", "recensio", default="review of:")),
+            'review_in' : real_self.directTranslate(Message(
+                    u"text_review_in", "recensio", default="Review published in:")),
             'in'        : real_self.directTranslate(Message(
                     u"text_in", "recensio", default="in:")),
             'page'      : real_self.directTranslate(Message(
@@ -391,7 +402,7 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
                     u"text_colon", "recensio", default=":")),
             }
         rev_details_formatter = getFormatter(
-            u', ', u', %(in)s ' % args, u'%(:)s ' % args)
+            u', ', u', %(in)s ' % args, u'%(:)s ' % args, ', %(page)s ' % args)
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
         authors_string = self.formatted_authors
@@ -405,7 +416,9 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         title_subtitle_string = self.punctuated_title_and_subtitle
         item_string = rev_details_formatter(
             authors_string, title_subtitle_string,
-            editorial_string, edited_volume_string)
+            editorial_string, edited_volume_string,
+            self.page_start_end_in_print_article,
+        )
         mag_year_string = self.yearOfPublication.decode('utf-8')
         mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
             or None
@@ -418,7 +431,7 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         location = real_self.get_citation_location()
 
         citation_formatter = getFormatter(
-            u'%(:)s %(review_of)s ' % args, ', %(in)s ' % args, ', %(page)s ' % args, u', ')
+            u'%(:)s %(review_of)s ' % args, ', %(review_in)s ' % args, ', %(page)s ' % args, u', ')
 
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),

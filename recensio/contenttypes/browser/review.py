@@ -134,7 +134,13 @@ class View(BrowserView, CanonicalURLHelper):
                         default=u"Sprache (Aufsatz)")
             elif field == "authors":
                 return _(u"label_metadata_authors_article",
-                         default=u"Autoren des Aufsatzes")
+                         default=u"Autor(en) (Aufsatz)")
+            elif field in ["editor", "editorial"]:
+                return _(u"label_metadata_editor",
+                         default=u"Editor")
+            if field == "title":
+                return _(u"label_metadata_title_article",
+                         default=u"Title (article)")
             elif field == "titleEditedVolume":
                 return _(u"label_metadata_title_edited_volume",
                          default=u"Title (edited volume)")
@@ -172,6 +178,9 @@ class View(BrowserView, CanonicalURLHelper):
             elif field == "metadata_start_end_pages":
                 label = _("metadata_pages")
                 value = context.page_start_end_in_print
+            elif field == "metadata_start_end_pages_article":
+                label = _("metadata_pages_article")
+                value = context.page_start_end_in_print_article
             elif field == "metadata_review_author":
                 label = _("label_metadata_review_author")
                 value = self.list_rows(

@@ -1122,6 +1122,34 @@ ArticleSchema = atapi.Schema((
             label=_(u"DOI (Aufsatz)"),
         ),
     ),
+    atapi.StringField(
+        'heading__page_number_of_article_in_journal_or_edited_volume',
+        schemata="reviewed_text",
+        widget=atapi.LabelWidget(
+            label=_(
+                u"description_page_number_of_article_in_journal_or_edited_volume",
+                default=(u"Page numbers of the article")
+                )
+            ),
+        ),
+    atapi.IntegerField(
+        'pageStartOfArticle',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators="isInt",
+        widget=atapi.IntegerWidget(
+            label = _(u"label_page_start_of_article_in_journal_or_edited_volume"),
+            ),
+        ),
+    atapi.IntegerField(
+        'pageEndOfArticle',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators="isInt",
+        widget=atapi.IntegerWidget(
+            label=_(u"label_page_end_of_article_in_journal_or_edited_volume"),
+            ),
+        )
 ))
 
 ExhibitionSchema = CommonReviewSchema.copy() + \

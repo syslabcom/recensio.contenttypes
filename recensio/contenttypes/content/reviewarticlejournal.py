@@ -52,7 +52,7 @@ ReviewArticleJournalSchema = JournalReviewSchema.copy() + \
 
 ReviewArticleJournalSchema['title'].storage = atapi.AnnotationStorage()
 
-ReviewArticleJournalSchema['heading__page_number_of_presented_review_in_journal'].label = _(u"Seitenangaben des rezensierten Aufsatzes")
+ReviewArticleJournalSchema['heading__page_number_of_presented_review_in_journal'].widget.condition = 'python:False'
 ReviewArticleJournalSchema['doc'].widget.condition = 'python:False'
 ReviewArticleJournalSchema['heading_presented_work'].widget.condition = 'python:False'
 ReviewArticleJournalSchema['languageReviewedText'].label = _(u"Sprache (Aufsatz)")
@@ -123,9 +123,12 @@ class ReviewArticleJournal(BaseReview):
     pageEndOfReviewInJournal = atapi.ATFieldProperty(
         'pageEndOfReviewInJournal')
 
+    # Article
+    pageStartOfArticle = atapi.ATFieldProperty('pageStartOfArticle')
+    pageEndOfArticle = atapi.ATFieldProperty('pageEndOfArticle')
+
     # ReviewJournal
     editor = atapi.ATFieldProperty('editor')
-
 
     # Reorder the fields as required
     journal_fields = [
@@ -157,9 +160,9 @@ class ReviewArticleJournal(BaseReview):
         "languageReviewedText",
         "title",
         "subtitle",
-        "heading__page_number_of_presented_review_in_journal",
-        "pageStartOfReviewInJournal",
-        "pageEndOfReviewInJournal",
+        "heading__page_number_of_article_in_journal_or_edited_volume",
+        "pageStartOfArticle",
+        "pageEndOfArticle",
         "ddcSubject",
         "ddcTime",
         "ddcPlace",
@@ -171,6 +174,9 @@ class ReviewArticleJournal(BaseReview):
         "pdf",
         "pageStart",
         "pageEnd",
+        "heading__page_number_of_presented_review_in_journal",
+        "pageStartOfReviewInJournal",
+        "pageEndOfReviewInJournal",
         "doc",
         "review",
         "customCitation",
@@ -195,16 +201,18 @@ class ReviewArticleJournal(BaseReview):
     # An ordered list of fields used for the metadata area of the view
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
-        "metadata_review_author", "languageReview",
-        "languageReviewedText", "editor", "titleJournal", "shortnameJournal",
+        "metadata_review_author", "languageReview", "metadata_start_end_pages",
+        "languageReviewedText", "authors", "title",
+        "metadata_start_end_pages_article",
+        "editor", "titleJournal", "shortnameJournal",
         "yearOfPublication", "officialYearOfPublication",
         "volumeNumber", "issueNumber",
-        "placeOfPublication", "publisher",
+        "placeOfPublication",
         "yearOfPublicationOnline",
         "placeOfPublicationOnline", "publisherOnline",
+        "publisher",
         "issn", "issn_online",
         "url_journal", "urn_journal", "doi_journal", "urn",
-        "authors", "title", "metadata_start_end_pages",
         "ddcSubject", "ddcTime", "ddcPlace", "subject",
         "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
 
@@ -290,12 +298,27 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         if self.customCitation:
             return scrubHTML(self.customCitation).decode('utf8')
 
-        rev_details_formatter = getFormatter(u', ', u', ', u' ')
+        args = {
+            'review_of' : real_self.directTranslate(Message(
+                    u"text_review_of", "recensio", default="review of:")),
+            'review_in' : real_self.directTranslate(Message(
+                    u"text_review_in", "recensio", default="Review published in:")),
+            'in'        : real_self.directTranslate(Message(
+                    u"text_in", "recensio", default="in:")),
+            'page'      : real_self.directTranslate(Message(
+                    u"text_pages", "recensio", default="p.")),
+            ':'         : real_self.directTranslate(Message(
+                    u"text_colon", "recensio", default=":")),
+            }
+        rev_details_formatter = getFormatter(
+            u'%(:)s ' % args, u', ', u', ', u' ', u', %(page)s ' % args)
         mag_year = getFormatter('/')(self.officialYearOfPublication,
                                      self.yearOfPublication)
         mag_year = mag_year and '(' + mag_year + ')' or None
-        item_string = rev_details_formatter(self.title, self.volumeNumber,
-                                            self.issueNumber, mag_year)
+        item_string = rev_details_formatter(self.formatted_authors,
+                                            self.title, self.volumeNumber,
+                                            self.issueNumber, mag_year,
+                                            self.page_start_end_in_print_article)
 
         reference_mag = getFormatter(', ',  ', ')
         reference_mag_string = reference_mag(self.get_publication_title(),
@@ -306,18 +329,8 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
 
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
-        args = {
-            'review_of' : real_self.directTranslate(Message(
-                    u"text_review_of", "recensio", default="review of:")),
-            'in'        : real_self.directTranslate(Message(
-                    u"text_in", "recensio", default="in:")),
-            'page'      : real_self.directTranslate(Message(
-                    u"text_pages", "recensio", default="p.")),
-            ':'         : real_self.directTranslate(Message(
-                    u"text_colon", "recensio", default=":")),
-            }
         citation_formatter = getFormatter(
-            u'%(:)s %(review_of)s ' % args, ', %(in)s ' % args, ', %(page)s '
+            u'%(:)s %(review_of)s ' % args, ', %(review_in)s ' % args, ', %(page)s '
             % args, u', ')
         citation_string = citation_formatter(
             escape(rezensent_string), escape(item_string),

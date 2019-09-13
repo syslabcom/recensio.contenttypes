@@ -311,16 +311,24 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             getattr(
                 self, "pageStartOfReviewInJournal", ""))
 
+        page_end = getattr(
+            self, "pageEndOfPresentedTextInPrint",
+            getattr(
+                self, "pageEndOfReviewInJournal", ""))
+        return self.format_page_start_end(page_start, page_end)
+
+    @property
+    def page_start_end_in_print_article(self):
+        page_start = self.pageStartOfArticle
+        page_end = self.pageEndOfArticle
+        return self.format_page_start_end(page_start, page_end)
+
+    def format_page_start_end(self, page_start, page_end):
         # page_start is set to 0 when it is left empty in the bulk
         # import spreadsheet #4054
         if page_start in (None, 0):
             page_start = ""
         page_start = str(page_start).strip()
-
-        page_end = getattr(
-            self, "pageEndOfPresentedTextInPrint",
-            getattr(
-                self, "pageEndOfReviewInJournal", ""))
 
         # page_end is set to 0 when it is left empty in the bulk
         # import spreadsheet #4054
