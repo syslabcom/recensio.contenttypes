@@ -201,7 +201,8 @@ class ReviewArticleJournal(BaseReview):
     # An ordered list of fields used for the metadata area of the view
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
-        "metadata_review_author", "languageReview", "metadata_start_end_pages",
+        "metadata_start_end_pages",
+        "metadata_review_author", "languageReview",
         "languageReviewedText", "authors", "title",
         "metadata_start_end_pages_article",
         "editor", "titleJournal", "shortnameJournal",

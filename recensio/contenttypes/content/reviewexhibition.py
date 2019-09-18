@@ -16,8 +16,10 @@ from recensio.contenttypes.content.review import (
     BaseReview, BaseReviewNoMagic, get_formatted_names)
 from recensio.contenttypes.content.schemata import (
     ExhibitionSchema,
-    LicenceSchema, PageStartEndInPDFSchema,
+    LicenceSchema,
+    PageStartEndInPDFSchema,
     ReviewSchema,
+    PrintedReviewSchema,
     finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewExhibition
 from recensio.contenttypes.citation import getFormatter
@@ -27,12 +29,13 @@ from recensio.theme.browser.views import editorTypes
 ReviewExhibitionSchema = ExhibitionSchema.copy() + \
                         PageStartEndInPDFSchema.copy() + \
                         ReviewSchema.copy() + \
+                        PrintedReviewSchema.copy() + \
                         LicenceSchema.copy()
 
 ReviewExhibitionSchema['title'].storage = atapi.AnnotationStorage()
 ReviewExhibitionSchema['doc'].widget.condition = 'python:False'
 ReviewExhibitionSchema['languageReviewedText'].widget.condition = 'python:False'
-for field in ['title', 'ddcSubject', 'ddcPlace', 'ddcTime', 'subject']:
+for field in ['title', 'subtitle', 'ddcSubject', 'ddcPlace', 'ddcTime', 'subject']:
     ReviewExhibitionSchema.changeSchemataForField(field, 'Ausstellung')
 finalize_recensio_schema(ReviewExhibitionSchema, review_type="review_exhibition")
 
@@ -71,7 +74,20 @@ class ReviewExhibition(BaseReview):
     ddcSubject = atapi.ATFieldProperty('ddcSubject')
     ddcTime = atapi.ATFieldProperty('ddcTime')
 
+    # Printed
+    subtitle = atapi.ATFieldProperty('subtitle')
+    additionalTitles = atapi.ATFieldProperty('additionalTitles')
+    yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
+    placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
+    publisher = atapi.ATFieldProperty('publisher')
+    yearOfPublicationOnline = atapi.ATFieldProperty('yearOfPublicationOnline')
+    placeOfPublicationOnline = atapi.ATFieldProperty('placeOfPublicationOnline')
+    publisherOnline = atapi.ATFieldProperty('publisherOnline')
+    idBvb = atapi.ATFieldProperty('idBvb')
+
     # Exhibition
+    exhibitor = atapi.ATFieldProperty('exhibitor')
+    dates = atapi.ATFieldProperty('dates')
     subtitle = atapi.ATFieldProperty('subtitle')
     url_exhibition = atapi.ATFieldProperty('url_exhibition')
     doi_exhibition = atapi.ATFieldProperty('doi_exhibition')
@@ -191,9 +207,21 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
                 Message(u"reviewed_by", "recensio",
                         mapping={u"review_authors": rezensent_string}))
 
-        full_citation = getFormatter(': ', ' ')
+        dates_formatter = getFormatter(', ', '-', '')
+        dates_string = ' / '.join(
+            [dates_formatter(
+                date['place'],
+                date['start'],
+                date['end'],
+                date['year'],
+            ) for date in self.dates]
+        )
+
+        full_citation = getFormatter(u': ', u', ', u' ')
         return full_citation(
+            self.exhibitor,
             self.punctuated_title_and_subtitle,
+            dates_string,
             rezensent_string)
 
     def get_citation_string(real_self):
@@ -245,22 +273,49 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
                     u"text_colon", "recensio", default=":")),
             }
         rev_details_formatter = getFormatter(
-            u', ', u', ', u'%(:)s ' % args, u', ')
+            u'%(:)s ' % args, u', ', u' ' % args)
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
-        title_subtitle_string = self.punctuated_title_and_subtitle
-        item_string = rev_details_formatter(
-            title_subtitle_string,
+
+        dates_formatter = getFormatter(', ', '-', '')
+        dates_string = ' / '.join(
+            [dates_formatter(
+                date['place'],
+                date['start'],
+                date['end'],
+                date['year'],
+            ) for date in self.dates]
         )
+        item_string = rev_details_formatter(
+            self.exhibitor,
+            self.punctuated_title_and_subtitle,
+            dates_string,
+        )
+        mag_year_string = self.yearOfPublication.decode('utf-8')
+        mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
+            or None
+
+        mag_number_formatter = getFormatter(u', ', u', ')
+        mag_number_string = mag_number_formatter(
+            self.get_publication_title(), self.get_volume_title(),
+            self.get_issue_title())
 
         location = real_self.get_citation_location()
 
         citation_formatter = getFormatter(
-            u'%(:)s %(review_of)s ' % args, ', %(in)s ' % args, ', %(page)s ' % args, u', ')
+            u'%(:)s %(review_of)s ' % args,
+            ', %(in)s ' % args,
+            ', %(page)s ' % args,
+            u', ',
+        )
 
         citation_string = citation_formatter(
-            escape(rezensent_string), escape(item_string),
-            self.page_start_end_in_print, location)
+            escape(rezensent_string),
+            escape(item_string),
+            escape(mag_number_string),
+            self.page_start_end_in_print,
+            location,
+        )
 
         return citation_string
 

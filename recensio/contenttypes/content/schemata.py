@@ -1195,14 +1195,6 @@ ExhibitionSchema = CommonReviewSchema.copy() + \
         searchable=True,
     ),
     atapi.StringField(
-        'subtitle',
-        schemata="Ausstellung",
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Subtitle"),
-        ),
-    ),
-    atapi.StringField(
         'url_exhibition',
         schemata="Ausstellung",
         storage=atapi.AnnotationStorage(),

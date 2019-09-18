@@ -247,8 +247,8 @@ class ReviewArticleCollection(BaseReview):
 
     metadata_fields = [
         "metadata_review_type_code", "get_journal_title",
-        "metadata_review_author", "languageReview",
         "metadata_start_end_pages",
+        "metadata_review_author", "languageReview",
         "languageReviewedText",
         "authors", "title", "subtitle",
         "metadata_start_end_pages_article",
@@ -393,7 +393,7 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
             'review_of' : real_self.directTranslate(Message(
                     u"text_review_of", "recensio", default="review of:")),
             'review_in' : real_self.directTranslate(Message(
-                    u"text_review_in", "recensio", default="Review published in:")),
+                    u"text_review_in", "recensio", default="review published in:")),
             'in'        : real_self.directTranslate(Message(
                     u"text_in", "recensio", default="in:")),
             'page'      : real_self.directTranslate(Message(
