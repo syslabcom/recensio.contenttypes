@@ -267,6 +267,10 @@ class View(BrowserView, CanonicalURLHelper):
                         ]
                     )
                 value = '/'.join(subtitles)
+            elif field == "dates":
+                label = self.get_label(fields, field, context.meta_type)
+                value = self.list_rows(
+                    context[field], "place", "runtime")
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")

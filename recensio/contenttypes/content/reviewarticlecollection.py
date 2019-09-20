@@ -77,7 +77,7 @@ ReviewArticleCollectionSchema['title'].storage = atapi.AnnotationStorage()
 ReviewArticleCollectionSchema['authors'].widget.label = _(u"Autor(en) des rezensierten Aufsatzes")
 ReviewArticleCollectionSchema['yearOfPublication'].validators = (
     YearOfPublicationValidator())
-ReviewArticleCollectionSchema['heading__page_number_of_presented_review_in_journal'].widget.label = _(u"Seitenangaben des rezensierten Aufsatzes")
+ReviewArticleCollectionSchema.changeSchemataForField('heading__page_number_of_presented_review_in_journal', 'review')
 ReviewArticleCollectionSchema['doc'].widget.condition = 'python:False'
 ReviewArticleCollectionSchema['help_authors_or_editors'].widget.condition = 'python:False'
 ReviewArticleCollectionSchema['additionalTitles'].widget.condition = 'python:False'

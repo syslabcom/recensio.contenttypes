@@ -18,8 +18,8 @@ from recensio.contenttypes.content.schemata import (
     ExhibitionSchema,
     LicenceSchema,
     PageStartEndInPDFSchema,
+    PageStartEndOfReviewInJournalSchema,
     ReviewSchema,
-    PrintedReviewSchema,
     finalize_recensio_schema)
 from recensio.contenttypes.interfaces import IReviewExhibition
 from recensio.contenttypes.citation import getFormatter
@@ -28,13 +28,14 @@ from recensio.theme.browser.views import editorTypes
 
 ReviewExhibitionSchema = ExhibitionSchema.copy() + \
                         PageStartEndInPDFSchema.copy() + \
+                        PageStartEndOfReviewInJournalSchema.copy() + \
                         ReviewSchema.copy() + \
-                        PrintedReviewSchema.copy() + \
                         LicenceSchema.copy()
 
 ReviewExhibitionSchema['title'].storage = atapi.AnnotationStorage()
 ReviewExhibitionSchema['doc'].widget.condition = 'python:False'
 ReviewExhibitionSchema['languageReviewedText'].widget.condition = 'python:False'
+ReviewExhibitionSchema.changeSchemataForField('heading__page_number_of_presented_review_in_journal', 'review')
 for field in ['title', 'subtitle', 'ddcSubject', 'ddcPlace', 'ddcTime', 'subject']:
     ReviewExhibitionSchema.changeSchemataForField(field, 'Ausstellung')
 finalize_recensio_schema(ReviewExhibitionSchema, review_type="review_exhibition")
@@ -49,9 +50,6 @@ class ReviewExhibition(BaseReview):
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
-    # Book = Printed + Authors +
-    # Printed = Common +
-    # Common = Base +
 
     # Base
     reviewAuthors = atapi.ATFieldProperty('reviewAuthors')
@@ -74,17 +72,6 @@ class ReviewExhibition(BaseReview):
     ddcSubject = atapi.ATFieldProperty('ddcSubject')
     ddcTime = atapi.ATFieldProperty('ddcTime')
 
-    # Printed
-    subtitle = atapi.ATFieldProperty('subtitle')
-    additionalTitles = atapi.ATFieldProperty('additionalTitles')
-    yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
-    placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
-    publisher = atapi.ATFieldProperty('publisher')
-    yearOfPublicationOnline = atapi.ATFieldProperty('yearOfPublicationOnline')
-    placeOfPublicationOnline = atapi.ATFieldProperty('placeOfPublicationOnline')
-    publisherOnline = atapi.ATFieldProperty('publisherOnline')
-    idBvb = atapi.ATFieldProperty('idBvb')
-
     # Exhibition
     exhibitor = atapi.ATFieldProperty('exhibitor')
     dates = atapi.ATFieldProperty('dates')
@@ -100,6 +87,7 @@ class ReviewExhibition(BaseReview):
     ordered_fields = [
         # Exhibition schemata
         'exhibitor',
+        'exhibitor_gnd',
         'curators',
         'dates',
         'title',
@@ -117,6 +105,9 @@ class ReviewExhibition(BaseReview):
         "pdf",
         "pageStart",
         "pageEnd",
+        "heading__page_number_of_presented_review_in_journal",
+        "pageStartOfReviewInJournal",
+        "pageEndOfReviewInJournal",
         "review",
         "customCitation",
         "canonical_uri",
@@ -204,16 +195,14 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
                                                lastname_first = lastname_first)
         if rezensent_string:
             rezensent_string = "(%s)" % real_self.directTranslate(
-                Message(u"reviewed_by", "recensio",
+                Message(u"exhibition_reviewed_by", "recensio",
                         mapping={u"review_authors": rezensent_string}))
 
-        dates_formatter = getFormatter(', ', '-', '')
+        dates_formatter = getFormatter(', ')
         dates_string = ' / '.join(
             [dates_formatter(
                 date['place'],
-                date['start'],
-                date['end'],
-                date['year'],
+                date['runtime'],
             ) for date in self.dates]
         )
 
@@ -277,13 +266,11 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
         rezensent_string = get_formatted_names(
             u' / ', ', ', self.reviewAuthors, lastname_first = True)
 
-        dates_formatter = getFormatter(', ', '-', '')
+        dates_formatter = getFormatter(', ')
         dates_string = ' / '.join(
             [dates_formatter(
                 date['place'],
-                date['start'],
-                date['end'],
-                date['year'],
+                date['runtime'],
             ) for date in self.dates]
         )
         item_string = rev_details_formatter(
@@ -291,9 +278,6 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
             self.punctuated_title_and_subtitle,
             dates_string,
         )
-        mag_year_string = self.yearOfPublication.decode('utf-8')
-        mag_year_string = mag_year_string and u'(' + mag_year_string + u')' \
-            or None
 
         mag_number_formatter = getFormatter(u', ', u', ')
         mag_number_string = mag_number_formatter(

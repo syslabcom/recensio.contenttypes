@@ -1163,6 +1163,15 @@ ExhibitionSchema = CommonReviewSchema.copy() + \
             ),
         searchable=True,
     ),
+    atapi.StringField(
+        'exhibitor_gnd',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"GND Ausstellende Institution"),
+            ),
+        searchable=True,
+    ),
     DataGridField(
         'curators',
         schemata="Ausstellung",
@@ -1181,18 +1190,24 @@ ExhibitionSchema = CommonReviewSchema.copy() + \
         'dates',
         schemata="Ausstellung",
         storage=atapi.AnnotationStorage(),
-        columns=("place", "start", "end", "year"),
-        default=[{'place': '', 'start': '', 'end': '', 'year': ''}],
+        columns=("place", "runtime"),
+        default=[{'place': '', 'runtime': ''}],
         widget=DataGridWidget(
             label = _(u"Ort / Laufzeit"),
             columns = {
                 "place" : Column(_(u"Ort")),
-                "start" : Column(_(u"Laufzeit Anfang")),
-                "end" : Column(_(u"Laufzeit Ende")),
-                "year" : Column(_(u"Jahr (gezählt / bzw. normiert)")),
+                "runtime" : Column(_(u"Laufzeit")),
             }
         ),
         searchable=True,
+    ),
+    atapi.StringField(
+        'subtitle',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Subtitle"),
+        ),
     ),
     atapi.StringField(
         'url_exhibition',
