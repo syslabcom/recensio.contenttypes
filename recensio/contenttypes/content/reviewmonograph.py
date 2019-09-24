@@ -107,9 +107,9 @@ class ReviewMonograph(BaseReview):
     # Book
     isbn = atapi.ATFieldProperty('isbn')
     isbn_online = atapi.ATFieldProperty('isbn_online')
-    issn = atapi.ATFieldProperty('url_monograph')
-    issn = atapi.ATFieldProperty('urn_monograph')
-    issn = atapi.ATFieldProperty('doi_monograph')
+    url_monograph = atapi.ATFieldProperty('url_monograph')
+    urn_monograph = atapi.ATFieldProperty('urn_monograph')
+    doi_monograph = atapi.ATFieldProperty('doi_monograph')
 
     # Cover Picture
     coverPicture = atapi.ATFieldProperty('coverPicture')
