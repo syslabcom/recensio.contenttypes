@@ -596,3 +596,19 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         intids = getUtility(IIntIds)
         obj_id = intids.register(self)
         return '{0}{1}'.format(prefix, obj_id)
+
+    def isUseExternalFulltext(self):
+        """ If any parent has this activated then we also want it active here.
+            FLOW-741
+        """
+        publication = self.get_parent_object_of_type("Publication")
+        current = self
+        value = False
+        if publication != None:
+            while current != publication:
+                if 'useExternalFulltext' in current.Schema():
+                    value = current.isUseExternalFulltext()
+                    if value is True:
+                        break
+                current = current.aq_parent
+        return value
