@@ -125,6 +125,12 @@
                 <td class="value">
                 </td>
             </tr>
+           <tr class="oai_ppn">
+                <td class="key" i18n:translate="">PPN
+                </td>
+                <td class="value">
+                </td>
+            </tr>
         </table>
         <div style="display:None;" id="missing_exlanation" i18n:translate="" >
             Recensio does not know how to save these categories. We attach them

@@ -9,6 +9,7 @@ Changelog
 - Zotero Export: Include works author in title field and use review author for
   author field. #FLOW-651
 - External Fulltext: Fixed setting on Volume level. #FLOW-741
+- OPAC search: Handle PPN. #FLOW-650
 
 
 4.5.0 (2019-06-05)
