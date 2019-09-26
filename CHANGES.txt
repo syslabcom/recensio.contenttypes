@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.5.1 (unreleased)
+4.6.0 (2019-09-26)
 ------------------
 
 - Multipart Titles: Show title and subtitle separately in metadata box. #FLOW-559
