@@ -11,6 +11,7 @@ Changelog
 - External Fulltext: Fixed setting on Volume level. #FLOW-741
 - OPAC search: Handle PPN. #FLOW-650
 - New license field that supports translation (via referencing a Page). #FLOW-443
+- Added new review types. #FLOW-649
 
 
 4.5.0 (2019-06-05)
