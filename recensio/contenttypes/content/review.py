@@ -318,16 +318,24 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             getattr(
                 self, "pageStartOfReviewInJournal", ""))
 
+        page_end = getattr(
+            self, "pageEndOfPresentedTextInPrint",
+            getattr(
+                self, "pageEndOfReviewInJournal", ""))
+        return self.format_page_start_end(page_start, page_end)
+
+    @property
+    def page_start_end_in_print_article(self):
+        page_start = self.pageStartOfArticle
+        page_end = self.pageEndOfArticle
+        return self.format_page_start_end(page_start, page_end)
+
+    def format_page_start_end(self, page_start, page_end):
         # page_start is set to 0 when it is left empty in the bulk
         # import spreadsheet #4054
         if page_start in (None, 0):
             page_start = ""
         page_start = str(page_start).strip()
-
-        page_end = getattr(
-            self, "pageEndOfPresentedTextInPrint",
-            getattr(
-                self, "pageEndOfReviewInJournal", ""))
 
         # page_end is set to 0 when it is left empty in the bulk
         # import spreadsheet #4054
@@ -407,6 +415,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             u' / ', ', ', self.reviewAuthors, lastname_first=True)
         if review_author.strip() != ',':
             retval.append(safe_unicode(review_author).encode('utf-8'))
+        exhibitor = getattr(self, 'getExhibitor', lambda: '')()
+        if exhibitor:
+            retval.append(exhibitor)
         return retval
 
     def getAllAuthorDataFulltext(self):
@@ -512,6 +523,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
         return data
 
+    def format(self, title, subtitle):
+        last_char = title[-1]
+        if last_char in ["!", "?", ":", ";", ".", ","]:
+            return getFormatter(" ")(title, subtitle)
+        else:
+            return getFormatter(". ")(title, subtitle)
+
     @property
     def punctuated_title_and_subtitle(self):
         """ #3129
@@ -526,22 +544,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 for additional in self.getAdditionalTitles()
             ]
 
-        def format(title, subtitle):
-            last_char = title[-1]
-            if last_char in ["!", "?", ":", ";", ".", ","]:
-                return getFormatter(" ")(title, subtitle)
-            else:
-                return getFormatter(". ")(title, subtitle)
-
         return " / ".join([
-            format(title, subtitle) for title, subtitle in titles
+            self.format(title, subtitle) for title, subtitle in titles
             if title
         ])
 
     @property
-    def formatted_authors_editorial(self):
-        """ #3111
-        PMs and RMs have an additional field for editors"""
+    def formatted_authors(self):
         authors_list = []
         for author in self.getAuthors():
             if author['lastname'] or author['firstname']:
@@ -552,7 +561,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                             )
                         ).strip()
                                     )
-        authors_str = u" / ".join(authors_list)
+        return u" / ".join(authors_list)
+
+    @property
+    def formatted_authors_editorial(self):
+        """ #3111
+        PMs and RMs have an additional field for editors"""
+        authors_str = self.formatted_authors
 
         editor_str = ""
         result = ""

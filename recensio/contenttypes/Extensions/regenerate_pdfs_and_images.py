@@ -1,14 +1,13 @@
 from zope.component.hooks import getSite
 from DateTime import DateTime
 from recensio.contenttypes.adapter import reviewpdf
+from recensio.contenttypes.config import REVIEW_TYPES
+from recensio.contenttypes.config import PRESENTATION_TYPES
 
 portal = getSite()
 pc = portal.portal_catalog
 
-rev_types = [
-    "Review Monograph", "Presentation Monograph",
-    "Presentation Collection", "Presentation Article Review",
-    "Presentation Online Resource", "Review Journal" ]
+rev_types = REVIEW_TYPES + PRESENTATION_TYPES
 
 query = {
     "path": '/'.join(portal.getPhysicalPath()),

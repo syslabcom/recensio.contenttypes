@@ -3,16 +3,13 @@
 Run from your buildout with:
 (venv)$ instance run content_types_schema_info.py
 """
+from recensio.contenttypes.config import PRESENTATION_TYPES
+from recensio.contenttypes.config import REVIEW_TYPES
 from recensio.contenttypes.content import schemata
 from pprint import pprint
 
 
-rec_types =  ['Presentation Online Resource',
-              'Presentation Article Review',
-              'Presentation Collection',
-              'Presentation Monograph',
-              'Review Monograph',
-              'Review Journal',]
+rec_types = PRESENTATION_TYPES + REVIEW_TYPES
 
 portal = app.recensio
 all_fields = set()

@@ -110,7 +110,11 @@ def finalize_recensio_schema(schema, review_type="review"):
         # see if it should be applied or not. Setting it here didn't
         # seem to work
     elif review_type in ["review_monograph",
-                         "review_journal"]:
+                         "review_journal",
+                         "review_article_journal",
+                         "review_article_collection",
+                         "review_exhibition",
+                         ]:
         schema.changeSchemataForField('licence', 'review')
         schema.changeSchemataForField('licence_ref', 'review')
 
@@ -1110,6 +1114,144 @@ LicenceSchema = atapi.Schema((
             relationship="custom_licence"
         ),
 ))
+
+
+ArticleSchema = atapi.Schema((
+    atapi.StringField(
+        'url_article',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators = (isLazyURL,),
+        mutator = 'setUrl_article',
+        widget=atapi.StringWidget(
+            label=_(u"URL (Aufsatz)"),
+        ),
+    ),
+    atapi.StringField(
+        'urn_article',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators = (isLazyURL,),
+        mutator = 'setUrn_article',
+        widget=atapi.StringWidget(
+            label=_(u"URN (Aufsatz)"),
+        ),
+    ),
+    atapi.StringField(
+        'doi_article',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"DOI (Aufsatz)"),
+        ),
+    ),
+    atapi.StringField(
+        'heading__page_number_of_article_in_journal_or_edited_volume',
+        schemata="reviewed_text",
+        widget=atapi.LabelWidget(
+            label=_(
+                u"description_page_number_of_article_in_journal_or_edited_volume",
+                default=(u"Page numbers of the article")
+                )
+            ),
+        ),
+    atapi.IntegerField(
+        'pageStartOfArticle',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators="isInt",
+        widget=atapi.IntegerWidget(
+            label = _(u"label_page_start_of_article_in_journal_or_edited_volume"),
+            ),
+        ),
+    atapi.IntegerField(
+        'pageEndOfArticle',
+        schemata="reviewed_text",
+        storage=atapi.AnnotationStorage(),
+        validators="isInt",
+        widget=atapi.IntegerWidget(
+            label=_(u"label_page_end_of_article_in_journal_or_edited_volume"),
+            ),
+        )
+))
+
+ExhibitionSchema = CommonReviewSchema.copy() + \
+                   atapi.Schema((
+    atapi.StringField(
+        'exhibitor',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Ausstellende Institution"),
+            ),
+        searchable=True,
+    ),
+    atapi.StringField(
+        'exhibitor_gnd',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"GND Ausstellende Institution"),
+            ),
+        searchable=True,
+    ),
+    DataGridField(
+        'curators',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        columns=("lastname", "firstname"),
+        default=[{'lastname':'', 'firstname':''}],
+        widget=DataGridWidget(
+            label = _(u"Kurator / Mitwirkende"),
+            columns = {"lastname" : Column(_(u"Last name")),
+                       "firstname" : Column(_(u"First name")),
+                       }
+        ),
+        searchable=True,
+    ),
+    DataGridField(
+        'dates',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        columns=("place", "runtime"),
+        default=[{'place': '', 'runtime': ''}],
+        widget=DataGridWidget(
+            label = _(u"Ort / Laufzeit"),
+            columns = {
+                "place" : Column(_(u"Ort")),
+                "runtime" : Column(_(u"Laufzeit")),
+            }
+        ),
+        searchable=True,
+    ),
+    atapi.StringField(
+        'subtitle',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Subtitle"),
+        ),
+    ),
+    atapi.StringField(
+        'url_exhibition',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        validators = (isLazyURL,),
+        mutator = 'setUrl_exhibition',
+        widget=atapi.StringWidget(
+            label=_(u"URL der Website"),
+        ),
+    ),
+    atapi.StringField(
+        'doi_exhibition',
+        schemata="Ausstellung",
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"DOI der Website"),
+        ),
+    ),
+))
+
 
 class PublicationLogoWatermarkField(ExtensionField, ImageField):
     """ Newspaper/Publication watermark logo #3104 """

@@ -128,6 +128,32 @@ class View(BrowserView, CanonicalURLHelper):
             if field == "editor":
                 return _(u"label_metadata_editor",
                          default=u"Editor")
+        elif meta_type.startswith("ReviewArticle"):
+            if field == "languageReviewedText":
+                return _(u"label_metadata_language_article",
+                         default=u"Sprache (Aufsatz)")
+            elif field == "authors":
+                return _(u"label_metadata_authors_article",
+                         default=u"Autor (Aufsatz)")
+            elif field in ["editor", "editorial"]:
+                if meta_type == "ReviewArticleCollection":
+                    return _(u"label_metadata_editor_edited_volume",
+                             default=u"Editor (edited volume)")
+                elif meta_type == "ReviewArticleJournal":
+                    return _(u"label_metadata_editor_journal",
+                             default=u"Editor (journal)")
+            elif field == "title":
+                return _(u"label_metadata_title_article",
+                         default=u"Title (article)")
+            elif field == "titleEditedVolume":
+                return _(u"label_metadata_title_edited_volume",
+                         default=u"Title (edited volume)")
+            elif field == "subtitleEditedVolume":
+                return _(u"label_metadata_subtitle_edited_volume",
+                         default=u"Subtitle (edited volume)")
+            elif field == "metadata_start_end_pages":
+                return _(u"metadata_pages_review",
+                         default=u"Pages (review)")
 
         return _(fields[field].widget.label)
 
@@ -157,8 +183,14 @@ class View(BrowserView, CanonicalURLHelper):
                 label = self.custom_metadata_field_labels[field]
                 value = context[field]()
             elif field == "metadata_start_end_pages":
-                label = _("metadata_pages")
+                if "metadata_start_end_pages_article" in context.metadata_fields:
+                    label = _("metadata_pages_review")
+                else:
+                    label = _("metadata_pages")
                 value = context.page_start_end_in_print
+            elif field == "metadata_start_end_pages_article":
+                label = _("metadata_pages_article")
+                value = context.page_start_end_in_print_article
             elif field == "metadata_review_author":
                 label = _("label_metadata_review_author")
                 value = self.list_rows(
@@ -176,6 +208,10 @@ class View(BrowserView, CanonicalURLHelper):
             elif field == "editorsCollectedEdition":
                 label = self.get_label(fields, field, context.meta_type)
                 value = self.list_rows(context[field], "lastname", "firstname")
+            elif field == "curators":
+                label = self.get_label(fields, field, context.meta_type)
+                value = self.list_rows(
+                    context["curators"], "lastname", "firstname")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
                 value = context.translate(context.portal_type)
@@ -231,6 +267,10 @@ class View(BrowserView, CanonicalURLHelper):
                         ]
                     )
                 value = '/'.join(subtitles)
+            elif field == "dates":
+                label = self.get_label(fields, field, context.meta_type)
+                value = self.list_rows(
+                    context[field], "place", "runtime")
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
