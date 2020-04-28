@@ -6,6 +6,7 @@ from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
 
 class TestSearch(unittest.TestCase):
     """ """
+
     layer = RECENSIO_INTEGRATION_TESTING
 
     def setUp(self):
@@ -16,11 +17,10 @@ class TestSearch(unittest.TestCase):
 
     def test_SearchableText(self):
         text = self.review.SearchableText()
-        self.assertIn('Czernowitz', text)
-        self.assertIn('TEXT TEXT', text)
-        self.assertIn('PDF PDF', text)
-        self.assertIn(
-            self.review.getAuthors()[0]['lastname'].encode('utf-8'), text)
+        self.assertIn("Czernowitz", text)
+        self.assertIn("TEXT TEXT", text)
+        self.assertIn("PDF PDF", text)
+        self.assertIn(self.review.getAuthors()[0]["lastname"].encode("utf-8"), text)
         self.assertIn(self.review.Creator(), text)
 
         self.assertIn(self.review.Title(), text)
@@ -29,4 +29,4 @@ class TestSearch(unittest.TestCase):
         self.assertIn(self.review.getPlaceOfPublication(), text)
         self.assertIn(self.review.getPublisher(), text)
         self.assertIn(self.review.getSeries(), text)
-        self.assertIn('9788360448417', text)
+        self.assertIn("9788360448417", text)

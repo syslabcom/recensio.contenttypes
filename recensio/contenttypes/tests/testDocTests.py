@@ -1,8 +1,14 @@
 import unittest2 as unittest
 import doctest
-from recensio.contenttypes.content import reviewmonograph, reviewjournal,\
-    presentationarticlereview, presentationcollection, presentationmonograph,\
-    presentationonlineresource
+from recensio.contenttypes.content import (
+    reviewmonograph,
+    reviewjournal,
+    presentationarticlereview,
+    presentationcollection,
+    presentationmonograph,
+    presentationonlineresource,
+)
+
 
 def test_suite():
     suite = doctest.DocTestSuite(reviewjournal)

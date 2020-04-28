@@ -13,103 +13,110 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
-    BaseReview, BaseReviewNoMagic, get_formatted_names)
+    BaseReview,
+    BaseReviewNoMagic,
+    get_formatted_names,
+)
 from recensio.contenttypes.content.schemata import (
-    CoverPictureSchema, JournalReviewSchema, LicenceSchema,
-    PageStartEndInPDFSchema, PageStartEndOfReviewInJournalSchema, ReviewSchema,
-    finalize_recensio_schema)
+    CoverPictureSchema,
+    JournalReviewSchema,
+    LicenceSchema,
+    PageStartEndInPDFSchema,
+    PageStartEndOfReviewInJournalSchema,
+    ReviewSchema,
+    finalize_recensio_schema,
+)
 from recensio.contenttypes.interfaces import IReviewJournal
 
-ReviewJournalSchema = JournalReviewSchema.copy() + \
-                      CoverPictureSchema.copy() + \
-                      PageStartEndInPDFSchema.copy() + \
-                      PageStartEndOfReviewInJournalSchema.copy() + \
-                      ReviewSchema.copy() + LicenceSchema.copy() + \
-                      atapi.Schema((
-    atapi.StringField(
-        'editor',
-        schemata="reviewed_text",
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Editor (name or institution)"),
+ReviewJournalSchema = (
+    JournalReviewSchema.copy()
+    + CoverPictureSchema.copy()
+    + PageStartEndInPDFSchema.copy()
+    + PageStartEndOfReviewInJournalSchema.copy()
+    + ReviewSchema.copy()
+    + LicenceSchema.copy()
+    + atapi.Schema(
+        (
+            atapi.StringField(
+                "editor",
+                schemata="reviewed_text",
+                storage=atapi.AnnotationStorage(),
+                widget=atapi.StringWidget(label=_(u"Editor (name or institution)"),),
             ),
-        ),
-))
+        )
+    )
+)
 
-ReviewJournalSchema['title'].storage = atapi.AnnotationStorage()
+ReviewJournalSchema["title"].storage = atapi.AnnotationStorage()
 
-ReviewJournalSchema['title'].widget.label = _(u"Title (journal)")
-ReviewJournalSchema['subtitle'].widget.visible={
-    "view":"hidden", "edit":"hidden"}
+ReviewJournalSchema["title"].widget.label = _(u"Title (journal)")
+ReviewJournalSchema["subtitle"].widget.visible = {"view": "hidden", "edit": "hidden"}
 finalize_recensio_schema(ReviewJournalSchema, review_type="review_journal")
+
 
 class ReviewJournal(BaseReview):
     """Review Journal"""
+
     implements(IReviewJournal)
 
     meta_type = "ReviewJournal"
     schema = ReviewJournalSchema
-    title = atapi.ATFieldProperty('title')
+    title = atapi.ATFieldProperty("title")
     # Journal = Printed
     # Printed = Common +
     # Common = Base +
 
     # Base
-    reviewAuthors = atapi.ATFieldProperty('reviewAuthors')
-    languageReview = atapi.ATFieldProperty(
-        'languageReview')
-    languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
-    recensioID = atapi.ATFieldProperty('recensioID')
-    subject = atapi.ATFieldProperty('subject')
-    pdf = atapi.ATFieldProperty('pdf')
-    doc = atapi.ATFieldProperty('doc')
-    doi = atapi.ATFieldProperty('doi')
-    review = atapi.ATFieldProperty('review')
-    customCitation = atapi.ATFieldProperty('customCitation')
-    uri = atapi.ATFieldProperty('uri')
-    urn = atapi.ATFieldProperty('urn')
-    canonical_uri = atapi.ATFieldProperty('canonical_uri')
+    reviewAuthors = atapi.ATFieldProperty("reviewAuthors")
+    languageReview = atapi.ATFieldProperty("languageReview")
+    languageReviewedText = atapi.ATFieldProperty("languageReviewedText")
+    recensioID = atapi.ATFieldProperty("recensioID")
+    subject = atapi.ATFieldProperty("subject")
+    pdf = atapi.ATFieldProperty("pdf")
+    doc = atapi.ATFieldProperty("doc")
+    doi = atapi.ATFieldProperty("doi")
+    review = atapi.ATFieldProperty("review")
+    customCitation = atapi.ATFieldProperty("customCitation")
+    uri = atapi.ATFieldProperty("uri")
+    urn = atapi.ATFieldProperty("urn")
+    canonical_uri = atapi.ATFieldProperty("canonical_uri")
 
     # Common
-    ddcPlace = atapi.ATFieldProperty('ddcPlace')
-    ddcSubject = atapi.ATFieldProperty('ddcSubject')
-    ddcTime = atapi.ATFieldProperty('ddcTime')
+    ddcPlace = atapi.ATFieldProperty("ddcPlace")
+    ddcSubject = atapi.ATFieldProperty("ddcSubject")
+    ddcTime = atapi.ATFieldProperty("ddcTime")
 
     # Printed
-    subtitle = atapi.ATFieldProperty('subtitle')
-    yearOfPublication = atapi.ATFieldProperty('yearOfPublication')
-    placeOfPublication = atapi.ATFieldProperty('placeOfPublication')
-    publisher = atapi.ATFieldProperty('publisher')
-    yearOfPublicationOnline = atapi.ATFieldProperty('yearOfPublicationOnline')
-    placeOfPublicationOnline = atapi.ATFieldProperty('placeOfPublicationOnline')
-    publisherOnline = atapi.ATFieldProperty('publisherOnline')
-    idBvb = atapi.ATFieldProperty('idBvb')
+    subtitle = atapi.ATFieldProperty("subtitle")
+    yearOfPublication = atapi.ATFieldProperty("yearOfPublication")
+    placeOfPublication = atapi.ATFieldProperty("placeOfPublication")
+    publisher = atapi.ATFieldProperty("publisher")
+    yearOfPublicationOnline = atapi.ATFieldProperty("yearOfPublicationOnline")
+    placeOfPublicationOnline = atapi.ATFieldProperty("placeOfPublicationOnline")
+    publisherOnline = atapi.ATFieldProperty("publisherOnline")
+    idBvb = atapi.ATFieldProperty("idBvb")
 
     # Journal
-    issn = atapi.ATFieldProperty('issn')
-    issn_online = atapi.ATFieldProperty('issn_online')
-    issn = atapi.ATFieldProperty('url_journal')
-    issn = atapi.ATFieldProperty('urn_journal')
-    issn = atapi.ATFieldProperty('doi_journal')
-    shortnameJournal = atapi.ATFieldProperty('shortnameJournal')
-    volumeNumber = atapi.ATFieldProperty('volumeNumber')
-    issueNumber = atapi.ATFieldProperty('issueNumber')
-    officialYearOfPublication = atapi.ATFieldProperty(
-        'officialYearOfPublication')
+    issn = atapi.ATFieldProperty("issn")
+    issn_online = atapi.ATFieldProperty("issn_online")
+    issn = atapi.ATFieldProperty("url_journal")
+    issn = atapi.ATFieldProperty("urn_journal")
+    issn = atapi.ATFieldProperty("doi_journal")
+    shortnameJournal = atapi.ATFieldProperty("shortnameJournal")
+    volumeNumber = atapi.ATFieldProperty("volumeNumber")
+    issueNumber = atapi.ATFieldProperty("issueNumber")
+    officialYearOfPublication = atapi.ATFieldProperty("officialYearOfPublication")
 
     # PageStartEnd
-    pageStart = atapi.ATFieldProperty('pageStart')
-    pageEnd = atapi.ATFieldProperty('pageEnd')
+    pageStart = atapi.ATFieldProperty("pageStart")
+    pageEnd = atapi.ATFieldProperty("pageEnd")
 
-    #PageStartEndOfReviewInJournal
-    pageStartOfReviewInJournal = atapi.ATFieldProperty(
-        'pageStartOfReviewInJournal')
-    pageEndOfReviewInJournal = atapi.ATFieldProperty(
-        'pageEndOfReviewInJournal')
+    # PageStartEndOfReviewInJournal
+    pageStartOfReviewInJournal = atapi.ATFieldProperty("pageStartOfReviewInJournal")
+    pageEndOfReviewInJournal = atapi.ATFieldProperty("pageEndOfReviewInJournal")
 
     # ReviewJournal
-    editor = atapi.ATFieldProperty('editor')
-
+    editor = atapi.ATFieldProperty("editor")
 
     # Reorder the fields as required
     ordered_fields = [
@@ -121,7 +128,7 @@ class ReviewJournal(BaseReview):
         "doi_journal",
         "languageReviewedText",
         "editor",
-        "title", # Title of the journal
+        "title",  # Title of the journal
         "shortnameJournal",
         "yearOfPublication",
         "officialYearOfPublication",
@@ -138,9 +145,7 @@ class ReviewJournal(BaseReview):
         "ddcPlace",
         "subject",
         "idBvb",
-
         # Review schemata
-
         "reviewAuthors",
         "languageReview",
         "pdf",
@@ -162,26 +167,45 @@ class ReviewJournal(BaseReview):
 
     # An ordered list of fields used for the metadata area of the view
     metadata_fields = [
-        "metadata_review_type_code", "get_journal_title",
+        "metadata_review_type_code",
+        "get_journal_title",
         "metadata_start_end_pages",
-        "metadata_review_author", "languageReview",
-        "languageReviewedText", "editor", "title", "shortnameJournal",
-        "yearOfPublication", "officialYearOfPublication",
-        "volumeNumber", "issueNumber",
-        "placeOfPublication", "publisher",
+        "metadata_review_author",
+        "languageReview",
+        "languageReviewedText",
+        "editor",
+        "title",
+        "shortnameJournal",
+        "yearOfPublication",
+        "officialYearOfPublication",
+        "volumeNumber",
+        "issueNumber",
+        "placeOfPublication",
+        "publisher",
         "yearOfPublicationOnline",
-        "placeOfPublicationOnline", "publisherOnline",
-        "issn", "issn_online",
-        "url_journal", "urn_journal", "doi_journal", "urn",
-        "ddcSubject", "ddcTime", "ddcPlace", "subject",
-        "canonical_uri", "metadata_recensioID", "idBvb", "doi"]
+        "placeOfPublicationOnline",
+        "publisherOnline",
+        "issn",
+        "issn_online",
+        "url_journal",
+        "urn_journal",
+        "doi_journal",
+        "urn",
+        "ddcSubject",
+        "ddcTime",
+        "ddcPlace",
+        "subject",
+        "canonical_uri",
+        "metadata_recensioID",
+        "idBvb",
+        "doi",
+    ]
 
     def get_publication_title(self):
         """ Equivalent of 'titleJournal'"""
         return self.get_title_from_parent_of_type("Publication")
 
-    get_journal_title = get_publication_title #2542
-
+    get_journal_title = get_publication_title  # 2542
 
     def get_publication_object(self):
         return self.get_parent_object_of_type("Publication")
@@ -216,8 +240,8 @@ class ReviewJournal(BaseReview):
     def getFirstPublicationData(self):
         return ReviewJournalNoMagic(self).getFirstPublicationData()
 
-class ReviewJournalNoMagic(BaseReviewNoMagic):
 
+class ReviewJournalNoMagic(BaseReviewNoMagic):
     def get_citation_string(real_self):
         """
         >>> from mock import Mock
@@ -256,41 +280,56 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         """
         self = real_self.magic
         if self.customCitation:
-            return scrubHTML(self.customCitation).decode('utf8')
+            return scrubHTML(self.customCitation).decode("utf8")
 
-        rev_details_formatter = getFormatter(u', ', u', ', u' ')
-        mag_year = getFormatter('/')(self.officialYearOfPublication,
-                                     self.yearOfPublication)
-        mag_year = mag_year and '(' + mag_year + ')' or None
-        item_string = rev_details_formatter(self.title, self.volumeNumber,
-                                            self.issueNumber, mag_year)
+        rev_details_formatter = getFormatter(u", ", u", ", u" ")
+        mag_year = getFormatter("/")(
+            self.officialYearOfPublication, self.yearOfPublication
+        )
+        mag_year = mag_year and "(" + mag_year + ")" or None
+        item_string = rev_details_formatter(
+            self.title, self.volumeNumber, self.issueNumber, mag_year
+        )
 
-        reference_mag = getFormatter(', ',  ', ')
-        reference_mag_string = reference_mag(self.get_publication_title(),
-                                             self.get_volume_title(),
-                                             self.get_issue_title())
+        reference_mag = getFormatter(", ", ", ")
+        reference_mag_string = reference_mag(
+            self.get_publication_title(),
+            self.get_volume_title(),
+            self.get_issue_title(),
+        )
 
         location = real_self.get_citation_location()
 
         rezensent_string = get_formatted_names(
-            u' / ', ', ', self.reviewAuthors, lastname_first = True)
+            u" / ", ", ", self.reviewAuthors, lastname_first=True
+        )
         args = {
-            'review_of' : real_self.directTranslate(Message(
-                    u"text_review_of", "recensio", default="review of:")),
-            'in'        : real_self.directTranslate(Message(
-                    u"text_in", "recensio", default="in:")),
-            'page'      : real_self.directTranslate(Message(
-                    u"text_pages", "recensio", default="p.")),
-            ':'         : real_self.directTranslate(Message(
-                    u"text_colon", "recensio", default=":")),
-            }
+            "review_of": real_self.directTranslate(
+                Message(u"text_review_of", "recensio", default="review of:")
+            ),
+            "in": real_self.directTranslate(
+                Message(u"text_in", "recensio", default="in:")
+            ),
+            "page": real_self.directTranslate(
+                Message(u"text_pages", "recensio", default="p.")
+            ),
+            ":": real_self.directTranslate(
+                Message(u"text_colon", "recensio", default=":")
+            ),
+        }
         citation_formatter = getFormatter(
-            u'%(:)s %(review_of)s ' % args, ', %(in)s ' % args, ', %(page)s '
-            % args, u', ')
+            u"%(:)s %(review_of)s " % args,
+            ", %(in)s " % args,
+            ", %(page)s " % args,
+            u", ",
+        )
         citation_string = citation_formatter(
-            escape(rezensent_string), escape(item_string),
-            escape(reference_mag_string), self.page_start_end_in_print,
-            location)
+            escape(rezensent_string),
+            escape(item_string),
+            escape(reference_mag_string),
+            self.page_start_end_in_print,
+            location,
+        )
         return citation_string
 
     def getDecoratedTitle(real_self, lastname_first=False):
@@ -310,31 +349,32 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         """
         self = real_self.magic
 
-        item = getFormatter(', ', ' ', ', ')
-        mag_year = getFormatter('/')(self.officialYearOfPublication,
-                                     self.yearOfPublication)
-        mag_year = mag_year and '(' + mag_year + ')' or None
-        item_string = item(
-            self.title, self.volumeNumber, mag_year, self.issueNumber)
+        item = getFormatter(", ", " ", ", ")
+        mag_year = getFormatter("/")(
+            self.officialYearOfPublication, self.yearOfPublication
+        )
+        mag_year = mag_year and "(" + mag_year + ")" or None
+        item_string = item(self.title, self.volumeNumber, mag_year, self.issueNumber)
 
         if lastname_first:
             reviewer_string = get_formatted_names(
-                u' / ', ', ', self.reviewAuthors,
-                lastname_first = lastname_first)
+                u" / ", ", ", self.reviewAuthors, lastname_first=lastname_first
+            )
         else:
             reviewer_string = get_formatted_names(
-                u' / ', ' ', self.reviewAuthors,
-                lastname_first = lastname_first)
+                u" / ", " ", self.reviewAuthors, lastname_first=lastname_first
+            )
 
         if reviewer_string:
             reviewer_string = "(%s)" % real_self.directTranslate(
-                Message(u"reviewed_by", "recensio",
-                        mapping={u"review_authors": reviewer_string}))
+                Message(
+                    u"reviewed_by",
+                    "recensio",
+                    mapping={u"review_authors": reviewer_string},
+                )
+            )
 
+        return " ".join((item_string, reviewer_string))
 
-        return ' '.join((
-
-                item_string,
-                reviewer_string))
 
 atapi.registerType(ReviewJournal, PROJECTNAME)

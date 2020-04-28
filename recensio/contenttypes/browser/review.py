@@ -22,35 +22,38 @@ from recensio.contenttypes.browser.canonical import CanonicalURLHelper
 from recensio.contenttypes.content.review import get_formatted_names
 from recensio.contenttypes.interfaces import IParentGetter
 
+
 class View(BrowserView, CanonicalURLHelper):
     """Moderation View
     """
-    template = ViewPageTemplateFile('templates/review.pt')
+
+    template = ViewPageTemplateFile("templates/review.pt")
     custom_metadata_field_labels = {
         "get_publication_title": _("Publication Title"),
         "get_journal_title": _("heading_metadata_journal"),
         "get_volume_title": _("Volume Title"),
-        "get_issue_title": _("Issue Title")
-        }
+        "get_issue_title": _("Issue Title"),
+    }
 
     openurl_terms = {
-        'title':                'rft.btitle',
-        'issn':                 'rft.issn',
-        'isbn':                 'rft.isbn',
-        'publisher':            'rft.pub',
-        'metadata_review_author': 'rft.au',
-        'placeOfPublication':   'rft.place',
-        'yearOfPublication':    'rft.date',
-        'series':               'rft.series',
-        'pageStartOfReviewInJournal': 'rft.spage',
-        'pageEndOfReviewInJournal': 'rft.epage',
-        'get_journal_title':    'rft.jtitle',
-        'pages':                'rft.pages',
-        }
+        "title": "rft.btitle",
+        "issn": "rft.issn",
+        "isbn": "rft.isbn",
+        "publisher": "rft.pub",
+        "metadata_review_author": "rft.au",
+        "placeOfPublication": "rft.place",
+        "yearOfPublication": "rft.date",
+        "series": "rft.series",
+        "pageStartOfReviewInJournal": "rft.spage",
+        "pageEndOfReviewInJournal": "rft.epage",
+        "get_journal_title": "rft.jtitle",
+        "pages": "rft.pages",
+    }
 
     def get_metadata_review_author(self):
-        return get_formatted_names(u' <br/> ', ', ', self.context.reviewAuthors,
-                                   lastname_first=True)
+        return get_formatted_names(
+            u" <br/> ", ", ", self.context.reviewAuthors, lastname_first=True
+        )
 
     def list_rows(self, rows, *keys):
         # Archetypes is nasty sometimes,
@@ -62,9 +65,11 @@ class View(BrowserView, CanonicalURLHelper):
         if rows:
             rows_ul = "<ul class='rows_list'>"
             for row in rows:
-                rows_ul += "<li>%s</li>" %(
-                    ", ".join([escape(row[key]) for key in keys if key in row and row[key]])
+                rows_ul += "<li>%s</li>" % (
+                    ", ".join(
+                        [escape(row[key]) for key in keys if key in row and row[key]]
                     )
+                )
             rows_ul += "</ul>"
             return rows_ul
         else:
@@ -76,84 +81,97 @@ class View(BrowserView, CanonicalURLHelper):
         """
 
         if field == "officialYearOfPublication":
-                return _(u"label_metadata_official_year_of_publication",
-                         default=u"Official year of publication")
+            return _(
+                u"label_metadata_official_year_of_publication",
+                default=u"Official year of publication",
+            )
 
         if meta_type.startswith("Review"):
             if field == "languageReview":
-                return _(u"label_metadata_language_review",
-                         default=u"Language (review)")
+                return _(
+                    u"label_metadata_language_review", default=u"Language (review)"
+                )
         elif meta_type.startswith("Presentation"):
             if field == "languageReview":
-                return _(u"label_metadata_language_presentation",
-                         default=u"Language (presentation)")
+                return _(
+                    u"label_metadata_language_presentation",
+                    default=u"Language (presentation)",
+                )
         if meta_type in ["ReviewMonograph", "PresentationMonograph"]:
             if field == "languageReviewedText":
-                return _(u"label_metadata_language_monograph",
-                         default=u"Language (monograph)")
+                return _(
+                    u"label_metadata_language_monograph",
+                    default=u"Language (monograph)",
+                )
             if field == "authors":
-                return _(u"Author (monograph)",
-                         default=u"Author (monograph)")
+                return _(u"Author (monograph)", default=u"Author (monograph)")
             if field == "editorial":
-                return _(u"Editor (monograph)",
-                         default=u"Editor (monograph)")
-        elif meta_type in ["PresentationArticleReview",
-                           "PresentationCollection"]:
+                return _(u"Editor (monograph)", default=u"Editor (monograph)")
+        elif meta_type in ["PresentationArticleReview", "PresentationCollection"]:
             if field == "languageReviewedText":
-                return _(u"label_metadata_language_article",
-                         default=u"Language (article)")
+                return _(
+                    u"label_metadata_language_article", default=u"Language (article)"
+                )
             if field == "authors":
-                return _(u"label_metadata_author_article",
-                         default=u"Author (article)")
+                return _(u"label_metadata_author_article", default=u"Author (article)")
             if field == "editorial":
-                return _(u"label_metadata_editor_article",
-                         default=u"Editor (article)")
+                return _(u"label_metadata_editor_article", default=u"Editor (article)")
             if field == "title":
-                return _(u"label_metadata_title_article",
-                         default=u"Title (article)")
+                return _(u"label_metadata_title_article", default=u"Title (article)")
             if field == "titleCollectedEdition":
-                return _(u"label_metadata_title_edited_volume",
-                         default=u"Title (edited volume)")
+                return _(
+                    u"label_metadata_title_edited_volume",
+                    default=u"Title (edited volume)",
+                )
         elif meta_type == "PresentationOnlineResource":
             if field == "title":
-                return _(u"label_metadata_name_resource",
-                         default=u"Name (Internet resource)")
+                return _(
+                    u"label_metadata_name_resource", default=u"Name (Internet resource)"
+                )
             if field == "languageReviewedText":
-                return _(u"label_metadata_language_internet_resource",
-                         default=u"Language (Internet resource)")
+                return _(
+                    u"label_metadata_language_internet_resource",
+                    default=u"Language (Internet resource)",
+                )
         elif meta_type == "ReviewJournal":
             if field == "languageReviewedText":
-                return _(u"label_metadata_language_review_journal",
-                         default=u"Language (Journal)")
+                return _(
+                    u"label_metadata_language_review_journal",
+                    default=u"Language (Journal)",
+                )
             if field == "editor":
-                return _(u"label_metadata_editor",
-                         default=u"Editor")
+                return _(u"label_metadata_editor", default=u"Editor")
         elif meta_type.startswith("ReviewArticle"):
             if field == "languageReviewedText":
-                return _(u"label_metadata_language_article",
-                         default=u"Sprache (Aufsatz)")
+                return _(
+                    u"label_metadata_language_article", default=u"Sprache (Aufsatz)"
+                )
             elif field == "authors":
-                return _(u"label_metadata_authors_article",
-                         default=u"Autor (Aufsatz)")
+                return _(u"label_metadata_authors_article", default=u"Autor (Aufsatz)")
             elif field in ["editor", "editorial"]:
                 if meta_type == "ReviewArticleCollection":
-                    return _(u"label_metadata_editor_edited_volume",
-                             default=u"Editor (edited volume)")
+                    return _(
+                        u"label_metadata_editor_edited_volume",
+                        default=u"Editor (edited volume)",
+                    )
                 elif meta_type == "ReviewArticleJournal":
-                    return _(u"label_metadata_editor_journal",
-                             default=u"Editor (journal)")
+                    return _(
+                        u"label_metadata_editor_journal", default=u"Editor (journal)"
+                    )
             elif field == "title":
-                return _(u"label_metadata_title_article",
-                         default=u"Title (article)")
+                return _(u"label_metadata_title_article", default=u"Title (article)")
             elif field == "titleEditedVolume":
-                return _(u"label_metadata_title_edited_volume",
-                         default=u"Title (edited volume)")
+                return _(
+                    u"label_metadata_title_edited_volume",
+                    default=u"Title (edited volume)",
+                )
             elif field == "subtitleEditedVolume":
-                return _(u"label_metadata_subtitle_edited_volume",
-                         default=u"Subtitle (edited volume)")
+                return _(
+                    u"label_metadata_subtitle_edited_volume",
+                    default=u"Subtitle (edited volume)",
+                )
             elif field == "metadata_start_end_pages":
-                return _(u"metadata_pages_review",
-                         default=u"Pages (review)")
+                return _(u"metadata_pages_review", default=u"Pages (review)")
 
         return _(fields[field].widget.label)
 
@@ -169,7 +187,7 @@ class View(BrowserView, CanonicalURLHelper):
         if not doi_active and context.getDoi() == context.generateDoi():
             return False
         else:
-            return ('http://dx.doi.org/%s' % (context.getDoi(), ))
+            return "http://dx.doi.org/%s" % (context.getDoi(),)
         return False
 
     def get_metadata(self):
@@ -177,7 +195,7 @@ class View(BrowserView, CanonicalURLHelper):
         fields = self.context.Schema()._fields
         meta = {}
         for field in context.metadata_fields:
-            value = False # A field is only displayed if it has a value
+            value = False  # A field is only displayed if it has a value
             is_macro = False
             if field.startswith("get_"):
                 label = self.custom_metadata_field_labels[field]
@@ -194,11 +212,13 @@ class View(BrowserView, CanonicalURLHelper):
             elif field == "metadata_review_author":
                 label = _("label_metadata_review_author")
                 value = self.list_rows(
-                    context["reviewAuthors"], "lastname", "firstname")
+                    context["reviewAuthors"], "lastname", "firstname"
+                )
             elif field == "metadata_presentation_author":
                 label = _("label_metadata_presentation_author")
                 value = self.list_rows(
-                    context["reviewAuthors"], "lastname", "firstname")
+                    context["reviewAuthors"], "lastname", "firstname"
+                )
             elif field == "authors":
                 label = self.get_label(fields, field, context.meta_type)
                 value = self.list_rows(context[field], "lastname", "firstname")
@@ -210,67 +230,69 @@ class View(BrowserView, CanonicalURLHelper):
                 value = self.list_rows(context[field], "lastname", "firstname")
             elif field == "curators":
                 label = self.get_label(fields, field, context.meta_type)
-                value = self.list_rows(
-                    context["curators"], "lastname", "firstname")
+                value = self.list_rows(context["curators"], "lastname", "firstname")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
                 value = context.translate(context.portal_type)
             elif field == "referenceAuthors":
                 label = _("label_metadata_reference_authors")
-                value = self.list_rows(context[field],
-                                       "lastname", "firstname")
+                value = self.list_rows(context[field], "lastname", "firstname")
             elif field == "institution":
                 label = _("label_metadata_institution")
                 value = self.list_rows(context[field], "name")
             elif field == "metadata_recensioID":
                 label = _("metadata_recensio_id")
                 value = context.UID()
-            elif field == 'canonical_uri':
+            elif field == "canonical_uri":
                 url = context.canonical_uri
                 if url:
                     label = self.get_label(fields, field, context.meta_type)
-                    value = ('<a rel="canonical_uri" href="%s" title="%s">%s</a>'
-                             % (url, url, url))
-            elif field == 'uri':
+                    value = '<a rel="canonical_uri" href="%s" title="%s">%s</a>' % (
+                        url,
+                        url,
+                        url,
+                    )
+            elif field == "uri":
                 url = context.uri
                 if url:
                     label = self.get_label(fields, field, context.meta_type)
-                    value = ('<a href="%s" title="%s">%s</a>'
-                             % (url, url, url))
-            elif field == 'doi':
+                    value = '<a href="%s" title="%s">%s</a>' % (url, url, url)
+            elif field == "doi":
                 doi_url = self.get_doi_url_if_active()
                 if doi_url:
-                    value = ('<a rel="doi" href="%s" title="%s">%s</a>' %
-                            (doi_url, doi_url, context.getDoi()))
+                    value = '<a rel="doi" href="%s" title="%s">%s</a>' % (
+                        doi_url,
+                        doi_url,
+                        context.getDoi(),
+                    )
                     label = self.get_label(fields, field, context.meta_type)
                 else:
                     label = None
             elif field == "title":
                 label = self.get_label(fields, field, context.meta_type)
                 titles = [context.title]
-                if 'additionalTitles' in context.schema:
+                if "additionalTitles" in context.schema:
                     titles.extend(
                         [
                             additional["title"]
                             for additional in context.getAdditionalTitles()
                         ]
                     )
-                value = '/'.join(titles)
+                value = "/".join(titles)
             elif field == "subtitle":
                 label = self.get_label(fields, field, context.meta_type)
                 subtitles = [context.subtitle]
-                if 'additionalTitles' in context.schema:
+                if "additionalTitles" in context.schema:
                     subtitles.extend(
                         [
                             additional["subtitle"]
                             for additional in context.getAdditionalTitles()
                         ]
                     )
-                value = '/'.join(subtitles)
+                value = "/".join(subtitles)
             elif field == "dates":
                 label = self.get_label(fields, field, context.meta_type)
-                value = self.list_rows(
-                    context[field], "place", "runtime")
+                value = self.list_rows(context[field], "place", "runtime")
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
@@ -284,33 +306,36 @@ class View(BrowserView, CanonicalURLHelper):
                 # used to determine whether to display that row or not
                 value = context[field] and True or False
                 is_macro = True
-            meta[field] = {'label': label,
-                           'value': value,
-                           'is_macro': is_macro}
+            meta[field] = {"label": label, "value": value, "is_macro": is_macro}
         return meta
 
     def get_metadata_context_object(self):
         context = self.context
 
         terms = {}
-        introstr = 'ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook'
+        introstr = "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook"
 
         for field in context.metadata_fields:
             if field in self.openurl_terms:
                 name = self.openurl_terms[field]
 
-                if field == 'metadata_review_author':
+                if field == "metadata_review_author":
                     terms.update(
-                        {name: ["%s %s" %(au['firstname'], au['lastname'])
-                                for au in context['reviewAuthors']]})
-                elif field == 'title':
-                    authors = ', '.join(
-                        ["%s %s" % (au['firstname'], au['lastname'])
-                         for au in context.get('authors', [])]
+                        {
+                            name: [
+                                "%s %s" % (au["firstname"], au["lastname"])
+                                for au in context["reviewAuthors"]
+                            ]
+                        }
                     )
-                    terms.update(
-                        {name: "%s: %s" % (authors, context[field])}
+                elif field == "title":
+                    authors = ", ".join(
+                        [
+                            "%s %s" % (au["firstname"], au["lastname"])
+                            for au in context.get("authors", [])
+                        ]
                     )
+                    terms.update({name: "%s: %s" % (authors, context[field])})
                 elif field == "pages":
                     value = self.context.page_start_end_in_print
                     terms.update({name: value})
@@ -322,41 +347,43 @@ class View(BrowserView, CanonicalURLHelper):
         new_terms = {}
         for key, value in terms.items():
             if isinstance(value, unicode):
-                new_terms[key] = value.encode('utf-8')
+                new_terms[key] = value.encode("utf-8")
             elif isinstance(value, list):
                 new_value = []
                 for inner_value in value:
                     if isinstance(inner_value, unicode):
-                        new_value.append(inner_value.encode('utf-8'))
+                        new_value.append(inner_value.encode("utf-8"))
                     else:
                         new_value.append(inner_value)
                 new_terms[key] = new_value
             else:
                 new_terms[key] = value
-        return introstr + '&' + make_query(new_terms)
+        return introstr + "&" + make_query(new_terms)
 
     def get_online_review_urls(self):
         existing_online_review_urls = []
         if "existingOnlineReviews" in self.context.ordered_fields:
             existingOnlineReviewUrls = self.context.getExistingOnlineReviews()
-            if existingOnlineReviewUrls != () \
-                    and existingOnlineReviewUrls != (
-                {'name': '', 'url': ''},):
+            if existingOnlineReviewUrls != () and existingOnlineReviewUrls != (
+                {"name": "", "url": ""},
+            ):
                 existing_online_review_urls = [
-                    url for url in existingOnlineReviewUrls
-                    if url["name"].strip() != ""
-                    and url["url"].strip() != ""]
+                    url
+                    for url in existingOnlineReviewUrls
+                    if url["name"].strip() != "" and url["url"].strip() != ""
+                ]
         return existing_online_review_urls
 
     def get_published_reviews(self):
         published_reviews = []
         if "publishedReviews" in self.context.ordered_fields:
             publishedReviews = self.context.getPublishedReviews()
-            if publishedReviews != () \
-                    and publishedReviews != ({'details': ''},):
+            if publishedReviews != () and publishedReviews != ({"details": ""},):
                 published_reviews = [
-                    review for review in publishedReviews
-                    if review["details"].strip() != ""]
+                    review
+                    for review in publishedReviews
+                    if review["details"].strip() != ""
+                ]
         return published_reviews
 
     def has_coverpicture(self):
@@ -370,9 +397,9 @@ class View(BrowserView, CanonicalURLHelper):
         """Return cover picture or first page """
         context = self.context
         if self.has_coverpicture():
-            return context.absolute_url()+"/coverPicture"
+            return context.absolute_url() + "/coverPicture"
         else:
-            return context.absolute_url()+"/get_page_image?no:int=1"
+            return context.absolute_url() + "/get_page_image?no:int=1"
 
     @property
     def do_visit_canonical_uri(self):
@@ -381,7 +408,7 @@ class View(BrowserView, CanonicalURLHelper):
 
     def show_dara_update(self):
         sm = getSecurityManager()
-        if not sm.checkPermission('Manage portal', self.context):
+        if not sm.checkPermission("Manage portal", self.context):
             return False
         try:
             return self.context.isDoiRegistrationActive()
@@ -390,17 +417,15 @@ class View(BrowserView, CanonicalURLHelper):
 
     def is_url_shown_in_citation_note(self):
         is_external_fulltext = getattr(
-            self.context,
-            'isUseExternalFulltext',
-            lambda: False)()
+            self.context, "isUseExternalFulltext", lambda: False
+        )()
         is_url_shown_via_review = getattr(
-            self.context,
-            'isURLShownInCitationNote',
-            lambda: False)()
+            self.context, "isURLShownInCitationNote", lambda: False
+        )()
         return not is_external_fulltext and is_url_shown_via_review
 
     def __call__(self):
         canonical_url = self.get_canonical_url()
-        if canonical_url != self.request['ACTUAL_URL']:
+        if canonical_url != self.request["ACTUAL_URL"]:
             return self.request.response.redirect(canonical_url, status=301)
         return self.template()

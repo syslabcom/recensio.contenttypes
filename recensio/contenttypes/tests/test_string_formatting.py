@@ -13,71 +13,82 @@ import zope.event
 
 from Products.Archetypes.event import ObjectEditedEvent
 from plone.app.blob.utils import openBlob
-from plone.app.testing import (
-    TEST_USER_ID, TEST_USER_NAME, TEST_USER_PASSWORD, setRoles)
+from plone.app.testing import TEST_USER_ID, TEST_USER_NAME, TEST_USER_PASSWORD, setRoles
 from plone.testing.z2 import Browser
 
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
 
+
 def raising(self, info):
     import traceback
+
     traceback.print_tb(info[2])
     print info[1]
 
+
 from Products.SiteErrorLog.SiteErrorLog import SiteErrorLog
+
 SiteErrorLog.raising = raising
+
 
 class TestStringFormatting(unittest.TestCase):
     """ Test various string formatting functions
     """
+
     layer = RECENSIO_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer["portal"]
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
-        self.get_obj_of_type = lambda meta_type:\
-            self.portal.portal_catalog(
-                {"meta_type": meta_type})[0].getObject()
+        self.get_obj_of_type = lambda meta_type: self.portal.portal_catalog(
+            {"meta_type": meta_type}
+        )[0].getObject()
 
     def test_single_author_formatting(self):
         pm = self.get_obj_of_type("PresentationMonograph")
-        pm.setAuthors([
-                {'firstname': 'Tadeusz', 'lastname': 'Kot\xc5\x82owski'}])
-        self.assertEquals(
-            pm.formatted_authors_editorial, u'Tadeusz Kot\u0142owski')
+        pm.setAuthors([{"firstname": "Tadeusz", "lastname": "Kot\xc5\x82owski"}])
+        self.assertEquals(pm.formatted_authors_editorial, u"Tadeusz Kot\u0142owski")
 
     def test_multiple_authors_formatting(self):
         pm = self.get_obj_of_type("PresentationMonograph")
-        pm.setAuthors([
-                {'firstname': 'Tadeusz', 'lastname': 'Kot\xc5\x82owski'},
-                {'firstname': 'Aldous', 'lastname': 'Huxley'}])
+        pm.setAuthors(
+            [
+                {"firstname": "Tadeusz", "lastname": "Kot\xc5\x82owski"},
+                {"firstname": "Aldous", "lastname": "Huxley"},
+            ]
+        )
         self.assertEquals(
-            pm.formatted_authors_editorial,
-            u'Tadeusz Kot\u0142owski / Aldous Huxley')
+            pm.formatted_authors_editorial, u"Tadeusz Kot\u0142owski / Aldous Huxley"
+        )
 
     def test_single_author_single_editor_formatting(self):
         pm = self.get_obj_of_type("PresentationMonograph")
-        pm.setAuthors([
-                {'firstname': 'Aldous', 'lastname': 'Huxley'}])
-        pm.setEditorial([
-                {'firstname': 'Tadeusz', 'lastname': 'Kot\xc5\x82owski'}])
-        authors_editorial = (
-            u'Tadeusz Kot\u0142owski (Hg.): Aldous Huxley')
+        pm.setAuthors([{"firstname": "Aldous", "lastname": "Huxley"}])
+        pm.setEditorial([{"firstname": "Tadeusz", "lastname": "Kot\xc5\x82owski"}])
+        authors_editorial = u"Tadeusz Kot\u0142owski (Hg.): Aldous Huxley"
         self.assertEquals(pm.formatted_authors_editorial, authors_editorial)
 
     def test_multiple_authors_multiple_editors_formatting(self):
         pm = self.get_obj_of_type("PresentationMonograph")
-        pm.setAuthors([
-                {'firstname': 'Tadeusz', 'lastname': 'Kot\xc5\x82owski'},
-                {'firstname': 'Aldous', 'lastname': 'Huxley'}])
-        pm.setEditorial([
-                {'firstname': 'Ed1First', 'lastname': 'Ed1Last'},
-                {'firstname': 'Ed2First', 'lastname': 'Ed2Last'}])
+        pm.setAuthors(
+            [
+                {"firstname": "Tadeusz", "lastname": "Kot\xc5\x82owski"},
+                {"firstname": "Aldous", "lastname": "Huxley"},
+            ]
+        )
+        pm.setEditorial(
+            [
+                {"firstname": "Ed1First", "lastname": "Ed1Last"},
+                {"firstname": "Ed2First", "lastname": "Ed2Last"},
+            ]
+        )
 
         self.assertEquals(
-            pm.formatted_authors_editorial, (
-                u'Ed1First Ed1Last / Ed2First Ed2Last (Hg.): '
-                u'Tadeusz Kot\u0142owski '
-                u'/ Aldous Huxley')
-            )
+            pm.formatted_authors_editorial,
+            (
+                u"Ed1First Ed1Last / Ed2First Ed2Last (Hg.): "
+                u"Tadeusz Kot\u0142owski "
+                u"/ Aldous Huxley"
+            ),
+        )

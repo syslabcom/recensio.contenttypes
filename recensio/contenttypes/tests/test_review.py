@@ -5,12 +5,11 @@ from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
 
 
 class TestReviewTitle(unittest.TestCase):
-
     def test_one_title_and_one_subtitle(self):
         obj = BaseReview(None)
         obj.title = u"Die spanische Verfassung von 1812"
         obj.subtitle = u"Der Beginn des europäischen Konstitutionalismus"
-        obj.schema._fields['additionalTitles'] = 'dummy'
+        obj.schema._fields["additionalTitles"] = "dummy"
         obj.getAdditionalTitles = lambda: []
         self.assertEqual(
             obj.punctuated_title_and_subtitle,
@@ -22,7 +21,7 @@ class TestReviewTitle(unittest.TestCase):
         obj = BaseReview(None)
         obj.title = u"Die spanische Verfassung von 1812"
         obj.subtitle = u"Der Beginn des europäischen Konstitutionalismus"
-        obj.schema._fields['additionalTitles'] = 'dummy'
+        obj.schema._fields["additionalTitles"] = "dummy"
         obj.getAdditionalTitles = lambda: [
             {
                 "title": u"La Constitución española de 1812",
@@ -40,6 +39,7 @@ class TestReviewTitle(unittest.TestCase):
 class TestReviewIntegration(unittest.TestCase):
     """
     """
+
     layer = RECENSIO_INTEGRATION_TESTING
 
     def setUp(self):
@@ -48,9 +48,7 @@ class TestReviewIntegration(unittest.TestCase):
         self.review = self.portal.portal_catalog.search(
             {
                 "portal_type": "Review Monograph",
-                "path": {
-                    "query": "/".join(self.publication.getPhysicalPath())
-                }
+                "path": {"query": "/".join(self.publication.getPhysicalPath())},
             }
         )[0].getObject()
         self.issue = self.review.aq_parent
@@ -61,19 +59,16 @@ class TestReviewIntegration(unittest.TestCase):
 
         self.issue.setUseExternalFulltext(True)
         self.assertTrue(
-            self.review.isUseExternalFulltext(),
-            msg='Setting on Issue not used!'
+            self.review.isUseExternalFulltext(), msg="Setting on Issue not used!"
         )
 
         self.volume.setUseExternalFulltext(True)
         self.assertTrue(
-            self.review.isUseExternalFulltext(),
-            msg='Setting on Issue not used!'
+            self.review.isUseExternalFulltext(), msg="Setting on Issue not used!"
         )
 
         self.issue.setUseExternalFulltext(False)
         self.volume.setUseExternalFulltext(True)
         self.assertTrue(
-            self.review.isUseExternalFulltext(),
-            msg='Setting on Volume not used!'
+            self.review.isUseExternalFulltext(), msg="Setting on Volume not used!"
         )

@@ -55,9 +55,9 @@ def getFormatter(*specification):
 
     def joinIfNotEmpty(remainder, (joiner, new_string)):
         if not remainder:
-            return new_string or u''
+            return new_string or u""
         if not new_string:
-            return remainder or u''
+            return remainder or u""
         return joiner.join((remainder, new_string))
 
     def formatter(*args):
@@ -65,8 +65,9 @@ def getFormatter(*specification):
             args = list(args)
             for index, arg in enumerate(args):
                 if arg and not isinstance(arg, unicode):
-                    args[index] = arg.decode('utf-8')
+                    args[index] = arg.decode("utf-8")
             return args
+
         args = archetypesIsAPITA(args)
         data_to_reduce = [args[0]] + zip(specification, args[1:])
         return reduce(joinIfNotEmpty, data_to_reduce)

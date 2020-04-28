@@ -29,14 +29,12 @@ import transaction
 from recensio.contenttypes.content import schemata
 
 
-rec_types =  [
-    'Presentation Article Review',
-    'Presentation Collection']
+rec_types = ["Presentation Article Review", "Presentation Collection"]
 
 portal = app.recensio
 pc = portal.portal_catalog
 
-user = app.acl_users.getUser('admin').__of__(portal.acl_users)
+user = app.acl_users.getUser("admin").__of__(portal.acl_users)
 newSecurityManager(None, user)
 
 for i, brain in enumerate(pc({"portal_type": rec_types})):
@@ -44,13 +42,11 @@ for i, brain in enumerate(pc({"portal_type": rec_types})):
     page_start = obj.getPageStart()
     page_end = obj.getPageEnd()
     if page_start:
-        print "Migrating %s \n\t pageStart: %s" %(
-            obj.absolute_url(), page_start)
+        print "Migrating %s \n\t pageStart: %s" % (obj.absolute_url(), page_start)
 
         obj.setPageStartOfPresentedTextInPrint(page_start)
     if page_end:
-        print "Migrating %s \n\t pageEnd: %s" %(
-            obj.absolute_url(), page_end)
+        print "Migrating %s \n\t pageEnd: %s" % (obj.absolute_url(), page_end)
 
         obj.setPageEndOfPresentedTextInPrint(page_end)
     if i % 20 == 0:

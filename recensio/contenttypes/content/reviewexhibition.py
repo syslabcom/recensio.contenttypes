@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Definition of the Review Exhibition content type
 """
 
@@ -13,92 +13,99 @@ from Products.validation.interfaces.IValidator import IValidator
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import (
-    BaseReview, BaseReviewNoMagic, get_formatted_names)
+    BaseReview,
+    BaseReviewNoMagic,
+    get_formatted_names,
+)
 from recensio.contenttypes.content.schemata import (
     ExhibitionSchema,
     LicenceSchema,
     PageStartEndInPDFSchema,
     PageStartEndOfReviewInJournalSchema,
     ReviewSchema,
-    finalize_recensio_schema)
+    finalize_recensio_schema,
+)
 from recensio.contenttypes.interfaces import IReviewExhibition
 from recensio.contenttypes.citation import getFormatter
 from recensio.theme.browser.views import editorTypes
 
 
-ReviewExhibitionSchema = ExhibitionSchema.copy() + \
-                        PageStartEndInPDFSchema.copy() + \
-                        PageStartEndOfReviewInJournalSchema.copy() + \
-                        ReviewSchema.copy() + \
-                        LicenceSchema.copy()
+ReviewExhibitionSchema = (
+    ExhibitionSchema.copy()
+    + PageStartEndInPDFSchema.copy()
+    + PageStartEndOfReviewInJournalSchema.copy()
+    + ReviewSchema.copy()
+    + LicenceSchema.copy()
+)
 
-ReviewExhibitionSchema['title'].storage = atapi.AnnotationStorage()
-ReviewExhibitionSchema['doc'].widget.condition = 'python:False'
-ReviewExhibitionSchema['languageReviewedText'].widget.condition = 'python:False'
-ReviewExhibitionSchema.changeSchemataForField('heading__page_number_of_presented_review_in_journal', 'review')
-for field in ['title', 'subtitle', 'ddcSubject', 'ddcPlace', 'ddcTime', 'subject']:
-    ReviewExhibitionSchema.changeSchemataForField(field, 'Ausstellung')
+ReviewExhibitionSchema["title"].storage = atapi.AnnotationStorage()
+ReviewExhibitionSchema["doc"].widget.condition = "python:False"
+ReviewExhibitionSchema["languageReviewedText"].widget.condition = "python:False"
+ReviewExhibitionSchema.changeSchemataForField(
+    "heading__page_number_of_presented_review_in_journal", "review"
+)
+for field in ["title", "subtitle", "ddcSubject", "ddcPlace", "ddcTime", "subject"]:
+    ReviewExhibitionSchema.changeSchemataForField(field, "Ausstellung")
 finalize_recensio_schema(ReviewExhibitionSchema, review_type="review_exhibition")
 
 
 class ReviewExhibition(BaseReview):
     """Review Exhibition"""
+
     implements(IReviewExhibition)
 
     meta_type = "ReviewExhibition"
     schema = ReviewExhibitionSchema
 
-    title = atapi.ATFieldProperty('title')
-    description = atapi.ATFieldProperty('description')
+    title = atapi.ATFieldProperty("title")
+    description = atapi.ATFieldProperty("description")
 
     # Base
-    reviewAuthors = atapi.ATFieldProperty('reviewAuthors')
-    languageReview = atapi.ATFieldProperty(
-        'languageReview')
-    languageReviewedText = atapi.ATFieldProperty('languageReviewedText')
-    recensioID = atapi.ATFieldProperty('recensioID')
-    subject = atapi.ATFieldProperty('subject')
-    pdf = atapi.ATFieldProperty('pdf')
-    doc = atapi.ATFieldProperty('doc')
-    doi = atapi.ATFieldProperty('doi')
-    review = atapi.ATFieldProperty('review')
-    customCitation = atapi.ATFieldProperty('customCitation')
-    canonical_uri = atapi.ATFieldProperty('canonical_uri')
-    uri = atapi.ATFieldProperty('uri')
-    urn = atapi.ATFieldProperty('urn')
+    reviewAuthors = atapi.ATFieldProperty("reviewAuthors")
+    languageReview = atapi.ATFieldProperty("languageReview")
+    languageReviewedText = atapi.ATFieldProperty("languageReviewedText")
+    recensioID = atapi.ATFieldProperty("recensioID")
+    subject = atapi.ATFieldProperty("subject")
+    pdf = atapi.ATFieldProperty("pdf")
+    doc = atapi.ATFieldProperty("doc")
+    doi = atapi.ATFieldProperty("doi")
+    review = atapi.ATFieldProperty("review")
+    customCitation = atapi.ATFieldProperty("customCitation")
+    canonical_uri = atapi.ATFieldProperty("canonical_uri")
+    uri = atapi.ATFieldProperty("uri")
+    urn = atapi.ATFieldProperty("urn")
 
     # Common
-    ddcPlace = atapi.ATFieldProperty('ddcPlace')
-    ddcSubject = atapi.ATFieldProperty('ddcSubject')
-    ddcTime = atapi.ATFieldProperty('ddcTime')
+    ddcPlace = atapi.ATFieldProperty("ddcPlace")
+    ddcSubject = atapi.ATFieldProperty("ddcSubject")
+    ddcTime = atapi.ATFieldProperty("ddcTime")
 
     # Exhibition
-    exhibitor = atapi.ATFieldProperty('exhibitor')
-    dates = atapi.ATFieldProperty('dates')
-    subtitle = atapi.ATFieldProperty('subtitle')
-    url_exhibition = atapi.ATFieldProperty('url_exhibition')
-    doi_exhibition = atapi.ATFieldProperty('doi_exhibition')
+    exhibitor = atapi.ATFieldProperty("exhibitor")
+    dates = atapi.ATFieldProperty("dates")
+    subtitle = atapi.ATFieldProperty("subtitle")
+    url_exhibition = atapi.ATFieldProperty("url_exhibition")
+    doi_exhibition = atapi.ATFieldProperty("doi_exhibition")
 
     # PageStartEnd
-    pageStart = atapi.ATFieldProperty('pageStart')
-    pageEnd = atapi.ATFieldProperty('pageEnd')
+    pageStart = atapi.ATFieldProperty("pageStart")
+    pageEnd = atapi.ATFieldProperty("pageEnd")
 
     # Reorder the fields as required for the edit view
     ordered_fields = [
         # Exhibition schemata
-        'exhibitor',
-        'exhibitor_gnd',
-        'curators',
-        'dates',
-        'title',
-        'subtitle',
-        'url_exhibition',
-        'doi_exhibition',
+        "exhibitor",
+        "exhibitor_gnd",
+        "curators",
+        "dates",
+        "title",
+        "subtitle",
+        "url_exhibition",
+        "doi_exhibition",
         "ddcSubject",
         "ddcTime",
         "ddcPlace",
         "subject",
-
         # Review schemata
         "reviewAuthors",
         "languageReview",
@@ -127,12 +134,26 @@ class ReviewExhibition(BaseReview):
 
     metadata_fields = [
         "metadata_review_type_code",
-        "metadata_start_end_pages", "metadata_review_author",
-        "languageReview", "languageReviewedText",
-        "exhibitor", "curators", "title", "subtitle", "dates",
-        "url_exhibition", "doi_exhibition", "urn",
-        "ddcSubject", "ddcTime", "ddcPlace",
-        "subject", "canonical_uri", "metadata_recensioID", "doi"]
+        "metadata_start_end_pages",
+        "metadata_review_author",
+        "languageReview",
+        "languageReviewedText",
+        "exhibitor",
+        "curators",
+        "title",
+        "subtitle",
+        "dates",
+        "url_exhibition",
+        "doi_exhibition",
+        "urn",
+        "ddcSubject",
+        "ddcTime",
+        "ddcPlace",
+        "subject",
+        "canonical_uri",
+        "metadata_recensioID",
+        "doi",
+    ]
 
     def editorTypes(self):
         return editorTypes()
@@ -141,7 +162,7 @@ class ReviewExhibition(BaseReview):
         """ Equivalent of 'titleJournal'"""
         return self.get_title_from_parent_of_type("Publication")
 
-    get_journal_title = get_publication_title #2542
+    get_journal_title = get_publication_title  # 2542
 
     def get_publication_object(self):
         return self.get_parent_object_of_type("Publication")
@@ -166,8 +187,8 @@ class ReviewExhibition(BaseReview):
     def getFirstPublicationData(self):
         return ReviewExhibitionNoMagic(self).getFirstPublicationData()
 
-class ReviewExhibitionNoMagic(BaseReviewNoMagic):
 
+class ReviewExhibitionNoMagic(BaseReviewNoMagic):
     def getDecoratedTitle(real_self, lastname_first=False):
         """
         >>> from mock import Mock
@@ -191,27 +212,30 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
         """
         self = real_self.magic
 
-        rezensent_string = get_formatted_names(u' / ', ' ', self.reviewAuthors,
-                                               lastname_first = lastname_first)
+        rezensent_string = get_formatted_names(
+            u" / ", " ", self.reviewAuthors, lastname_first=lastname_first
+        )
         if rezensent_string:
             rezensent_string = "(%s)" % real_self.directTranslate(
-                Message(u"exhibition_reviewed_by", "recensio",
-                        mapping={u"review_authors": rezensent_string}))
+                Message(
+                    u"exhibition_reviewed_by",
+                    "recensio",
+                    mapping={u"review_authors": rezensent_string},
+                )
+            )
 
-        dates_formatter = getFormatter(', ')
-        dates_string = ' / '.join(
-            [dates_formatter(
-                date['place'],
-                date['runtime'],
-            ) for date in self.dates]
+        dates_formatter = getFormatter(", ")
+        dates_string = " / ".join(
+            [dates_formatter(date["place"], date["runtime"],) for date in self.dates]
         )
 
-        full_citation = getFormatter(u': ', u', ', u' ')
+        full_citation = getFormatter(u": ", u", ", u" ")
         return full_citation(
             self.exhibitor,
             self.punctuated_title_and_subtitle,
             dates_string,
-            rezensent_string)
+            rezensent_string,
+        )
 
     def get_citation_string(real_self):
         """
@@ -249,48 +273,49 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
         """
         self = real_self.magic
         if self.customCitation:
-            return scrubHTML(self.customCitation).decode('utf8')
+            return scrubHTML(self.customCitation).decode("utf8")
 
         args = {
-            'review_of' : real_self.directTranslate(Message(
-                    u"text_review_of", "recensio", default="review of:")),
-            'in'        : real_self.directTranslate(Message(
-                    u"text_in", "recensio", default="in:")),
-            'page'      : real_self.directTranslate(Message(
-                    u"text_pages", "recensio", default="p.")),
-            ':'         : real_self.directTranslate(Message(
-                    u"text_colon", "recensio", default=":")),
-            }
-        rev_details_formatter = getFormatter(
-            u'%(:)s ' % args, u', ', u' ' % args)
+            "review_of": real_self.directTranslate(
+                Message(u"text_review_of", "recensio", default="review of:")
+            ),
+            "in": real_self.directTranslate(
+                Message(u"text_in", "recensio", default="in:")
+            ),
+            "page": real_self.directTranslate(
+                Message(u"text_pages", "recensio", default="p.")
+            ),
+            ":": real_self.directTranslate(
+                Message(u"text_colon", "recensio", default=":")
+            ),
+        }
+        rev_details_formatter = getFormatter(u"%(:)s " % args, u", ", u" " % args)
         rezensent_string = get_formatted_names(
-            u' / ', ', ', self.reviewAuthors, lastname_first = True)
+            u" / ", ", ", self.reviewAuthors, lastname_first=True
+        )
 
-        dates_formatter = getFormatter(', ')
-        dates_string = ' / '.join(
-            [dates_formatter(
-                date['place'],
-                date['runtime'],
-            ) for date in self.dates]
+        dates_formatter = getFormatter(", ")
+        dates_string = " / ".join(
+            [dates_formatter(date["place"], date["runtime"],) for date in self.dates]
         )
         item_string = rev_details_formatter(
-            self.exhibitor,
-            self.punctuated_title_and_subtitle,
-            dates_string,
+            self.exhibitor, self.punctuated_title_and_subtitle, dates_string,
         )
 
-        mag_number_formatter = getFormatter(u', ', u', ')
+        mag_number_formatter = getFormatter(u", ", u", ")
         mag_number_string = mag_number_formatter(
-            self.get_publication_title(), self.get_volume_title(),
-            self.get_issue_title())
+            self.get_publication_title(),
+            self.get_volume_title(),
+            self.get_issue_title(),
+        )
 
         location = real_self.get_citation_location()
 
         citation_formatter = getFormatter(
-            u'%(:)s %(review_of)s ' % args,
-            ', %(in)s ' % args,
-            ', %(page)s ' % args,
-            u', ',
+            u"%(:)s %(review_of)s " % args,
+            ", %(in)s " % args,
+            ", %(page)s " % args,
+            u", ",
         )
 
         citation_string = citation_formatter(
@@ -302,5 +327,6 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
         )
 
         return citation_string
+
 
 atapi.registerType(ReviewExhibition, PROJECTNAME)

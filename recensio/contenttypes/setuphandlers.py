@@ -24,27 +24,30 @@ from plone.portlets.constants import CONTEXT_CATEGORY
 
 from recensio.contenttypes.content.reviewmonograph import ReviewMonograph
 
-from recensio.contenttypes.content.presentationarticlereview import\
-    PresentationArticleReview
-from recensio.contenttypes.content.presentationcollection import\
-    PresentationCollection
-from recensio.contenttypes.content.presentationmonograph import\
-    PresentationMonograph
-from recensio.contenttypes.content.presentationonlineresource import\
-    PresentationOnlineResource
+from recensio.contenttypes.content.presentationarticlereview import (
+    PresentationArticleReview,
+)
+from recensio.contenttypes.content.presentationcollection import PresentationCollection
+from recensio.contenttypes.content.presentationmonograph import PresentationMonograph
+from recensio.contenttypes.content.presentationonlineresource import (
+    PresentationOnlineResource,
+)
 from recensio.contenttypes.content.reviewjournal import ReviewJournal
 from recensio.contenttypes.interfaces import IReview
 from recensio.contenttypes.eventhandlers import review_pdf_updated_eventhandler
 
-from recensio.policy.setuphandlers import setViewsOnFoldersUnguarded, \
-    hideAllFoldersUnguarded
+from recensio.policy.setuphandlers import (
+    setViewsOnFoldersUnguarded,
+    hideAllFoldersUnguarded,
+)
 
 from logging import getLogger
 
-log = getLogger('recensio.contenttypes.setuphandlers')
+log = getLogger("recensio.contenttypes.setuphandlers")
 
-mdfile = os.path.join(os.path.dirname(__file__), 'profiles',
-                      'exampledata', 'metadata.xml')
+mdfile = os.path.join(
+    os.path.dirname(__file__), "profiles", "exampledata", "metadata.xml"
+)
 
 ALL_TYPES = [
     PresentationArticleReview,
@@ -57,7 +60,7 @@ ALL_TYPES = [
 
 
 def addOneItem(context, type, data):
-    '''Add an item and fire the ObjectInitializedEvent
+    """Add an item and fire the ObjectInitializedEvent
 
     This triggers file conversions for the Reviews/Presentations
 
@@ -66,9 +69,9 @@ def addOneItem(context, type, data):
     reset. The end effect is that no further steps will be run in a
     profile which calls this function. All steps for example_content
     are now called from recensio_example_content_all.
-    '''
+    """
 
-    data['id'] = context.generateId(type.meta_type)
+    data["id"] = context.generateId(type.meta_type)
     review_id = context.invokeFactory(type.__doc__, **data)
     obj = context[review_id]
     request = makerequest.makerequest(obj)
@@ -77,32 +80,41 @@ def addOneItem(context, type, data):
     return obj
 
 
-def add_number_of_each_review_type(portal, number_of_each,
-                                   rez_classes=ALL_TYPES):
-    '''Add a particular number of each Review/Presentation type
+def add_number_of_each_review_type(portal, number_of_each, rez_classes=ALL_TYPES):
+    """Add a particular number of each Review/Presentation type
 
     This is useful for testing
-    '''
+    """
 
     # Prepare values for the Review/Presentation fields
 
-    pdf_file = open(os.path.join(os.path.dirname(__file__), 'tests',
-                    'test_content', 'Review.pdf'), 'r')
-    pdf_obj = File(id='test-pdf', title='Test Pdf', file=pdf_file,
-                   content_type='application/pdf')
-    word_doc_file = open(os.path.join(os.path.dirname(__file__), 'tests',
-        'test_content', 'Review.doc'), 'r')
-    word_doc_obj = File(id='test-word-doc', title='Test Word Doc',
-                        file=word_doc_file,
-                        content_type='application/msword')
-    gif_file = open(os.path.join(os.path.dirname(__file__), 'tests',
-                    'test_content', 'Review.gif'), 'r')
-    gif_obj = File(id='test-gif', title='Test coverImage',
-                   file=gif_file, content_type='image/gif')
+    pdf_file = open(
+        os.path.join(os.path.dirname(__file__), "tests", "test_content", "Review.pdf"),
+        "r",
+    )
+    pdf_obj = File(
+        id="test-pdf", title="Test Pdf", file=pdf_file, content_type="application/pdf"
+    )
+    word_doc_file = open(
+        os.path.join(os.path.dirname(__file__), "tests", "test_content", "Review.doc"),
+        "r",
+    )
+    word_doc_obj = File(
+        id="test-word-doc",
+        title="Test Word Doc",
+        file=word_doc_file,
+        content_type="application/msword",
+    )
+    gif_file = open(
+        os.path.join(os.path.dirname(__file__), "tests", "test_content", "Review.gif"),
+        "r",
+    )
+    gif_obj = File(
+        id="test-gif", title="Test coverImage", file=gif_file, content_type="image/gif"
+    )
     gif_file.close()
 
-    review_text = \
-        u'''
+    review_text = u"""
 TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT
 
 Deutschland, Österreich, der Schweiz, Tschechien, Ungarn, Kroatien,
@@ -128,127 +140,144 @@ Ceauşu: Die Presse und das politische Leben in der Bukowina am Anfang
 des 20. Jahrhunderts. Der Fall der Zeitschrift „Die Wahrheit“; Mariana
 Hausleitner: Öffentlichkeit und Pressezensur in der Bukowina und in
 Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
-'''
-    authors_list = [dict(firstname='Tadeusz', lastname=u'Kot\u0142owski'
-                    ), dict(firstname=u'F\xfcrchtegott',
-                    lastname=u'Huberm\xfcller'),
-                    dict(firstname=u'Fran\xe7ois', lastname=u'Lam\xe8re'
-                    ), dict(firstname='Harald', lastname='Schmidt'),
-                    dict(lastname=u'Стоичков', fistname=u'Христо')]
-    referenceAuthors_list = [dict(firstname='Tadeusz',
-                             lastname=u'Kot\u0142owski',
-                             email=u'dev0@syslab.com', address=u'',
-                             phone=u''),
-                             dict(firstname=u'F\xfcrchtegott',
-                             lastname=u'Huberm\xfcller',
-                             email=u'dev0@syslab.com', address=u'',
-                             phone=u''), dict(firstname=u'Fran\xe7ois',
-                             lastname=u'Lam\xe8re',
-                             email=u'dev0@syslab.com', address=u'',
-                             phone=u''), dict(firstname='Harald',
-                             lastname='Schmidt',
-                             email=u'dev0@syslab.com', address=u'',
-                             phone=u'')]
+"""
+    authors_list = [
+        dict(firstname="Tadeusz", lastname=u"Kot\u0142owski"),
+        dict(firstname=u"F\xfcrchtegott", lastname=u"Huberm\xfcller"),
+        dict(firstname=u"Fran\xe7ois", lastname=u"Lam\xe8re"),
+        dict(firstname="Harald", lastname="Schmidt"),
+        dict(lastname=u"Стоичков", fistname=u"Христо"),
+    ]
+    referenceAuthors_list = [
+        dict(
+            firstname="Tadeusz",
+            lastname=u"Kot\u0142owski",
+            email=u"dev0@syslab.com",
+            address=u"",
+            phone=u"",
+        ),
+        dict(
+            firstname=u"F\xfcrchtegott",
+            lastname=u"Huberm\xfcller",
+            email=u"dev0@syslab.com",
+            address=u"",
+            phone=u"",
+        ),
+        dict(
+            firstname=u"Fran\xe7ois",
+            lastname=u"Lam\xe8re",
+            email=u"dev0@syslab.com",
+            address=u"",
+            phone=u"",
+        ),
+        dict(
+            firstname="Harald",
+            lastname="Schmidt",
+            email=u"dev0@syslab.com",
+            address=u"",
+            phone=u"",
+        ),
+    ]
 
-    voc = getToolByName(portal, 'portal_vocabularies')
+    voc = getToolByName(portal, "portal_vocabularies")
 
-    ddcPlace = voc.getVocabularyByName('region_values')
+    ddcPlace = voc.getVocabularyByName("region_values")
     ddcPlace_list = ddcPlace.getDisplayList(ddcPlace).keys()
 
-    ddcSubject = voc.getVocabularyByName('topic_values')
+    ddcSubject = voc.getVocabularyByName("topic_values")
     ddcSubject_list = ddcSubject.getDisplayList(ddcSubject).keys()
 
-    ddcTime = voc.getVocabularyByName('epoch_values')
+    ddcTime = voc.getVocabularyByName("epoch_values")
     ddcTime_list = ddcTime.getDisplayList(ddcTime).keys()
     random = Random()
-    random.seed('recensio.syslab.com')
+    random.seed("recensio.syslab.com")
 
     def isbn():
         for idx in range(1000):
-            yield (lambda s: '-'.join([s[:3], s[3:5], s[5:10], s[10:12], s[12]]))(str(9788360448396 + idx))
+            yield (lambda s: "-".join([s[:3], s[3:5], s[5:10], s[10:12], s[12]]))(
+                str(9788360448396 + idx)
+            )
 
     isbn_generator = isbn()
 
     def test_data():
-        '''Randomise the values in certain fields
-        '''
+        """Randomise the values in certain fields
+        """
 
         return {
-            'authors': [random.choice(authors_list)],
-            'referenceAuthors': [random.choice(referenceAuthors_list),
-                                 random.choice(referenceAuthors_list)],
-            'ddcPlace': random.choice(ddcPlace_list),
-            'ddcSubject': random.choice(ddcSubject_list),
-            'ddcTime': random.choice(ddcTime_list),
-            'description': u'',
-            'doc': word_doc_obj,
-            'documenttypes_institution': u'',
-            'documenttypes_cooperation': u'',
-            'documenttypes_referenceworks': u'',
-            'documenttypes_bibliographical': u'',
-            'documenttypes_fulltexts': u'',
-            'documenttypes_periodicals': u'',
-            'yearOfPublication': u'2008',
-            'placeOfPublication': u'Krakow',
-            'officialYearOfPublication': '2008',
-            'number': u'2',
-            'editor': u'Avalon',
-            'editorCollectedEdition': u'',
-            'institution': [dict(institution=u'', lastname=u'',
-                            firstname=u'')],
-            'isbn': isbn_generator.next(),
-            'isLicenceApproved': True,
-            'issn': u'1822-4016',
-            'issue': u'5',
-            'shortnameJournal': u'',
-            'volume': '2',
-            'pageStart': '2',
-            'pageEnd': '3',
-            'pageStartOfReviewInJournal': '2',
-            'pageEndOfReviewInJournal': '3',
-            'pdf': pdf_obj,
-            'languageReviewedText': 'en',
-            'languageReview': 'de',
-            'recensioID': u'',
-            'series': u'',
-            'seriesVol': u'',
-            'review': review_text,
-            'reviewAuthor': u'',
-            'subject': u'',
-            'pages': u'',
-            'title': u'Niemcy',
-            'subtitle': u'Dzieje państwa i społeczeństwa 1890–1945',
-            'uri': 'http://www.syslab.com',
-            'idBvb': u'',
-            'publisher': u'',
-            'customCitation': u'',
-            'reviewAuthorHonorific': u'Dr. rer nat',
-            'reviewAuthors': [{'lastname': u'Стоичков',
-                              'firstname': u'Христо'}],
-            'reviewAuthorEmail': u'dev0@syslab.com',
-            'titleJournal': u'',
-            'documenttypes_institution': u'',
-            'documenttypes_cooperation': u'',
-            'documenttypes_bibliographical': u'',
-            'documenttypes_individual': u'',
-            'documenttypes_referenceworks': u'',
-            'coverPicture': gif_obj,
-            'existingOnlineReviews': [dict(name=u'Dzieje państwa',
-                    url='')],
-            'publishedReviews': [dict(details=u'Journal A, 2008')],
-            'titleCollectedEdition': u'',
-            'editorsCollectedEdition': [random.choice(authors_list)],
-            'urn': u'testing-data-urn',
-            'doi': u'10.15463/rec.0123456',
-            }
+            "authors": [random.choice(authors_list)],
+            "referenceAuthors": [
+                random.choice(referenceAuthors_list),
+                random.choice(referenceAuthors_list),
+            ],
+            "ddcPlace": random.choice(ddcPlace_list),
+            "ddcSubject": random.choice(ddcSubject_list),
+            "ddcTime": random.choice(ddcTime_list),
+            "description": u"",
+            "doc": word_doc_obj,
+            "documenttypes_institution": u"",
+            "documenttypes_cooperation": u"",
+            "documenttypes_referenceworks": u"",
+            "documenttypes_bibliographical": u"",
+            "documenttypes_fulltexts": u"",
+            "documenttypes_periodicals": u"",
+            "yearOfPublication": u"2008",
+            "placeOfPublication": u"Krakow",
+            "officialYearOfPublication": "2008",
+            "number": u"2",
+            "editor": u"Avalon",
+            "editorCollectedEdition": u"",
+            "institution": [dict(institution=u"", lastname=u"", firstname=u"")],
+            "isbn": isbn_generator.next(),
+            "isLicenceApproved": True,
+            "issn": u"1822-4016",
+            "issue": u"5",
+            "shortnameJournal": u"",
+            "volume": "2",
+            "pageStart": "2",
+            "pageEnd": "3",
+            "pageStartOfReviewInJournal": "2",
+            "pageEndOfReviewInJournal": "3",
+            "pdf": pdf_obj,
+            "languageReviewedText": "en",
+            "languageReview": "de",
+            "recensioID": u"",
+            "series": u"",
+            "seriesVol": u"",
+            "review": review_text,
+            "reviewAuthor": u"",
+            "subject": u"",
+            "pages": u"",
+            "title": u"Niemcy",
+            "subtitle": u"Dzieje państwa i społeczeństwa 1890–1945",
+            "uri": "http://www.syslab.com",
+            "idBvb": u"",
+            "publisher": u"",
+            "customCitation": u"",
+            "reviewAuthorHonorific": u"Dr. rer nat",
+            "reviewAuthors": [{"lastname": u"Стоичков", "firstname": u"Христо"}],
+            "reviewAuthorEmail": u"dev0@syslab.com",
+            "titleJournal": u"",
+            "documenttypes_institution": u"",
+            "documenttypes_cooperation": u"",
+            "documenttypes_bibliographical": u"",
+            "documenttypes_individual": u"",
+            "documenttypes_referenceworks": u"",
+            "coverPicture": gif_obj,
+            "existingOnlineReviews": [dict(name=u"Dzieje państwa", url="")],
+            "publishedReviews": [dict(details=u"Journal A, 2008")],
+            "titleCollectedEdition": u"",
+            "editorsCollectedEdition": [random.choice(authors_list)],
+            "urn": u"testing-data-urn",
+            "doi": u"10.15463/rec.0123456",
+        }
 
     # Add a folder to contain the sample-reviews
 
-    portal_id = 'recensio'
-    if 'sample-reviews' not in portal.objectIds():
-        portal.invokeFactory('Folder', id='sample-reviews',
-                             title='Sample Reviews')
-    sample_reviews = portal.get('sample-reviews')
+    portal_id = "recensio"
+    if "sample-reviews" not in portal.objectIds():
+        portal.invokeFactory("Folder", id="sample-reviews", title="Sample Reviews")
+    sample_reviews = portal.get("sample-reviews")
 
     for rez_class in rez_classes:
 
@@ -256,113 +285,110 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
         # field in rez_class.ordered_fields: try: data[field] =
         # test_data[field] except: print "MISSING", field
 
-        if rez_class.__doc__.startswith('Review'):
-            if 'newspapera' not in sample_reviews.objectIds():
-                sample_reviews.invokeFactory('Publication',
-                        id='newspapera', title='Zeitschrift 1')
-                sample_reviews['newspapera'].invokeFactory('Document',
-                        id='index_html')
-            if 'newspaperb' not in sample_reviews.objectIds():
-                sample_reviews.invokeFactory('Publication',
-                        id='newspaperb', title='Zeitschrift 2')
-            newspapera = sample_reviews['newspapera']
-            newspaperb = sample_reviews['newspaperb']
-            if 'summer' not in newspapera.objectIds():
-                newspapera.invokeFactory('Volume', id='summer',
-                        title='Summer')
-            summera = newspapera['summer']
-            if 'summer' not in newspaperb.objectIds():
-                newspaperb.invokeFactory('Volume', id='summer',
-                        title='Summer')
-            summerb = newspaperb['summer']
-            if 'issue-2' not in summera.objectIds():
-                summera.invokeFactory('Issue', id='issue-2',
-                        title='Issue 2')
-            containera = summera['issue-2']
-            if 'issue-2' not in summerb.objectIds():
-                summerb.invokeFactory('Issue', id='issue-2',
-                        title='Issue 2')
-                containerb = summerb['issue-2']
+        if rez_class.__doc__.startswith("Review"):
+            if "newspapera" not in sample_reviews.objectIds():
+                sample_reviews.invokeFactory(
+                    "Publication", id="newspapera", title="Zeitschrift 1"
+                )
+                sample_reviews["newspapera"].invokeFactory("Document", id="index_html")
+            if "newspaperb" not in sample_reviews.objectIds():
+                sample_reviews.invokeFactory(
+                    "Publication", id="newspaperb", title="Zeitschrift 2"
+                )
+            newspapera = sample_reviews["newspapera"]
+            newspaperb = sample_reviews["newspaperb"]
+            if "summer" not in newspapera.objectIds():
+                newspapera.invokeFactory("Volume", id="summer", title="Summer")
+            summera = newspapera["summer"]
+            if "summer" not in newspaperb.objectIds():
+                newspaperb.invokeFactory("Volume", id="summer", title="Summer")
+            summerb = newspaperb["summer"]
+            if "issue-2" not in summera.objectIds():
+                summera.invokeFactory("Issue", id="issue-2", title="Issue 2")
+            containera = summera["issue-2"]
+            if "issue-2" not in summerb.objectIds():
+                summerb.invokeFactory("Issue", id="issue-2", title="Issue 2")
+                containerb = summerb["issue-2"]
                 data = test_data()
-                data['title'] = 'test title'
-                data['languageReviewedText'] = 'de'
-                data['languageReview'] = 'fr'
-                data['shortnameJournal'] = 'Zeitschrift 1'
+                data["title"] = "test title"
+                data["languageReviewedText"] = "de"
+                data["languageReview"] = "fr"
+                data["shortnameJournal"] = "Zeitschrift 1"
                 obj = addOneItem(containerb, rez_class, data)
                 item = containerb.objectValues()[0]
-                comment = createObject('plone.Comment')
+                comment = createObject("plone.Comment")
                 IConversation(item).addComment(comment)
-            containerb = summerb['issue-2']
+            containerb = summerb["issue-2"]
             container = containera
         else:
             pm = portal.portal_membership
-            pm.addMember(id='fake_member', password='fake_member_pw',
-                         roles=[], domains=[])
-            pm.createMemberArea('fake_member')
-            container = pm.getMembersFolder().get('fake_member')
+            pm.addMember(
+                id="fake_member", password="fake_member_pw", roles=[], domains=[]
+            )
+            pm.createMemberArea("fake_member")
+            container = pm.getMembersFolder().get("fake_member")
 
         for i in range(number_of_each):
             data = test_data()
             if i / 3 == 1:
-                data['languageReviewedText'] = 'fr'
-                data['languageReview'] = 'en'
+                data["languageReviewedText"] = "fr"
+                data["languageReview"] = "en"
             elif i / 3 == 2:
-                data['languageReviewedText'] = 'de'
-                data['languageReview'] = 'fr'
-            data['shortnameJournal'] = 'Zeitschrift 1'
-            data['title'] = 'Test %s No %d' % (rez_class.portal_type, i)
+                data["languageReviewedText"] = "de"
+                data["languageReview"] = "fr"
+            data["shortnameJournal"] = "Zeitschrift 1"
+            data["title"] = "Test %s No %d" % (rez_class.portal_type, i)
             obj = addOneItem(container, rez_class, data)
 
     # Create sample sehepunkte and francia reviews
 
-    if 'rezensionen' not in portal.objectIds():
-        portal.invokeFactory('Folder', 'rezensionen')
+    if "rezensionen" not in portal.objectIds():
+        portal.invokeFactory("Folder", "rezensionen")
     rezensionen = portal.rezensionen
-    if 'zeitschriften' not in rezensionen.objectIds():
-        rezensionen.invokeFactory('Folder', 'zeitschriften')
+    if "zeitschriften" not in rezensionen.objectIds():
+        rezensionen.invokeFactory("Folder", "zeitschriften")
     zeitschriften = rezensionen.zeitschriften
-    if 'sehepunkte' not in zeitschriften.objectIds():
-        zeitschriften.invokeFactory('Publication', 'sehepunkte')
+    if "sehepunkte" not in zeitschriften.objectIds():
+        zeitschriften.invokeFactory("Publication", "sehepunkte")
     sehepunkte = zeitschriften.sehepunkte
-    sehepunkte.invokeFactory('Volume', 'vol1')
+    sehepunkte.invokeFactory("Volume", "vol1")
     sp_vol1 = sehepunkte.vol1
-    sp_vol1.invokeFactory('Issue', 'issue1')
+    sp_vol1.invokeFactory("Issue", "issue1")
     sp_issue1 = sp_vol1.issue1
-    sp_issue1.invokeFactory('Review Monograph', 'sp-rm', **test_data())
-    sp_issue1.invokeFactory('Review Journal', 'sp-rj', **test_data())
+    sp_issue1.invokeFactory("Review Monograph", "sp-rm", **test_data())
+    sp_issue1.invokeFactory("Review Journal", "sp-rj", **test_data())
 
-    if 'francia-recensio' not in zeitschriften.objectIds():
-        zeitschriften.invokeFactory('Publication', 'francia-recensio')
-    francia_recensio = zeitschriften['francia-recensio']
-    francia_recensio.invokeFactory('Volume', 'vol1')
+    if "francia-recensio" not in zeitschriften.objectIds():
+        zeitschriften.invokeFactory("Publication", "francia-recensio")
+    francia_recensio = zeitschriften["francia-recensio"]
+    francia_recensio.invokeFactory("Volume", "vol1")
     fr_vol1 = francia_recensio.vol1
-    fr_vol1.invokeFactory('Issue', 'issue1')
+    fr_vol1.invokeFactory("Issue", "issue1")
     fr_issue1 = fr_vol1.issue1
-    fr_issue1.invokeFactory('Review Monograph', 'fr-rm', **test_data())
-    fr_issue1.invokeFactory('Review Journal', 'fr-rj', **test_data())
+    fr_issue1.invokeFactory("Review Monograph", "fr-rm", **test_data())
+    fr_issue1.invokeFactory("Review Journal", "fr-rj", **test_data())
 
     request = TestRequest()
 
     class FakeResponse(object):
-
         def write(a, b):
             pass
 
     request.RESPONSE = FakeResponse()
 
-    view = getMultiAdapter((portal, request), name='solr-maintenance')
+    view = getMultiAdapter((portal, request), name="solr-maintenance")
     view.clear()
     view.reindex()
 
 
 def guard(profiles):
-
     def inner_guard(func):
-
         def wrapper(self):
             for profile in profiles:
-                if self.readDataFile('recensio.contenttypes_%s_marker.txt'
-                         % profile) is not None:
+                if (
+                    self.readDataFile("recensio.contenttypes_%s_marker.txt" % profile)
+                    is not None
+                ):
                     return func(self)
             return
 
@@ -371,141 +397,157 @@ def guard(profiles):
     return inner_guard
 
 
-@guard(['exampledata'])
+@guard(["exampledata"])
 def recensio_example_content_all(context):
-    '''  addOneItem calls:
+    """  addOneItem calls:
     notify(ObjectAddedEvent(item, context, newid))
     notify(ObjectInitializedEvent(item, request))
 
     once either of these events get called the genericsetup registry
     of steps gets reset (no idea why or how). This causes all
     subsequent steps to be skipped in this profile. For this reason
-    all the steps are called from recensio_example_content_all '''
+    all the steps are called from recensio_example_content_all """
 
     addExampleContent(context)
     setViewsOnFoldersUnguarded(context)
     hideAllFoldersUnguarded(context)
 
 
-@guard(['exampledata'])
+@guard(["exampledata"])
 def addExampleContent(context):
     portal = context.getSite()
     add_number_of_each_review_type(portal, 10)
 
 
-@guard(['exampledata'])
+@guard(["exampledata"])
 def addOneOfEachReviewType(context):
-    '''TODO: remove this? It isn\'t being used anywhere'''
+    """TODO: remove this? It isn\'t being used anywhere"""
 
     portal = context.getSite()
     add_number_of_each_review_type(portal, 1)
 
 
-@guard(['default'])
+@guard(["default"])
 def setTypesOnMemberFolder(self):
-    '''Only Presentations are allowed in user folders
+    """Only Presentations are allowed in user folders
 
     Setting the allowed types on the Member folder will achieve the
     appropriate result.
-    '''
+    """
 
     portal = getSite()
 
     portal.Members.setConstrainTypesMode(1)
-    portal.Members.setLocallyAllowedTypes(['Presentation Article Review'
-            , 'Presentation Collection', 'Presentation Online Resource'
-            , 'Presentation Monograph'])
-    portal.Members.setImmediatelyAddableTypes(['Presentation Article Review'
-            , 'Presentation Collection', 'Presentation Online Resource'
-            , 'Presentation Monograph'])
+    portal.Members.setLocallyAllowedTypes(
+        [
+            "Presentation Article Review",
+            "Presentation Collection",
+            "Presentation Online Resource",
+            "Presentation Monograph",
+        ]
+    )
+    portal.Members.setImmediatelyAddableTypes(
+        [
+            "Presentation Article Review",
+            "Presentation Collection",
+            "Presentation Online Resource",
+            "Presentation Monograph",
+        ]
+    )
+
 
 from plone.app.portlets.portlets import classic
 
 
-@guard(['initial_content'])
+@guard(["initial_content"])
 def addSecondaryNavPortlets(context):
-    ''' Add and configure the Classic portlet for secondary navigation
-    '''
+    """ Add and configure the Classic portlet for secondary navigation
+    """
 
     portal = getSite()
-    objs = (portal.get('ueberuns'), portal.get('ueberuns-en'),
-            portal.get('ueberuns-fr'))
+    objs = (
+        portal.get("ueberuns"),
+        portal.get("ueberuns-en"),
+        portal.get("ueberuns-fr"),
+    )
     for obj in objs:
         if obj:
-            path = '/'.join(obj.getPhysicalPath())
-            left_portlet_assignment_mapping = \
-                assignment_mapping_from_key(obj, 'plone.leftcolumn',
-                    CONTEXT_CATEGORY, path)
-            if not left_portlet_assignment_mapping.has_key('secondarynavportlet'
-                    ):
-                left_portlet_assignment_mapping['secondarynavportlet'
-                        ] = \
-                    classic.Assignment(template='secondarynavportlets',
-                        macro='ueberuns')
+            path = "/".join(obj.getPhysicalPath())
+            left_portlet_assignment_mapping = assignment_mapping_from_key(
+                obj, "plone.leftcolumn", CONTEXT_CATEGORY, path
+            )
+            if not left_portlet_assignment_mapping.has_key("secondarynavportlet"):
+                left_portlet_assignment_mapping[
+                    "secondarynavportlet"
+                ] = classic.Assignment(
+                    template="secondarynavportlets", macro="ueberuns"
+                )
 
-    objs = (portal.get('rezensionen'), )
+    objs = (portal.get("rezensionen"),)
     for obj in objs:
         if obj:
-            path = '/'.join(obj.getPhysicalPath())
-            left_portlet_assignment_mapping = \
-                assignment_mapping_from_key(obj, 'plone.leftcolumn',
-                    CONTEXT_CATEGORY, path)
-            if not left_portlet_assignment_mapping.has_key('secondarynavportlet'
-                    ):
-                left_portlet_assignment_mapping['secondarynavportlet'
-                        ] = \
-                    classic.Assignment(template='secondarynavportlets',
-                        macro='rezensionen')
-
+            path = "/".join(obj.getPhysicalPath())
+            left_portlet_assignment_mapping = assignment_mapping_from_key(
+                obj, "plone.leftcolumn", CONTEXT_CATEGORY, path
+            )
+            if not left_portlet_assignment_mapping.has_key("secondarynavportlet"):
+                left_portlet_assignment_mapping[
+                    "secondarynavportlet"
+                ] = classic.Assignment(
+                    template="secondarynavportlets", macro="rezensionen"
+                )
 
     # TODO: set sec. nav for praesentationen
 
-def v0to1(context):
-    catalog = getToolByName(context, 'portal_catalog')
 
-    query_args = dict(modified=dict(query=DateTime('2012-06-18'),
-                      range='min'),
-                      object_provides=IReview.__identifier__)
+def v0to1(context):
+    catalog = getToolByName(context, "portal_catalog")
+
+    query_args = dict(
+        modified=dict(query=DateTime("2012-06-18"), range="min"),
+        object_provides=IReview.__identifier__,
+    )
 
     for brain in catalog(query_args):
         review_pdf_updated_eventhandler(brain.getObject(), None)
 
-def v1to2(context):
-    catalog = getToolByName(context, 'portal_catalog')
 
-    pors = catalog(portal_type=['Presentation Online Resource'])
+def v1to2(context):
+    catalog = getToolByName(context, "portal_catalog")
+
+    pors = catalog(portal_type=["Presentation Online Resource"])
     migrated = 0
     for brain in pors:
         try:
             obj = brain.getObject()
         except:
-            log.error('Could not get Object %s' % brain['getId'])
+            log.error("Could not get Object %s" % brain["getId"])
             continue
         institution = obj.getInstitution()
         if len(institution) > 0:
-            unmigrated = [line for line in institution if 'name' not in line]
+            unmigrated = [line for line in institution if "name" not in line]
             if not unmigrated:
                 continue
             institution_new = []
             for line in unmigrated:
-                if not line.get('lastname') and not line.get('firstname'):
+                if not line.get("lastname") and not line.get("firstname"):
                     continue
-                if not line.get('firstname'):
-                    institution_new.append({'name':line['lastname']})
-                elif not line.get('lastname'):
-                    institution_new.append({'name':line['firstname']})
+                if not line.get("firstname"):
+                    institution_new.append({"name": line["lastname"]})
+                elif not line.get("lastname"):
+                    institution_new.append({"name": line["firstname"]})
                 else:
-                    institution_new.append({'name':'%s %s' % (
-                            line['firstname'],
-                            line['lastname'])})
+                    institution_new.append(
+                        {"name": "%s %s" % (line["firstname"], line["lastname"])}
+                    )
             obj.setInstitution(tuple(institution_new))
             migrated += 1
-    log.info('Migrated institution field of %d POR objects' % migrated)
+    log.info("Migrated institution field of %d POR objects" % migrated)
 
 
 def v2to3(context):
-    catalog = getToolByName(context, 'portal_catalog')
-    for index in ['commentators', 'authors']:
+    catalog = getToolByName(context, "portal_catalog")
+    for index in ["commentators", "authors"]:
         catalog.manage_reindexIndex(index)
 
 
@@ -514,19 +556,21 @@ def v3to4(context):
     # because plone.app.intid does an unbounded search with no b_size. This
     # works around this error:
     # AttributeError: 'NoneType' object has no attribute 'getPath'
-    catalog = getToolByName(context, 'portal_catalog')
-    query = {'object_provides': IContentish.__identifier__,
-             'Language': 'all',
-             'b_size': 0}
+    catalog = getToolByName(context, "portal_catalog")
+    query = {
+        "object_provides": IContentish.__identifier__,
+        "Language": "all",
+        "b_size": 0,
+    }
     num_objects = len(catalog(query))
     solrconf = getUtility(ISolrConnectionConfig)
     max_results = solrconf.max_results
     solrconf.max_results = num_objects
 
-    context.runAllImportStepsFromProfile('profile-plone.app.intid:default')
+    context.runAllImportStepsFromProfile("profile-plone.app.intid:default")
 
     solrconf.max_results = max_results
 
+
 def v4to5(context):
-    context.runImportStepFromProfile('profile-recensio.contenttypes:default',
-                                     'skins')
+    context.runImportStepFromProfile("profile-recensio.contenttypes:default", "skins")

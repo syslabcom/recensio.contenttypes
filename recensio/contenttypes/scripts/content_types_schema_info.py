@@ -17,7 +17,7 @@ portal_type_fields = {}
 field_portal_types = {}
 portal_types_fields = {}
 for portal_type in rec_types:
-    obj = portal.portal_catalog({"portal_type":portal_type})[0].getObject()
+    obj = portal.portal_catalog({"portal_type": portal_type})[0].getObject()
     portal_type_fields[portal_type] = {}
     for field in obj.Schema().fields():
         field_name = field.getName()
@@ -34,26 +34,26 @@ for portal_type in rec_types:
 for portal_types in field_portal_types.values():
     for field_name in field_portal_types.keys():
         if field_portal_types[field_name] == portal_types:
-            portal_types_fields.setdefault(str(portal_types),
-                                           set()).add(field_name)
+            portal_types_fields.setdefault(str(portal_types), set()).add(field_name)
 
 for key in sorted(portal_types_fields.keys()):
     print "Common schema fields:"
-    print(key)
+    print (key)
     pprint(sorted(portal_types_fields[key]))
 
 for portal_type in rec_types:
     ptf = portal_type_fields[portal_type].get("uri", None)
     if ptf:
-        label       = ptf["label"]
+        label = ptf["label"]
         is_metadata = ptf["is_metadata"]
         description = ptf["description"]
         edit_visible = ptf["edit_visible"]
-        print("%s:\n  label: %s\n  description: %s\n  edit visible:  %s"
-              % (portal_type, label, description, edit_visible))
+        print (
+            "%s:\n  label: %s\n  description: %s\n  edit visible:  %s"
+            % (portal_type, label, description, edit_visible)
+        )
     else:
-        print("%s:\n  edit_visible: %s"
-              % (portal_type, edit_visible))
+        print ("%s:\n  edit_visible: %s" % (portal_type, edit_visible))
 
 
 # canonical_uri is the url of imported reviews/presentations.

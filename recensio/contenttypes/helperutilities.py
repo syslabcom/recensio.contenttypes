@@ -11,15 +11,16 @@ from Products.Five.browser.pagetemplatefile import PageTemplateFile
 # Use an environment variable to enable time consuming shell commands
 RUN_SHELL_COMMANDS = os.environ.get("RUN_SHELL_COMMANDS", False)
 
-log = logging.getLogger('recensio.contenttypes/helperutilities.py')
+log = logging.getLogger("recensio.contenttypes/helperutilities.py")
+
 
 def which(program_name, extra_paths=[]):
     """
     Return the full path to a program
     """
     paths = []
-    if os.environ.has_key('PATH'):
-        paths = os.environ['PATH']
+    if os.environ.has_key("PATH"):
+        paths = os.environ["PATH"]
         paths = paths.split(os.pathsep)
     paths = paths + extra_paths
     for dir in paths:
@@ -28,10 +29,12 @@ def which(program_name, extra_paths=[]):
             return full_path
     return None
 
+
 # http://tools.cherrypy.org/wiki/ZPT
 class SimpleZpt(PageTemplateFile):
     """ Customise ViewPageTemplateFile so that we can pass in a dict
     to be used as the context """
+
     def pt_getContext(self, args=(), options={}, **kw):
         rval = PageTemplateFile.pt_getContext(self, args=args)
         options.update(rval)
@@ -40,11 +43,13 @@ class SimpleZpt(PageTemplateFile):
 
 class SubprocessException(Exception):
     """For exceptions from RunSubprocess"""
-    def __init__(self, message='empty'):
+
+    def __init__(self, message="empty"):
         self.message = message
 
     def __str__(self):
         return repr(self.message)
+
 
 def SimpleSubprocess(*cmd, **kwargs):
     """
@@ -55,18 +60,18 @@ def SimpleSubprocess(*cmd, **kwargs):
         and the passed arguments
     """
     try:
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE,\
-            stderr=subprocess.PIPE)
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdoutdata, stderrdata = process.communicate()
     except OSError, e:
         raise RuntimeError(str(e))
 
     returncode = process.returncode
 
-    if returncode not in kwargs.get('exitcodes', [0]):
+    if returncode not in kwargs.get("exitcodes", [0]):
         raise RuntimeError(" ".join([str(returncode), stderrdata]))
 
     return stdoutdata, stderrdata
+
 
 class RunSubprocess:
     """Wrapper for external command line utilities
@@ -85,17 +90,25 @@ class RunSubprocess:
         result = gen_thumbs.output_path
     gen_thumbs.clean_up()
     """
-    def __init__(self, program_name, extra_paths=[], input_path="",
-                 input_params="", output_params="", output_path=""):
+
+    def __init__(
+        self,
+        program_name,
+        extra_paths=[],
+        input_path="",
+        input_params="",
+        output_params="",
+        output_path="",
+    ):
         if not RUN_SHELL_COMMANDS:
             raise SubprocessException(
                 "The RUN_SHELL_COMMANDS environment variable is unset or "
-                "False. Ignoring expensive shell commands.")
+                "False. Ignoring expensive shell commands."
+            )
         self.program_name = program_name
         self.program = which(program_name, extra_paths)
         if self.program is None:
-            raise SubprocessException("Unable to find the %s program" % (
-                    program_name))
+            raise SubprocessException("Unable to find the %s program" % (program_name))
         self.tmp_input = None
         self.tmp_output = None
         self.tmp_output_dir = None
@@ -116,18 +129,15 @@ class RunSubprocess:
         return path
 
     def create_tmp_input(self, prefix="", suffix="", data=None):
-        self.input_path = self._create_tmp_file(prefix=prefix, suffix=suffix,
-                                               data=data)
+        self.input_path = self._create_tmp_file(prefix=prefix, suffix=suffix, data=data)
 
     def create_tmp_ouput(self, prefix="", suffix="", data=None):
-        self.tmp_output = self._create_tmp_file(prefix=prefix, suffix=suffix,
-                                                data=data)
+        self.tmp_output = self._create_tmp_file(prefix=prefix, suffix=suffix, data=data)
 
     def create_tmp_output_dir(self, **kw):
         self.tmp_output_dir = tempfile.mkdtemp(**kw)
 
-    def run(self, input_params="", input_path="", output_params="",
-            output_path=""):
+    def run(self, input_params="", input_path="", output_params="", output_path=""):
         """Run the command"""
 
         if input_params != "":
@@ -146,12 +156,18 @@ class RunSubprocess:
         elif self.output_path == "":
             self.output_path = True and self.tmp_output or self.tmp_output_dir
 
-        self.cmd = [self.program] + self.input_params.split() +\
-            [self.input_path] + self.output_params.split() + [self.output_path]
+        self.cmd = (
+            [self.program]
+            + self.input_params.split()
+            + [self.input_path]
+            + self.output_params.split()
+            + [self.output_path]
+        )
         log.info("Running the following command:\n %s" % " ".join(self.cmd))
 
-        process = subprocess.Popen(self.cmd, stdout=subprocess.PIPE,\
-            stderr=subprocess.PIPE)
+        process = subprocess.Popen(
+            self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
 
         stdoutdata, stderrdata = process.communicate()
 

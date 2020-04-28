@@ -10,72 +10,62 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '4.6.1.dev0'
+
+version = "4.6.1.dev0"
 
 long_description = (
-    read('README.txt')
-    + '\n' +
-    'Requirements\n'
-    '************\n'
-    + '\n' +
-    read('REQUIREMENTS.txt')
-    + '\n' +
-    'Change history\n'
-    '**************\n'
-    + '\n' +
-    read('CHANGES.txt')
-    + '\n' +
-    'Detailed Documentation\n'
-    '**********************\n'
-    + '\n' +
-    read('recensio', 'contenttypes', 'README.txt')
-    + '\n' +
-    'Contributors\n'
-    '************\n'
-    + '\n' +
-    read('CONTRIBUTORS.txt')
-    + '\n' +
-    'Download\n'
-    '********\n')
+    read("README.txt") + "\n" + "Requirements\n"
+    "************\n" + "\n" + read("REQUIREMENTS.txt") + "\n" + "Change history\n"
+    "**************\n" + "\n" + read("CHANGES.txt") + "\n" + "Detailed Documentation\n"
+    "**********************\n"
+    + "\n"
+    + read("recensio", "contenttypes", "README.txt")
+    + "\n"
+    + "Contributors\n"
+    "************\n" + "\n" + read("CONTRIBUTORS.txt") + "\n" + "Download\n"
+    "********\n"
+)
 
-tests_require = ['zope.testing', 'mock', 'recensio.policy']
+tests_require = ["zope.testing", "mock", "recensio.policy"]
 
-setup(name='recensio.contenttypes',
-      version=version,
-      description="",
-      long_description=long_description,
-      # Get more strings from
-      # http://pypi.python.org/pypi?%3Aaction=list_classifiers
-      classifiers=[
-        'Framework :: Plone',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU General Public License (GPL)',
-        ],
-      keywords='',
-      author='SYSLAB.COM',
-      author_email='info@syslab.com',
-      url='http://svn.plone.org/svn/collective/',
-      license='GPL',
-      packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['recensio', ],
-      include_package_data=True,
-      zip_safe=False,
-      install_requires=['setuptools',
-                        'Plone',
-                        'swiss',
-                        'xlrd',
-                        'html5lib',
-                        'pyPdf',
-                        'reportlab',
-                        'plone.app.discussion',
-                        'plone.app.intid',
-                        ],
-      tests_require=tests_require,
-      extras_require=dict(test=tests_require),
-      test_suite='recensio.contenttypes.tests.test_docs.test_suite',
-      entry_points="""
+setup(
+    name="recensio.contenttypes",
+    version=version,
+    description="",
+    long_description=long_description,
+    # Get more strings from
+    # http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    classifiers=[
+        "Framework :: Plone",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: GNU General Public License (GPL)",
+    ],
+    keywords="",
+    author="SYSLAB.COM",
+    author_email="info@syslab.com",
+    url="http://svn.plone.org/svn/collective/",
+    license="GPL",
+    packages=find_packages(exclude=["ez_setup"]),
+    namespace_packages=["recensio",],
+    include_package_data=True,
+    zip_safe=False,
+    install_requires=[
+        "setuptools",
+        "Plone",
+        "swiss",
+        "xlrd",
+        "html5lib",
+        "pyPdf",
+        "reportlab",
+        "plone.app.discussion",
+        "plone.app.intid",
+    ],
+    tests_require=tests_require,
+    extras_require=dict(test=tests_require),
+    test_suite="recensio.contenttypes.tests.test_docs.test_suite",
+    entry_points="""
       # -*- entry_points -*-
       [z3c.autoinclude.plugin]
       target = plone
       """,
-      )
+)
