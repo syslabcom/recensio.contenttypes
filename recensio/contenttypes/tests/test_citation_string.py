@@ -3,13 +3,12 @@
 Tests for the Publication content type and items it can contain
 """
 import unittest2 as unittest
-
 from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import SITE_OWNER_NAME
-from recensio.contenttypes.setuphandlers import add_number_of_each_review_type
 from recensio.contenttypes.content.reviewjournal import ReviewJournal
 from recensio.contenttypes.content.reviewmonograph import ReviewMonograph
 from recensio.contenttypes.interfaces import IParentGetter
+from recensio.contenttypes.setuphandlers import add_number_of_each_review_type
 from recensio.policy.tests.layer import RECENSIO_BARE_INTEGRATION_TESTING
 
 

@@ -5,15 +5,13 @@ these tests cover the conversions on those files to other formats.
 """
 import datetime
 from os import fstat
+
 import unittest2 as unittest
-
 import zope.event
-
-from Testing import makerequest
 from plone.app.blob.utils import openBlob
 from Products.Archetypes.event import ObjectEditedEvent
-
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
+from Testing import makerequest
 
 
 class TestReviewFileConversions(unittest.TestCase):

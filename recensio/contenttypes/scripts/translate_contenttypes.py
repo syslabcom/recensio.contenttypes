@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
 import os
+import sys
 
 map = {
     "bezugsautoren": ("referenceAuthors", "Reference Authors"),

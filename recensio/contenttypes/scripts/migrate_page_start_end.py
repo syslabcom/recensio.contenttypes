@@ -23,11 +23,9 @@ from PresentationArticleReview and PresentationCollection.
 """
 from pprint import pprint
 
-from AccessControl.SecurityManagement import newSecurityManager
 import transaction
-
+from AccessControl.SecurityManagement import newSecurityManager
 from recensio.contenttypes.content import schemata
-
 
 rec_types = ["Presentation Article Review", "Presentation Collection"]
 

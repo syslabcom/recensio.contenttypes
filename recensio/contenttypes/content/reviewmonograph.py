@@ -3,35 +3,31 @@
 """
 
 from cgi import escape
-from zope.i18nmessageid import Message
-from zope.interface import implements
 
 from Products.Archetypes import atapi
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 from Products.validation.interfaces.IValidator import IValidator
-
 from recensio.contenttypes import contenttypesMessageFactory as _
-from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import (
-    BaseReview,
-    BaseReviewNoMagic,
-    get_formatted_names,
-)
-from recensio.contenttypes.content.schemata import (
-    BookReviewSchema,
-    CoverPictureSchema,
-    EditorialSchema,
-    LicenceSchema,
-    PageStartEndInPDFSchema,
-    PageStartEndOfReviewInJournalSchema,
-    PagecountSchema,
-    ReviewSchema,
-    SerialSchema,
-    finalize_recensio_schema,
-)
-from recensio.contenttypes.interfaces import IReviewMonograph
 from recensio.contenttypes.citation import getFormatter
+from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.content.review import BaseReview
+from recensio.contenttypes.content.review import BaseReviewNoMagic
+from recensio.contenttypes.content.review import get_formatted_names
+from recensio.contenttypes.content.schemata import BookReviewSchema
+from recensio.contenttypes.content.schemata import CoverPictureSchema
+from recensio.contenttypes.content.schemata import EditorialSchema
+from recensio.contenttypes.content.schemata import LicenceSchema
+from recensio.contenttypes.content.schemata import PagecountSchema
+from recensio.contenttypes.content.schemata import PageStartEndInPDFSchema
+from recensio.contenttypes.content.schemata import (
+    PageStartEndOfReviewInJournalSchema)
+from recensio.contenttypes.content.schemata import ReviewSchema
+from recensio.contenttypes.content.schemata import SerialSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.interfaces import IReviewMonograph
 from recensio.theme.browser.views import editorTypes
+from zope.i18nmessageid import Message
+from zope.interface import implements
 
 
 class YearOfPublicationValidator(object):

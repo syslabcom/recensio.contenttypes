@@ -3,29 +3,29 @@
 This has been changed to:
 Presentation Article edited Volume
 """
-from zope.interface import implements
 from cgi import escape
-from zope.i18nmessageid import Message
 
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
-from Products.DataGridField import DataGridField, DataGridWidget
+from Products.DataGridField import DataGridField
+from Products.DataGridField import DataGridWidget
 from Products.DataGridField.Column import Column
-
-from recensio.contenttypes.interfaces import IPresentationCollection
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BasePresentationNoMagic, BaseReview
+from recensio.contenttypes.content.review import BasePresentationNoMagic
+from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
+from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import (
-    PageStartEndOfPresentedTextInPrintSchema,
-    PagecountSchema,
-    PresentationSchema,
-    ReferenceAuthorsSchema,
-    SerialSchema,
-    finalize_recensio_schema,
-)
+    PageStartEndOfPresentedTextInPrintSchema)
+from recensio.contenttypes.content.schemata import PresentationSchema
+from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
+from recensio.contenttypes.content.schemata import SerialSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.interfaces import IPresentationCollection
+from zope.i18nmessageid import Message
+from zope.interface import implements
 
 PresentationCollectionSchema = (
     BookReviewSchema.copy()

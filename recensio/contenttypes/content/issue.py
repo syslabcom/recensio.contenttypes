@@ -1,20 +1,19 @@
 """Definition of the Issue content type
 """
 
-from zope.interface import implements
-
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
-from recensio.contenttypes.content import container
-
-# -*- Message Factory Imported Here -*-
-
-from recensio.contenttypes.interfaces import IIssue
 from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.content import container
 from recensio.contenttypes.content.schemata import LicenceSchema
 from recensio.contenttypes.content.volume import DoiSettingsSchema
 from recensio.contenttypes.content.volume import FulltextSettingsSchema
+from recensio.contenttypes.interfaces import IIssue
+from zope.interface import implements
+
+# -*- Message Factory Imported Here -*-
+
 
 IssueSchema = (
     folder.ATFolderSchema.copy()

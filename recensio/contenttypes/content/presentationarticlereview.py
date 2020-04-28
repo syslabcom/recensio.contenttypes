@@ -3,28 +3,26 @@
 This is now:
 Presentation Article in Journal
 """
-from zope.interface import implements
 from cgi import escape
-from zope.i18nmessageid import Message
 
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
-
 from recensio.contenttypes import contenttypesMessageFactory as _
-from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BasePresentationNoMagic, BaseReview
 from recensio.contenttypes.citation import getFormatter
+from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.content.review import BasePresentationNoMagic
+from recensio.contenttypes.content.review import BaseReview
+from recensio.contenttypes.content.schemata import AuthorsSchema
+from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import (
-    AuthorsSchema,
-    JournalReviewSchema,
-    PageStartEndOfPresentedTextInPrintSchema,
-    PresentationSchema,
-    ReferenceAuthorsSchema,
-    finalize_recensio_schema,
-)
+    PageStartEndOfPresentedTextInPrintSchema)
+from recensio.contenttypes.content.schemata import PresentationSchema
+from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IPresentationArticleReview
-
+from zope.i18nmessageid import Message
+from zope.interface import implements
 
 PresentationArticleReviewSchema = (
     AuthorsSchema.copy()

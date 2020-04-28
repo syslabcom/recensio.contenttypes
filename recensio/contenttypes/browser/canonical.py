@@ -1,6 +1,6 @@
 from plone.registry.interfaces import IRegistry
-from zope.component import getUtility
 from recensio.policy.interfaces import IRecensioSettings
+from zope.component import getUtility
 
 
 class CanonicalURLHelper(object):

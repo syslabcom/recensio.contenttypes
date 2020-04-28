@@ -11,11 +11,9 @@ recensio.contenttypes.content.schemata
 """
 from pprint import pprint
 
-from AccessControl.SecurityManagement import newSecurityManager
 import transaction
-
+from AccessControl.SecurityManagement import newSecurityManager
 from recensio.contenttypes.content import schemata
-
 
 rec_types = [
     "Presentation Online Resource",

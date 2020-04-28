@@ -2,8 +2,9 @@
 """
 Tests for the Publication content type and items it can contain
 """
-import unittest2 as unittest
 from contextlib import contextmanager
+
+import unittest2 as unittest
 from plone import api
 from plone.app.testing.helpers import login
 from plone.app.testing.helpers import logout

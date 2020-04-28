@@ -1,10 +1,12 @@
+from time import clock
+from time import strftime
+from time import time
+
+from plone.app.blob.field import ImageField
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from recensio.contenttypes.adapter.reviewpdf import ReviewPDF
 from recensio.contenttypes import helperutilities
-from time import time, clock, strftime
-from plone.app.blob.field import ImageField
-
+from recensio.contenttypes.adapter.reviewpdf import ReviewPDF
 
 TYPES = [
     "Presentation Online Resource",

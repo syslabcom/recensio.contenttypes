@@ -1,7 +1,7 @@
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes import atapi
-from Products.Archetypes.Registry import registerWidget
 from Products.Archetypes.Registry import registerPropertyType
+from Products.Archetypes.Registry import registerWidget
 
 
 class StringFallbackWidget(atapi.StringWidget):

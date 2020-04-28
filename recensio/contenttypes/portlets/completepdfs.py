@@ -1,16 +1,13 @@
-from zope.component import getMultiAdapter
-from zope.formlib import form
-from zope.interface import implements
-
+from Acquisition import aq_inner
 from plone.app.portlets.portlets import base
 from plone.memoize.compress import xhtml_compress
 from plone.portlets.interfaces import IPortletDataProvider
-
-from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
 from recensio.contenttypes.adapter.parentgetter import ParentGetter
 from recensio.policy import recensioMessageFactory as _
+from zope.component import getMultiAdapter
+from zope.formlib import form
+from zope.interface import implements
 
 
 class ICompletePdfsPortlet(IPortletDataProvider):

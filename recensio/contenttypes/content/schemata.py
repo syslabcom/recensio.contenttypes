@@ -1,36 +1,34 @@
 # -*- coding: utf-8 -*-
 """Definition of the base Review Schemata
 """
-from lxml.html import fromstring
-from PIL import Image
-
+from AccessControl import ClassSecurityInfo
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 from archetypes.schemaextender.field import ExtensionField
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaExtender
-
-from AccessControl import ClassSecurityInfo
+from lxml.html import fromstring
+from PIL import Image
+from plone.app.blob.field import BlobField
+from plone.app.blob.field import ImageField
+from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
-from Products.Archetypes import atapi
 from Products.CMFCore.utils import getToolByName
-from Products.DataGridField import DataGridField, DataGridWidget
+from Products.DataGridField import DataGridField
+from Products.DataGridField import DataGridWidget
 from Products.DataGridField.Column import Column
 from Products.DataGridField.SelectColumn import SelectColumn
 from Products.DataGridField.validators import DataGridValidator
-from Products.validation.interfaces.IValidator import IValidator
 from Products.validation import validation
-from plone.app.blob.field import BlobField
-from plone.app.blob.field import ImageField
-from zope.component.hooks import getSite
-from zope.i18n import translate
-from zope.interface import implements
-from zope.component import adapts
-
+from Products.validation.interfaces.IValidator import IValidator
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.browser.widgets import StringFallbackWidget
 from recensio.contenttypes.interfaces.publication import IPublication
 from recensio.theme.interfaces import IRecensioLayer
+from zope.component import adapts
+from zope.component.hooks import getSite
+from zope.i18n import translate
+from zope.interface import implements
 
 
 def finalize_recensio_schema(schema, review_type="review"):

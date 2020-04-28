@@ -2,27 +2,25 @@
 """Definition of the Presentation Online Resource content type
 """
 from cgi import escape
-from zope.interface import implements
-from zope.i18nmessageid import Message
 
+from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 from Products.ATVocabularyManager import NamedVocabulary
-from Products.Archetypes import atapi
-from Products.DataGridField import DataGridField, DataGridWidget
+from Products.DataGridField import DataGridField
+from Products.DataGridField import DataGridWidget
 from Products.DataGridField.Column import Column
-
-from recensio.contenttypes.interfaces import IPresentationOnlineResource
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
 from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BasePresentationNoMagic, BaseReview
-from recensio.contenttypes.content.schemata import (
-    CommonReviewSchema,
-    PresentationSchema,
-    finalize_recensio_schema,
-)
-
+from recensio.contenttypes.content.review import BasePresentationNoMagic
+from recensio.contenttypes.content.review import BaseReview
+from recensio.contenttypes.content.schemata import CommonReviewSchema
+from recensio.contenttypes.content.schemata import PresentationSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.interfaces import IPresentationOnlineResource
+from zope.i18nmessageid import Message
+from zope.interface import implements
 
 PresentationOnlineResourceSchema = (
     CommonReviewSchema.copy()

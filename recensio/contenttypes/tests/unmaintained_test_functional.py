@@ -4,21 +4,20 @@ Various functional tests
 """
 import datetime
 import os
-import unittest2 as unittest
 
-from Testing import makerequest
 import transaction
+import unittest2 as unittest
 import zope.event
-
-from Products.Archetypes.event import ObjectEditedEvent
 from plone.app.blob.utils import openBlob
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.testing.z2 import Browser
-
+from Products.Archetypes.event import ObjectEditedEvent
+from Products.SiteErrorLog.SiteErrorLog import SiteErrorLog
 from recensio.policy.tests.layer import RECENSIO_FUNCTIONAL_TESTING
+from Testing import makerequest
 
 
 def raising(self, info):
@@ -28,7 +27,6 @@ def raising(self, info):
     print info[1]
 
 
-from Products.SiteErrorLog.SiteErrorLog import SiteErrorLog
 
 SiteErrorLog.raising = raising
 

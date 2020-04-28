@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from recensio.contenttypes.content.review import BaseReview
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
 

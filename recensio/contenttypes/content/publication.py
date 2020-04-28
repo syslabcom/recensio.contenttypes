@@ -2,19 +2,18 @@
 """Definition of the Publication content type
 """
 
-from zope.interface import implements
-
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
+from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content import container
 from recensio.contenttypes.content.schemata import LicenceSchema
+from recensio.contenttypes.interfaces import IPublication
+from zope.interface import implements
 
 # -*- Message Factory Imported Here -*-
 
-from recensio.contenttypes import contenttypesMessageFactory as _
-from recensio.contenttypes.interfaces import IPublication
-from recensio.contenttypes.config import PROJECTNAME
 
 PublicationSchema = (
     folder.ATFolderSchema.copy()

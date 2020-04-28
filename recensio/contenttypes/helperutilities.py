@@ -1,10 +1,10 @@
 """
 Helper utilities for recensio.contenttypes
 """
-import tempfile
+import logging
 import os
 import subprocess
-import logging
+import tempfile
 
 from Products.Five.browser.pagetemplatefile import PageTemplateFile
 

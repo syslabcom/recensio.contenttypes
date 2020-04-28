@@ -1,6 +1,5 @@
 import unittest2 as unittest
 from Products.CMFPlone.utils import getToolByName
-
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
 
 

@@ -1,26 +1,24 @@
-from AccessControl.SecurityManagement import getSecurityManager
-from DateTime import DateTime
 from cgi import escape
 from os import fstat
-from webdav.common import rfc1123_date
-import recensio.theme
-from ZODB.blob import Blob
-from zope.component.hooks import getSite
-from ZTUtils import make_query
 
+import plone.app.blob
+import recensio.theme
+from AccessControl.SecurityManagement import getSecurityManager
+from DateTime import DateTime
 from plone.app.blob.download import handleRequestRange
 from plone.app.blob.iterators import BlobStreamIterator
 from plone.app.blob.utils import openBlob
-import plone.app.blob
-
 from Products.Archetypes.utils import contentDispositionHeader
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.browser.canonical import CanonicalURLHelper
 from recensio.contenttypes.content.review import get_formatted_names
 from recensio.contenttypes.interfaces import IParentGetter
+from webdav.common import rfc1123_date
+from ZODB.blob import Blob
+from zope.component.hooks import getSite
+from ZTUtils import make_query
 
 
 class View(BrowserView, CanonicalURLHelper):

@@ -1,47 +1,41 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from random import Random
 import os
-
-from OFS.Image import File
-from Testing import makerequest
-from zope.component.hooks import getSite
-from zope.component import createObject
-from zope.component import getMultiAdapter
-from zope.component import getUtility
-from zope.event import notify
-from zope.publisher.browser import TestRequest
-from DateTime import DateTime
+from logging import getLogger
+from random import Random
 
 from collective.solr.interfaces import ISolrConnectionConfig
+from DateTime import DateTime
+from OFS.Image import File
+from plone.app.discussion.interfaces import IConversation
+from plone.app.portlets.portlets import classic
+from plone.app.portlets.utils import assignment_mapping_from_key
+from plone.portlets.constants import CONTEXT_CATEGORY
 from Products.Archetypes.event import ObjectInitializedEvent
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.utils import getToolByName
-from plone.app.discussion.interfaces import IConversation
-from plone.app.portlets.utils import assignment_mapping_from_key
-from plone.portlets.constants import CONTEXT_CATEGORY
-
-from recensio.contenttypes.content.reviewmonograph import ReviewMonograph
-
 from recensio.contenttypes.content.presentationarticlereview import (
-    PresentationArticleReview,
-)
-from recensio.contenttypes.content.presentationcollection import PresentationCollection
-from recensio.contenttypes.content.presentationmonograph import PresentationMonograph
+    PresentationArticleReview)
+from recensio.contenttypes.content.presentationcollection import (
+    PresentationCollection)
+from recensio.contenttypes.content.presentationmonograph import (
+    PresentationMonograph)
 from recensio.contenttypes.content.presentationonlineresource import (
-    PresentationOnlineResource,
-)
+    PresentationOnlineResource)
 from recensio.contenttypes.content.reviewjournal import ReviewJournal
-from recensio.contenttypes.interfaces import IReview
+from recensio.contenttypes.content.reviewmonograph import ReviewMonograph
 from recensio.contenttypes.eventhandlers import review_pdf_updated_eventhandler
-
-from recensio.policy.setuphandlers import (
-    setViewsOnFoldersUnguarded,
-    hideAllFoldersUnguarded,
-)
-
-from logging import getLogger
+from recensio.contenttypes.interfaces import IReview
+from recensio.policy.setuphandlers import hideAllFoldersUnguarded
+from recensio.policy.setuphandlers import setViewsOnFoldersUnguarded
+from Testing import makerequest
+from zope.component import createObject
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.component.hooks import getSite
+from zope.event import notify
+from zope.publisher.browser import TestRequest
 
 log = getLogger("recensio.contenttypes.setuphandlers")
 
@@ -456,7 +450,6 @@ def setTypesOnMemberFolder(self):
     )
 
 
-from plone.app.portlets.portlets import classic
 
 
 @guard(["initial_content"])

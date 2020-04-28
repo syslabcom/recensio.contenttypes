@@ -1,7 +1,7 @@
-from zope import interface
 import Acquisition
-from recensio.contenttypes import interfaces
 from Products.CMFPlone.Portal import PloneSite
+from recensio.contenttypes import interfaces
+from zope import interface
 
 
 class ParentGetter(object):

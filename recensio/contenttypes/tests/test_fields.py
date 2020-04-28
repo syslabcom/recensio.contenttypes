@@ -2,17 +2,18 @@
 The auto-generated doctests here are disabled
 """
 
-import unittest
 import doctest
+import unittest
+
+from plone.testing import layered
+from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
+from Testing import ZopeTestCase as ztc
 
 # from zope.testing import doctestunit
 # from zope.component import testing, eventtesting
 
-from Testing import ZopeTestCase as ztc
 
-from plone.testing import layered
 
-from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
 
 
 def test_suite():

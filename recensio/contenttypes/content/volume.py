@@ -1,18 +1,15 @@
 """Definition of the Volume content type
 """
 
-from zope.interface import implements
-
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
-from recensio.contenttypes.content import container
-
 from recensio.contenttypes import contenttypesMessageFactory as _
-
-from recensio.contenttypes.interfaces import IVolume
 from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.content import container
 from recensio.contenttypes.content.schemata import LicenceSchema
+from recensio.contenttypes.interfaces import IVolume
+from zope.interface import implements
 
 DoiSettingsSchema = atapi.Schema(
     (

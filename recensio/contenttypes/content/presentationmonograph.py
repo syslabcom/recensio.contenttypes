@@ -1,37 +1,38 @@
 # -*- coding: utf-8 -*-
-from Products.PortalTransforms.transforms.safe_html import scrubHTML
-
-"""Definition of the Presentation Monograph content type
-"""
 from cgi import escape
+
+from Products.Archetypes import atapi
+from Products.ATContentTypes.content import base
+from Products.ATContentTypes.content import schemata
+from Products.CMFCore.utils import getToolByName
+from Products.DataGridField import DataGridField
+from Products.DataGridField import DataGridWidget
+from Products.DataGridField.Column import Column
+from Products.PortalTransforms.transforms.safe_html import scrubHTML
+from recensio.contenttypes import contenttypesMessageFactory as _
+from recensio.contenttypes.citation import getFormatter
+from recensio.contenttypes.config import PROJECTNAME
+from recensio.contenttypes.content.review import BasePresentationNoMagic
+from recensio.contenttypes.content.review import BaseReview
+from recensio.contenttypes.content.schemata import BookReviewSchema
+from recensio.contenttypes.content.schemata import CoverPictureSchema
+from recensio.contenttypes.content.schemata import EditorialSchema
+from recensio.contenttypes.content.schemata import PagecountSchema
+from recensio.contenttypes.content.schemata import PresentationSchema
+from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
+from recensio.contenttypes.content.schemata import SerialSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.interfaces import IPresentationMonograph
+from recensio.theme.browser.views import editorTypes
 from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import implements
 
-from Products.Archetypes import atapi
-from Products.ATContentTypes.content import base
-from Products.ATContentTypes.content import schemata
-from Products.DataGridField import DataGridField, DataGridWidget
-from Products.DataGridField.Column import Column
-from Products.CMFCore.utils import getToolByName
+"""Definition of the Presentation Monograph content type
+"""
 
-from recensio.contenttypes import contenttypesMessageFactory as _
-from recensio.contenttypes.citation import getFormatter
-from recensio.contenttypes.config import PROJECTNAME
-from recensio.contenttypes.content.review import BaseReview, BasePresentationNoMagic
-from recensio.contenttypes.content.schemata import (
-    BookReviewSchema,
-    CoverPictureSchema,
-    EditorialSchema,
-    PagecountSchema,
-    PresentationSchema,
-    ReferenceAuthorsSchema,
-    SerialSchema,
-    finalize_recensio_schema,
-)
-from recensio.contenttypes.interfaces import IPresentationMonograph
-from recensio.theme.browser.views import editorTypes
+
 
 PresentationMonographSchema = (
     BookReviewSchema.copy()

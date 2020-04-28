@@ -1,13 +1,12 @@
-import unittest2 as unittest
 import doctest
-from recensio.contenttypes.content import (
-    reviewmonograph,
-    reviewjournal,
-    presentationarticlereview,
-    presentationcollection,
-    presentationmonograph,
-    presentationonlineresource,
-)
+
+import unittest2 as unittest
+from recensio.contenttypes.content import presentationarticlereview
+from recensio.contenttypes.content import presentationcollection
+from recensio.contenttypes.content import presentationmonograph
+from recensio.contenttypes.content import presentationonlineresource
+from recensio.contenttypes.content import reviewjournal
+from recensio.contenttypes.content import reviewmonograph
 
 
 def test_suite():

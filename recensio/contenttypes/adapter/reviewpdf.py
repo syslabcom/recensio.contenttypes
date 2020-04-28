@@ -1,20 +1,18 @@
+import datetime
 import glob
 import logging
 import os
 import subprocess
 import tempfile
-import datetime
+
 import pytz
-
-from zope import interface
-from zope import component
-
 from plone.app.async.interfaces import IAsyncService
 from plone.app.blob.field import ImageField
-
 from recensio.contenttypes import interfaces
 from recensio.contenttypes.helperutilities import RunSubprocess
 from recensio.contenttypes.helperutilities import SubprocessException
+from zope import component
+from zope import interface
 
 logger = logging.getLogger("recensio.contenttypes.adapter.reviewpdf.py")
 

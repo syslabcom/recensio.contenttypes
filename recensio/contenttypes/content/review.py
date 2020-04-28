@@ -2,50 +2,44 @@
 """ BaseReview is a base class all Recensio Review and Presentation
 content types inherit from.
 """
+import logging
 from cgi import escape
 from os import fstat
 from string import Formatter
 from tempfile import NamedTemporaryFile
-import logging
-
-from ZODB.POSException import ConflictError
-from ZODB.blob import Blob
-from zope.component.hooks import getSite
-from zope.component import getUtility
-from zope.i18n import translate
-from zope.i18nmessageid import Message
-from zope.interface import implements
-from zope.intid.interfaces import IIntIds
 
 from plone import api
 from plone.app.blob.utils import openBlob
 from plone.app.discussion.interfaces import IConversation
 from plone.registry.interfaces import IRegistry
+from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.lib.historyaware import HistoryAwareMixin
-from Products.Archetypes import atapi
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
-
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.citation import getFormatter
-from recensio.contenttypes.helperutilities import (
-    RunSubprocess,
-    SimpleZpt,
-    SimpleSubprocess,
-    SubprocessException,
-)
-from recensio.contenttypes.interfaces.review import IReview, IParentGetter
+from recensio.contenttypes.eventhandlers import review_pdf_updated_eventhandler
+from recensio.contenttypes.helperutilities import RunSubprocess
+from recensio.contenttypes.helperutilities import SimpleSubprocess
+from recensio.contenttypes.helperutilities import SimpleZpt
+from recensio.contenttypes.helperutilities import SubprocessException
+from recensio.contenttypes.interfaces.review import IParentGetter
+from recensio.contenttypes.interfaces.review import IReview
 from recensio.imports.pdf_cut import cutPDF
 from recensio.policy.indexer import isbn
 from recensio.policy.interfaces import IRecensioSettings
-
-from recensio.theme.browser.views import (
-    listRecensioSupportedLanguages,
-    listAvailableContentLanguages,
-    recensioTranslate,
-)
-from recensio.contenttypes.eventhandlers import review_pdf_updated_eventhandler
+from recensio.theme.browser.views import listAvailableContentLanguages
+from recensio.theme.browser.views import listRecensioSupportedLanguages
+from recensio.theme.browser.views import recensioTranslate
+from ZODB.blob import Blob
+from ZODB.POSException import ConflictError
+from zope.component import getUtility
+from zope.component.hooks import getSite
+from zope.i18n import translate
+from zope.i18nmessageid import Message
+from zope.interface import implements
+from zope.intid.interfaces import IIntIds
 
 log = logging.getLogger("recensio.contentypes/content/review.py")
 
