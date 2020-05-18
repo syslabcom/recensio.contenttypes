@@ -285,6 +285,7 @@ class View(BrowserView, CanonicalURLHelper):
                         [
                             additional["subtitle"]
                             for additional in context.getAdditionalTitles()
+                            if additional["subtitle"]
                         ]
                     )
                 value = "/".join(subtitles)
