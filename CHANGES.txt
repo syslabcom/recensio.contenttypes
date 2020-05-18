@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - Hide empty additional subtitles. #SCR-344
+- Review view: Show modification date in metadata. #SCR-345
 
 
 4.6.0 (2019-09-26)
