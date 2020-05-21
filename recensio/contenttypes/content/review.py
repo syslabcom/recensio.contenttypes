@@ -445,26 +445,6 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         authors = " ".join(self.getAllAuthorData())
         return safe_unicode(authors)
 
-    def listDates(self):
-        if not getattr(self, "dates", None):
-            return []
-        dates_list = []
-        for date in self.dates:
-            if date["place"]:
-                if self.isPermanentExhibition or not date["runtime"]:
-                    dates_list.append(safe_unicode(date["place"]).strip())
-                else:
-                    dates_list.append(
-                        ", ".join(
-                            [
-                                safe_unicode(date["place"]).strip(),
-                                safe_unicode(date["runtime"]).strip(),
-                            ]
-                        )
-                    )
-        if dates_list:
-            return u" / ".join(dates_list)
-
     def Language(self):
         """ Reviews are NOT translatable. As such, they must remain neutral """
         return ""

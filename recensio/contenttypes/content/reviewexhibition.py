@@ -199,6 +199,25 @@ class ReviewExhibition(BaseReview):
         "doi",
     ]
 
+    def listDates(self):
+        if not getattr(self, "dates", None):
+            return u""
+        dates_list = []
+        for date in self.dates:
+            if date["place"]:
+                if self.isPermanentExhibition or not date["runtime"]:
+                    dates_list.append(safe_unicode(date["place"]).strip())
+                else:
+                    dates_list.append(
+                        ", ".join(
+                            [
+                                safe_unicode(date["place"]).strip(),
+                                safe_unicode(date["runtime"]).strip(),
+                            ]
+                        )
+                    )
+        return u" / ".join(dates_list) if dates_list else u""
+
     def editorTypes(self):
         return editorTypes()
 
