@@ -1199,18 +1199,59 @@ ArticleSchema = atapi.Schema(
 
 ExhibitionSchema = CommonReviewSchema.copy() + atapi.Schema(
     (
-        atapi.StringField(
-            "exhibitor",
+        DataGridField(
+            "exhibiting_institution",
             schemata="Ausstellung",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Ausstellende Institution"),),
+            columns=("name", "gnd"),
+            default=([{"name": "", "gnd": ""}]),
+            widget=DataGridWidget(
+                label=_(u"Ausstellende Institution"),
+                columns={
+                    "name": Column(_(u"Ausstellende Institution (z. B. Museum)")),
+                    "gnd": Column(_(u"GND der Ausstellenden Institution")),
+                },
+            ),
             searchable=True,
         ),
-        atapi.StringField(
-            "exhibitor_gnd",
+        DataGridField(
+            "dates",
             schemata="Ausstellung",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"GND Ausstellende Institution"),),
+            columns=("place", "runtime"),
+            default=[{"place": "", "runtime": ""}],
+            widget=DataGridWidget(
+                label=_("Ort, Laufzeit"),
+                columns={
+                    "place": Column(_(u"Ort")),
+                    "runtime": Column(_(u"Laufzeit")),
+                },
+            ),
+            searchable=True,
+        ),
+        DataGridField(
+            "years",
+            schemata="Ausstellung",
+            storage=atapi.AnnotationStorage(),
+            columns=("year",),
+            default=[{"year": ""}],
+            widget=DataGridWidget(
+                label=_(u"Ausstellungsjahr"), columns={"year": Column(_(u"Jahr"))}
+            ),
+        ),
+        DataGridField(
+            "exhibiting_organisation",
+            schemata="Ausstellung",
+            storage=atapi.AnnotationStorage(),
+            columns=("name", "gnd"),
+            default=([{"name": "", "gnd": "",}]),
+            widget=DataGridWidget(
+                label=_(u"Ausstellende Organisation"),
+                columns={
+                    "name": Column(_(u"Ausstellende Organisation (z. B. Stiftung)")),
+                    "gnd": Column(_(u"GND der Ausstellenden Organisation")),
+                },
+            ),
             searchable=True,
         ),
         DataGridField(
@@ -1228,20 +1269,18 @@ ExhibitionSchema = CommonReviewSchema.copy() + atapi.Schema(
             ),
             searchable=True,
         ),
-        DataGridField(
-            "dates",
+        atapi.BooleanField(
+            "isPermanentExhibition",
             schemata="Ausstellung",
             storage=atapi.AnnotationStorage(),
-            columns=("place", "runtime"),
-            default=[{"place": "", "runtime": ""}],
-            widget=DataGridWidget(
-                label=_(u"Ort / Laufzeit"),
-                columns={
-                    "place": Column(_(u"Ort")),
-                    "runtime": Column(_(u"Laufzeit")),
-                },
-            ),
-            searchable=True,
+            value=False,
+            widget=atapi.BooleanWidget(label=_(u"Dauerausstellung"),),
+        ),
+        atapi.StringField(
+            "titleProxy",
+            schemata="Ausstellung",
+            storage=atapi.AnnotationStorage(),
+            widget=atapi.StringWidget(label=_(u"Title"),),
         ),
         atapi.StringField(
             "subtitle",
