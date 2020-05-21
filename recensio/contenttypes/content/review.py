@@ -439,14 +439,31 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         )
         if review_author.strip() != ",":
             retval.append(safe_unicode(review_author).encode("utf-8"))
-        exhibitor = getattr(self, "getExhibitor", lambda: "")()
-        if exhibitor:
-            retval.append(exhibitor)
         return retval
 
     def getAllAuthorDataFulltext(self):
         authors = " ".join(self.getAllAuthorData())
         return safe_unicode(authors)
+
+    def listDates(self):
+        if not getattr(self, "dates", None):
+            return []
+        dates_list = []
+        for date in self.dates:
+            if date["place"]:
+                if self.isPermanentExhibition or not date["runtime"]:
+                    dates_list.append(safe_unicode(date["place"]).strip())
+                else:
+                    dates_list.append(
+                        ", ".join(
+                            [
+                                safe_unicode(date["place"]).strip(),
+                                safe_unicode(date["runtime"]).strip(),
+                            ]
+                        )
+                    )
+        if dates_list:
+            return u" / ".join(dates_list)
 
     def Language(self):
         """ Reviews are NOT translatable. As such, they must remain neutral """
@@ -558,11 +575,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
     def punctuated_title_and_subtitle(self):
         """ #3129
         Note: all review types except for Presentation Online Resource
-        have the subtitle field"""
-        title = self.title
+        have the subtitle field.
+        titleProxy is used in Review Exhibition and can be empty, while title always has
+        a value."""
+        title = getattr(self, "titleProxy", self.title)
         subtitle = self.subtitle
         titles = [
-            (self.title, self.subtitle),
+            (title, subtitle),
         ]
         if "additionalTitles" in self.schema:
             titles = titles + [
