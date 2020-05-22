@@ -7,6 +7,7 @@ from Products.ATContentTypes.content import schemata
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content import container
 from recensio.contenttypes.content.schemata import LicenceSchema
+from recensio.contenttypes.content.schemata import URLInCitationSchema
 from recensio.contenttypes.content.volume import DoiSettingsSchema
 from recensio.contenttypes.content.volume import FulltextSettingsSchema
 from recensio.contenttypes.interfaces import IIssue
@@ -19,6 +20,7 @@ IssueSchema = (
     folder.ATFolderSchema.copy()
     + DoiSettingsSchema.copy()
     + FulltextSettingsSchema.copy()
+    + URLInCitationSchema.copy()
     + LicenceSchema.copy()
     + atapi.Schema(
         (
@@ -32,6 +34,7 @@ IssueSchema = (
 
 IssueSchema["title"].storage = atapi.AnnotationStorage()
 IssueSchema["description"].storage = atapi.AnnotationStorage()
+IssueSchema["URLShownInCitationNote"].schemata = "default"
 
 schemata.finalizeATCTSchema(IssueSchema, folderish=True, moveDiscussion=False)
 

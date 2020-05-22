@@ -648,18 +648,29 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         obj_id = intids.register(self)
         return "{0}{1}".format(prefix, obj_id)
 
+    def _take_from_self_or_parent(self, field_name, default, override_value):
+        publication = self.get_parent_object_of_type("Publication")
+        current = self
+        value = default
+        if publication is not None:
+            while current != publication.aq_parent:
+                schema = current.Schema()
+                if field_name in schema:
+                    field = schema.get(field_name)
+                    value = field.get(current)
+                    if value is override_value:
+                        break
+                current = current.aq_parent
+        return value
+
     def isUseExternalFulltext(self):
         """ If any parent has this activated then we also want it active here.
             FLOW-741
         """
-        publication = self.get_parent_object_of_type("Publication")
-        current = self
-        value = False
-        if publication != None:
-            while current != publication:
-                if "useExternalFulltext" in current.Schema():
-                    value = current.isUseExternalFulltext()
-                    if value is True:
-                        break
-                current = current.aq_parent
-        return value
+        return self._take_from_self_or_parent("useExternalFulltext", False, True)
+
+    def isURLShownInCitationNote(self):
+        """ If any parent has this deactivated then we also want it inactive here.
+            SCR-341
+        """
+        return self._take_from_self_or_parent("URLShownInCitationNote", True, False)

@@ -16,9 +16,9 @@ from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import LicenceSchema
 from recensio.contenttypes.content.schemata import PageStartEndInPDFSchema
-from recensio.contenttypes.content.schemata import (
-    PageStartEndOfReviewInJournalSchema)
+from recensio.contenttypes.content.schemata import PageStartEndOfReviewInJournalSchema
 from recensio.contenttypes.content.schemata import ReviewSchema
+from recensio.contenttypes.content.schemata import URLInCitationSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IReviewJournal
 from zope.i18nmessageid import Message
@@ -30,6 +30,7 @@ ReviewJournalSchema = (
     + PageStartEndInPDFSchema.copy()
     + PageStartEndOfReviewInJournalSchema.copy()
     + ReviewSchema.copy()
+    + URLInCitationSchema.copy()
     + LicenceSchema.copy()
     + atapi.Schema(
         (

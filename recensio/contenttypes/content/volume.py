@@ -8,6 +8,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content import container
 from recensio.contenttypes.content.schemata import LicenceSchema
+from recensio.contenttypes.content.schemata import URLInCitationSchema
 from recensio.contenttypes.interfaces import IVolume
 from zope.interface import implements
 
@@ -54,6 +55,7 @@ VolumeSchema = (
     folder.ATFolderSchema.copy()
     + DoiSettingsSchema.copy()
     + FulltextSettingsSchema.copy()
+    + URLInCitationSchema.copy()
     + atapi.Schema(
         (
             atapi.StringField(
@@ -76,6 +78,7 @@ VolumeSchema = (
 
 VolumeSchema["title"].storage = atapi.AnnotationStorage()
 VolumeSchema["description"].storage = atapi.AnnotationStorage()
+VolumeSchema["URLShownInCitationNote"].schemata = "default"
 
 schemata.finalizeATCTSchema(VolumeSchema, folderish=True, moveDiscussion=False)
 
