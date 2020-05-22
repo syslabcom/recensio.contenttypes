@@ -432,7 +432,7 @@ class View(BrowserView, CanonicalURLHelper):
             self.context, "isUseExternalFulltext", lambda: False
         )()
         is_url_shown_via_review = getattr(
-            self.context, "isURLShownInCitationNote", lambda: False
+            self.context, "isURLShownInCitationNote", lambda: True
         )()
         return not is_external_fulltext and is_url_shown_via_review
 
