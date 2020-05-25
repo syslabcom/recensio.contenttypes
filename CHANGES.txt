@@ -7,6 +7,7 @@ Changelog
 - Review Exhibition: Support for permanent exhibitons. #SCR-340
 - Hide empty additional subtitles. #SCR-344
 - "Show URL in citation rules box" is also available on publications, volumes and issues. #SCR-341
+- Review view: Show modification date in metadata. #SCR-345
 
 
 4.6.0 (2019-09-26)

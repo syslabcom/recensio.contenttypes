@@ -225,6 +225,7 @@ class ReviewMonograph(BaseReview):
         "ddcPlace",
         "subject",
         "canonical_uri",
+        "modification_date",
         "metadata_recensioID",
         "idBvb",
         "doi",
