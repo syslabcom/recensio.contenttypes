@@ -1254,7 +1254,8 @@ ExhibitionSchema = CommonReviewSchema.copy() + atapi.Schema(
             columns=("year",),
             default=[{"year": ""}],
             widget=DataGridWidget(
-                label=_(u"Ausstellungsjahr"), columns={"year": Column(_(u"Jahr"))}
+                label=_(u"Ausstellungsjahr"),
+                columns={"year": Column(_(u"Ausstellungsjahr"))},
             ),
         ),
         DataGridField(

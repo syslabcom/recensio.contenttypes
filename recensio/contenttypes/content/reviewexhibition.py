@@ -240,6 +240,10 @@ class ReviewExhibition(BaseReview):
         """ Equivalent of 'issue'"""
         return self.get_title_from_parent_of_type("Issue")
 
+    @property
+    def exhibitor(self):
+        return ReviewExhibitionNoMagic(self).exhibitor
+
     def getDecoratedTitle(self, lastname_first=False):
         return ReviewExhibitionNoMagic(self).getDecoratedTitle(lastname_first)
 
@@ -254,6 +258,35 @@ class ReviewExhibition(BaseReview):
 
 
 class ReviewExhibitionNoMagic(BaseReviewNoMagic):
+    @property
+    def exhibitor(real_self):
+        self = real_self.magic
+        return (
+            u" / ".join(
+                [
+                    safe_unicode(institution["name"]).strip()
+                    for institution in self.exhibiting_institution
+                    if institution["name"]
+                ]
+            )
+            or u" / ".join(
+                [
+                    safe_unicode(organisation["name"].decode("utf-8")).strip()
+                    for organisation in self.exhibiting_organisation
+                    if organisation["name"]
+                ]
+            )
+            or get_formatted_names(
+                u" / ",
+                u" ",
+                [
+                    person
+                    for person in self.curators
+                    if person["firstname"] or person["lastname"]
+                ],
+            )
+        )
+
     def getDecoratedTitle(real_self, lastname_first=False):
         """
         >>> from mock import Mock
@@ -321,6 +354,11 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
         title_string = getFormatter(u". ")(
             self.punctuated_title_and_subtitle,
             permanent_exhib_string if self.isPermanentExhibition else u"",
+        )
+
+        full_title = getFormatter(u": ", u", ", u" ")
+        return full_title(
+            real_self.exhibitor, title_string, dates_string, rezensent_string,
         )
 
         full_title = getFormatter(u": ", u", ", u" ")
@@ -413,6 +451,9 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
         title_string = getFormatter(u". ")(
             self.punctuated_title_and_subtitle,
             permanent_exhib_string if self.isPermanentExhibition else u"",
+        )
+        item_string = rev_details_formatter(
+            real_self.exhibitor, title_string, dates_string,
         )
         item_string = rev_details_formatter(self.exhibitor, title_string, dates_string,)
 
