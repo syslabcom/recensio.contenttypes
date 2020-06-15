@@ -440,7 +440,7 @@ URLInCitationSchema = atapi.Schema(
                     u"description_is_url_shown_in_citation_note",
                     default=(
                         u'Show the URL of the review in the "Citation '
-                        'rules" box. This field is ignored if the setting is '
+                        'rules" box. This field is not available if the setting is '
                         "already deactivated on a superior level "
                         "(publication, volume, issue). In addition, this "
                         "setting has no effect if an external full "
@@ -450,6 +450,16 @@ URLInCitationSchema = atapi.Schema(
                         "of the Original URL."
                     ),
                 ),
+                condition="object/aq_parent/isURLShownInCitationNote",
+            ),
+        ),
+        atapi.StringField(
+            "labelURLShownInCitationNote",
+            schemata="review",
+            widget=atapi.LabelWidget(
+                label=_(u"label_is_url_shown_in_citation_note",),
+                description=_(u"description_is_url_shown_in_citation_note",),
+                condition="not:object/aq_parent/isURLShownInCitationNote",
             ),
         ),
     )

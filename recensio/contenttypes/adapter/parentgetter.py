@@ -33,3 +33,23 @@ class ParentGetter(object):
             if hasattr(obj, "meta_type") and obj.meta_type == meta_type:
                 return obj
         return None
+
+    def get_flag_with_override(self, field_name, override_value):
+        """ Retrieves a boolean field value, allowing for overrides from a parent.
+            If any object in the acquisition chain has the override_value set for the
+            field specified by field_name, then this value is used. Only if no object
+            in the chain has it set is the inverse value used.
+        """
+        publication = self.get_parent_object_of_type("Publication")
+        current = self.context
+        value = not override_value
+        if publication is not None:
+            while current != publication.aq_parent:
+                schema = current.Schema()
+                if field_name in schema:
+                    field = schema.get(field_name)
+                    value = field.get(current)
+                    if value is override_value:
+                        break
+                current = current.aq_parent
+        return value
