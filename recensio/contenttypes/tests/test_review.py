@@ -100,7 +100,12 @@ class TestReviewIntegration(unittest.TestCase):
         self.volume.setURLShownInCitationNote(False)
         self.publication.setURLShownInCitationNote(True)
         self.assertFalse(
-            self.review.isURLShownInCitationNote(), msg="Setting on Volume not used!"
+            self.review.isURLShownInCitationNote(),
+            msg="Setting on Volume not used by Review!",
+        )
+        self.assertFalse(
+            self.issue.isURLShownInCitationNote(),
+            msg="Setting on Volume not used by Issue!",
         )
 
     def test_url_in_citation_volume_and_publication(self):
@@ -108,7 +113,12 @@ class TestReviewIntegration(unittest.TestCase):
         self.volume.setURLShownInCitationNote(False)
         self.publication.setURLShownInCitationNote(False)
         self.assertFalse(
-            self.review.isURLShownInCitationNote(), msg="Setting on Volume not used!"
+            self.review.isURLShownInCitationNote(),
+            msg="Setting on Volume not used by Review!",
+        )
+        self.assertFalse(
+            self.issue.isURLShownInCitationNote(),
+            msg="Setting on Volume not used by Issue!",
         )
 
     def test_url_in_citation_publication(self):
@@ -117,5 +127,13 @@ class TestReviewIntegration(unittest.TestCase):
         self.publication.setURLShownInCitationNote(False)
         self.assertFalse(
             self.review.isURLShownInCitationNote(),
-            msg="Setting on Publication not used!",
+            msg="Setting on Publication not used by Review!",
+        )
+        self.assertFalse(
+            self.issue.isURLShownInCitationNote(),
+            msg="Setting on Publication not used by Issue!",
+        )
+        self.assertFalse(
+            self.volume.isURLShownInCitationNote(),
+            msg="Setting on Publication not used by Volume!",
         )
