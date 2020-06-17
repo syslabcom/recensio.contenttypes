@@ -197,6 +197,7 @@ class ReviewExhibition(BaseReview):
         "ddcPlace",
         "subject",
         "canonical_uri",
+        "effectiveDate",
         "metadata_recensioID",
         "doi",
     ]

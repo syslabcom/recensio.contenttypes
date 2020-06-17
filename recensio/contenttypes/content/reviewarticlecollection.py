@@ -300,6 +300,7 @@ class ReviewArticleCollection(BaseReview):
         "ddcPlace",
         "subject",
         "canonical_uri",
+        "effectiveDate",
         "metadata_recensioID",
         "idBvb",
         "doi",
