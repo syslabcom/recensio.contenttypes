@@ -20,8 +20,7 @@ from recensio.contenttypes.content.schemata import EditorialSchema
 from recensio.contenttypes.content.schemata import LicenceSchema
 from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import PageStartEndInPDFSchema
-from recensio.contenttypes.content.schemata import (
-    PageStartEndOfReviewInJournalSchema)
+from recensio.contenttypes.content.schemata import PageStartEndOfReviewInJournalSchema
 from recensio.contenttypes.content.schemata import ReviewSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
@@ -299,6 +298,7 @@ class ReviewArticleCollection(BaseReview):
         "ddcPlace",
         "subject",
         "canonical_uri",
+        "effectiveDate",
         "metadata_recensioID",
         "idBvb",
         "doi",

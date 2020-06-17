@@ -18,8 +18,7 @@ from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import LicenceSchema
 from recensio.contenttypes.content.schemata import PageStartEndInPDFSchema
-from recensio.contenttypes.content.schemata import (
-    PageStartEndOfReviewInJournalSchema)
+from recensio.contenttypes.content.schemata import PageStartEndOfReviewInJournalSchema
 from recensio.contenttypes.content.schemata import ReviewSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.content.schemata import isLazyURL
@@ -240,6 +239,7 @@ class ReviewArticleJournal(BaseReview):
         "ddcPlace",
         "subject",
         "canonical_uri",
+        "effectiveDate",
         "metadata_recensioID",
         "idBvb",
         "doi",
