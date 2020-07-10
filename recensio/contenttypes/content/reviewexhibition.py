@@ -362,9 +362,6 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
             real_self.exhibitor, title_string, dates_string, rezensent_string,
         )
 
-        full_title = getFormatter(u": ", u", ", u" ")
-        return full_title(self.exhibitor, title_string, dates_string, rezensent_string,)
-
     def get_citation_string(real_self):
         """
         Either return the custom citation or the generated one
@@ -456,7 +453,6 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
         item_string = rev_details_formatter(
             real_self.exhibitor, title_string, dates_string,
         )
-        item_string = rev_details_formatter(self.exhibitor, title_string, dates_string,)
 
         mag_number_formatter = getFormatter(u", ", u", ")
         mag_number_string = mag_number_formatter(
