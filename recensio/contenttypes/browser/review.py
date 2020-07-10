@@ -276,7 +276,7 @@ class View(BrowserView, CanonicalURLHelper):
                             for additional in context.getAdditionalTitles()
                         ]
                     )
-                value = "/".join(titles)
+                value = " / ".join(titles)
             elif field == "subtitle":
                 label = self.get_label(fields, field, context.meta_type)
                 subtitles = [context.subtitle]
@@ -288,7 +288,7 @@ class View(BrowserView, CanonicalURLHelper):
                             if additional["subtitle"]
                         ]
                     )
-                value = "/".join(subtitles)
+                value = " / ".join(subtitles)
             elif field == "dates":
                 label = self.get_label(fields, field, context.meta_type)
                 value = self.list_rows(context[field], "place", "runtime")
