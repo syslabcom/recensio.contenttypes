@@ -423,6 +423,20 @@ ReviewSchema = atapi.Schema(
     )
 )
 
+description_is_url_shown_in_citation_note = _(
+    u"description_is_url_shown_in_citation_note",
+    default=(
+        u"Zeige die URL der Rezension in der \"Zitierhinweis\"-Box. "
+        u"Diese Option kann hier nicht deaktiviert werden, wenn sie "
+        u"bereits auf einer übergeordneten Ebene (Zeitschrift, Band, "
+        u"Ausgabe) deaktiviert ist. Die Einstellung hat außerdem keine "
+        u"Wirkung, falls ein externer Volltext für die Rezension "
+        u"benutzt wird; in diesem Fall bleibt die URL immer versteckt. "
+        u"Beachten Sie, dass diese Einstellung weder den eigentlichen "
+        u"Zitierhinweis noch die Anzeige der Original-URL beeinflusst."
+    ),
+)
+
 URLInCitationSchema = atapi.Schema(
     (
         atapi.BooleanField(
@@ -436,19 +450,7 @@ URLInCitationSchema = atapi.Schema(
                     u"label_is_url_shown_in_citation_note",
                     default=u"Show URL in citation rules box",
                 ),
-                description=_(
-                    u"description_is_url_shown_in_citation_note",
-                    default=(
-                        u"Zeige die URL der Rezension in der \"Zitierhinweis\"-Box. "
-                        u"Diese Option kann hier nicht deaktiviert werden, wenn sie "
-                        u"bereits auf einer übergeordneten Ebene (Zeitschrift, Band, "
-                        u"Ausgabe) deaktiviert ist. Die Einstellung hat außerdem keine "
-                        u"Wirkung, falls ein externer Volltext für die Rezension "
-                        u"benutzt wird; in diesem Fall bleibt die URL immer versteckt. "
-                        u"Beachten Sie, dass diese Einstellung weder den eigentlichen "
-                        u"Zitierhinweis noch die Anzeige der Original-URL beeinflusst."
-                    ),
-                ),
+                description=description_is_url_shown_in_citation_note,
                 condition="object/aq_parent/isURLShownInCitationNote",
             ),
         ),
@@ -457,7 +459,7 @@ URLInCitationSchema = atapi.Schema(
             schemata="review",
             widget=atapi.LabelWidget(
                 label=_(u"label_is_url_shown_in_citation_note",),
-                description=_(u"description_is_url_shown_in_citation_note",),
+                description=description_is_url_shown_in_citation_note,
                 condition="not:object/aq_parent/isURLShownInCitationNote",
             ),
         ),
