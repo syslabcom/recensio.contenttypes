@@ -343,13 +343,16 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
-        >>> at_mock.formatted_authors_editorial = "Patrick Gerken / Alexander Pilz"
+        >>> at_mock.formatted_authors = "Patrick Gerken / Alexander Pilz"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
+        >>> at_mock.titleEditedVolume = "Handbuch der Handbücher"
+        >>> at_mock.subtitleEditedVolume = "Betriebsanleitungen, Bauanleitungen und mehr"
+        >>> at_mock.getEditorial = lambda: [{'firstname': 'Karl', 'lastname': 'Kornfeld'}]
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = ReviewArticleCollectionNoMagic(at_mock)
-        >>> review.directTranslate = lambda a: a
+        >>> review.directTranslate = lambda a: a.default
         >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch (reviewed_by)'
+        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch, in: Karl Kornfeld (Hg.): Handbuch der Handb\\xfccher. Betriebsanleitungen, Bauanleitungen und mehr (reviewed by ${review_authors})'
 
         Original Spec:
         [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel] (reviewed by [Rezensent Vorname] [Rezensent Nachname])
@@ -361,9 +364,18 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         """
         self = real_self.magic
 
-        name_part_separator = " "
-        if lastname_first:
-            name_part_separator = ", "
+        args = {
+            "(Hg.)": real_self.directTranslate(
+                Message(u"label_abbrev_editor", "recensio", default="(Hg.)")
+            ),
+            "in": real_self.directTranslate(
+                Message(u"text_in", "recensio", default="in:")
+            ),
+            ":": real_self.directTranslate(
+                Message(u"text_colon", "recensio", default=":")
+            ),
+        }
+
         authors_string = self.formatted_authors
 
         rezensent_string = get_formatted_names(
@@ -374,15 +386,19 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
                 Message(
                     u"reviewed_by",
                     "recensio",
+                    default="reviewed by ${review_authors}",
                     mapping={u"review_authors": rezensent_string},
                 )
             )
-        edited_volume = getFormatter(": ")
+        editors_string = get_formatted_names(
+            u" / ", " ", self.getEditorial(), lastname_first=lastname_first
+        )
+
+        edited_volume = getFormatter(u" %((Hg.))s%(:)s " % args, ". ")
         edited_volume_string = edited_volume(
-            get_formatted_names(
-                u" / ", " ", self.getEditorial(), lastname_first=lastname_first
-            ),
+            editors_string,
             self.titleEditedVolume,
+            self.subtitleEditedVolume,
         )
 
         full_citation = getFormatter(": ", ", in: ", " ")
@@ -400,12 +416,16 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
-        >>> at_mock.formatted_authors_editorial = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
+        >>> at_mock.formatted_authors = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0♥? Das Benutzerhandbuch♥"
+        >>> at_mock.titleEditedVolume = "Handbuch der Handbücher"
+        >>> at_mock.subtitleEditedVolume = "Betriebsanleitungen, Bauanleitungen und mehr"
+        >>> at_mock.getEditorial = lambda: [{'firstname': 'Karl', 'lastname': 'Kornfeld'}]
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname' : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'
         >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
         >>> at_mock.placeOfPublication = 'München♥'
+        >>> at_mock.page_start_end_in_print_article = '73-78'
         >>> at_mock.get_issue_title = lambda :'Open Source Mag 1♥'
         >>> at_mock.get_volume_title = lambda :'Open Source Mag Vol 1♥'
         >>> at_mock.get_publication_title = lambda :'Open Source♥'
@@ -419,7 +439,7 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         >>> review = ReviewArticleCollectionNoMagic(at_mock)
         >>> review.directTranslate = lambda m: m.default
         >>> review.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: review of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665? Das Benutzerhandbuch\u2665, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, p. 11-21, <a href="http://syslab.com/r/12345">http://syslab.com/r/12345</a>'
+        u'de Roiste\u2665, Cillian\u2665: review of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Plone 4.0\u2665? Das Benutzerhandbuch\u2665, in: Karl Kornfeld (Hg.): Handbuch der Handb\\xfccher. Betriebsanleitungen, Bauanleitungen und mehr, M\\xfcnchen\u2665: SYSLAB.COM GmbH\u2665, 2009\u2665, p. 73-78, review published in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, p. 11-21, <a href="http://syslab.com/r/12345">http://syslab.com/r/12345</a>'
 
 
         Original Spec:
@@ -438,6 +458,9 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
             return scrubHTML(self.customCitation).decode("utf8")
 
         args = {
+            "(Hg.)": real_self.directTranslate(
+                Message(u"label_abbrev_editor", "recensio", default="(Hg.)")
+            ),
             "review_of": real_self.directTranslate(
                 Message(u"text_review_of", "recensio", default="review of:")
             ),
@@ -455,23 +478,28 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
             ),
         }
         rev_details_formatter = getFormatter(
-            u", ", u", %(in)s " % args, u"%(:)s " % args, ", %(page)s " % args
+            u", ", u", %(in)s " % args, ", %(page)s " % args
         )
         rezensent_string = get_formatted_names(
             u" / ", ", ", self.reviewAuthors, lastname_first=True
         )
         authors_string = self.formatted_authors
-        editorial_string = get_formatted_names(
+        editors_string = get_formatted_names(
             u" / ", " ", self.getEditorial(), lastname_first=False
         )
-        edited_volume_string = self.format(
-            self.titleEditedVolume, self.subtitleEditedVolume,
+        edited_volume = getFormatter(u" %((Hg.))s%(:)s " % args, ". ", ", ", "%(:)s " % args, ", ")
+        edited_volume_string = edited_volume(
+            editors_string,
+            self.titleEditedVolume,
+            self.subtitleEditedVolume,
+            self.placeOfPublication,
+            self.publisher,
+            self.yearOfPublication,
         )
         title_subtitle_string = self.punctuated_title_and_subtitle
         item_string = rev_details_formatter(
             authors_string,
             title_subtitle_string,
-            editorial_string,
             edited_volume_string,
             self.page_start_end_in_print_article,
         )
