@@ -217,6 +217,7 @@ class ReviewArticleJournal(BaseReview):
         "languageReviewedText",
         "authors",
         "title",
+        "subtitle",
         "metadata_start_end_pages_article",
         "editor",
         "titleJournal",
@@ -294,14 +295,17 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.get = lambda x: None
         >>> at_mock.customCitation = ''
-        >>> at_mock.title = "Plone Mag♥"
+        >>> at_mock.punctuated_title_and_subtitle = "The Plone Story. A CMS through the ages"
+        >>> at_mock.formatted_authors = "Patrick Gerken / Alexander Pilz"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'
         >>> at_mock.officialYearOfPublication = '2010♥'
         >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
         >>> at_mock.placeOfPublication = 'München♥'
+        >>> at_mock.page_start_end_in_print_article = '73-78'
         >>> at_mock.volumeNumber = '1♥'
         >>> at_mock.issueNumber = '3♥'
+        >>> at_mock.titleJournal = "Plone Mag"
         >>> at_mock.get_issue_title = lambda :'Open Source Mag 1♥'
         >>> at_mock.get_volume_title = lambda :'Open Source Mag Vol 1♥'
         >>> at_mock.get_publication_title = lambda :'Open Source♥'
@@ -315,7 +319,7 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         >>> review = ReviewArticleJournalNoMagic(at_mock)
         >>> review.directTranslate = lambda m: m.default
         >>> review.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: review of: Plone Mag\u2665, 1\u2665, 3\u2665 (2010\u2665/2009\u2665), in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, p. 11-21, <a href="http://syslab.com/r/12345">http://syslab.com/r/12345</a>'
+        u'de Roiste\u2665, Cillian\u2665: review of: Patrick Gerken / Alexander Pilz: The Plone Story. A CMS through the ages, in: Plone Mag, 1\u2665 (2010\u2665/2009\u2665), 3\u2665, p. 73-78, Review published in: Open Source\u2665, Open Source Mag Vol 1\u2665, Open Source Mag 1\u2665, p. 11-21, <a href="http://syslab.com/r/12345">http://syslab.com/r/12345</a>'
 
 
         Return the citation according to this schema:
@@ -335,7 +339,7 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
             "review_in": real_self.directTranslate(
                 Message(u"text_review_in", "recensio", default="Review published in:")
             ),
-            "in": real_self.directTranslate(
+            "in:": real_self.directTranslate(
                 Message(u"text_in", "recensio", default="in:")
             ),
             "page": real_self.directTranslate(
@@ -346,7 +350,7 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
             ),
         }
         rev_details_formatter = getFormatter(
-            u"%(:)s " % args, u", ", u", ", u" ", u", %(page)s " % args
+            u"%(:)s " % args, u", %(in:)s " % args, u", ", u" ", u", ", u", %(page)s " % args
         )
         mag_year = getFormatter("/")(
             self.officialYearOfPublication, self.yearOfPublication
@@ -354,10 +358,11 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         mag_year = mag_year and "(" + mag_year + ")" or None
         item_string = rev_details_formatter(
             self.formatted_authors,
-            self.title,
+            self.punctuated_title_and_subtitle,
+            self.titleJournal,
             self.volumeNumber,
-            self.issueNumber,
             mag_year,
+            self.issueNumber,
             self.page_start_end_in_print_article,
         )
 
@@ -392,18 +397,31 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         """
         >>> from mock import Mock
         >>> at_mock = Mock()
-        >>> at_mock.title = "Plone Mag"
+        >>> at_mock.title = "The Plone Story"
+        >>> at_mock.punctuated_title_and_subtitle = "The Plone Story. A CMS through the ages"
+        >>> at_mock.formatted_authors_editorial = "Patrick Gerken / Alexander Pilz"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
+        >>> at_mock.titleJournal = "Plone Mag"
         >>> at_mock.yearOfPublication = '2009'
         >>> at_mock.officialYearOfPublication = '2010'
         >>> at_mock.volumeNumber = '1'
         >>> at_mock.issueNumber = '3'
+        >>> at_mock.page_start_end_in_print_article = '42-48'
         >>> review = ReviewArticleJournalNoMagic(at_mock)
-        >>> review.directTranslate = lambda a: a
+        >>> review.directTranslate = lambda a: a.default
         >>> review.getDecoratedTitle()
-        u'Plone Mag, 1 (2010/2009), 3 (reviewed_by)'
+        u'Patrick Gerken / Alexander Pilz: The Plone Story. A CMS through the ages, in: Plone Mag, 1 (2010/2009), 3 (rezensiert von ${review_authors})'
         """
         self = real_self.magic
+
+        args = {
+            "in:": real_self.directTranslate(
+                Message(u"text_in", "recensio", default="in:")
+            ),
+            ":": real_self.directTranslate(
+                Message(u"text_colon", "recensio", default=":")
+            ),
+        }
 
         item = getFormatter(", ", " ", ", ")
         mag_year = getFormatter("/")(
@@ -411,7 +429,10 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         )
         mag_year = mag_year and "(" + mag_year + ")" or None
         item_string = item(
-            self.titleJournal, self.issueNumber, mag_year, self.volumeNumber
+            self.titleJournal,
+            self.volumeNumber,
+            mag_year,
+            self.issueNumber,
         )
 
         authors_string = self.formatted_authors_editorial
@@ -429,12 +450,18 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
                 Message(
                     u"reviewed_by",
                     "recensio",
+                    default=u"rezensiert von ${review_authors}",
                     mapping={u"review_authors": reviewer_string},
                 )
             )
 
-        full_citation = getFormatter(": ", ", in: ", " ")
-        return full_citation(authors_string, self.title, item_string, reviewer_string)
+        full_citation = getFormatter(": ", ", %(in:)s " % args, " ")
+        return full_citation(
+            authors_string,
+            self.punctuated_title_and_subtitle,
+            item_string,
+            reviewer_string,
+        )
 
 
 atapi.registerType(ReviewArticleJournal, PROJECTNAME)
