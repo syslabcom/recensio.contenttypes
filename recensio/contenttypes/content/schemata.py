@@ -439,13 +439,13 @@ URLInCitationSchema = atapi.Schema(
                 description=_(
                     u"description_is_url_shown_in_citation_note",
                     default=(
-                        u"Zeige die URL der Rezension in der \"Zitierhinweis\"-Box."
-                        u"Diese Option kann hier nicht deaktiviert werden, wenn sie"
-                        u"bereits auf einer übergeordneten Ebene (Zeitschrift, Band,"
-                        u"Ausgabe) deaktiviert ist. Die Einstellung hat außerdem keine"
-                        u"Wirkung, falls ein externer Volltext für die Rezension"
-                        u"benutzt wird; in diesem Fall bleibt die URL immer versteckt."
-                        u"Beachten Sie, dass diese Einstellung weder den eigentlichen"
+                        u"Zeige die URL der Rezension in der \"Zitierhinweis\"-Box. "
+                        u"Diese Option kann hier nicht deaktiviert werden, wenn sie "
+                        u"bereits auf einer übergeordneten Ebene (Zeitschrift, Band, "
+                        u"Ausgabe) deaktiviert ist. Die Einstellung hat außerdem keine "
+                        u"Wirkung, falls ein externer Volltext für die Rezension "
+                        u"benutzt wird; in diesem Fall bleibt die URL immer versteckt. "
+                        u"Beachten Sie, dass diese Einstellung weder den eigentlichen "
                         u"Zitierhinweis noch die Anzeige der Original-URL beeinflusst."
                     ),
                 ),
