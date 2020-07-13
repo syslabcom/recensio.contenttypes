@@ -8,7 +8,9 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content import container
 from recensio.contenttypes.content.schemata import LicenceSchema
+from recensio.contenttypes.content.schemata import URLInCitationSchema
 from recensio.contenttypes.interfaces import IVolume
+from recensio.contenttypes.interfaces.review import IParentGetter
 from zope.interface import implements
 
 DoiSettingsSchema = atapi.Schema(
@@ -54,6 +56,7 @@ VolumeSchema = (
     folder.ATFolderSchema.copy()
     + DoiSettingsSchema.copy()
     + FulltextSettingsSchema.copy()
+    + URLInCitationSchema.copy()
     + atapi.Schema(
         (
             atapi.StringField(
@@ -76,6 +79,8 @@ VolumeSchema = (
 
 VolumeSchema["title"].storage = atapi.AnnotationStorage()
 VolumeSchema["description"].storage = atapi.AnnotationStorage()
+VolumeSchema["URLShownInCitationNote"].schemata = "default"
+VolumeSchema["labelURLShownInCitationNote"].schemata = "default"
 
 schemata.finalizeATCTSchema(VolumeSchema, folderish=True, moveDiscussion=False)
 
@@ -95,6 +100,14 @@ class Volume(container.Container):
 
     doiRegistrationActive = atapi.ATFieldProperty("doiRegistrationActive")
     useExternalFulltext = atapi.ATFieldProperty("useExternalFulltext")
+
+    def isURLShownInCitationNote(self):
+        """ If any parent has this deactivated then we also want it inactive here.
+            SCR-341
+        """
+        return IParentGetter(self).get_flag_with_override(
+            "URLShownInCitationNote", False
+        )
 
 
 atapi.registerType(Volume, PROJECTNAME)

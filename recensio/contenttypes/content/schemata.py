@@ -420,6 +420,11 @@ ReviewSchema = atapi.Schema(
                 ),
             ),
         ),
+    )
+)
+
+URLInCitationSchema = atapi.Schema(
+    (
         atapi.BooleanField(
             "URLShownInCitationNote",
             schemata="review",
@@ -434,14 +439,26 @@ ReviewSchema = atapi.Schema(
                 description=_(
                     u"description_is_url_shown_in_citation_note",
                     default=(
-                        u'Show the URL of the review in the "Citation '
-                        'rules" box. This has no effect if an external full '
-                        "text is used for the review, in which case the URL "
-                        "is always hidden. Note that this setting does not "
-                        "affect the actual citation string nor the display "
-                        "of the Original URL."
+                        u"Zeige die URL der Rezension in der \"Zitierhinweis\"-Box."
+                        u"Diese Option kann hier nicht deaktiviert werden, wenn sie"
+                        u"bereits auf einer übergeordneten Ebene (Zeitschrift, Band,"
+                        u"Ausgabe) deaktiviert ist. Die Einstellung hat außerdem keine"
+                        u"Wirkung, falls ein externer Volltext für die Rezension"
+                        u"benutzt wird; in diesem Fall bleibt die URL immer versteckt."
+                        u"Beachten Sie, dass diese Einstellung weder den eigentlichen"
+                        u"Zitierhinweis noch die Anzeige der Original-URL beeinflusst."
                     ),
                 ),
+                condition="object/aq_parent/isURLShownInCitationNote",
+            ),
+        ),
+        atapi.StringField(
+            "labelURLShownInCitationNote",
+            schemata="review",
+            widget=atapi.LabelWidget(
+                label=_(u"label_is_url_shown_in_citation_note",),
+                description=_(u"description_is_url_shown_in_citation_note",),
+                condition="not:object/aq_parent/isURLShownInCitationNote",
             ),
         ),
     )

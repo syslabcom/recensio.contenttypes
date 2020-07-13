@@ -20,9 +20,9 @@ from recensio.contenttypes.content.schemata import EditorialSchema
 from recensio.contenttypes.content.schemata import LicenceSchema
 from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import PageStartEndInPDFSchema
-from recensio.contenttypes.content.schemata import (
-    PageStartEndOfReviewInJournalSchema)
+from recensio.contenttypes.content.schemata import PageStartEndOfReviewInJournalSchema
 from recensio.contenttypes.content.schemata import ReviewSchema
+from recensio.contenttypes.content.schemata import URLInCitationSchema
 from recensio.contenttypes.content.schemata import SerialSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IReviewArticleCollection
@@ -57,6 +57,7 @@ ReviewArticleCollectionSchema = (
     + PagecountSchema.copy()
     + ArticleSchema.copy()
     + ReviewSchema.copy()
+    + URLInCitationSchema.copy()
     + SerialSchema.copy()
     + LicenceSchema.copy()
     + atapi.Schema(

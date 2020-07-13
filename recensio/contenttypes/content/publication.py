@@ -9,6 +9,7 @@ from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content import container
 from recensio.contenttypes.content.schemata import LicenceSchema
+from recensio.contenttypes.content.schemata import URLInCitationSchema
 from recensio.contenttypes.interfaces import IPublication
 from zope.interface import implements
 
@@ -39,6 +40,7 @@ PublicationSchema = (
         )
     )
     + LicenceSchema.copy()
+    + URLInCitationSchema.copy()
 )
 
 # Set storage on fields copied from ATFolderSchema, making sure
@@ -46,6 +48,7 @@ PublicationSchema = (
 
 PublicationSchema["title"].storage = atapi.AnnotationStorage()
 PublicationSchema["description"].storage = atapi.AnnotationStorage()
+PublicationSchema["URLShownInCitationNote"].schemata = "default"
 
 schemata.finalizeATCTSchema(PublicationSchema, folderish=True, moveDiscussion=False)
 

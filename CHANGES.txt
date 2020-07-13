@@ -7,6 +7,7 @@ Changelog
 - Hide empty additional subtitles. #SCR-344
 - Metadata box: Leave spaces before and after slash dividing titles/subtitles.
   #SCR-440
+- "Show URL in citation rules box" is also available on publications, volumes and issues. #SCR-341
 
 
 4.6.0 (2019-09-26)

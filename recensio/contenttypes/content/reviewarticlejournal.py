@@ -18,9 +18,9 @@ from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
 from recensio.contenttypes.content.schemata import LicenceSchema
 from recensio.contenttypes.content.schemata import PageStartEndInPDFSchema
-from recensio.contenttypes.content.schemata import (
-    PageStartEndOfReviewInJournalSchema)
+from recensio.contenttypes.content.schemata import PageStartEndOfReviewInJournalSchema
 from recensio.contenttypes.content.schemata import ReviewSchema
+from recensio.contenttypes.content.schemata import URLInCitationSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.content.schemata import isLazyURL
 from recensio.contenttypes.interfaces import IReviewArticleJournal
@@ -34,6 +34,7 @@ ReviewArticleJournalSchema = (
     + PageStartEndOfReviewInJournalSchema.copy()
     + AuthorsSchema.copy()
     + ReviewSchema.copy()
+    + URLInCitationSchema.copy()
     + LicenceSchema.copy()
     + ArticleSchema.copy()
     + atapi.Schema(

@@ -464,6 +464,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         the parent of the current object."""
         return IParentGetter(self).get_parent_object_of_type(meta_type)
 
+    def get_flag_with_override(self, field_name, override_value):
+        return IParentGetter(self).get_flag_with_override(field_name, override_value)
+
     # The following get_user_... methods are used as default_methods
     # for various fields
     def get_user_property(self, property):
@@ -652,14 +655,10 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         """ If any parent has this activated then we also want it active here.
             FLOW-741
         """
-        publication = self.get_parent_object_of_type("Publication")
-        current = self
-        value = False
-        if publication != None:
-            while current != publication:
-                if "useExternalFulltext" in current.Schema():
-                    value = current.isUseExternalFulltext()
-                    if value is True:
-                        break
-                current = current.aq_parent
-        return value
+        return self.get_flag_with_override("useExternalFulltext", True)
+
+    def isURLShownInCitationNote(self):
+        """ If any parent has this deactivated then we also want it inactive here.
+            SCR-341
+        """
+        return self.get_flag_with_override("URLShownInCitationNote", False)
