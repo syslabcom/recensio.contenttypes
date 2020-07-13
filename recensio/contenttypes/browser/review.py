@@ -229,6 +229,9 @@ class View(BrowserView, CanonicalURLHelper):
             elif field == "curators":
                 label = self.get_label(fields, field, context.meta_type)
                 value = self.list_rows(context["curators"], "lastname", "firstname")
+            elif field in ["exhibiting_institution", "exhibiting_organisation"]:
+                label = self.get_label(fields, field, context.meta_type)
+                value = self.list_rows(context[field], "name")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
                 value = context.translate(context.portal_type)
@@ -291,7 +294,17 @@ class View(BrowserView, CanonicalURLHelper):
                 value = " / ".join(subtitles)
             elif field == "dates":
                 label = self.get_label(fields, field, context.meta_type)
-                value = self.list_rows(context[field], "place", "runtime")
+                values = context[field]
+                if context.isPermanentExhibition:
+                    permanent_ex = _(u"Dauerausstellung").encode("utf-8")
+                    values = [
+                        {
+                            "place": value["place"],
+                            "runtime": " ".join([permanent_ex, value["runtime"]]),
+                        }
+                        for value in values
+                    ]
+                value = self.list_rows(values, "place", "runtime")
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")

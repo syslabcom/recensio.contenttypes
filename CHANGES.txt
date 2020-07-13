@@ -4,6 +4,7 @@ Changelog
 4.6.1 (unreleased)
 ------------------
 
+- Review Exhibition: Support for permanent exhibitons. #SCR-340
 - Hide empty additional subtitles. #SCR-344
 - Metadata box: Leave spaces before and after slash dividing titles/subtitles.
   #SCR-440
