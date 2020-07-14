@@ -426,7 +426,7 @@ ReviewSchema = atapi.Schema(
 description_is_url_shown_in_citation_note = _(
     u"description_is_url_shown_in_citation_note",
     default=(
-        u"Zeige die URL der Rezension in der \"Zitierhinweis\"-Box. "
+        u'Zeige die URL der Rezension in der "Zitierhinweis"-Box. '
         u"Diese Option kann hier nicht deaktiviert werden, wenn sie "
         u"bereits auf einer übergeordneten Ebene (Zeitschrift, Band, "
         u"Ausgabe) deaktiviert ist. Die Einstellung hat außerdem keine "
@@ -1314,13 +1314,13 @@ ExhibitionSchema = CommonReviewSchema.copy() + atapi.Schema(
             storage=atapi.AnnotationStorage(),
             validators=(isLazyURL,),
             mutator="setUrl_exhibition",
-            widget=atapi.StringWidget(label=_(u"URL der Website"),),
+            widget=atapi.StringWidget(label=_(u"URL der Ausstellungswebsite"),),
         ),
         atapi.StringField(
             "doi_exhibition",
             schemata="Ausstellung",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"DOI der Website"),),
+            widget=atapi.StringWidget(label=_(u"DOI der Ausstellungswebsite"),),
         ),
     )
 )
