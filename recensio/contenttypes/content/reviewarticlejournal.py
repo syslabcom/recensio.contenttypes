@@ -350,7 +350,12 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
             ),
         }
         rev_details_formatter = getFormatter(
-            u"%(:)s " % args, u", %(in:)s " % args, u", ", u" ", u", ", u", %(page)s " % args
+            u"%(:)s " % args,
+            u", %(in:)s " % args,
+            u", ",
+            u" ",
+            u", ",
+            u", %(page)s " % args,
         )
         mag_year = getFormatter("/")(
             self.officialYearOfPublication, self.yearOfPublication
@@ -410,7 +415,7 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         >>> review = ReviewArticleJournalNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a.default
         >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: The Plone Story. A CMS through the ages, in: Plone Mag, 1 (2010/2009), 3 (rezensiert von ${review_authors})'
+        u'Patrick Gerken / Alexander Pilz: The Plone Story. A CMS through the ages, in: Plone Mag, 1 (2010/2009), 3, p. 42-48 (rezensiert von ${review_authors})'
         """
         self = real_self.magic
 
@@ -418,12 +423,15 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
             "in:": real_self.directTranslate(
                 Message(u"text_in", "recensio", default="in:")
             ),
+            "page": real_self.directTranslate(
+                Message(u"text_pages", "recensio", default="p.")
+            ),
             ":": real_self.directTranslate(
                 Message(u"text_colon", "recensio", default=":")
             ),
         }
 
-        item = getFormatter(", ", " ", ", ")
+        item = getFormatter(", ", " ", ", ", ", %(page)s " % args)
         mag_year = getFormatter("/")(
             self.officialYearOfPublication, self.yearOfPublication
         )
@@ -433,6 +441,7 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
             self.volumeNumber,
             mag_year,
             self.issueNumber,
+            self.page_start_end_in_print_article,
         )
 
         authors_string = self.formatted_authors_editorial

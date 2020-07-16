@@ -593,11 +593,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         return u" / ".join(authors_list)
 
     @property
-    def formatted_authors_editorial(self):
-        """ #3111
-        PMs and RMs have an additional field for editors"""
-        authors_str = self.formatted_authors
-
+    def formatted_editorial(self):
         editor_str = ""
         result = ""
         if hasattr(self, "editorial"):
@@ -628,11 +624,23 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                             ).strip()
                         )
                     editor_str = u" / ".join(editors)
-
                 if editor_str != "":
                     result = editor_str + " " + label_editor
-                    if authors_str != "":
-                        result = result + ": " + authors_str
+        return result
+
+    @property
+    def formatted_authors_editorial(self):
+        """ #3111
+        PMs and RMs have an additional field for editors"""
+        authors_str = self.formatted_authors
+
+        result = ""
+        editor_str = self.formatted_editorial
+
+        if editor_str != "":
+            result = editor_str
+            if authors_str != "":
+                result = result + ": " + authors_str
 
         if result == "" and authors_str != "":
             result = authors_str

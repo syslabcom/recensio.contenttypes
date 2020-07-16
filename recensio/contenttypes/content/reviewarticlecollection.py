@@ -349,12 +349,13 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.titleEditedVolume = "Handbuch der Handbücher"
         >>> at_mock.subtitleEditedVolume = "Betriebsanleitungen, Bauanleitungen und mehr"
+        >>> at_mock.page_start_end_in_print_article = '73-78'
         >>> at_mock.getEditorial = lambda: [{'firstname': 'Karl', 'lastname': 'Kornfeld'}]
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = ReviewArticleCollectionNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a.default
         >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch, in: Karl Kornfeld (Hg.): Handbuch der Handb\\xfccher. Betriebsanleitungen, Bauanleitungen und mehr (reviewed by ${review_authors})'
+        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch, in: Karl Kornfeld (Hg.): Handbuch der Handb\\xfccher. Betriebsanleitungen, Bauanleitungen und mehr, p. 73-78 (reviewed by ${review_authors})'
 
         Original Spec:
         [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel] (reviewed by [Rezensent Vorname] [Rezensent Nachname])
@@ -372,6 +373,9 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
             ),
             "in": real_self.directTranslate(
                 Message(u"text_in", "recensio", default="in:")
+            ),
+            "page": real_self.directTranslate(
+                Message(u"text_pages", "recensio", default="p.")
             ),
             ":": real_self.directTranslate(
                 Message(u"text_colon", "recensio", default=":")
@@ -396,11 +400,14 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
             u" / ", " ", self.getEditorial(), lastname_first=lastname_first
         )
 
-        edited_volume = getFormatter(u" %((Hg.))s%(:)s " % args, ". ")
+        edited_volume = getFormatter(
+            u" %((Hg.))s%(:)s " % args, ". ", ", %(page)s " % args
+        )
         edited_volume_string = edited_volume(
             editors_string,
             self.titleEditedVolume,
             self.subtitleEditedVolume,
+            self.page_start_end_in_print_article,
         )
 
         full_citation = getFormatter(": ", ", in: ", " ")
@@ -489,7 +496,9 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         editors_string = get_formatted_names(
             u" / ", " ", self.getEditorial(), lastname_first=False
         )
-        edited_volume = getFormatter(u" %((Hg.))s%(:)s " % args, ". ", ", ", "%(:)s " % args, ", ")
+        edited_volume = getFormatter(
+            u" %((Hg.))s%(:)s " % args, ". ", ", ", "%(:)s " % args, ", "
+        )
         edited_volume_string = edited_volume(
             editors_string,
             self.titleEditedVolume,

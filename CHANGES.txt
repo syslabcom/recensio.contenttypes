@@ -10,6 +10,7 @@ Changelog
   #SCR-440
 - "Show URL in citation rules box" is also available on publications, volumes and issues. #SCR-341
 - Review view: Show publication date in metadata. #SCR-345 #SCR-402
+- Review view: Tweaked title display for raj and raev #SCR-457
 
 
 4.6.0 (2019-09-26)
