@@ -5,6 +5,7 @@ import plone.app.blob
 import recensio.theme
 from AccessControl.SecurityManagement import getSecurityManager
 from DateTime import DateTime
+from plone import api
 from plone.app.blob.download import handleRequestRange
 from plone.app.blob.iterators import BlobStreamIterator
 from plone.app.blob.utils import openBlob
@@ -305,6 +306,12 @@ class View(BrowserView, CanonicalURLHelper):
                         for value in values
                     ]
                 value = self.list_rows(values, "place", "runtime")
+            elif field == "effectiveDate":
+                label = _("label_metadata_recensio_date")
+                ploneview = api.content.get_view(
+                    context=context, request=self.request, name="plone"
+                )
+                value = ploneview.toLocalizedTime(context[field], long_format=False)
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
