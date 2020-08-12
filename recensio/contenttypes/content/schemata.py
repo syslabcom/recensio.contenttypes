@@ -451,7 +451,7 @@ URLInCitationSchema = atapi.Schema(
                     default=u"Show URL in citation rules box",
                 ),
                 description=description_is_url_shown_in_citation_note,
-                condition="object/aq_parent/isURLShownInCitationNote",
+                condition="python:object.aq_parent.isURLShownInCitationNote() if object.aq_parent != object else True",
             ),
         ),
         atapi.StringField(
@@ -460,7 +460,7 @@ URLInCitationSchema = atapi.Schema(
             widget=atapi.LabelWidget(
                 label=_(u"label_is_url_shown_in_citation_note",),
                 description=description_is_url_shown_in_citation_note,
-                condition="not:object/aq_parent/isURLShownInCitationNote",
+                condition="python:not object.aq_parent.isURLShownInCitationNote() if object.aq_parent != object else False",
             ),
         ),
     )

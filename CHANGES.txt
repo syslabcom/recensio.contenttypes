@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - Metadata box: Tweaked display (recensio-Date, recensio-ID, URN) #HELP-2256 #HELP-2125
+- Fixed creating Publications #HELP-2318
 
 
 4.7.0 (2020-07-20)
