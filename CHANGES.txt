@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.7.1 (unreleased)
+4.7.1 (2020-08-12)
 ------------------
 
 - Metadata box: Tweaked display (recensio-Date, recensio-ID, URN) #HELP-2256 #HELP-2125
