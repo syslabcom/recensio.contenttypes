@@ -81,12 +81,7 @@
                tal:condition="not:custom_cover">
                Zum Volltext</p>
         </a>
-        <p>
-          <button onclick="window.location = '#commenting';"
-                  value="Kommentieren"
-                  tal:condition="context/conversation_view/enabled|nothing"
-                  i18n:translate="label_jump_to_add_comment">Kommentieren</button>
-        </p>
+        <br />
         <p tal:condition="view/show_dara_update">
           <form action="dara_update" method="POST" tal:attributes="action string:${context/absolute_url}/dara_update">
             <button value="Dara Update" type="submit">Dara Update</button>
