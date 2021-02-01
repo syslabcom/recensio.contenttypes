@@ -569,9 +569,12 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 for additional in self.getAdditionalTitles()
             ]
 
-        return " / ".join(
+        title = " / ".join(
             [self.format(title, subtitle) for title, subtitle in titles if title]
         )
+        if "translatedTitle" in self.schema:
+            title = u"{} [{}]".format(title, self.translatedTitle)
+        return title
 
     @property
     def formatted_authors(self):

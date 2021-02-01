@@ -936,7 +936,7 @@ BookReviewSchema = (
                 columns=("title", "subtitle"),
                 default=[],
                 widget=DataGridWidget(
-                    label=_(u"Additional titles (other languages)"),
+                    label=_(u"Paralleltitel (andere Sprachen)"),
                     columns={
                         "title": Column(_(u"Title")),
                         "subtitle": Column(_(u"Subtitle")),

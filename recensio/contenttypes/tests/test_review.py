@@ -10,7 +10,9 @@ class TestReviewTitle(unittest.TestCase):
         obj = BaseReview(None)
         obj.title = u"Die spanische Verfassung von 1812"
         obj.subtitle = u"Der Beginn des europäischen Konstitutionalismus"
-        obj.schema._fields["additionalTitles"] = "dummy"
+        schema = obj.schema.copy()
+        schema._fields["additionalTitles"] = "dummy"
+        obj.schema = schema
         obj.getAdditionalTitles = lambda: []
         self.assertEqual(
             obj.punctuated_title_and_subtitle,
@@ -22,7 +24,9 @@ class TestReviewTitle(unittest.TestCase):
         obj = BaseReview(None)
         obj.title = u"Die spanische Verfassung von 1812"
         obj.subtitle = u"Der Beginn des europäischen Konstitutionalismus"
-        obj.schema._fields["additionalTitles"] = "dummy"
+        schema = obj.schema.copy()
+        schema._fields["additionalTitles"] = "dummy"
+        obj.schema = schema
         obj.getAdditionalTitles = lambda: [
             {
                 "title": u"La Constitución española de 1812",
@@ -34,6 +38,52 @@ class TestReviewTitle(unittest.TestCase):
             u"Die spanische Verfassung von 1812. Der Beginn des europäischen "
             u"Konstitutionalismus / La Constitución española de 1812. El "
             u"comienzo del constitucionalismo europeo",
+        )
+
+    def test_one_title_and_one_subtitle_and_translated_title(self):
+        obj = BaseReview(None)
+        obj.title = u"Die spanische Verfassung von 1812"
+        obj.subtitle = u"Der Beginn des europäischen Konstitutionalismus"
+        schema = obj.schema.copy()
+        schema._fields["translatedTitle"] = "dummy"
+        obj.translatedTitle = (
+            u"The Spanish constitution of 1812. The beginning of European "
+            "constitutionalism"
+        )
+        schema._fields["additionalTitles"] = "dummy"
+        obj.schema = schema
+        obj.getAdditionalTitles = lambda: []
+        self.assertEqual(
+            obj.punctuated_title_and_subtitle,
+            u"Die spanische Verfassung von 1812. Der Beginn des europäischen "
+            u"Konstitutionalismus [The Spanish constitution of 1812. The beginning of "
+            "European constitutionalism]",
+        )
+
+    def test_two_titles_and_two_subtitles_and_translated_title(self):
+        obj = BaseReview(None)
+        obj.title = u"Die spanische Verfassung von 1812"
+        obj.subtitle = u"Der Beginn des europäischen Konstitutionalismus"
+        schema = obj.schema.copy()
+        schema._fields["translatedTitle"] = "dummy"
+        obj.translatedTitle = (
+            u"The Spanish constitution of 1812. The beginning of European "
+            "constitutionalism"
+        )
+        schema._fields["additionalTitles"] = "dummy"
+        obj.schema = schema
+        obj.getAdditionalTitles = lambda: [
+            {
+                "title": u"La Constitución española de 1812",
+                "subtitle": u"El comienzo del constitucionalismo europeo",
+            },
+        ]
+        self.assertEqual(
+            obj.punctuated_title_and_subtitle,
+            u"Die spanische Verfassung von 1812. Der Beginn des europäischen "
+            u"Konstitutionalismus / La Constitución española de 1812. El "
+            u"comienzo del constitucionalismo europeo [The Spanish constitution of "
+            "1812. The beginning of European constitutionalism]",
         )
 
 

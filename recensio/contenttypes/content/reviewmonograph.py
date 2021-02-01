@@ -49,6 +49,16 @@ class YearOfPublicationValidator(object):
 
 ReviewMonographSchema = (
     BookReviewSchema.copy()
+    + atapi.Schema(
+        (
+            atapi.StringField(
+                "translatedTitle",
+                schemata="reviewed_text",
+                storage=atapi.AnnotationStorage(),
+                widget=atapi.StringWidget(label=_(u"Translated title"),),
+            )
+        ),
+    )
     + CoverPictureSchema.copy()
     + EditorialSchema.copy()
     + PageStartEndInPDFSchema.copy()
@@ -75,6 +85,9 @@ class ReviewMonograph(BaseReview):
 
     title = atapi.ATFieldProperty("title")
     description = atapi.ATFieldProperty("description")
+
+    translatedTitle = atapi.ATFieldProperty("translatedTitle")
+
     # Book = Printed + Authors +
     # Printed = Common +
     # Common = Base +
@@ -156,6 +169,7 @@ class ReviewMonograph(BaseReview):
         "title",
         "subtitle",
         "additionalTitles",
+        "translatedTitle",
         "yearOfPublication",
         "placeOfPublication",
         "publisher",
@@ -205,6 +219,7 @@ class ReviewMonograph(BaseReview):
         "editorial",
         "title",
         "subtitle",
+        "translatedTitle",
         "yearOfPublication",
         "placeOfPublication",
         "publisher",
