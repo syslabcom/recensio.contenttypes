@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - Removed commenting button. #HELP-2761
+- List review authors separately, not in the same entry with a slash in between. #HELP-2751
 
 
 4.7.1 (2020-08-12)

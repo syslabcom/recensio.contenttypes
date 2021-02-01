@@ -264,7 +264,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 )
 
     def get_review_pdf(self):
-        """ Return the uploaded pdf if that doesn't exist return the
+        """Return the uploaded pdf if that doesn't exist return the
         generatedPdf Blob object otherwise return None
 
         Also return the size since it is not easy to get this from the
@@ -324,7 +324,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     @property
     def page_start_end_in_print(self):
-        """ See #2630
+        """See #2630
         PAJ/PAEV/RJ/RM have page start and end fields"""
 
         page_start = getattr(
@@ -425,25 +425,14 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     def getAllAuthorData(self):
         retval = []
-        field_values = list(getattr(self, "authors", []))
-        field_values += list(getattr(self, "editorial", []))
-        for data in field_values:
-            if data["lastname"] or data["firstname"]:
-                retval.append(
-                    safe_unicode(
-                        ("%s, %s" % (data["lastname"], data["firstname"]))
-                    ).encode("utf-8")
-                )
-        review_author = get_formatted_names(
-            u" / ", ", ", self.reviewAuthors, lastname_first=True
-        )
-        if review_author.strip() != ",":
-            retval.append(safe_unicode(review_author).encode("utf-8"))
+        field_values = self.listAuthorsAndEditors()
+        field_values += self.listReviewAuthors()
+        retval = [name.encode("utf-8") for name in field_values]
         return retval
 
     def getAllAuthorDataFulltext(self):
         authors = " ".join(self.getAllAuthorData())
-        return safe_unicode(authors)
+        return authors
 
     def Language(self):
         """ Reviews are NOT translatable. As such, they must remain neutral """
@@ -457,7 +446,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         return IParentGetter(self).get_title_from_parent_of_type(meta_type)
 
     def get_parent_object_of_type(self, meta_type):
-        """ Return the object of a particular type which is
+        """Return the object of a particular type which is
         the parent of the current object."""
         return IParentGetter(self).get_parent_object_of_type(meta_type)
 
@@ -502,7 +491,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             data = " ".join([data, self.getSubtitle()])
         if hasattr(self, "getAdditionalTitles"):
             for t in self.getAdditionalTitles():
-                data = " ".join([data, t["title"], t["subtitle"],])
+                data = " ".join(
+                    [
+                        data,
+                        t["title"],
+                        t["subtitle"],
+                    ]
+                )
         data = " ".join([data, self.getReview()])
 
         data = " ".join([data, self.Creator()])
@@ -526,7 +521,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             transforms = getToolByName(self, "portal_transforms")
             try:
                 datastream = transforms.convertTo(
-                    "text/plain", str(f), mimetype="application/pdf",
+                    "text/plain",
+                    str(f),
+                    mimetype="application/pdf",
                 )
             except (ConflictError, KeyboardInterrupt):
                 raise
@@ -556,7 +553,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     @property
     def punctuated_title_and_subtitle(self):
-        """ #3129
+        """#3129
         Note: all review types except for Presentation Online Resource
         have the subtitle field.
         titleProxy is used in Review Exhibition and can be empty, while title always has
@@ -630,7 +627,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     @property
     def formatted_authors_editorial(self):
-        """ #3111
+        """#3111
         PMs and RMs have an additional field for editors"""
         authors_str = self.formatted_authors
 
@@ -659,13 +656,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         return "{0}{1}".format(prefix, obj_id)
 
     def isUseExternalFulltext(self):
-        """ If any parent has this activated then we also want it active here.
-            FLOW-741
+        """If any parent has this activated then we also want it active here.
+        FLOW-741
         """
         return self.get_flag_with_override("useExternalFulltext", True)
 
     def isURLShownInCitationNote(self):
-        """ If any parent has this deactivated then we also want it inactive here.
-            SCR-341
+        """If any parent has this deactivated then we also want it inactive here.
+        SCR-341
         """
         return self.get_flag_with_override("URLShownInCitationNote", False)
