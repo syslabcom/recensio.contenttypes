@@ -47,8 +47,8 @@ class TestReviewTitle(unittest.TestCase):
         schema = obj.schema.copy()
         schema._fields["translatedTitle"] = "dummy"
         obj.translatedTitle = (
-            u"The Spanish constitution of 1812. The beginning of European "
-            "constitutionalism"
+            u"The Spanish constitution of 1812. The beginning of Euröpean "
+            u"constitutionalism".encode("utf-8")
         )
         schema._fields["additionalTitles"] = "dummy"
         obj.schema = schema
@@ -57,7 +57,7 @@ class TestReviewTitle(unittest.TestCase):
             obj.punctuated_title_and_subtitle,
             u"Die spanische Verfassung von 1812. Der Beginn des europäischen "
             u"Konstitutionalismus [The Spanish constitution of 1812. The beginning of "
-            "European constitutionalism]",
+            u"Euröpean constitutionalism]",
         )
 
     def test_two_titles_and_two_subtitles_and_translated_title(self):
@@ -67,8 +67,8 @@ class TestReviewTitle(unittest.TestCase):
         schema = obj.schema.copy()
         schema._fields["translatedTitle"] = "dummy"
         obj.translatedTitle = (
-            u"The Spanish constitution of 1812. The beginning of European "
-            "constitutionalism"
+            u"The Spanish constitution of 1812. The beginning of Euröpean "
+            u"constitutionalism".encode("utf-8")
         )
         schema._fields["additionalTitles"] = "dummy"
         obj.schema = schema
@@ -83,13 +83,12 @@ class TestReviewTitle(unittest.TestCase):
             u"Die spanische Verfassung von 1812. Der Beginn des europäischen "
             u"Konstitutionalismus / La Constitución española de 1812. El "
             u"comienzo del constitucionalismo europeo [The Spanish constitution of "
-            "1812. The beginning of European constitutionalism]",
+            u"1812. The beginning of Euröpean constitutionalism]",
         )
 
 
 class TestReviewIntegration(unittest.TestCase):
-    """
-    """
+    """"""
 
     layer = RECENSIO_INTEGRATION_TESTING
 

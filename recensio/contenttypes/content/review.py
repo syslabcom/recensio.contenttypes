@@ -558,22 +558,25 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         have the subtitle field.
         titleProxy is used in Review Exhibition and can be empty, while title always has
         a value."""
-        title = getattr(self, "titleProxy", self.title)
-        subtitle = self.subtitle
+        title = safe_unicode(getattr(self, "titleProxy", self.title))
+        subtitle = safe_unicode(self.subtitle)
         titles = [
             (title, subtitle),
         ]
         if "additionalTitles" in self.schema:
             titles = titles + [
-                (additional["title"], additional["subtitle"])
+                (
+                    safe_unicode(additional["title"]),
+                    safe_unicode(additional["subtitle"]),
+                )
                 for additional in self.getAdditionalTitles()
             ]
 
-        title = " / ".join(
+        title = u" / ".join(
             [self.format(title, subtitle) for title, subtitle in titles if title]
         )
         if "translatedTitle" in self.schema:
-            title = u"{} [{}]".format(title, self.translatedTitle)
+            title = u"{} [{}]".format(title, safe_unicode(self.translatedTitle))
         return title
 
     @property
