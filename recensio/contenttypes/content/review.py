@@ -575,7 +575,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         title = u" / ".join(
             [self.format(title, subtitle) for title, subtitle in titles if title]
         )
-        if "translatedTitle" in self.schema:
+        if "translatedTitle" in self.schema and self.translatedTitle:
             title = u"{} [{}]".format(title, safe_unicode(self.translatedTitle))
         return title
 

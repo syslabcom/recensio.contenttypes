@@ -11,6 +11,8 @@ class TestReviewTitle(unittest.TestCase):
         obj.title = u"Die spanische Verfassung von 1812"
         obj.subtitle = u"Der Beginn des europäischen Konstitutionalismus"
         schema = obj.schema.copy()
+        schema._fields["translatedTitle"] = "dummy"
+        obj.translatedTitle = ""
         schema._fields["additionalTitles"] = "dummy"
         obj.schema = schema
         obj.getAdditionalTitles = lambda: []
@@ -25,6 +27,8 @@ class TestReviewTitle(unittest.TestCase):
         obj.title = u"Die spanische Verfassung von 1812"
         obj.subtitle = u"Der Beginn des europäischen Konstitutionalismus"
         schema = obj.schema.copy()
+        schema._fields["translatedTitle"] = "dummy"
+        obj.translatedTitle = ""
         schema._fields["additionalTitles"] = "dummy"
         obj.schema = schema
         obj.getAdditionalTitles = lambda: [
