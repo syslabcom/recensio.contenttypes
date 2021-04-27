@@ -4,7 +4,6 @@ This is now:
 Presentation Article in Journal
 """
 from cgi import escape
-
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
@@ -14,15 +13,15 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BasePresentationNoMagic
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import AuthorsSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
-from recensio.contenttypes.content.schemata import (
-    PageStartEndOfPresentedTextInPrintSchema)
+from recensio.contenttypes.content.schemata import PageStartEndOfPresentedTextInPrintSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
-from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IPresentationArticleReview
 from zope.i18nmessageid import Message
 from zope.interface import implements
+
 
 PresentationArticleReviewSchema = (
     AuthorsSchema.copy()
@@ -268,37 +267,37 @@ class PresentationArticleReview(BaseReview):
 class PresentationArticleReviewNoMagic(BasePresentationNoMagic):
     def get_citation_string(real_self):
         """
-        Either return the custom citation or the generated one
-        >>> from mock import Mock
-        >>> at_mock = Mock()
-        >>> at_mock.get = lambda x: None
-        >>> at_mock.customCitation = ''
-        >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerken♥'), ('Alexander', 'Pilz'))]
-        >>> at_mock.title = "Das neue Plone 4.0♥?"
-        >>> at_mock.subtitle = "Alles neu in 2010♥"
-        >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
-        >>> at_mock.yearOfPublication = '2009♥'
-        >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
-        >>> at_mock.placeOfPublication = u'München'
-        >>> at_mock.issueNumber = '3♥'
-        >>> at_mock.volumeNumber = '1♥'
-        >>> at_mock.titleJournal = 'Open Source Mag♥'
-        >>> at_mock.portal_url = lambda :'http://www.syslab.com'
-        >>> at_mock.UID = lambda :'12345'
-        >>> at_mock.page_start_end_in_print = '11-21'
-        >>> presentation = PresentationArticleReviewNoMagic(at_mock)
-        >>> presentation.directTranslate = lambda m: m.default
-        >>> presentation.get_citation_string()
-        u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665? Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665, p. 11-21 <a href="http://syslab.com/r/12345">http://syslab.com/r/12345</a>'
+                Either return the custom citation or the generated one
+                >>> from mock import Mock
+                >>> at_mock = Mock()
+                >>> at_mock.get = lambda x: None
+                >>> at_mock.customCitation = ''
+                >>> at_mock.authors = [{'firstname': x[0], 'lastname' : x[1]} for x in (('Patrick♥', 'Gerken♥'), ('Alexander', 'Pilz'))]
+                >>> at_mock.title = "Das neue Plone 4.0♥?"
+                >>> at_mock.subtitle = "Alles neu in 2010♥"
+                >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
+                >>> at_mock.yearOfPublication = '2009♥'
+                >>> at_mock.publisher = 'SYSLAB.COM GmbH♥'
+                >>> at_mock.placeOfPublication = u'München'
+                >>> at_mock.issueNumber = '3♥'
+                >>> at_mock.volumeNumber = '1♥'
+                >>> at_mock.titleJournal = 'Open Source Mag♥'
+                >>> at_mock.portal_url = lambda :'http://www.syslab.com'
+                >>> at_mock.UID = lambda :'12345'
+                >>> at_mock.page_start_end_in_print = '11-21'
+                >>> presentation = PresentationArticleReviewNoMagic(at_mock)
+                >>> presentation.directTranslate = lambda m: m.default
+                >>> presentation.get_citation_string()
+                u'de Roiste\u2665, Cillian\u2665: presentation of: Gerken\u2665, Patrick\u2665 / Pilz, Alexander, Das neue Plone 4.0\u2665? Alles neu in 2010\u2665, in: Open Source Mag\u2665, 1\u2665, 3\u2665, p. 11-21 <a href="http://syslab.com/r/12345">http://syslab.com/r/12345</a>'
 
-        Original Specification
+                Original Specification
 
-        [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], in: [Zs-Titel], [Nummer], [Heftnummer (Erscheinungsjahr)], URL recensio.
+                [Präsentator Nachname], [Präsentator Vorname]: presentation of: [Werkautor Nachname], [Werkautor Vorname], [Werktitel]. [Werk-Untertitel], in: [Zs-Titel], [Nummer], [Heftnummer (Erscheinungsjahr)], URL recensio.
 
-        Werkautoren kann es mehrere geben, die werden dann durch ' / ' getrennt alle aufgelistet.
-Note: gezähltes Jahr entfernt.
+                Werkautoren kann es mehrere geben, die werden dann durch ' / ' getrennt alle aufgelistet.
+        Note: gezähltes Jahr entfernt.
 
-        Meier, Hans: presentation of: Meier, Hans, Geschichte des Abendlandes. Ein Abriss, in: Zeitschrift für Geschichte, 39, 3 (2008/2009), www.recensio.net/##
+                Meier, Hans: presentation of: Meier, Hans, Geschichte des Abendlandes. Ein Abriss, in: Zeitschrift für Geschichte, 39, 3 (2008/2009), www.recensio.net/##
 
         """
         self = real_self.magic

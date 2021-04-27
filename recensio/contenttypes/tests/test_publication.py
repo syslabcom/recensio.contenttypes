@@ -3,8 +3,6 @@
 Tests for the Publication content type and items it can contain
 """
 from contextlib import contextmanager
-
-import unittest2 as unittest
 from plone import api
 from plone.app.testing.helpers import login
 from plone.app.testing.helpers import logout
@@ -12,6 +10,8 @@ from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing.interfaces import TEST_USER_NAME
 from recensio.contenttypes.interfaces.review import IParentGetter
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
+
+import unittest2 as unittest
 
 
 @contextmanager
@@ -27,8 +27,7 @@ def change_language(request, language):
 
 
 class TestPublication(unittest.TestCase):
-    """
-    """
+    """ """
 
     layer = RECENSIO_INTEGRATION_TESTING
 
@@ -63,13 +62,13 @@ class TestPublication(unittest.TestCase):
         logout()
 
     def test_publication_schema_extension(self):
-        """ Ensure the Publication schema has been successfully
-        extended """
+        """Ensure the Publication schema has been successfully
+        extended"""
         self.assertEqual(True, hasattr(self.publication, "pdf_watermark"))
         self.assertEqual(True, hasattr(self.publication, "licence"))
 
     def test_review_licence(self):
-        """ Ensure that when a custom licence is set on the
+        """Ensure that when a custom licence is set on the
         Publication this is visibile on its child review"""
         language_tool = api.portal.get_tool("portal_languages")
         language_tool.use_cookie_negotiation = True
@@ -86,9 +85,7 @@ class TestPublication(unittest.TestCase):
         with change_language(self.request, "en"):
             self.assertEqual(custom_licence, self.review.getLicense())
 
-        self.publication.setLicence_ref(
-            api.content.get_uuid(self.custom_licence_doc_de)
-        )
+        self.publication.setLicence_ref(api.content.get_uuid(self.custom_licence_doc_de))
         with change_language(self.request, "de"):
             self.assertEqual(
                 u"<p>Dies ist eine übersetzte Lizenz</p>".encode("utf-8"),
@@ -155,7 +152,5 @@ class TestParentGetter(unittest.TestCase):
         self.assertEqual(result, self.publication)
 
     def test_get_parent_of_publication(self):
-        result = IParentGetter(self.publication).get_parent_object_of_type(
-            "Publication"
-        )
+        result = IParentGetter(self.publication).get_parent_object_of_type("Publication")
         self.assertEqual(result, self.publication)

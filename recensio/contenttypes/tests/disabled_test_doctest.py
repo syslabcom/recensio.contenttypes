@@ -2,16 +2,15 @@
 The auto-generated doctests here are disabled
 """
 
-import doctest
-import unittest
-
 from recensio.contenttypes.tests import base
 from Testing import ZopeTestCase as ztc
 
+import doctest
+import unittest
+
+
 # from zope.testing import doctestunit
 # from zope.component import testing, eventtesting
-
-
 
 
 def test_suite():

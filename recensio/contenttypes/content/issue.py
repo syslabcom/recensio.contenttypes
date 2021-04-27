@@ -14,6 +14,7 @@ from recensio.contenttypes.interfaces import IIssue
 from recensio.contenttypes.interfaces.review import IParentGetter
 from zope.interface import implements
 
+
 # -*- Message Factory Imported Here -*-
 
 
@@ -58,8 +59,8 @@ class Issue(container.Container):
     useExternalFulltext = atapi.ATFieldProperty("useExternalFulltext")
 
     def isURLShownInCitationNote(self):
-        """ If any parent has this deactivated then we also want it inactive here.
-            SCR-341
+        """If any parent has this deactivated then we also want it inactive here.
+        SCR-341
         """
         return IParentGetter(self).get_flag_with_override(
             "URLShownInCitationNote", False

@@ -4,6 +4,7 @@ from recensio.contenttypes.config import PRESENTATION_TYPES
 from recensio.contenttypes.config import REVIEW_TYPES
 from zope.component.hooks import getSite
 
+
 portal = getSite()
 pc = portal.portal_catalog
 

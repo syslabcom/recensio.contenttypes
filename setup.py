@@ -3,8 +3,10 @@
 This module contains the tool of recensio.contenttypes
 
 """
+from setuptools import find_packages
+from setuptools import setup
+
 import os
-from setuptools import setup, find_packages
 
 
 def read(*rnames):
@@ -46,7 +48,9 @@ setup(
     url="http://svn.plone.org/svn/collective/",
     license="GPL",
     packages=find_packages(exclude=["ez_setup"]),
-    namespace_packages=["recensio",],
+    namespace_packages=[
+        "recensio",
+    ],
     include_package_data=True,
     zip_safe=False,
     install_requires=[

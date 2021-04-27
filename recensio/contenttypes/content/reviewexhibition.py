@@ -3,7 +3,6 @@
 """
 
 from cgi import escape
-
 from Products.Archetypes import atapi
 from Products.CMFPlone.utils import safe_unicode
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
@@ -15,16 +14,17 @@ from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.review import BaseReviewNoMagic
 from recensio.contenttypes.content.review import get_formatted_names
 from recensio.contenttypes.content.schemata import ExhibitionSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.content.schemata import LicenceSchema
 from recensio.contenttypes.content.schemata import PageStartEndInPDFSchema
 from recensio.contenttypes.content.schemata import PageStartEndOfReviewInJournalSchema
 from recensio.contenttypes.content.schemata import ReviewSchema
 from recensio.contenttypes.content.schemata import URLInCitationSchema
-from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IReviewExhibition
 from recensio.theme.browser.views import editorTypes
 from zope.i18nmessageid import Message
 from zope.interface import implements
+
 
 ReviewExhibitionSchema = (
     ExhibitionSchema.copy()
@@ -197,7 +197,7 @@ class ReviewExhibition(BaseReview):
         return editorTypes()
 
     def get_publication_title(self):
-        """ Equivalent of 'titleJournal'"""
+        """Equivalent of 'titleJournal'"""
         return self.get_title_from_parent_of_type("Publication")
 
     get_journal_title = get_publication_title  # 2542
@@ -206,11 +206,11 @@ class ReviewExhibition(BaseReview):
         return self.get_parent_object_of_type("Publication")
 
     def get_volume_title(self):
-        """ Equivalent of 'volume'"""
+        """Equivalent of 'volume'"""
         return self.get_title_from_parent_of_type("Volume")
 
     def get_issue_title(self):
-        """ Equivalent of 'issue'"""
+        """Equivalent of 'issue'"""
         return self.get_title_from_parent_of_type("Issue")
 
     @property
@@ -315,7 +315,8 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
         dates_string = u" / ".join(
             [
                 dates_formatter(
-                    date["place"].decode("utf-8"), date["runtime"].decode("utf-8"),
+                    date["place"].decode("utf-8"),
+                    date["runtime"].decode("utf-8"),
                 )
                 for date in self.dates
             ]
@@ -331,7 +332,10 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
 
         full_title = getFormatter(u": ", u", ", u" ")
         return full_title(
-            real_self.exhibitor, title_string, dates_string, rezensent_string,
+            real_self.exhibitor,
+            title_string,
+            dates_string,
+            rezensent_string,
         )
 
     def get_citation_string(real_self):
@@ -413,7 +417,13 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
 
         dates_formatter = getFormatter(", ")
         dates_string = " / ".join(
-            [dates_formatter(date["place"], date["runtime"],) for date in self.dates]
+            [
+                dates_formatter(
+                    date["place"],
+                    date["runtime"],
+                )
+                for date in self.dates
+            ]
         )
         permanent_exhib_string = real_self.directTranslate(
             Message(u"Dauerausstellung", "recensio", default="Dauerausstellung")
@@ -423,7 +433,9 @@ class ReviewExhibitionNoMagic(BaseReviewNoMagic):
             permanent_exhib_string if self.isPermanentExhibition else u"",
         )
         item_string = rev_details_formatter(
-            real_self.exhibitor, title_string, dates_string,
+            real_self.exhibitor,
+            title_string,
+            dates_string,
         )
 
         mag_number_formatter = getFormatter(u", ", u", ")

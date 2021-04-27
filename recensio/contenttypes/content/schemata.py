@@ -296,7 +296,9 @@ CoverPictureSchema = atapi.Schema(
             validators=(ImageValidator(),),
             storage=atapi.AnnotationStorage(),
             sizes={"cover": (200, 300)},
-            widget=atapi.ImageWidget(label=_(u"Cover picture"),),
+            widget=atapi.ImageWidget(
+                label=_(u"Cover picture"),
+            ),
         ),
     )
 )
@@ -357,7 +359,8 @@ ReviewSchema = atapi.Schema(
             schemata=_(u"review"),
             storage=atapi.AnnotationStorage(),
             widget=atapi.FileWidget(
-                label=_(u"PDF"), visible={"view": "hidden", "edit": "visible"},
+                label=_(u"PDF"),
+                visible={"view": "hidden", "edit": "visible"},
             ),
             default_content_type="application/pdf",
         ),
@@ -365,7 +368,9 @@ ReviewSchema = atapi.Schema(
             "doc",
             schemata="review",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.FileWidget(label=_(u"Word Document"),),
+            widget=atapi.FileWidget(
+                label=_(u"Word Document"),
+            ),
         ),
         atapi.TextField(
             "customCitation",
@@ -398,10 +403,12 @@ ReviewSchema = atapi.Schema(
                     ),
                 ),
                 label_fallback_value=_(
-                    u"label_doi_fallback", default=(u"Automatically generated value"),
+                    u"label_doi_fallback",
+                    default=(u"Automatically generated value"),
                 ),
                 label_fallback_unavailable=_(
-                    u"label_doi_fallback_unavailable", default=(u"not yet available"),
+                    u"label_doi_fallback_unavailable",
+                    default=(u"not yet available"),
                 ),
             ),
         ),
@@ -458,7 +465,9 @@ URLInCitationSchema = atapi.Schema(
             "labelURLShownInCitationNote",
             schemata="review",
             widget=atapi.LabelWidget(
-                label=_(u"label_is_url_shown_in_citation_note",),
+                label=_(
+                    u"label_is_url_shown_in_citation_note",
+                ),
                 description=description_is_url_shown_in_citation_note,
                 condition="python:not object.aq_parent.isURLShownInCitationNote() if object.aq_parent != object else False",
             ),
@@ -482,7 +491,9 @@ PresentationSchema = atapi.Schema(
             storage=atapi.AnnotationStorage(),
             required=True,
             vocabulary=NamedVocabulary("honorifics"),
-            widget=atapi.SelectionWidget(label=_(u"Honorific Title"),),
+            widget=atapi.SelectionWidget(
+                label=_(u"Honorific Title"),
+            ),
         ),
         atapi.StringField(
             "reviewAuthorEmail",
@@ -656,7 +667,9 @@ PagecountSchema = atapi.Schema(
             "pages",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Pages"),),
+            widget=atapi.StringWidget(
+                label=_(u"Pages"),
+            ),
         ),
     )
 )
@@ -667,14 +680,18 @@ SerialSchema = atapi.Schema(
             "series",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Series"),),
+            widget=atapi.StringWidget(
+                label=_(u"Series"),
+            ),
             searchable=True,
         ),
         atapi.StringField(
             "seriesVol",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Series (vol.)"),),
+            widget=atapi.StringWidget(
+                label=_(u"Series (vol.)"),
+            ),
         ),
     )
 )
@@ -689,7 +706,9 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema(
             schemata="review",
             storage=atapi.AnnotationStorage(),
             required=False,
-            widget=atapi.StringWidget(label=_(u"Last name author"),),
+            widget=atapi.StringWidget(
+                label=_(u"Last name author"),
+            ),
             searchable=True,
         ),
         atapi.StringField(
@@ -697,7 +716,9 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema(
             schemata="review",
             storage=atapi.AnnotationStorage(),
             required=False,
-            widget=atapi.StringWidget(label=_(u"First name author"),),
+            widget=atapi.StringWidget(
+                label=_(u"First name author"),
+            ),
             searchable=True,
         ),
         DataGridField(
@@ -723,7 +744,8 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema(
             storage=atapi.AnnotationStorage(),
             vocabulary="listAvailableContentLanguages",
             widget=atapi.MultiSelectionWidget(
-                label=_(u"Language(s) (review)"), size=3,
+                label=_(u"Language(s) (review)"),
+                size=3,
             ),
         ),
         atapi.LinesField(
@@ -731,12 +753,17 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema(
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
             vocabulary="listAvailableContentLanguages",
-            widget=atapi.MultiSelectionWidget(label=_(u"Language(s) (text)"), size=3,),
+            widget=atapi.MultiSelectionWidget(
+                label=_(u"Language(s) (text)"),
+                size=3,
+            ),
         ),
         atapi.StringField(
             "recensioID",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(visible={"view": "hidden", "edit": "hidden"},),
+            widget=atapi.StringWidget(
+                visible={"view": "hidden", "edit": "hidden"},
+            ),
         ),
         BlobField(
             "generatedPdf",
@@ -754,7 +781,9 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema(
             default_output_type="text/html",
             validators=(characterLimit(),),
             widget=atapi.RichWidget(
-                label=_(u"Core Statements"), rows=20, maxlength=4000,
+                label=_(u"Core Statements"),
+                rows=20,
+                maxlength=4000,
             ),
         ),
         atapi.StringField(
@@ -767,7 +796,9 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema(
             validators=(isLazyURL,),
             mutator="setUri",
             widget=atapi.StringWidget(
-                label=_(u"URL"), description="", visible={"edit": "hidden"},
+                label=_(u"URL"),
+                description="",
+                visible={"edit": "hidden"},
             ),
         ),
         atapi.StringField(
@@ -837,7 +868,10 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema(
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
             vocabulary=NamedVocabulary("topic_values"),
-            widget=atapi.MultiSelectionWidget(label=_(u"ddc subject"), size=10,),
+            widget=atapi.MultiSelectionWidget(
+                label=_(u"ddc subject"),
+                size=10,
+            ),
         ),
         # Q: DateTimeField ?
         atapi.LinesField(
@@ -845,14 +879,20 @@ CommonReviewSchema = BaseReviewSchema.copy() + atapi.Schema(
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
             vocabulary=NamedVocabulary("epoch_values"),
-            widget=atapi.MultiSelectionWidget(label=_(u"ddc time"), size=10,),
+            widget=atapi.MultiSelectionWidget(
+                label=_(u"ddc time"),
+                size=10,
+            ),
         ),
         atapi.LinesField(
             "ddcPlace",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
             vocabulary=NamedVocabulary("region_values"),
-            widget=atapi.MultiSelectionWidget(label=_(u"ddc place"), size=10,),
+            widget=atapi.MultiSelectionWidget(
+                label=_(u"ddc place"),
+                size=10,
+            ),
         ),
     )
 )
@@ -873,52 +913,68 @@ PrintedReviewSchema = CommonReviewSchema.copy() + atapi.Schema(
             "subtitle",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Subtitle"),),
+            widget=atapi.StringWidget(
+                label=_(u"Subtitle"),
+            ),
         ),
         # Q: DateTimeField or perhaps IntegerField ?
         atapi.StringField(
             "yearOfPublication",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Year of publication"),),
+            widget=atapi.StringWidget(
+                label=_(u"Year of publication"),
+            ),
         ),
         atapi.StringField(
             "placeOfPublication",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Place of publication"),),
+            widget=atapi.StringWidget(
+                label=_(u"Place of publication"),
+            ),
         ),
         atapi.StringField(
             "publisher",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Publisher"),),
+            widget=atapi.StringWidget(
+                label=_(u"Publisher"),
+            ),
             searchable=True,
         ),
         atapi.StringField(
             "yearOfPublicationOnline",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Year of publication (Online)"),),
+            widget=atapi.StringWidget(
+                label=_(u"Year of publication (Online)"),
+            ),
         ),
         atapi.StringField(
             "placeOfPublicationOnline",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Place of publication (Online)"),),
+            widget=atapi.StringWidget(
+                label=_(u"Place of publication (Online)"),
+            ),
         ),
         atapi.StringField(
             "publisherOnline",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Publisher (Online)"),),
+            widget=atapi.StringWidget(
+                label=_(u"Publisher (Online)"),
+            ),
             searchable=True,
         ),
         atapi.StringField(
             "idBvb",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(visible={"view": "hidden", "edit": "hidden"},),
+            widget=atapi.StringWidget(
+                visible={"view": "hidden", "edit": "hidden"},
+            ),
         ),
     )
 )
@@ -980,7 +1036,9 @@ BookReviewSchema = (
                 storage=atapi.AnnotationStorage(),
                 validators=(isLazyURL,),
                 mutator="setUrl_monograph",
-                widget=atapi.StringWidget(label=_(u"URL (Monographie)"),),
+                widget=atapi.StringWidget(
+                    label=_(u"URL (Monographie)"),
+                ),
             ),
             atapi.StringField(
                 "urn_monograph",
@@ -988,13 +1046,17 @@ BookReviewSchema = (
                 storage=atapi.AnnotationStorage(),
                 validators=(isLazyURL,),
                 mutator="setUrn_monograph",
-                widget=atapi.StringWidget(label=_(u"URN (Monographie)"),),
+                widget=atapi.StringWidget(
+                    label=_(u"URN (Monographie)"),
+                ),
             ),
             atapi.StringField(
                 "doi_monograph",
                 schemata="reviewed_text",
                 storage=atapi.AnnotationStorage(),
-                widget=atapi.StringWidget(label=_(u"DOI (Monographie)"),),
+                widget=atapi.StringWidget(
+                    label=_(u"DOI (Monographie)"),
+                ),
             ),
         )
     )
@@ -1069,7 +1131,9 @@ JournalReviewSchema = (
                 storage=atapi.AnnotationStorage(),
                 validators=(isLazyURL,),
                 mutator="setUrl_journal",
-                widget=atapi.StringWidget(label=_(u"URL (Zeitschrift)"),),
+                widget=atapi.StringWidget(
+                    label=_(u"URL (Zeitschrift)"),
+                ),
             ),
             atapi.StringField(
                 "urn_journal",
@@ -1077,31 +1141,41 @@ JournalReviewSchema = (
                 storage=atapi.AnnotationStorage(),
                 validators=(isLazyURL,),
                 mutator="setUrn_journal",
-                widget=atapi.StringWidget(label=_(u"URN (Zeitschrift)"),),
+                widget=atapi.StringWidget(
+                    label=_(u"URN (Zeitschrift)"),
+                ),
             ),
             atapi.StringField(
                 "doi_journal",
                 schemata="reviewed_text",
                 storage=atapi.AnnotationStorage(),
-                widget=atapi.StringWidget(label=_(u"DOI (Zeitschrift)"),),
+                widget=atapi.StringWidget(
+                    label=_(u"DOI (Zeitschrift)"),
+                ),
             ),
             atapi.StringField(
                 "shortnameJournal",
                 schemata="reviewed_text",
                 storage=atapi.AnnotationStorage(),
-                widget=atapi.StringWidget(label=_(u"Shortname"),),
+                widget=atapi.StringWidget(
+                    label=_(u"Shortname"),
+                ),
             ),
             atapi.StringField(
                 "volumeNumber",
                 schemata="reviewed_text",
                 storage=atapi.AnnotationStorage(),
-                widget=atapi.StringWidget(label=_(u"Vol."),),
+                widget=atapi.StringWidget(
+                    label=_(u"Vol."),
+                ),
             ),
             atapi.StringField(
                 "issueNumber",
                 schemata="reviewed_text",
                 storage=atapi.AnnotationStorage(),
-                widget=atapi.StringWidget(label=_(u"Number"),),
+                widget=atapi.StringWidget(
+                    label=_(u"Number"),
+                ),
             ),
             atapi.StringField(
                 "officialYearOfPublication",
@@ -1169,7 +1243,9 @@ ArticleSchema = atapi.Schema(
             storage=atapi.AnnotationStorage(),
             validators=(isLazyURL,),
             mutator="setUrl_article",
-            widget=atapi.StringWidget(label=_(u"URL (Aufsatz)"),),
+            widget=atapi.StringWidget(
+                label=_(u"URL (Aufsatz)"),
+            ),
         ),
         atapi.StringField(
             "urn_article",
@@ -1177,13 +1253,17 @@ ArticleSchema = atapi.Schema(
             storage=atapi.AnnotationStorage(),
             validators=(isLazyURL,),
             mutator="setUrn_article",
-            widget=atapi.StringWidget(label=_(u"URN (Aufsatz)"),),
+            widget=atapi.StringWidget(
+                label=_(u"URN (Aufsatz)"),
+            ),
         ),
         atapi.StringField(
             "doi_article",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"DOI (Aufsatz)"),),
+            widget=atapi.StringWidget(
+                label=_(u"DOI (Aufsatz)"),
+            ),
         ),
         atapi.StringField(
             "heading__page_number_of_article_in_journal_or_edited_volume",
@@ -1264,7 +1344,14 @@ ExhibitionSchema = CommonReviewSchema.copy() + atapi.Schema(
             schemata="Ausstellung",
             storage=atapi.AnnotationStorage(),
             columns=("name", "gnd"),
-            default=([{"name": "", "gnd": "",}]),
+            default=(
+                [
+                    {
+                        "name": "",
+                        "gnd": "",
+                    }
+                ]
+            ),
             widget=DataGridWidget(
                 label=_(u"Ausstellende Organisation"),
                 columns={
@@ -1294,19 +1381,25 @@ ExhibitionSchema = CommonReviewSchema.copy() + atapi.Schema(
             schemata="Ausstellung",
             storage=atapi.AnnotationStorage(),
             value=False,
-            widget=atapi.BooleanWidget(label=_(u"Dauerausstellung"),),
+            widget=atapi.BooleanWidget(
+                label=_(u"Dauerausstellung"),
+            ),
         ),
         atapi.StringField(
             "titleProxy",
             schemata="Ausstellung",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Title"),),
+            widget=atapi.StringWidget(
+                label=_(u"Title"),
+            ),
         ),
         atapi.StringField(
             "subtitle",
             schemata="Ausstellung",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"Subtitle"),),
+            widget=atapi.StringWidget(
+                label=_(u"Subtitle"),
+            ),
         ),
         atapi.StringField(
             "url_exhibition",
@@ -1314,25 +1407,28 @@ ExhibitionSchema = CommonReviewSchema.copy() + atapi.Schema(
             storage=atapi.AnnotationStorage(),
             validators=(isLazyURL,),
             mutator="setUrl_exhibition",
-            widget=atapi.StringWidget(label=_(u"URL der Ausstellungswebsite"),),
+            widget=atapi.StringWidget(
+                label=_(u"URL der Ausstellungswebsite"),
+            ),
         ),
         atapi.StringField(
             "doi_exhibition",
             schemata="Ausstellung",
             storage=atapi.AnnotationStorage(),
-            widget=atapi.StringWidget(label=_(u"DOI der Ausstellungswebsite"),),
+            widget=atapi.StringWidget(
+                label=_(u"DOI der Ausstellungswebsite"),
+            ),
         ),
     )
 )
 
 
 class PublicationLogoWatermarkField(ExtensionField, ImageField):
-    """ Newspaper/Publication watermark logo #3104 """
+    """Newspaper/Publication watermark logo #3104"""
 
 
 class PublicationLicenceField(ExtensionField, atapi.StringField):
-    """ A licence can be specified for a particular Publication #3105
-    """
+    """A licence can be specified for a particular Publication #3105"""
 
 
 class PublicationExtender(object):

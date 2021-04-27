@@ -3,22 +3,22 @@
 Test the various methods we have for formatting particular
 strings: authors, editors, with punctuation etc.
 """
-import datetime
-import os
-
-import transaction
-import unittest2 as unittest
-import zope.event
 from plone.app.blob.utils import openBlob
+from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
-from plone.app.testing import setRoles
 from plone.testing.z2 import Browser
 from Products.Archetypes.event import ObjectEditedEvent
 from Products.SiteErrorLog.SiteErrorLog import SiteErrorLog
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
 from Testing import makerequest
+
+import datetime
+import os
+import transaction
+import unittest2 as unittest
+import zope.event
 
 
 def raising(self, info):
@@ -28,13 +28,11 @@ def raising(self, info):
     print info[1]
 
 
-
 SiteErrorLog.raising = raising
 
 
 class TestStringFormatting(unittest.TestCase):
-    """ Test various string formatting functions
-    """
+    """Test various string formatting functions"""
 
     layer = RECENSIO_INTEGRATION_TESTING
 

@@ -9,11 +9,12 @@ recensio.contenttypes.content.schemata
 
 (venv)$ instance run migrate_review_authors.py
 """
+from AccessControl.SecurityManagement import newSecurityManager
 from pprint import pprint
+from recensio.contenttypes.content import schemata
 
 import transaction
-from AccessControl.SecurityManagement import newSecurityManager
-from recensio.contenttypes.content import schemata
+
 
 rec_types = [
     "Presentation Online Resource",

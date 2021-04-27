@@ -1,7 +1,8 @@
-import Acquisition
 from Products.CMFPlone.Portal import PloneSite
 from recensio.contenttypes import interfaces
 from zope import interface
+
+import Acquisition
 
 
 class ParentGetter(object):
@@ -23,7 +24,7 @@ class ParentGetter(object):
         return ""
 
     def get_parent_object_of_type(self, meta_type):
-        """ Return the object of a particular type which is
+        """Return the object of a particular type which is
         the parent of the current object."""
         if hasattr(self.context, "meta_type") and self.context.meta_type == meta_type:
             return self.context
@@ -35,10 +36,10 @@ class ParentGetter(object):
         return None
 
     def get_flag_with_override(self, field_name, override_value):
-        """ Retrieves a boolean field value, allowing for overrides from a parent.
-            If any object in the acquisition chain has the override_value set for the
-            field specified by field_name, then this value is used. Only if no object
-            in the chain has it set is the inverse value used.
+        """Retrieves a boolean field value, allowing for overrides from a parent.
+        If any object in the acquisition chain has the override_value set for the
+        field specified by field_name, then this value is used. Only if no object
+        in the chain has it set is the inverse value used.
         """
         publication = self.get_parent_object_of_type("Publication")
         current = self.context

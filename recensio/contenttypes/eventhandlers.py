@@ -1,8 +1,9 @@
-import logging
-
 from Products.Archetypes.interfaces.event import IObjectInitializedEvent
 from Products.CMFCore.utils import getToolByName
 from recensio.contenttypes import interfaces
+
+import logging
+
 
 log = logging.getLogger("recensio.contenttypes/eventhandlers.py")
 

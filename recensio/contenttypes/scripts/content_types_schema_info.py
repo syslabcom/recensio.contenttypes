@@ -4,10 +4,10 @@ Run from your buildout with:
 (venv)$ instance run content_types_schema_info.py
 """
 from pprint import pprint
-
 from recensio.contenttypes.config import PRESENTATION_TYPES
 from recensio.contenttypes.config import REVIEW_TYPES
 from recensio.contenttypes.content import schemata
+
 
 rec_types = PRESENTATION_TYPES + REVIEW_TYPES
 

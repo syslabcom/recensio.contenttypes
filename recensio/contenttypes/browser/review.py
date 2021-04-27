@@ -1,10 +1,7 @@
-from cgi import escape
-from os import fstat
-
-import plone.app.blob
-import recensio.theme
 from AccessControl.SecurityManagement import getSecurityManager
+from cgi import escape
 from DateTime import DateTime
+from os import fstat
 from plone import api
 from plone.app.blob.download import handleRequestRange
 from plone.app.blob.iterators import BlobStreamIterator
@@ -21,10 +18,12 @@ from ZODB.blob import Blob
 from zope.component.hooks import getSite
 from ZTUtils import make_query
 
+import plone.app.blob
+import recensio.theme
+
 
 class View(BrowserView, CanonicalURLHelper):
-    """Moderation View
-    """
+    """Moderation View"""
 
     template = ViewPageTemplateFile("templates/review.pt")
     custom_metadata_field_labels = {
@@ -75,7 +74,7 @@ class View(BrowserView, CanonicalURLHelper):
             return ""
 
     def get_label(self, fields, field, meta_type):
-        """ Return the metadata label for a field of a particular
+        """Return the metadata label for a field of a particular
         portal_type
         """
 
@@ -87,9 +86,7 @@ class View(BrowserView, CanonicalURLHelper):
 
         if meta_type.startswith("Review"):
             if field == "languageReview":
-                return _(
-                    u"label_metadata_language_review", default=u"Language (review)"
-                )
+                return _(u"label_metadata_language_review", default=u"Language (review)")
         elif meta_type.startswith("Presentation"):
             if field == "languageReview":
                 return _(
@@ -210,14 +207,10 @@ class View(BrowserView, CanonicalURLHelper):
                 value = context.page_start_end_in_print_article
             elif field == "metadata_review_author":
                 label = _("label_metadata_review_author")
-                value = self.list_rows(
-                    context["reviewAuthors"], "lastname", "firstname"
-                )
+                value = self.list_rows(context["reviewAuthors"], "lastname", "firstname")
             elif field == "metadata_presentation_author":
                 label = _("label_metadata_presentation_author")
-                value = self.list_rows(
-                    context["reviewAuthors"], "lastname", "firstname"
-                )
+                value = self.list_rows(context["reviewAuthors"], "lastname", "firstname")
             elif field == "authors":
                 label = self.get_label(fields, field, context.meta_type)
                 value = self.list_rows(context[field], "lastname", "firstname")
@@ -413,7 +406,7 @@ class View(BrowserView, CanonicalURLHelper):
             return False
 
     def get_preview_img_url(self):
-        """Return cover picture or first page """
+        """Return cover picture or first page"""
         context = self.context
         if self.has_coverpicture():
             return context.absolute_url() + "/coverPicture"

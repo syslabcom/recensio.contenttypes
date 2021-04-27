@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-import unittest2 as unittest
 from recensio.policy.indexer import authors
 from recensio.policy.indexer import authorsFulltext
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
+
+import unittest2 as unittest
 
 
 class TestSearch(unittest.TestCase):

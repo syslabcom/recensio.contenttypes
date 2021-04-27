@@ -4,7 +4,6 @@ This has been changed to:
 Presentation Article edited Volume
 """
 from cgi import escape
-
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
 from Products.DataGridField import DataGridField
@@ -16,16 +15,16 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BasePresentationNoMagic
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.content.schemata import PagecountSchema
-from recensio.contenttypes.content.schemata import (
-    PageStartEndOfPresentedTextInPrintSchema)
+from recensio.contenttypes.content.schemata import PageStartEndOfPresentedTextInPrintSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.content.schemata import SerialSchema
-from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IPresentationCollection
 from zope.i18nmessageid import Message
 from zope.interface import implements
+
 
 PresentationCollectionSchema = (
     BookReviewSchema.copy()

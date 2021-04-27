@@ -2,22 +2,22 @@
 """
 Various functional tests
 """
-import datetime
-import os
-
-import transaction
-import unittest2 as unittest
-import zope.event
 from plone.app.blob.utils import openBlob
+from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
-from plone.app.testing import setRoles
 from plone.testing.z2 import Browser
 from Products.Archetypes.event import ObjectEditedEvent
 from Products.SiteErrorLog.SiteErrorLog import SiteErrorLog
 from recensio.policy.tests.layer import RECENSIO_FUNCTIONAL_TESTING
 from Testing import makerequest
+
+import datetime
+import os
+import transaction
+import unittest2 as unittest
+import zope.event
 
 
 def raising(self, info):
@@ -27,13 +27,11 @@ def raising(self, info):
     print info[1]
 
 
-
 SiteErrorLog.raising = raising
 
 
 class TestCoverPicture(unittest.TestCase):
-    """ Test adding, replacing and deleting a cover picture
-    """
+    """Test adding, replacing and deleting a cover picture"""
 
     layer = RECENSIO_FUNCTIONAL_TESTING
 
@@ -154,8 +152,7 @@ class TestCoverPicture(unittest.TestCase):
 
 
 class TestBrowserViews(unittest.TestCase):
-    """ Test various browser views
-    """
+    """Test various browser views"""
 
     layer = RECENSIO_FUNCTIONAL_TESTING
 

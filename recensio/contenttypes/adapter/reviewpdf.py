@@ -1,11 +1,3 @@
-import datetime
-import glob
-import logging
-import os
-import subprocess
-import tempfile
-
-import pytz
 from plone.app.async.interfaces import IAsyncService
 from plone.app.blob.field import ImageField
 from recensio.contenttypes import interfaces
@@ -14,11 +6,20 @@ from recensio.contenttypes.helperutilities import SubprocessException
 from zope import component
 from zope import interface
 
+import datetime
+import glob
+import logging
+import os
+import pytz
+import subprocess
+import tempfile
+
+
 logger = logging.getLogger("recensio.contenttypes.adapter.reviewpdf.py")
 
 
 def _getAllPageImages(context, size=(320, 452)):
-    """ Generate the preview images for a pdf """
+    """Generate the preview images for a pdf"""
     pdf = context.get_review_pdf()
     #    import pdb; pdb.set_trace()
     if pdf:
@@ -92,8 +93,7 @@ def _getAllPageImages(context, size=(320, 452)):
 
 
 class ReviewPDF(object):
-    """ Adapter to generate a cover image from a review's PDF data
-    """
+    """Adapter to generate a cover image from a review's PDF data"""
 
     interface.implements(interfaces.IReviewPDF)
     component.adapts(interfaces.IReview)

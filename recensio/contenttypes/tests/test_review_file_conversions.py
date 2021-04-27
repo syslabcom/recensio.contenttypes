@@ -3,15 +3,15 @@
 Various files (PDF, Word docs) are associated with Reviews/Presentations
 these tests cover the conversions on those files to other formats.
 """
-import datetime
 from os import fstat
-
-import unittest2 as unittest
-import zope.event
 from plone.app.blob.utils import openBlob
 from Products.Archetypes.event import ObjectEditedEvent
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
 from Testing import makerequest
+
+import datetime
+import unittest2 as unittest
+import zope.event
 
 
 class TestReviewFileConversions(unittest.TestCase):
@@ -62,15 +62,13 @@ class TestReviewFileConversions(unittest.TestCase):
         self.assertTrue(
             review.pdf.get_size() > 0,
             msg=(
-                "Review: %s "
-                "doesn't have a pdf file attached." % review.absolute_url()
+                "Review: %s " "doesn't have a pdf file attached." % review.absolute_url()
             ),
         )
         self.assertTrue(
             review.doc.get_size() > 0,
             msg=(
-                "Review: %s "
-                "doesn't have a doc file attached." % review.absolute_url()
+                "Review: %s " "doesn't have a doc file attached." % review.absolute_url()
             ),
         )
         self.assertFalse(

@@ -4,6 +4,7 @@
 import os
 import sys
 
+
 map = {
     "bezugsautoren": ("referenceAuthors", "Reference Authors"),
     "ddcRaum": ("ddcPlace", "ddc place"),

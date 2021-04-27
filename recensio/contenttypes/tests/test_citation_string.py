@@ -2,7 +2,6 @@
 """
 Tests for the Publication content type and items it can contain
 """
-import unittest2 as unittest
 from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from recensio.contenttypes.content.reviewjournal import ReviewJournal
@@ -11,10 +10,11 @@ from recensio.contenttypes.interfaces import IParentGetter
 from recensio.contenttypes.setuphandlers import add_number_of_each_review_type
 from recensio.policy.tests.layer import RECENSIO_BARE_INTEGRATION_TESTING
 
+import unittest2 as unittest
+
 
 class TestCitationString(unittest.TestCase):
-    """
-    """
+    """ """
 
     layer = RECENSIO_BARE_INTEGRATION_TESTING
 
@@ -44,8 +44,8 @@ class TestCitationString(unittest.TestCase):
         self.issue_jour = pg.get_parent_object_of_type("Issue")
 
     def test_review_citation_wrt_canonical_uri(self):
-        """ Reviews which have a canonical_uri should not link to the
-        recensio url in the citation #3102 """
+        """Reviews which have a canonical_uri should not link to the
+        recensio url in the citation #3102"""
 
         self.review_mono.doi = None
         self.issue_mono.setDoiRegistrationActive(False)

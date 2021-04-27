@@ -3,7 +3,6 @@
 """
 
 from cgi import escape
-
 from Products.Archetypes import atapi
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 from Products.validation.interfaces.IValidator import IValidator
@@ -16,14 +15,14 @@ from recensio.contenttypes.content.review import get_formatted_names
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import EditorialSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.content.schemata import LicenceSchema
 from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import PageStartEndInPDFSchema
 from recensio.contenttypes.content.schemata import PageStartEndOfReviewInJournalSchema
 from recensio.contenttypes.content.schemata import ReviewSchema
-from recensio.contenttypes.content.schemata import URLInCitationSchema
 from recensio.contenttypes.content.schemata import SerialSchema
-from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.content.schemata import URLInCitationSchema
 from recensio.contenttypes.interfaces import IReviewMonograph
 from recensio.theme.browser.views import editorTypes
 from zope.i18nmessageid import Message
@@ -55,7 +54,9 @@ ReviewMonographSchema = (
                 "translatedTitle",
                 schemata="reviewed_text",
                 storage=atapi.AnnotationStorage(),
-                widget=atapi.StringWidget(label=_(u"Translated title"),),
+                widget=atapi.StringWidget(
+                    label=_(u"Translated title"),
+                ),
             )
         ),
     )
@@ -250,7 +251,7 @@ class ReviewMonograph(BaseReview):
         return editorTypes()
 
     def get_publication_title(self):
-        """ Equivalent of 'titleJournal'"""
+        """Equivalent of 'titleJournal'"""
         return self.get_title_from_parent_of_type("Publication")
 
     get_journal_title = get_publication_title  # 2542
@@ -259,11 +260,11 @@ class ReviewMonograph(BaseReview):
         return self.get_parent_object_of_type("Publication")
 
     def get_volume_title(self):
-        """ Equivalent of 'volume'"""
+        """Equivalent of 'volume'"""
         return self.get_title_from_parent_of_type("Volume")
 
     def get_issue_title(self):
-        """ Equivalent of 'issue'"""
+        """Equivalent of 'issue'"""
         return self.get_title_from_parent_of_type("Issue")
 
     def getDecoratedTitle(self, lastname_first=False):

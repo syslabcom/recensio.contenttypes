@@ -1,12 +1,13 @@
 """
 Helper utilities for recensio.contenttypes
 """
+from Products.Five.browser.pagetemplatefile import PageTemplateFile
+
 import logging
 import os
 import subprocess
 import tempfile
 
-from Products.Five.browser.pagetemplatefile import PageTemplateFile
 
 # Use an environment variable to enable time consuming shell commands
 RUN_SHELL_COMMANDS = os.environ.get("RUN_SHELL_COMMANDS", False)
@@ -32,8 +33,8 @@ def which(program_name, extra_paths=[]):
 
 # http://tools.cherrypy.org/wiki/ZPT
 class SimpleZpt(PageTemplateFile):
-    """ Customise ViewPageTemplateFile so that we can pass in a dict
-    to be used as the context """
+    """Customise ViewPageTemplateFile so that we can pass in a dict
+    to be used as the context"""
 
     def pt_getContext(self, args=(), options={}, **kw):
         rval = PageTemplateFile.pt_getContext(self, args=args)
@@ -53,11 +54,11 @@ class SubprocessException(Exception):
 
 def SimpleSubprocess(*cmd, **kwargs):
     """
-        Run a sub process, return all output, retval[0] is stdout,
-        retval[1] ist stderr
-        If the process run failed, raise an Exception
-        cmd imput arg is supposed to be a list with the command
-        and the passed arguments
+    Run a sub process, return all output, retval[0] is stdout,
+    retval[1] ist stderr
+    If the process run failed, raise an Exception
+    cmd imput arg is supposed to be a list with the command
+    and the passed arguments
     """
     try:
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

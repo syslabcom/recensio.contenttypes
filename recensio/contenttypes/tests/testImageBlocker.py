@@ -1,7 +1,7 @@
-import pkg_resources
-
-import unittest2 as unittest
 from recensio.contenttypes.content.schemata import ImageValidator
+
+import pkg_resources
+import unittest2 as unittest
 
 
 class TestImageChecker(unittest.TestCase):

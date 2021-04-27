@@ -1,12 +1,12 @@
-from time import clock
-from time import strftime
-from time import time
-
 from plone.app.blob.field import ImageField
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from recensio.contenttypes import helperutilities
 from recensio.contenttypes.adapter.reviewpdf import ReviewPDF
+from time import clock
+from time import strftime
+from time import time
+
 
 TYPES = [
     "Presentation Online Resource",
@@ -20,7 +20,7 @@ TYPES = [
 
 class migratePagePreview(BrowserView):
     def mklog(self):
-        """ helper to prepend a time stamp to the output """
+        """helper to prepend a time stamp to the output"""
         write = self.request.RESPONSE.write
 
         def log(msg, timestamp=True):

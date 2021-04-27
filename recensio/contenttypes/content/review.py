@@ -2,12 +2,8 @@
 """ BaseReview is a base class all Recensio Review and Presentation
 content types inherit from.
 """
-import logging
 from cgi import escape
 from os import fstat
-from string import Formatter
-from tempfile import NamedTemporaryFile
-
 from plone import api
 from plone.app.blob.utils import openBlob
 from plone.app.discussion.interfaces import IConversation
@@ -32,6 +28,8 @@ from recensio.policy.interfaces import IRecensioSettings
 from recensio.theme.browser.views import listAvailableContentLanguages
 from recensio.theme.browser.views import listRecensioSupportedLanguages
 from recensio.theme.browser.views import recensioTranslate
+from string import Formatter
+from tempfile import NamedTemporaryFile
 from ZODB.blob import Blob
 from ZODB.POSException import ConflictError
 from zope.component import getUtility
@@ -40,6 +38,9 @@ from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import implements
 from zope.intid.interfaces import IIntIds
+
+import logging
+
 
 log = logging.getLogger("recensio.contentypes/content/review.py")
 
@@ -435,7 +436,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         return authors
 
     def Language(self):
-        """ Reviews are NOT translatable. As such, they must remain neutral """
+        """Reviews are NOT translatable. As such, they must remain neutral"""
         return ""
 
     def get_title_from_parent_of_type(self, meta_type):

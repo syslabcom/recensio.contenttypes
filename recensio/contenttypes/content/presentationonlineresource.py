@@ -2,7 +2,6 @@
 """Definition of the Presentation Online Resource content type
 """
 from cgi import escape
-
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
@@ -16,11 +15,12 @@ from recensio.contenttypes.config import PROJECTNAME
 from recensio.contenttypes.content.review import BasePresentationNoMagic
 from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import CommonReviewSchema
-from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
+from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.interfaces import IPresentationOnlineResource
 from zope.i18nmessageid import Message
 from zope.interface import implements
+
 
 PresentationOnlineResourceSchema = (
     CommonReviewSchema.copy()
@@ -48,14 +48,20 @@ PresentationOnlineResourceSchema = (
                 "institution",
                 storage=atapi.AnnotationStorage(),
                 columns=("name",),
-                default=[{"name": "",}],
+                default=[
+                    {
+                        "name": "",
+                    }
+                ],
                 widget=DataGridWidget(
                     label=_(
                         u"description_institution",
                         default=u"Provider of presented resource (name/institution)",
                     ),
                     description=_(u"Institution"),
-                    columns={"name": Column(""),},
+                    columns={
+                        "name": Column(""),
+                    },
                 ),
             ),
             atapi.StringField(

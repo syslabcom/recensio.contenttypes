@@ -1,4 +1,3 @@
-import unittest2 as unittest
 from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing.interfaces import TEST_USER_NAME
@@ -8,6 +7,8 @@ from recensio.contenttypes.setuphandlers import add_number_of_each_review_type
 from recensio.policy.tests.layer import RECENSIO_BARE_INTEGRATION_TESTING
 from zope.component import getUtility
 from zope.intid.interfaces import IIntIds
+
+import unittest2 as unittest
 
 
 class TestDOI(unittest.TestCase):

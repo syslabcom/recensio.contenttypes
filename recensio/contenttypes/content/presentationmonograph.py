@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from cgi import escape
-
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
@@ -17,11 +16,11 @@ from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import CoverPictureSchema
 from recensio.contenttypes.content.schemata import EditorialSchema
+from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.content.schemata import PagecountSchema
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.content.schemata import SerialSchema
-from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.interfaces import IPresentationMonograph
 from recensio.theme.browser.views import editorTypes
 from zope.component.hooks import getSite
@@ -29,9 +28,9 @@ from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import implements
 
+
 """Definition of the Presentation Monograph content type
 """
-
 
 
 PresentationMonographSchema = (
@@ -116,9 +115,7 @@ PresentationMonographSchema["authors"].widget.description = _(
 )
 PresentationMonographSchema["uri"].widget.label = _(
     u"description_presentation_uri",
-    default=(
-        u"Is the monograph you are presenting available free of " "charge online?"
-    ),
+    default=(u"Is the monograph you are presenting available free of " "charge online?"),
 )
 PresentationMonographSchema["uri"].widget.description = _(u"URL")
 PresentationMonographSchema["coverPicture"].widget.label = _(u"Upload of cover picture")

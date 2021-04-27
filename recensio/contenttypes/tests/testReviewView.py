@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import unittest2 as unittest
 from mock import Mock
+
+import unittest2 as unittest
 
 
 class TestExcelImportUnit(unittest.TestCase):
@@ -17,9 +18,7 @@ class TestExcelImportUnit(unittest.TestCase):
         view = View(None, None)
         self.assertEquals(
             "",
-            view.list_rows(
-                [{"lastname": "", "firstname": ""}], "lastname", "firstname"
-            ),
+            view.list_rows([{"lastname": "", "firstname": ""}], "lastname", "firstname"),
         )
 
     def test_list_rows_stupid_empty2(self):

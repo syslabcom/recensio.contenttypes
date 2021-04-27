@@ -3,8 +3,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class Pageviewer(BrowserView):
-    """Views a review's page images (generated from pdf)
-    """
+    """Views a review's page images (generated from pdf)"""
 
     # template = ViewPageTemplateFile('pageviewer.pt')
 

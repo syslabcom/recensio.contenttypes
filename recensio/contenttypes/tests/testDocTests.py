@@ -1,15 +1,15 @@
-import doctest
-
-import unittest2 as unittest
 from recensio.contenttypes.content import presentationarticlereview
 from recensio.contenttypes.content import presentationcollection
 from recensio.contenttypes.content import presentationmonograph
 from recensio.contenttypes.content import presentationonlineresource
-from recensio.contenttypes.content import reviewexhibition
 from recensio.contenttypes.content import reviewarticlecollection
 from recensio.contenttypes.content import reviewarticlejournal
+from recensio.contenttypes.content import reviewexhibition
 from recensio.contenttypes.content import reviewjournal
 from recensio.contenttypes.content import reviewmonograph
+
+import doctest
+import unittest2 as unittest
 
 
 def test_suite():
