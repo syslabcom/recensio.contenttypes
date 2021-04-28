@@ -54,6 +54,21 @@ class View(BrowserView, CanonicalURLHelper):
             u" <br/> ", ", ", self.context.reviewAuthors, lastname_first=True
         )
 
+    def _get_gnd_link(self, gnd_id):
+        return (
+            '&nbsp;<span class="gnd-link">'
+            '<a href="https://d-nb.info/%s" title="%s">'
+            '<img src="++resource++recensio.theme.images/gnd.svg"'
+            'class="gnd" alt="GND" />'
+            '</a>'
+            '</span>'
+            ) % (
+                gnd_id,
+                self.context.translate(
+                    _("Person in the Integrated Authority File")
+                ).encode("utf-8")
+            )
+
     def list_rows(self, rows, *keys):
         # Archetypes is nasty sometimes,
         # and for fields with multiple values it can happen that if
@@ -64,10 +79,12 @@ class View(BrowserView, CanonicalURLHelper):
         if rows:
             rows_ul = "<ul class='rows_list'>"
             for row in rows:
-                rows_ul += "<li>%s</li>" % (
+                rows_ul += "<li>%s%s</li>" % (
                     ", ".join(
                         [escape(row[key]) for key in keys if key in row and row[key]]
-                    )
+                    ),
+                    self._get_gnd_link(row["gnd"])
+                    if row.get("gnd") else ""
                 )
             rows_ul += "</ul>"
             return rows_ul
