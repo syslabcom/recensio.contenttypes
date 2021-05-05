@@ -145,7 +145,7 @@
 
           <div id="accordion-container">
             <ul class="accordion">
-              <li class="accordion-item" id="metadata" title="metadata" i18n:attributes="title">
+              <li class="accordion-item" id="metadata" title="Metadata" i18n:attributes="title metadata">
                 <h2>
 
                     <a class="trigger">
@@ -190,7 +190,7 @@
                   </li>
                 </ul>
               </li>
-              <li class="accordion-item" id="citation" title="citation_note" i18n:attributes="title">
+              <li class="accordion-item" id="citation" title="Zitierhinweise" i18n:attributes="title citation_note">
                 <h2>
 
                     <a class="trigger">
@@ -229,7 +229,7 @@
                   </li>
                 </ul>
               </li>
-              <li class="accordion-item" id="license" title="license-note-heading" i18n:attributes="title">
+              <li class="accordion-item" id="license" title="Lizenzhinweis:" i18n:attributes="title license-note-heading">
                 <h2>
 
                     <a class="trigger">
@@ -260,7 +260,7 @@
                   </li>
                 </ul>
               </li>
-              <li class="accordion-item" id="online-publication" title="links-box-heading" i18n:attributes="title"
+              <li class="accordion-item" id="online-publication" title="Links" i18n:attributes="title links-box-heading"
                   tal:condition="python:context.Type().startswith('Presentation')">
                 <h2 i18n:translate="links-box-heading">Links</h2>
                 <ul class="accordion-content">
