@@ -79,6 +79,14 @@ ReviewArticleCollectionSchema = (
                     ),
                 ),
             ),
+            atapi.StringField(
+                "translatedTitleEditedVolume",
+                storage=atapi.AnnotationStorage(),
+                required=False,
+                widget=atapi.StringWidget(
+                    label=_(u"Translated title (Edited Volume)"),
+                ),
+            ),
         )
     )
 )
@@ -118,6 +126,9 @@ class ReviewArticleCollection(BaseReview):
 
     title = atapi.ATFieldProperty("title")
     description = atapi.ATFieldProperty("description")
+
+    translatedTitle = atapi.ATFieldProperty("translatedTitle")
+
     # Book = Printed + Authors +
     # Printed = Common +
     # Common = Base +
@@ -194,6 +205,7 @@ class ReviewArticleCollection(BaseReview):
     # Custom
     titleEditedVolume = atapi.ATFieldProperty("titleEditedVolume")
     subtitleEditedVolume = atapi.ATFieldProperty("subtitleEditedVolume")
+    translatedTitleEditedVolume = atapi.ATFieldProperty("translatedTitleEditedVolume")
 
     # Reorder the fields as required for the edit view
     collection_fields = [
@@ -206,6 +218,7 @@ class ReviewArticleCollection(BaseReview):
         "editorial",
         "titleEditedVolume",
         "subtitleEditedVolume",
+        "translatedTitleEditedVolume",
         "yearOfPublication",
         "placeOfPublication",
         "publisher",
@@ -226,6 +239,7 @@ class ReviewArticleCollection(BaseReview):
         "authors",
         "title",
         "subtitle",
+        "translatedTitle",
         "heading__page_number_of_article_in_journal_or_edited_volume",
         "pageStartOfArticle",
         "pageEndOfArticle",
@@ -276,10 +290,12 @@ class ReviewArticleCollection(BaseReview):
         "authors",
         "title",
         "subtitle",
+        "translatedTitle",
         "metadata_start_end_pages_article",
         "editorial",
         "titleEditedVolume",
         "subtitleEditedVolume",
+        "translatedTitleEditedVolume",
         "yearOfPublication",
         "placeOfPublication",
         "publisher",
@@ -352,13 +368,14 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.titleEditedVolume = "Handbuch der Handbücher"
         >>> at_mock.subtitleEditedVolume = "Betriebsanleitungen, Bauanleitungen und mehr"
+        >>> at_mock.translatedTitleEditedVolume = "Handbook of Handbooks"
         >>> at_mock.page_start_end_in_print_article = '73-78'
         >>> at_mock.getEditorial = lambda: [{'firstname': 'Karl', 'lastname': 'Kornfeld'}]
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = ReviewArticleCollectionNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a.default
         >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch, in: Karl Kornfeld (Hg.): Handbuch der Handb\\xfccher. Betriebsanleitungen, Bauanleitungen und mehr, p. 73-78 (reviewed by ${review_authors})'
+        u'Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch, in: Karl Kornfeld (Hg.): Handbuch der Handb\\xfccher. Betriebsanleitungen, Bauanleitungen und mehr [Handbook of Handbooks], p. 73-78 (reviewed by ${review_authors})'
 
         Original Spec:
         [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel] (reviewed by [Rezensent Vorname] [Rezensent Nachname])
@@ -404,12 +421,16 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         )
 
         edited_volume = getFormatter(
-            u" %((Hg.))s%(:)s " % args, ". ", ", %(page)s " % args
+            u" %((Hg.))s%(:)s " % args, ". ", " ", ", %(page)s " % args
         )
+        translated_title = self.translatedTitleEditedVolume
+        if translated_title:
+            translated_title = "[{}]".format(translated_title)
         edited_volume_string = edited_volume(
             editors_string,
             self.titleEditedVolume,
             self.subtitleEditedVolume,
+            translated_title,
             self.page_start_end_in_print_article,
         )
 

@@ -80,6 +80,9 @@ class ReviewArticleJournal(BaseReview):
     meta_type = "ReviewArticleJournal"
     schema = ReviewArticleJournalSchema
     title = atapi.ATFieldProperty("title")
+
+    translatedTitle = atapi.ATFieldProperty("translatedTitle")
+
     # Journal = Printed
     # Printed = Common +
     # Common = Base +
@@ -174,6 +177,7 @@ class ReviewArticleJournal(BaseReview):
         "languageReviewedText",
         "title",
         "subtitle",
+        "translatedTitle",
         "heading__page_number_of_article_in_journal_or_edited_volume",
         "pageStartOfArticle",
         "pageEndOfArticle",
@@ -223,6 +227,7 @@ class ReviewArticleJournal(BaseReview):
         "authors",
         "title",
         "subtitle",
+        "translatedTitle",
         "metadata_start_end_pages_article",
         "editor",
         "titleJournal",

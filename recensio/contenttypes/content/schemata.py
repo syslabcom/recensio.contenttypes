@@ -1238,6 +1238,14 @@ LicenceSchema = atapi.Schema(
 ArticleSchema = atapi.Schema(
     (
         atapi.StringField(
+            "translatedTitle",
+            schemata="Aufsatz",
+            storage=atapi.AnnotationStorage(),
+            widget=atapi.StringWidget(
+                label=_(u"Translated title"),
+            ),
+        ),
+        atapi.StringField(
             "url_article",
             schemata="reviewed_text",
             storage=atapi.AnnotationStorage(),
