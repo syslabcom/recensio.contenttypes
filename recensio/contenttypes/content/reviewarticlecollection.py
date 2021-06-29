@@ -187,6 +187,9 @@ class ReviewArticleCollection(BaseReview):
     # Article
     pageStartOfArticle = atapi.ATFieldProperty("pageStartOfArticle")
     pageEndOfArticle = atapi.ATFieldProperty("pageEndOfArticle")
+    url_article = atapi.ATFieldProperty("url_article")
+    urn_article = atapi.ATFieldProperty("urn_article")
+    doi_article = atapi.ATFieldProperty("doi_article")
 
     # Custom
     titleEditedVolume = atapi.ATFieldProperty("titleEditedVolume")
@@ -291,6 +294,9 @@ class ReviewArticleCollection(BaseReview):
         "url_monograph",
         "urn_monograph",
         "doi_monograph",
+        "url_article",
+        "urn_article",
+        "doi_article",
         "ddcSubject",
         "ddcTime",
         "ddcPlace",

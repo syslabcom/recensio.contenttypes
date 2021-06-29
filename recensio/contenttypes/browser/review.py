@@ -247,8 +247,8 @@ class View(BrowserView, CanonicalURLHelper):
                         url,
                         url,
                     )
-            elif field == "uri":
-                url = context.uri
+            elif field in ["uri", "url_monograph", "url_journal", "url_article"]:
+                url = getattr(context, field, None)
                 if url:
                     label = self.get_label(fields, field, context.meta_type)
                     value = '<a href="%s" title="%s">%s</a>' % (url, url, url)
@@ -259,6 +259,18 @@ class View(BrowserView, CanonicalURLHelper):
                         doi_url,
                         doi_url,
                         context.getDoi(),
+                    )
+                    label = self.get_label(fields, field, context.meta_type)
+                else:
+                    label = None
+            elif field in ["doi_monograph", "doi_journal", "doi_article"]:
+                doi = getattr(context, field, None)
+                if doi:
+                    doi_url = "http://dx.doi.org/%s" % (doi,)
+                    value = '<a rel="doi" href="%s" title="%s">%s</a>' % (
+                        doi_url,
+                        doi_url,
+                        doi,
                     )
                     label = self.get_label(fields, field, context.meta_type)
                 else:

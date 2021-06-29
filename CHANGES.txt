@@ -6,6 +6,7 @@ Changelog
 
 - Removed commenting button. #HELP-2761
 - List review authors separately, not in the same entry with a slash in between. #HELP-2751
+- Show more URL/DOI fields in metadata box. #SCR-1217
 
 
 4.7.1 (2020-08-12)

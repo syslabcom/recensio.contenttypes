@@ -98,9 +98,9 @@ class ReviewJournal(BaseReview):
     # Journal
     issn = atapi.ATFieldProperty("issn")
     issn_online = atapi.ATFieldProperty("issn_online")
-    issn = atapi.ATFieldProperty("url_journal")
-    issn = atapi.ATFieldProperty("urn_journal")
-    issn = atapi.ATFieldProperty("doi_journal")
+    url_journal = atapi.ATFieldProperty("url_journal")
+    urn_journal = atapi.ATFieldProperty("urn_journal")
+    doi_journal = atapi.ATFieldProperty("doi_journal")
     shortnameJournal = atapi.ATFieldProperty("shortnameJournal")
     volumeNumber = atapi.ATFieldProperty("volumeNumber")
     issueNumber = atapi.ATFieldProperty("issueNumber")

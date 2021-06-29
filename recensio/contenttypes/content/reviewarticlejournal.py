@@ -117,9 +117,9 @@ class ReviewArticleJournal(BaseReview):
     # Journal
     issn = atapi.ATFieldProperty("issn")
     issn_online = atapi.ATFieldProperty("issn_online")
-    issn = atapi.ATFieldProperty("url_journal")
-    issn = atapi.ATFieldProperty("urn_journal")
-    issn = atapi.ATFieldProperty("doi_journal")
+    url_journal = atapi.ATFieldProperty("url_journal")
+    urn_journal = atapi.ATFieldProperty("urn_journal")
+    doi_journal = atapi.ATFieldProperty("doi_journal")
     titleJournal = atapi.ATFieldProperty("titleJournal")
     shortnameJournal = atapi.ATFieldProperty("shortnameJournal")
     volumeNumber = atapi.ATFieldProperty("volumeNumber")
@@ -137,6 +137,9 @@ class ReviewArticleJournal(BaseReview):
     # Article
     pageStartOfArticle = atapi.ATFieldProperty("pageStartOfArticle")
     pageEndOfArticle = atapi.ATFieldProperty("pageEndOfArticle")
+    url_article = atapi.ATFieldProperty("url_article")
+    urn_article = atapi.ATFieldProperty("urn_article")
+    doi_article = atapi.ATFieldProperty("doi_article")
 
     # ReviewJournal
     editor = atapi.ATFieldProperty("editor")
@@ -238,6 +241,9 @@ class ReviewArticleJournal(BaseReview):
         "url_journal",
         "urn_journal",
         "doi_journal",
+        "url_article",
+        "urn_article",
+        "doi_article",
         "ddcSubject",
         "ddcTime",
         "ddcPlace",
