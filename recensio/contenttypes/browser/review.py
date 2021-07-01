@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from AccessControl.SecurityManagement import getSecurityManager
 from cgi import escape
 from DateTime import DateTime
@@ -156,6 +157,11 @@ class View(BrowserView, CanonicalURLHelper):
                     )
             elif field == "title":
                 return _(u"label_metadata_title_article", default=u"Title (article)")
+            elif field == "subtitle":
+                return _(
+                    u"label_metadata_subtitle_article",
+                    default=u"Subtitle (Article)",
+                )
             elif field == "titleEditedVolume":
                 return _(
                     u"label_metadata_title_edited_volume",
@@ -168,6 +174,11 @@ class View(BrowserView, CanonicalURLHelper):
                 )
             elif field == "metadata_start_end_pages":
                 return _(u"metadata_pages_review", default=u"Pages (review)")
+            elif field == "translatedTitle":
+                return _(
+                    u"label_metadata_translated_title_article",
+                    default=u"Übersetzter Titel (Aufsatz)",
+                )
 
         return _(fields[field].widget.label)
 
