@@ -179,6 +179,21 @@ class View(BrowserView, CanonicalURLHelper):
                     u"label_metadata_translated_title_article",
                     default=u"Übersetzter Titel (Aufsatz)",
                 )
+            elif field == "url_monograph":
+                return _(
+                    u"label_metadata_url_edited_volume",
+                    default=u"URL (Sammelband)",
+                )
+            elif field == "urn_monograph":
+                return _(
+                    u"label_metadata_urn_edited_volume",
+                    default=u"URN (Sammelband)",
+                )
+            elif field == "doi_monograph":
+                return _(
+                    u"label_metadata_doi_edited_volume",
+                    default=u"DOI (Sammelband)",
+                )
 
         return _(fields[field].widget.label)
 
