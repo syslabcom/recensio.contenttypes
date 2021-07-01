@@ -85,6 +85,7 @@ ReviewArticleCollectionSchema = (
                 required=False,
                 widget=atapi.StringWidget(
                     label=_(u"Translated title (Edited Volume)"),
+                    size=60,
                 ),
             ),
         )
