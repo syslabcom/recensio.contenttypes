@@ -274,7 +274,8 @@ class View(BrowserView, CanonicalURLHelper):
                         url,
                     )
             elif field in [
-                "uri", "url_monograph", "url_journal", "url_article", "url_exhibition"
+                "uri", "url_monograph", "url_journal", "url_article", "url_exhibition",
+                "urn", "urn_monograph", "urn_journal", "urn_article"
             ]:
                 url = getattr(context, field, None)
                 if url:
