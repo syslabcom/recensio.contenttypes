@@ -42,6 +42,17 @@ ReviewJournalSchema = (
                     label=_(u"Editor (name or institution)"),
                 ),
             ),
+            atapi.StringField(
+                "translatedTitleJournal",
+                schemata="reviewed_text",
+                storage=atapi.AnnotationStorage(),
+                widget=atapi.StringWidget(
+                    label=_(
+                        u"label_translated_title_journal",
+                        default=u"Translated title (Journal)",
+                    ),
+                ),
+            ),
         )
     )
 )
@@ -61,6 +72,7 @@ class ReviewJournal(BaseReview):
     meta_type = "ReviewJournal"
     schema = ReviewJournalSchema
     title = atapi.ATFieldProperty("title")
+    translatedTitleJournal = atapi.ATFieldProperty("translatedTitleJournal")
     # Journal = Printed
     # Printed = Common +
     # Common = Base +
@@ -128,6 +140,7 @@ class ReviewJournal(BaseReview):
         "languageReviewedText",
         "editor",
         "title",  # Title of the journal
+        "translatedTitleJournal",
         "shortnameJournal",
         "yearOfPublication",
         "officialYearOfPublication",
@@ -174,6 +187,7 @@ class ReviewJournal(BaseReview):
         "languageReviewedText",
         "editor",
         "title",
+        "translatedTitleJournal",
         "shortnameJournal",
         "yearOfPublication",
         "officialYearOfPublication",
@@ -336,6 +350,7 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.title = "Plone Mag"
+        >>> at_mock.translatedTitleJournal = "Plöne Mág"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> at_mock.yearOfPublication = '2009'
         >>> at_mock.officialYearOfPublication = '2010'
@@ -344,16 +359,19 @@ class ReviewJournalNoMagic(BaseReviewNoMagic):
         >>> review = ReviewJournalNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a
         >>> review.getDecoratedTitle()
-        u'Plone Mag, 1 (2010/2009), 3 (reviewed_by)'
+        u'Plone Mag [Pl\\xf6ne M\\xe1g], 1 (2010/2009), 3 (reviewed_by)'
         """
         self = real_self.magic
 
-        item = getFormatter(", ", " ", ", ")
+        item = getFormatter(" ", ", ", " ", ", ")
         mag_year = getFormatter("/")(
             self.officialYearOfPublication, self.yearOfPublication
         )
         mag_year = mag_year and "(" + mag_year + ")" or None
-        item_string = item(self.title, self.volumeNumber, mag_year, self.issueNumber)
+        translated_title = self.translatedTitleJournal
+        if translated_title:
+            translated_title = "[{}]".format(translated_title)
+        item_string = item(self.title, translated_title, self.volumeNumber, mag_year, self.issueNumber)
 
         if lastname_first:
             reviewer_string = get_formatted_names(

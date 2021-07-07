@@ -55,6 +55,17 @@ ReviewArticleJournalSchema = (
                     label=_(u"title_journal", default=u"Title (Journal)"),
                 ),
             ),
+            atapi.StringField(
+                "translatedTitleJournal",
+                schemata="reviewed_text",
+                storage=atapi.AnnotationStorage(),
+                widget=atapi.StringWidget(
+                    label=_(
+                        u"label_translated_title_journal",
+                        default=u"Translated title (Journal)",
+                    ),
+                ),
+            ),
         )
     )
 )
@@ -82,6 +93,7 @@ class ReviewArticleJournal(BaseReview):
     title = atapi.ATFieldProperty("title")
 
     translatedTitle = atapi.ATFieldProperty("translatedTitle")
+    translatedTitleJournal = atapi.ATFieldProperty("translatedTitleJournal")
 
     # Journal = Printed
     # Printed = Common +
@@ -156,6 +168,7 @@ class ReviewArticleJournal(BaseReview):
         "doi_journal",
         "editor",
         "titleJournal",
+        "translatedTitleJournal",
         "shortnameJournal",
         "yearOfPublication",
         "officialYearOfPublication",
@@ -231,6 +244,7 @@ class ReviewArticleJournal(BaseReview):
         "metadata_start_end_pages_article",
         "editor",
         "titleJournal",
+        "translatedTitleJournal",
         "shortnameJournal",
         "yearOfPublication",
         "officialYearOfPublication",
@@ -419,6 +433,7 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         >>> at_mock.formatted_authors_editorial = "Patrick Gerken / Alexander Pilz"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> at_mock.titleJournal = "Plone Mag"
+        >>> at_mock.translatedTitleJournal = "Plöne Mág"
         >>> at_mock.yearOfPublication = '2009'
         >>> at_mock.officialYearOfPublication = '2010'
         >>> at_mock.volumeNumber = '1'
@@ -427,7 +442,7 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         >>> review = ReviewArticleJournalNoMagic(at_mock)
         >>> review.directTranslate = lambda a: a.default
         >>> review.getDecoratedTitle()
-        u'Patrick Gerken / Alexander Pilz: The Plone Story. A CMS through the ages, in: Plone Mag, 1 (2010/2009), 3, p. 42-48 (rezensiert von ${review_authors})'
+        u'Patrick Gerken / Alexander Pilz: The Plone Story. A CMS through the ages, in: Plone Mag [Pl\\xf6ne M\\xe1g], 1 (2010/2009), 3, p. 42-48 (rezensiert von ${review_authors})'
         """
         self = real_self.magic
 
@@ -443,13 +458,17 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
             ),
         }
 
-        item = getFormatter(", ", " ", ", ", ", %(page)s " % args)
+        item = getFormatter(" ", ", ", " ", ", ", ", %(page)s " % args)
         mag_year = getFormatter("/")(
             self.officialYearOfPublication, self.yearOfPublication
         )
         mag_year = mag_year and "(" + mag_year + ")" or None
+        translated_title = self.translatedTitleJournal
+        if translated_title:
+            translated_title = "[{}]".format(translated_title)
         item_string = item(
             self.titleJournal,
+            translated_title,
             self.volumeNumber,
             mag_year,
             self.issueNumber,
