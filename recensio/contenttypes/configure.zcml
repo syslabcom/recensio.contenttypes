@@ -89,6 +89,16 @@
      handler=".setuphandlers.v4to5"
         />
 
+  <genericsetup:upgradeStep
+     sortkey="6"
+     source="1005"
+     destination="1006"
+     title="Fix review author indexing"
+     description="Reviews with multiple review authors have been indexed with a combination of both names joined with a slash ('/'). They should have been indexed with separate entries."
+     profile="recensio.contenttypes:default"
+     handler=".setuphandlers.v5to6"
+        />
+
 
   <!-- if a Review or Presentation has been edited or updated, update
        the pdf version of it if necessary -->

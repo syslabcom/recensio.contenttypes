@@ -5,6 +5,7 @@ from collective.solr.interfaces import ISolrConnectionConfig
 from DateTime import DateTime
 from logging import getLogger
 from OFS.Image import File
+from plone import api
 from plone.app.discussion.interfaces import IConversation
 from plone.app.portlets.portlets import classic
 from plone.app.portlets.utils import assignment_mapping_from_key
@@ -558,3 +559,25 @@ def v3to4(context):
 
 def v4to5(context):
     context.runImportStepFromProfile("profile-recensio.contenttypes:default", "skins")
+
+
+def v5to6(context):
+    catalog = getToolByName(context, "portal_catalog")
+    portal = api.portal.get()
+    authorsearch = api.content.get_view(
+        name="authorsearch",
+        context=portal,
+        request=context.REQUEST,
+    )
+    authors = [author for author in authorsearch.all_authors() if "/" in author["name"]]
+    log.info("Fixing {} authors".format(len(authors)))
+
+    for author in authors:
+        results = catalog(authorsFulltext=author["name"], use_solr=1)
+        log.info(u"Reindexing {} item(s) for {}".format(len(results), author["name"]))
+        for res in results:
+            try:
+                obj = res.getObject()
+            except Exception as e:
+                log.warn("Could not get object %s (%s)", res.getPath(), e)
+            obj.reindexObject()
