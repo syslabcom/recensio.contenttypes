@@ -8,6 +8,7 @@ Changelog
 - List review authors separately, not in the same entry with a slash in between. #HELP-2751
 - Show more URL/DOI fields in metadata box. #SCR-1217
 - "Translated title" fields for additional content types. #SCR-1215
+- Exclude "admin."-domains from redirection to canonical URL. #SCR-1428
 
 
 4.7.1 (2020-08-12)
