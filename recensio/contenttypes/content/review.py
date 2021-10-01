@@ -580,10 +580,9 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             title = u"{} [{}]".format(title, safe_unicode(self.translatedTitle))
         return title
 
-    @property
     def formatted_authors(self):
         authors_list = []
-        for author in self.getAuthors():
+        for author in getattr(self, "getAuthors", lambda:[])():
             if author["lastname"] or author["firstname"]:
                 authors_list.append(
                     (
@@ -596,7 +595,6 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                 )
         return u" / ".join(authors_list)
 
-    @property
     def formatted_editorial(self):
         editor_str = ""
         result = ""
@@ -632,14 +630,13 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
                     result = editor_str + " " + label_editor
         return result
 
-    @property
     def formatted_authors_editorial(self):
         """#3111
         PMs and RMs have an additional field for editors"""
-        authors_str = self.formatted_authors
+        authors_str = self.formatted_authors()
 
         result = ""
-        editor_str = self.formatted_editorial
+        editor_str = self.formatted_editorial()
 
         if editor_str != "":
             result = editor_str

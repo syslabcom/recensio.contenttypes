@@ -1,5 +1,6 @@
 # -*- extra stuff goes here -*-
 from issue import IIssue
+from person import IPerson
 from presentationarticlereview import IPresentationArticleReview
 from presentationcollection import IPresentationCollection
 from presentationmonograph import IPresentationMonograph

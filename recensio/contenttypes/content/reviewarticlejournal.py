@@ -322,7 +322,7 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         >>> at_mock.get = lambda x: None
         >>> at_mock.customCitation = ''
         >>> at_mock.punctuated_title_and_subtitle = "The Plone Story. A CMS through the ages"
-        >>> at_mock.formatted_authors = "Patrick Gerken / Alexander Pilz"
+        >>> at_mock.formatted_authors() = "Patrick Gerken / Alexander Pilz"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname'  : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'
         >>> at_mock.officialYearOfPublication = '2010♥'
@@ -388,7 +388,7 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         )
         mag_year = mag_year and "(" + mag_year + ")" or None
         item_string = rev_details_formatter(
-            self.formatted_authors,
+            self.formatted_authors(),
             self.punctuated_title_and_subtitle,
             self.titleJournal,
             self.volumeNumber,
@@ -430,7 +430,7 @@ class ReviewArticleJournalNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.title = "The Plone Story"
         >>> at_mock.punctuated_title_and_subtitle = "The Plone Story. A CMS through the ages"
-        >>> at_mock.formatted_authors_editorial = "Patrick Gerken / Alexander Pilz"
+        >>> at_mock.formatted_authors_editorial() = "Patrick Gerken / Alexander Pilz"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> at_mock.titleJournal = "Plone Mag"
         >>> at_mock.translatedTitleJournal = "Plöne Mág"

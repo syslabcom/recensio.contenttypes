@@ -47,7 +47,7 @@ class TestStringFormatting(unittest.TestCase):
     def test_single_author_formatting(self):
         pm = self.get_obj_of_type("PresentationMonograph")
         pm.setAuthors([{"firstname": "Tadeusz", "lastname": "Kot\xc5\x82owski"}])
-        self.assertEquals(pm.formatted_authors_editorial, u"Tadeusz Kot\u0142owski")
+        self.assertEquals(pm.formatted_authors_editorial(), u"Tadeusz Kot\u0142owski")
 
     def test_multiple_authors_formatting(self):
         pm = self.get_obj_of_type("PresentationMonograph")
@@ -58,7 +58,7 @@ class TestStringFormatting(unittest.TestCase):
             ]
         )
         self.assertEquals(
-            pm.formatted_authors_editorial, u"Tadeusz Kot\u0142owski / Aldous Huxley"
+            pm.formatted_authors_editorial(), u"Tadeusz Kot\u0142owski / Aldous Huxley"
         )
 
     def test_single_author_single_editor_formatting(self):
@@ -66,7 +66,7 @@ class TestStringFormatting(unittest.TestCase):
         pm.setAuthors([{"firstname": "Aldous", "lastname": "Huxley"}])
         pm.setEditorial([{"firstname": "Tadeusz", "lastname": "Kot\xc5\x82owski"}])
         authors_editorial = u"Tadeusz Kot\u0142owski (Hg.): Aldous Huxley"
-        self.assertEquals(pm.formatted_authors_editorial, authors_editorial)
+        self.assertEquals(pm.formatted_authors_editorial(), authors_editorial)
 
     def test_multiple_authors_multiple_editors_formatting(self):
         pm = self.get_obj_of_type("PresentationMonograph")
@@ -84,7 +84,7 @@ class TestStringFormatting(unittest.TestCase):
         )
 
         self.assertEquals(
-            pm.formatted_authors_editorial,
+            pm.formatted_authors_editorial(),
             (
                 u"Ed1First Ed1Last / Ed2First Ed2Last (Hg.): "
                 u"Tadeusz Kot\u0142owski "

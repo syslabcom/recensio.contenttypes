@@ -155,4 +155,9 @@
       factory=".content.schemata.PublicationExtender"
       provides="archetypes.schemaextender.interfaces.ISchemaExtender" />
 
+  <utility
+      factory=".vocabularies.PersonsVocabularyFactory"
+      name="recensio.contenttypes.persons"
+      />
+
 </configure>

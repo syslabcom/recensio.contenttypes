@@ -266,7 +266,7 @@ class PresentationCollection(BaseReview):
     def getDecoratedTitle(self):
         return PresentationCollectionNoMagic(self).getDecoratedTitle()
 
-    #        return u": ".join((self.formatted_authors_editorial,
+    #        return u": ".join((self.formatted_authors_editorial(),
     #                           self.punctuated_title_and_subtitle))
 
     def get_citation_string(self):
@@ -404,7 +404,7 @@ class PresentationCollectionNoMagic(BasePresentationNoMagic):
             )
         full_citation = getFormatter(": ", " ")
         return full_citation(
-            self.formatted_authors_editorial,
+            self.formatted_authors_editorial(),
             self.punctuated_title_and_subtitle,
             rezensent_string,
         )

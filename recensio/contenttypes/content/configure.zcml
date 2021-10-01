@@ -75,6 +75,12 @@
         interface="..interfaces.IIssue"
         />
   </class>
+  <class class=".person.Person">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.IPerson"
+        />
+  </class>
 
 
 </configure>

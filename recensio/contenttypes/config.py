@@ -16,6 +16,7 @@ ADD_PERMISSIONS = {
     "Publication": "recensio.contenttypes: Add Publication",
     "Volume": "recensio.contenttypes: Add Volume",
     "Issue": "recensio.contenttypes: Add Issue",
+    "Person": "recensio.contenttypes: Add Person",
 }
 
 PORTAL_TYPES = [
@@ -31,6 +32,7 @@ PORTAL_TYPES = [
     "Publication",
     "Volume",
     "Issue",
+    "Person",
 ]
 
 PRESENTATION_TYPES = [

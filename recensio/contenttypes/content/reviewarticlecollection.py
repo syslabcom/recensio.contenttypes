@@ -365,7 +365,7 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
-        >>> at_mock.formatted_authors = "Patrick Gerken / Alexander Pilz"
+        >>> at_mock.formatted_authors() = "Patrick Gerken / Alexander Pilz"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.titleEditedVolume = "Handbuch der Handbücher"
         >>> at_mock.subtitleEditedVolume = "Betriebsanleitungen, Bauanleitungen und mehr"
@@ -450,7 +450,7 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
-        >>> at_mock.formatted_authors = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
+        >>> at_mock.formatted_authors() = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0♥? Das Benutzerhandbuch♥"
         >>> at_mock.titleEditedVolume = "Handbuch der Handbücher"
         >>> at_mock.subtitleEditedVolume = "Betriebsanleitungen, Bauanleitungen und mehr"

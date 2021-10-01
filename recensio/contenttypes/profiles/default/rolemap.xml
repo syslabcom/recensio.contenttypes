@@ -46,5 +46,10 @@
       <role name="Contributor" />
       <role name="Owner" />
     </permission>
+    <permission name="recensio.contenttypes: Add Person" acquire="False">
+      <role name="Manager" />
+      <role name="Contributor" />
+      <role name="Owner" />
+    </permission>
   </permissions>
 </rolemap>

@@ -23,5 +23,6 @@
     <type portal_type="Review Article Collection" />
     <type portal_type="Review Exhibition" />
     <type portal_type="Review" />
+    <type portal_type="Person" />
   </factorytypes>
 </object>

@@ -70,21 +70,15 @@ class View(BrowserView, CanonicalURLHelper):
             )
 
     def list_rows(self, rows, *keys):
-        # Archetypes is nasty sometimes,
-        # and for fields with multiple values it can happen that if
-        # there is no value set, one gets list with one element that
-        # is completely empty
-        filter_rule = lambda x: ("".join([x[key] for key in keys if key in x])).strip()
-        rows = filter(filter_rule, rows)
         if rows:
             rows_ul = "<ul class='rows_list'>"
             for row in rows:
                 rows_ul += "<li>%s%s</li>" % (
                     ", ".join(
-                        [escape(row[key]) for key in keys if key in row and row[key]]
+                        [escape(row[key]) for key in keys if row[key]]
                     ),
-                    self._get_gnd_link(row["gnd"])
-                    if row.get("gnd") else ""
+                    self._get_gnd_link(row.getGnd())
+                    if row.getGnd() else ""
                 )
             rows_ul += "</ul>"
             return rows_ul
@@ -238,7 +232,7 @@ class View(BrowserView, CanonicalURLHelper):
             is_macro = False
             if field.startswith("get_"):
                 label = self.custom_metadata_field_labels[field]
-                value = context[field]()
+                value = getattr(context, field)()
             elif field == "metadata_start_end_pages":
                 if "metadata_start_end_pages_article" in context.metadata_fields:
                     label = _("metadata_pages_review")
@@ -250,34 +244,34 @@ class View(BrowserView, CanonicalURLHelper):
                 value = context.page_start_end_in_print_article
             elif field == "metadata_review_author":
                 label = _("label_metadata_review_author")
-                value = self.list_rows(context["reviewAuthors"], "lastname", "firstname")
+                value = self.list_rows(context.reviewAuthors, "lastname", "firstname")
             elif field == "metadata_presentation_author":
                 label = _("label_metadata_presentation_author")
-                value = self.list_rows(context["reviewAuthors"], "lastname", "firstname")
+                value = self.list_rows(context.reviewAuthors, "lastname", "firstname")
             elif field == "authors":
                 label = self.get_label(fields, field, context.meta_type)
-                value = self.list_rows(context[field], "lastname", "firstname")
+                value = self.list_rows(getattr(context, field), "lastname", "firstname")
             elif field == "editorial":
                 label = self.get_label(fields, field, context.meta_type)
-                value = self.list_rows(context[field], "lastname", "firstname")
+                value = self.list_rows(getattr(context, field), "lastname", "firstname")
             elif field == "editorsCollectedEdition":
                 label = self.get_label(fields, field, context.meta_type)
-                value = self.list_rows(context[field], "lastname", "firstname")
+                value = self.list_rows(getattr(context, field), "lastname", "firstname")
             elif field == "curators":
                 label = self.get_label(fields, field, context.meta_type)
                 value = self.list_rows(context["curators"], "lastname", "firstname")
             elif field in ["exhibiting_institution", "exhibiting_organisation"]:
                 label = self.get_label(fields, field, context.meta_type)
-                value = self.list_rows(context[field], "name")
+                value = self.list_rows(getattr(context, field), "name")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
                 value = context.translate(context.portal_type)
             elif field == "referenceAuthors":
                 label = _("label_metadata_reference_authors")
-                value = self.list_rows(context[field], "lastname", "firstname")
+                value = self.list_rows(getattr(context, field), "lastname", "firstname")
             elif field == "institution":
                 label = _("label_metadata_institution")
-                value = self.list_rows(context[field], "name")
+                value = self.list_rows(getattr(context, field), "name")
             elif field == "metadata_recensioID":
                 label = _("metadata_recensio_id")
                 value = context.UID()
@@ -348,7 +342,7 @@ class View(BrowserView, CanonicalURLHelper):
                 value = " / ".join(subtitles)
             elif field == "dates":
                 label = self.get_label(fields, field, context.meta_type)
-                values = context[field]
+                values = getattr(context, field)
                 if context.isPermanentExhibition:
                     permanent_ex = _(u"Dauerausstellung").encode("utf-8")
                     values = [
@@ -364,7 +358,7 @@ class View(BrowserView, CanonicalURLHelper):
                 ploneview = api.content.get_view(
                     context=context, request=self.request, name="plone"
                 )
-                value = ploneview.toLocalizedTime(context[field], long_format=False)
+                value = ploneview.toLocalizedTime(context["field"], long_format=False)
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
@@ -376,7 +370,7 @@ class View(BrowserView, CanonicalURLHelper):
                     label = self.get_label(fields, field, context.meta_type)
                 # The macro is used in the template, the value is
                 # used to determine whether to display that row or not
-                value = context[field] and True or False
+                value = getattr(context, field) and True or False
                 is_macro = True
             meta[field] = {"label": label, "value": value, "is_macro": is_macro}
         return meta
@@ -396,7 +390,7 @@ class View(BrowserView, CanonicalURLHelper):
                         {
                             name: [
                                 "%s %s" % (au["firstname"], au["lastname"])
-                                for au in context["reviewAuthors"]
+                                for au in context.reviewAuthors
                             ]
                         }
                     )
@@ -404,15 +398,15 @@ class View(BrowserView, CanonicalURLHelper):
                     authors = ", ".join(
                         [
                             "%s %s" % (au["firstname"], au["lastname"])
-                            for au in context.get("authors", [])
+                            for au in getattr(context, "authors", [])
                         ]
                     )
-                    terms.update({name: "%s: %s" % (authors, context[field])})
+                    terms.update({name: "%s: %s" % (authors, getattr(context, field))})
                 elif field == "pages":
                     value = self.context.page_start_end_in_print
                     terms.update({name: value})
                 else:
-                    value = context[field]
+                    value = getattr(context, field)
                     if callable(value):
                         value = value()
                     terms.update({name: value})

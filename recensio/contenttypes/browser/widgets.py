@@ -1,4 +1,5 @@
 from AccessControl import ClassSecurityInfo
+from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 from Products.Archetypes import atapi
 from Products.Archetypes.Registry import registerPropertyType
 from Products.Archetypes.Registry import registerWidget
@@ -46,3 +47,30 @@ registerWidget(
 
 registerPropertyType("label_fallback_value", "string", StringFallbackWidget)
 registerPropertyType("label_fallback_unavailable", "string", StringFallbackWidget)
+
+
+class GNDReferenceBrowserWidget(ReferenceBrowserWidget):
+    _properties = ReferenceBrowserWidget._properties.copy()
+    _properties.update(
+        {
+            "helper_js": (
+                "referencebrowser.js",
+                "referencebrowser-gnd.js",
+            ),
+            "popup_name": "gnd_popup",
+            "allow_browse": 0,
+            "allow_create": 1,
+            "allow_sorting": 1,
+            "base_query": {"sort_on": "sortable_title"},
+        }
+    )
+
+    security = ClassSecurityInfo()
+
+
+registerWidget(
+    GNDReferenceBrowserWidget,
+    title="GND aware reference browser",
+    description=("Pick a GND entity for use in a reference field"),
+    used_for=("Products.Archetypes.Field.ReferenceField",),
+)

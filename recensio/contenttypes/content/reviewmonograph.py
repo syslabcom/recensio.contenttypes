@@ -94,7 +94,7 @@ class ReviewMonograph(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthors = atapi.ATFieldProperty("reviewAuthors")
+    reviewAuthors = atapi.ATReferenceFieldProperty("reviewAuthors")
     languageReview = atapi.ATFieldProperty("languageReview")
     languageReviewedText = atapi.ATFieldProperty("languageReviewedText")
     recensioID = atapi.ATFieldProperty("recensioID")
@@ -114,7 +114,7 @@ class ReviewMonograph(BaseReview):
     ddcTime = atapi.ATFieldProperty("ddcTime")
 
     # Editorial
-    editorial = atapi.ATFieldProperty("editorial")
+    editorial = atapi.ATReferenceFieldProperty("editorial")
 
     # Printed
     subtitle = atapi.ATFieldProperty("subtitle")
@@ -128,7 +128,7 @@ class ReviewMonograph(BaseReview):
     idBvb = atapi.ATFieldProperty("idBvb")
 
     # Authors
-    authors = atapi.ATFieldProperty("authors")
+    authors = atapi.ATReferenceFieldProperty("authors")
 
     # Book
     isbn = atapi.ATFieldProperty("isbn")
@@ -286,7 +286,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
-        >>> at_mock.formatted_authors_editorial = "Patrick Gerken / Alexander Pilz"
+        >>> at_mock.formatted_authors_editorial() = "Patrick Gerken / Alexander Pilz"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = ReviewMonographNoMagic(at_mock)
@@ -307,7 +307,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         name_part_separator = " "
         if lastname_first:
             name_part_separator = ", "
-        authors_string = self.formatted_authors_editorial
+        authors_string = self.formatted_authors_editorial()
 
         rezensent_string = get_formatted_names(
             u" / ", " ", self.reviewAuthors, lastname_first=lastname_first
@@ -333,7 +333,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
-        >>> at_mock.formatted_authors_editorial = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
+        >>> at_mock.formatted_authors_editorial() = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0♥? Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname' : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'
@@ -388,7 +388,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         rezensent_string = get_formatted_names(
             u" / ", ", ", self.reviewAuthors, lastname_first=True
         )
-        authors_string = self.formatted_authors_editorial
+        authors_string = self.formatted_authors_editorial()
         title_subtitle_string = self.punctuated_title_and_subtitle
         item_string = rev_details_formatter(
             authors_string,

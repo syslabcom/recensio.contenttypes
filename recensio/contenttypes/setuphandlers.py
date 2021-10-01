@@ -485,6 +485,30 @@ def addSecondaryNavPortlets(context):
     # TODO: set sec. nav for praesentationen
 
 
+def initGndContainer():
+    portal = api.portal.get()
+    if "gnd" not in portal:
+        gnd_folder = api.content.create(
+            type="Folder",
+            container=portal,
+            id="gnd",
+            title="GND",
+        )
+    else:
+        gnd_folder = portal.get("gnd")
+    try:
+        api.content.transition(
+            to_state="published",
+            obj=gnd_folder,
+        )
+    except Exception as e:
+        log.exception(e)
+        pass
+    api.group.grant_roles(
+        obj=gnd_folder, groupname="AuthenticatedUsers", roles=["Contributor"]
+    )
+
+
 def v0to1(context):
     catalog = getToolByName(context, "portal_catalog")
 

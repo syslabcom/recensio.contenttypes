@@ -23,6 +23,7 @@ from Products.validation import validation
 from Products.validation.interfaces.IValidator import IValidator
 from recensio.contenttypes import contenttypesMessageFactory as _
 from recensio.contenttypes.browser.widgets import StringFallbackWidget
+from recensio.contenttypes.browser.widgets import GNDReferenceBrowserWidget
 from recensio.contenttypes.interfaces.publication import IPublication
 from recensio.theme.interfaces import IRecensioLayer
 from zope.component import adapts
@@ -158,21 +159,17 @@ def finalize_recensio_schema(schema, review_type="review"):
 
 AuthorsSchema = atapi.Schema(
     (
-        DataGridField(
+        atapi.ReferenceField(
             "authors",
             schemata="reviewed_text",
-            storage=atapi.AnnotationStorage(),
-            columns=("lastname", "firstname", "gnd"),
-            default=[{"lastname": "", "firstname": "", "gnd": ""}],
-            widget=DataGridWidget(
-                label=_(u"Authors"),
-                columns={
-                    "lastname": Column(_(u"Last name")),
-                    "firstname": Column(_(u"First name")),
-                    "gnd": Column(_(u"GND der Ausstellenden Institution")),
-                },
-            ),
+            allowed_types=("Person",),
+            vocabulary_factory="recensio.contenttypes.persons",
+            multiValued=1,
+            relationship="author",
             searchable=True,
+            widget=GNDReferenceBrowserWidget(
+                label=_(u"Authors"),
+            ),
         ),
     )
 )
@@ -722,23 +719,19 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema(
             ),
             searchable=True,
         ),
-        DataGridField(
+        atapi.ReferenceField(
             "reviewAuthors",
             schemata="review",
-            storage=atapi.AnnotationStorage(),
-            columns=("lastname", "firstname", "gnd"),
-            default=[{"lastname": "", "firstname": "", "gnd": ""}],
-            validators=(hasAtLeastOneAuthor(""),),
+            #validators=(hasAtLeastOneAuthor(""),),
             required=True,
-            widget=DataGridWidget(
-                label=_(u"label_review_authors"),
-                columns={
-                    "lastname": Column(_(u"Last name")),
-                    "firstname": Column(_(u"First name")),
-                    "gnd": Column(_(u"GND")),
-                },
-            ),
+            allowed_types=("Person",),
+            vocabulary_factory="recensio.contenttypes.persons",
+            multiValued=1,
+            relationship="reviewAuthor",
             searchable=True,
+            widget=GNDReferenceBrowserWidget(
+                label=_(u"label_review_authors"),
+            ),
         ),
         atapi.LinesField(
             "languageReview",
@@ -1081,21 +1074,17 @@ EditorialSchema = atapi.Schema(
                 )
             ),
         ),
-        DataGridField(
+        atapi.ReferenceField(
             "editorial",
             schemata="reviewed_text",
-            storage=atapi.AnnotationStorage(),
-            columns=("lastname", "firstname", "gnd"),
-            default=[{"lastname": "", "firstname": "", "gnd": ""}],
-            widget=DataGridWidget(
-                label=_(u"label_editorial"),
-                columns={
-                    "lastname": Column(_(u"Last name")),
-                    "firstname": Column(_(u"First name")),
-                    "gnd": Column(_(u"GND")),
-                },
-            ),
+            allowed_types=("Person",),
+            vocabulary_factory="recensio.contenttypes.persons",
+            multiValued=1,
+            relationship="editor",
             searchable=True,
+            widget=GNDReferenceBrowserWidget(
+                label=_(u"label_editorial"),
+            ),
         ),
     )
 )
@@ -1372,21 +1361,17 @@ ExhibitionSchema = CommonReviewSchema.copy() + atapi.Schema(
             ),
             searchable=True,
         ),
-        DataGridField(
+        atapi.ReferenceField(
             "curators",
             schemata="Ausstellung",
-            storage=atapi.AnnotationStorage(),
-            columns=("lastname", "firstname", "gnd"),
-            default=[{"lastname": "", "firstname": "", "gnd": ""}],
-            widget=DataGridWidget(
-                label=_(u"Kurator / Mitwirkende"),
-                columns={
-                    "lastname": Column(_(u"Last name")),
-                    "firstname": Column(_(u"First name")),
-                    "gnd": Column(_(u"GND")),
-                },
-            ),
+            allowed_types=("Person",),
+            vocabulary_factory="recensio.contenttypes.persons",
+            multiValued=1,
+            relationship="curator",
             searchable=True,
+            widget=GNDReferenceBrowserWidget(
+                label=_(u"Kurator / Mitwirkende"),
+            ),
         ),
         atapi.BooleanField(
             "isPermanentExhibition",
