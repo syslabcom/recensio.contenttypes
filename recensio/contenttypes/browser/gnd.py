@@ -92,6 +92,7 @@ class GNDView(BrowserView):
                 b_start=b_start,
                 b_size=b_size,
                 sort_on="sortable_title",
+                fl=["UID", "Title", "path_string"],
             )
             for brain in brains[b_start : b_start + b_size]:
                 yield brain
