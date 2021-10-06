@@ -19,7 +19,7 @@ class PersonsVocabulary(object):
         return api.content.get_view(
             context=api.portal.get(),
             request=api.portal.getRequest(),
-            name="gnd",
+            name="gnd-view",
         )
 
     def getTerm(self, value):

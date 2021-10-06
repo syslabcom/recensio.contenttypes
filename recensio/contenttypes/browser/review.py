@@ -77,8 +77,8 @@ class View(BrowserView, CanonicalURLHelper):
                     ", ".join(
                         [escape(row[key]) for key in keys if row[key]]
                     ),
-                    self._get_gnd_link(row.getGnd())
-                    if row.getGnd() else ""
+                    self._get_gnd_link(row.getGndId())
+                    if row.getGndId() else ""
                 )
             rows_ul += "</ul>"
             return rows_ul

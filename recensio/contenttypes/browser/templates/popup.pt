@@ -127,7 +127,7 @@
     <form action="createPerson" method="post" name="create" id="create"
           style="text-align: right;"
           tal:condition="widget/allow_create|nothing"
-          tal:attributes="action string:${context/absolute_url}/@@gnd/createPerson">
+          tal:attributes="action string:${context/absolute_url}/@@gnd-view/createPerson">
       <div class="field">
         <input type="text"
                id="lastname"

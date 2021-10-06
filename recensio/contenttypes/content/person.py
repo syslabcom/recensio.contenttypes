@@ -25,7 +25,7 @@ PersonSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema(
             ),
         ),
         atapi.StringField(
-            "gnd",
+            "gndId",
             storage=atapi.AnnotationStorage(),
             widget=atapi.StringWidget(
                 label=_(u"GND"),
@@ -50,7 +50,7 @@ class Person(base.ATCTMixin, atapi.BaseContent):
 
     firstname = atapi.ATFieldProperty("firstname")
     lastname = atapi.ATFieldProperty("lastname")
-    gnd = atapi.ATFieldProperty("gnd")
+    gndId = atapi.ATFieldProperty("gndId")
 
     @property
     def title(self):

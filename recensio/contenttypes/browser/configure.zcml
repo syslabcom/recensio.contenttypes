@@ -39,7 +39,7 @@
 
   <browser:page
      for="*"
-     name="gnd"
+     name="gnd-view"
      class=".gnd.GNDView"
      permission="zope2.View"
      allowed_attributes="createPerson"

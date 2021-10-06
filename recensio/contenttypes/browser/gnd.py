@@ -59,9 +59,12 @@ class GNDView(BrowserView):
             )
         return person
 
-    def get(self, gnd):
+    def get(self, gndId):
         catalog = api.portal.get_tool("portal_catalog")
-        query = dict(gnd=gnd)
+        query = dict(
+            gndId=gndId,
+            sort_on="sortable_title",
+        )
         results = catalog(query)
         if results:
             return results[0]
@@ -71,6 +74,7 @@ class GNDView(BrowserView):
         query = dict(
             UID=uid,
             object_provides=IPerson.__identifier__,
+            sort_on="sortable_title",
         )
         res = catalog(query)
         if len(res) > 0:
@@ -112,4 +116,7 @@ class GNDView(BrowserView):
 
     def count(self):
         catalog = api.portal.get_tool("portal_catalog")
-        return len(catalog(portal_type="Person", b_size=0))
+        return len(catalog(
+            object_provides=IPerson.__identifier__,
+            b_size=0,
+        ))
