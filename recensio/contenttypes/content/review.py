@@ -374,6 +374,16 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         if not getattr(self, "getAuthors", None):
             return []
         retval = []
+        if getattr(self, "getCurators", None):
+            for curator in self.getCurators():
+                if curator["lastname"] or curator["firstname"]:
+                    retval.append(
+                        u"%s, %s"
+                        % (
+                            safe_unicode(curator["lastname"]),
+                            safe_unicode(curator["firstname"]),
+                        )
+                    )
         if listEditors and getattr(self, "getEditorial", None):
             for editor in self.getEditorial():
                 if editor["lastname"] or editor["firstname"]:
