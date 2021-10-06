@@ -73,10 +73,17 @@ class View(BrowserView, CanonicalURLHelper):
         if rows:
             rows_ul = "<ul class='rows_list'>"
             for row in rows:
+                inner = ", ".join(
+                    [escape(row[key]) for key in keys if row[key]]
+                )
+                if hasattr(row, "UID"):
+                    inner = (
+                        '<a href="%s/search?authorsUID:list='
+                        '%s&amp;advanced_search:boolean=True&amp;'
+                        'use_navigation_root:boolean=True">%s</a>'
+                    ) % (api.portal.get().absolute_url(), row.UID(), inner)
                 rows_ul += "<li>%s%s</li>" % (
-                    ", ".join(
-                        [escape(row[key]) for key in keys if row[key]]
-                    ),
+                    inner,
                     self._get_gnd_link(row.getGndId())
                     if row.getGndId() else ""
                 )
