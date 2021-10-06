@@ -70,6 +70,7 @@ class View(BrowserView, CanonicalURLHelper):
             )
 
     def list_rows(self, rows, *keys):
+        rows = [row for row in rows if any([row[key] for key in keys])]
         if rows:
             rows_ul = "<ul class='rows_list'>"
             for row in rows:
@@ -85,7 +86,7 @@ class View(BrowserView, CanonicalURLHelper):
                 rows_ul += "<li>%s%s</li>" % (
                     inner,
                     self._get_gnd_link(row.getGndId())
-                    if row.getGndId() else ""
+                    if getattr(row, "gndId", None) else ""
                 )
             rows_ul += "</ul>"
             return rows_ul

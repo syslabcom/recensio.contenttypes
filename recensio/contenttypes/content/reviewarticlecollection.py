@@ -135,7 +135,7 @@ class ReviewArticleCollection(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthors = atapi.ATFieldProperty("reviewAuthors")
+    reviewAuthors = atapi.ATReferenceFieldProperty("reviewAuthors")
     languageReview = atapi.ATFieldProperty("languageReview")
     languageReviewedText = atapi.ATFieldProperty("languageReviewedText")
     recensioID = atapi.ATFieldProperty("recensioID")
@@ -155,7 +155,7 @@ class ReviewArticleCollection(BaseReview):
     ddcTime = atapi.ATFieldProperty("ddcTime")
 
     # Editorial
-    editorial = atapi.ATFieldProperty("editorial")
+    editorial = atapi.ATReferenceFieldProperty("editorial")
 
     # Printed
     subtitle = atapi.ATFieldProperty("subtitle")
@@ -365,7 +365,7 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
-        >>> at_mock.formatted_authors() = "Patrick Gerken / Alexander Pilz"
+        >>> at_mock.formatted_authors = lambda: "Patrick Gerken / Alexander Pilz"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.titleEditedVolume = "Handbuch der Handbücher"
         >>> at_mock.subtitleEditedVolume = "Betriebsanleitungen, Bauanleitungen und mehr"
@@ -403,7 +403,7 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
             ),
         }
 
-        authors_string = self.formatted_authors
+        authors_string = self.formatted_authors()
 
         rezensent_string = get_formatted_names(
             u" / ", " ", self.reviewAuthors, lastname_first=lastname_first
@@ -450,7 +450,7 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
-        >>> at_mock.formatted_authors() = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
+        >>> at_mock.formatted_authors = lambda: u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0♥? Das Benutzerhandbuch♥"
         >>> at_mock.titleEditedVolume = "Handbuch der Handbücher"
         >>> at_mock.subtitleEditedVolume = "Betriebsanleitungen, Bauanleitungen und mehr"
@@ -517,7 +517,7 @@ class ReviewArticleCollectionNoMagic(BaseReviewNoMagic):
         rezensent_string = get_formatted_names(
             u" / ", ", ", self.reviewAuthors, lastname_first=True
         )
-        authors_string = self.formatted_authors
+        authors_string = self.formatted_authors()
         editors_string = get_formatted_names(
             u" / ", " ", self.getEditorial(), lastname_first=False
         )

@@ -119,7 +119,7 @@ class PresentationArticleReview(BaseReview):
 
     # Base
     reviewAuthorHonorific = atapi.ATFieldProperty("reviewAuthorHonorific")
-    reviewAuthors = atapi.ATFieldProperty("reviewAuthors")
+    reviewAuthors = atapi.ATReferenceFieldProperty("reviewAuthors")
     reviewAuthorPersonalUrl = atapi.ATFieldProperty("reviewAuthorPersonalUrl")
     languageReview = atapi.ATFieldProperty("languageReview")
     languageReviewedText = atapi.ATFieldProperty("languageReviewedText")

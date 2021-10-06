@@ -286,7 +286,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> from mock import Mock
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
-        >>> at_mock.formatted_authors_editorial() = "Patrick Gerken / Alexander Pilz"
+        >>> at_mock.formatted_authors_editorial = lambda: "Patrick Gerken / Alexander Pilz"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0. Das Benutzerhandbuch"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian', 'lastname'  : 'de Roiste'}]
         >>> review = ReviewMonographNoMagic(at_mock)
@@ -333,7 +333,7 @@ class ReviewMonographNoMagic(BaseReviewNoMagic):
         >>> at_mock = Mock()
         >>> at_mock.customCitation = ''
         >>> at_mock.get = lambda x: None
-        >>> at_mock.formatted_authors_editorial() = u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
+        >>> at_mock.formatted_authors_editorial = lambda: u"Gerken\u2665, Patrick\u2665 / Pilz, Alexander"
         >>> at_mock.punctuated_title_and_subtitle = "Plone 4.0♥? Das Benutzerhandbuch♥"
         >>> at_mock.reviewAuthors = [{'firstname' : 'Cillian♥', 'lastname' : 'de Roiste♥'}]
         >>> at_mock.yearOfPublication = '2009♥'

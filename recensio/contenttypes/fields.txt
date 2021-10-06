@@ -29,7 +29,7 @@ dem wir das PDF beziehen.
 Name des Rezensenten, aufgeteilt nach Vorname, Nachname und Titel mit Anrede
 
     >>> schema('reviewAuthors')
-    ('datagrid', u'label_review_authors')
+    ('reference', u'label_review_authors')
 
 Sprache des rezensierten Werkes.
 
@@ -117,7 +117,7 @@ Die Ausgabe des rezensierten Buches
 Die Autoren des Buches
 
     >>> schema('authors')
-    ('datagrid', u'Author (monograph)')
+    ('reference', u'Author (monograph)')
 
 Das PDF mit der Rezension. Hier brauchen wir einen Link von Ihnen, von
 dem wir das PDF beziehen.
@@ -128,7 +128,7 @@ dem wir das PDF beziehen.
 Name des Rezensenten, aufgeteilt nach Vorname, Nachname und Titel mit Anrede
 
     >>> schema('reviewAuthors')
-    ('datagrid', u'label_review_authors')
+    ('reference', u'label_review_authors')
 
 Sprache des rezensierten Werkes.
 

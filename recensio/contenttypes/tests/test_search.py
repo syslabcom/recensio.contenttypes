@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from recensio.policy.indexer import authors
 from recensio.policy.indexer import authorsFulltext
 from recensio.policy.tests.layer import RECENSIO_INTEGRATION_TESTING
@@ -15,39 +16,24 @@ class TestSearch(unittest.TestCase):
         self.portal = self.layer["portal"]
         issue = self.portal["sample-reviews"].newspapera.summer["issue-2"]
         review_id = issue.objectIds()[0]
+        gnd_view = api.content.get_view(
+            context=self.portal,
+            request=self.layer["request"],
+            name="gnd-view",
+        )
         self.review = issue[review_id]
-        self.review.setAuthors(
-            [
-                {
-                    "lastname": u"Kotłowski",
-                    "firstname": u"Tadeusz",
-                },
-                {
-                    "lastname": u"North",
-                    "firstname": u"Pete",
-                },
-            ]
-        )
-        self.review.setReviewAuthors(
-            [
-                {
-                    "lastname": u"Testchew",
-                    "firstname": u"Vitali",
-                },
-                {
-                    "lastname": u"Стоичков",
-                    "firstname": u"Христо",
-                },
-            ]
-        )
+        self.authors = self.review.getAuthors()
+        self.reviewAuthors = self.review.getReviewAuthors()
 
     def test_SearchableText(self):
         text = self.review.SearchableText()
         self.assertIn("Czernowitz", text)
         self.assertIn("TEXT TEXT", text)
         self.assertIn("PDF PDF", text)
-        self.assertIn(u"Kotłowski".encode("utf-8"), text)
-        self.assertIn(u"Testchew".encode("utf-8"), text)
+        for author in self.authors:
+            self.assertIn(author.lastname, text)
+        for author in self.reviewAuthors:
+            self.assertIn(author.lastname, text)
         self.assertIn(self.review.Creator(), text)
 
         self.assertIn(self.review.Title(), text)
@@ -59,17 +45,9 @@ class TestSearch(unittest.TestCase):
         self.assertIn("9788360448417", text)
 
     def test_authors_index(self):
-        self.assertIn(u"Kotłowski, Tadeusz".encode("utf-8"), authors(self.review)())
-        self.assertIn(u"North, Pete".encode("utf-8"), authors(self.review)())
-        self.assertIn(u"Testchew, Vitali".encode("utf-8"), authors(self.review)())
-        self.assertIn(u"Стоичков, Христо".encode("utf-8"), authors(self.review)())
-        self.assertIn(
-            u"Kotłowski, Tadeusz".encode("utf-8"), authorsFulltext(self.review)()
-        )
-        self.assertIn(u"North, Pete".encode("utf-8"), authorsFulltext(self.review)())
-        self.assertIn(
-            u"Testchew, Vitali".encode("utf-8"), authorsFulltext(self.review)()
-        )
-        self.assertIn(
-            u"Стоичков, Христо".encode("utf-8"), authorsFulltext(self.review)()
-        )
+        for author in self.authors:
+            self.assertIn(author.Title(), authors(self.review)())
+            self.assertIn(author.Title(), authorsFulltext(self.review)())
+        for author in self.reviewAuthors:
+            self.assertIn(author.Title(), authors(self.review)())
+            self.assertIn(author.Title(), authorsFulltext(self.review)())

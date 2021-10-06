@@ -78,7 +78,7 @@ class ReviewJournal(BaseReview):
     # Common = Base +
 
     # Base
-    reviewAuthors = atapi.ATFieldProperty("reviewAuthors")
+    reviewAuthors = atapi.ATReferenceFieldProperty("reviewAuthors")
     languageReview = atapi.ATFieldProperty("languageReview")
     languageReviewedText = atapi.ATFieldProperty("languageReviewedText")
     recensioID = atapi.ATFieldProperty("recensioID")

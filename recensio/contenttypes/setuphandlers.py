@@ -30,6 +30,7 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.event import notify
+from zope.globalrequest import setRequest
 from zope.publisher.browser import TestRequest
 
 import os
@@ -79,6 +80,13 @@ def add_number_of_each_review_type(portal, number_of_each, rez_classes=ALL_TYPES
     """
 
     # Prepare values for the Review/Presentation fields
+
+    setRequest(portal.REQUEST)
+    gnd_view = api.content.get_view(
+        context=portal,
+        request=portal.REQUEST,
+        name="gnd-view",
+    )
 
     pdf_file = open(
         os.path.join(os.path.dirname(__file__), "tests", "test_content", "Review.pdf"),
@@ -134,12 +142,17 @@ Hausleitner: Öffentlichkeit und Pressezensur in der Bukowina und in
 Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
 """
     authors_list = [
-        dict(firstname="Tadeusz", lastname=u"Kot\u0142owski"),
-        dict(firstname=u"F\xfcrchtegott", lastname=u"Huberm\xfcller"),
-        dict(firstname=u"Fran\xe7ois", lastname=u"Lam\xe8re"),
-        dict(firstname="Harald", lastname="Schmidt"),
-        dict(lastname=u"Стоичков", fistname=u"Христо"),
+        gnd_view.createPerson(**data) for data in [
+            dict(firstname="Tadeusz", lastname=u"Kot\u0142owski"),
+            dict(firstname=u"F\xfcrchtegott", lastname=u"Huberm\xfcller"),
+            dict(firstname=u"Fran\xe7ois", lastname=u"Lam\xe8re"),
+            dict(firstname="Harald", lastname="Schmidt"),
+            dict(lastname=u"Стоичков", firstname=u"Христо"),
+        ]
     ]
+    review_author = gnd_view.createPerson(**{
+        "lastname": u"Стоичков", "firstname": u"Христо"
+    })
     referenceAuthors_list = [
         dict(
             firstname="Tadeusz",
@@ -246,7 +259,7 @@ Bessarabien zwischen 1918 und 1938.  Ana-Maria Pălimariu
             "publisher": u"",
             "customCitation": u"",
             "reviewAuthorHonorific": u"Dr. rer nat",
-            "reviewAuthors": [{"lastname": u"Стоичков", "firstname": u"Христо"}],
+            "reviewAuthors": [review_author],
             "reviewAuthorEmail": u"dev0@syslab.com",
             "titleJournal": u"",
             "documenttypes_institution": u"",
@@ -485,7 +498,7 @@ def addSecondaryNavPortlets(context):
     # TODO: set sec. nav for praesentationen
 
 
-def initGndContainer():
+def initGndContainer(context=None):
     portal = api.portal.get()
     if "gnd" not in portal:
         gnd_folder = api.content.create(

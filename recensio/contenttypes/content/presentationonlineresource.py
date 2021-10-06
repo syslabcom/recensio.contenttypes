@@ -217,7 +217,7 @@ class PresentationOnlineResource(BaseReview):
 
     # Base
     reviewAuthorHonorific = atapi.ATFieldProperty("reviewAuthorHonorific")
-    reviewAuthors = atapi.ATFieldProperty("reviewAuthors")
+    reviewAuthors = atapi.ATReferenceFieldProperty("reviewAuthors")
     reviewAuthorEmail = atapi.ATFieldProperty("reviewAuthorEmail")
     reviewAuthorPersonalUrl = atapi.ATFieldProperty("reviewAuthorPersonalUrl")
     languageReview = atapi.ATFieldProperty("languageReview")
