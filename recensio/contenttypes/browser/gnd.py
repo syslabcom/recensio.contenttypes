@@ -66,6 +66,16 @@ class GNDView(BrowserView):
         if results:
             return results[0]
 
+    def getByUID(self, uid):
+        catalog = api.portal.get_tool("portal_catalog")
+        query = dict(
+            UID=uid,
+            object_provides=IPerson.__identifier__,
+        )
+        res = catalog(query)
+        if len(res) > 0:
+            return res[0]
+
     def find(self, search_term=None, firstname=None, lastname=None, solr=True):
         if not search_term:
             search_term = self._getPersonTitle(firstname=firstname, lastname=lastname)

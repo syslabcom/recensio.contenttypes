@@ -435,6 +435,16 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         authors = " ".join(self.getAllAuthorData())
         return authors
 
+    def getAllAuthorDataUID(self):
+        authors = (
+            getattr(self, "getAuthors", lambda: [])() +
+            getattr(self, "getReviewAuthors", lambda: [])() +
+            getattr(self, "getEditorial", lambda: [])() +
+            getattr(self, "getCurators", lambda: [])()
+        )
+        uids = [author.UID() for author in authors]
+        return uids
+
     def Language(self):
         """Reviews are NOT translatable. As such, they must remain neutral"""
         return ""
