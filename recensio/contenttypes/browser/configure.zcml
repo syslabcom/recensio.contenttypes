@@ -45,6 +45,14 @@
      allowed_attributes="createPerson"
      />
 
+  <browser:page
+      name="refbrowser_popup"
+      permission="zope2.Public"
+      for="*"
+      class=".widgets.GNDReferenceBrowserPopup"
+      layer="recensio.theme.interfaces.IRecensioLayer"
+      />
+
   <zope:adapter
       for="Products.Five.BrowserView"
       factory=".gnd.popup_template"
