@@ -80,7 +80,21 @@ class GNDView(BrowserView):
         if len(res) > 0:
             return res[0]
 
-    def find(self, search_term=None, firstname=None, lastname=None, solr=True):
+    def getByName(self, firstname=None, lastname=None, solr=True):
+        search_term = self._getPersonTitle(firstname=firstname, lastname=lastname)
+        catalog = api.portal.get_tool("portal_catalog")
+        query = dict(
+            Title=search_term,
+            object_provides=IPerson.__identifier__,
+            sort_on="sortable_title",
+        )
+        if not solr:
+            results = catalog.search(query)
+        else:
+            results = catalog(query)
+        return results
+
+    def find(self, search_term=None, firstname=None, lastname=None):
         if not search_term:
             search_term = self._getPersonTitle(firstname=firstname, lastname=lastname)
         catalog = api.portal.get_tool("portal_catalog")
@@ -90,10 +104,7 @@ class GNDView(BrowserView):
             object_provides=IPerson.__identifier__,
             sort_on="sortable_title",
         )
-        if not solr:
-            results = catalog.search(query)
-        else:
-            results = catalog(query)
+        results = catalog(query)
         return results
 
     def list(self):
