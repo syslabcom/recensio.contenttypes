@@ -46,6 +46,14 @@
      />
 
   <browser:page
+      name="refbrowser_querycatalog"
+      permission="zope2.Public"
+      for="*"
+      class=".widgets.GNDQueryCatalogView"
+      layer="recensio.theme.interfaces.IRecensioLayer"
+      />
+
+  <browser:page
       name="refbrowser_popup"
       permission="zope2.Public"
       for="*"
