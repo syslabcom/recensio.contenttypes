@@ -82,7 +82,7 @@ class ReviewExhibition(BaseReview):
     dates = atapi.ATFieldProperty("dates")
     years = atapi.ATFieldProperty("years")
     exhibiting_organisation = atapi.ATFieldProperty("exhibiting_organisation")
-    curators = atapi.ATFieldProperty("curators")
+    curators = atapi.ATReferenceFieldProperty("curators")
     isPermanentExhibition = atapi.ATFieldProperty("isPermanentExhibition")
     titleProxy = atapi.ATFieldProperty("titleProxy")
     subtitle = atapi.ATFieldProperty("subtitle")

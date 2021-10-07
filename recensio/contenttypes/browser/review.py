@@ -267,7 +267,7 @@ class View(BrowserView, CanonicalURLHelper):
                 value = self.list_rows(getattr(context, field), "lastname", "firstname")
             elif field == "curators":
                 label = self.get_label(fields, field, context.meta_type)
-                value = self.list_rows(context["curators"], "lastname", "firstname")
+                value = self.list_rows(getattr(context, field), "lastname", "firstname")
             elif field in ["exhibiting_institution", "exhibiting_organisation"]:
                 label = self.get_label(fields, field, context.meta_type)
                 value = self.list_rows(getattr(context, field), "name")

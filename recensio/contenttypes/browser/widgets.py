@@ -1,6 +1,7 @@
 from AccessControl import ClassSecurityInfo
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 from archetypes.referencebrowserwidget.browser.view import ReferenceBrowserPopup
+from plone import api
 from Products.Archetypes import atapi
 from Products.Archetypes.Registry import registerPropertyType
 from Products.Archetypes.Registry import registerWidget
@@ -70,6 +71,8 @@ class GNDReferenceBrowserPopup(ReferenceBrowserPopup):
             if not self.search_text.endswith('*') and \
                not (self.search_text.startswith('"') and self.search_text.endswith('"')):
                 self.request[self.search_index] = "{0}*".format(self.search_text)
+        if "path" not in self.request.form:
+            self.request.form["path"] = "/".join(api.portal.get().getPhysicalPath())
 
         qc = getMultiAdapter((self.context, self.request),
                              name='refbrowser_querycatalog')
