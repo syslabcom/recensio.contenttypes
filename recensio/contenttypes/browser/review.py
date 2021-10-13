@@ -57,7 +57,7 @@ class View(BrowserView, CanonicalURLHelper):
     def _get_gnd_link(self, gnd_id):
         return (
             '&nbsp;<span class="gnd-link">'
-            '<a href="https://d-nb.info/%s" title="%s">'
+            '<a href="https://d-nb.info/gnd/%s" title="%s">'
             '<img src="++resource++recensio.theme.images/gnd.svg"'
             'class="gnd" alt="GND" />'
             '</a>'
