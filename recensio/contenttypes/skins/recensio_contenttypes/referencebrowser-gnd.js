@@ -9,6 +9,7 @@ jQuery(function ($) {
     $.post(src, {firstname: firstname, lastname: lastname}, function (data) {
         /* Solr needs some time to commit */
         setTimeout(function () {
+            wrap.find('form#search input#searchGadget').attr('value', [lastname, firstname].filter(Boolean).join(' '));
             wrap.find('form#search input.searchButton').click();
         }, 1500);
     });
