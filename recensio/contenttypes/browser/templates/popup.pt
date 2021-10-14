@@ -52,7 +52,7 @@
     <!-- Search form -->
     <form action="search" method="post" name="search" id="search"
           style="text-align: right;"
-          tal:attributes="action request/getURL">
+          tal:attributes="action request/ACTUAL_URL">
      <tal:formactions
           tal:condition="widget/allow_search">
       <div class="field" >
