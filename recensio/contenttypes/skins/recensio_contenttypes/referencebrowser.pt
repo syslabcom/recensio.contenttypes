@@ -172,6 +172,11 @@
                 <tal:block replace="python: show_path and '%s (%s)' % (title, obj_path.replace(portal_path, '')) or title" />
               </label>
 
+              <a href="#" target="_blank"
+                tal:attributes="href python:request.physicalPathToURL('/'.join(set.getPhysicalPath()));
+                                class python:set.portal_type.replace(' ', '_')"
+                >(<span i18n:translate="" i18n:domain="plone">View</span>)</a>
+
               <tal:sorting condition="widget/allow_sorting">
                 <a href="" title="Move up" data-move-direction="up"
                    i18n:attributes="title">&#x25b2;</a>
