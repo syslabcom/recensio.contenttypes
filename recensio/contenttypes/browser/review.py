@@ -8,6 +8,7 @@ from plone.app.blob.download import handleRequestRange
 from plone.app.blob.iterators import BlobStreamIterator
 from plone.app.blob.utils import openBlob
 from Products.Archetypes.utils import contentDispositionHeader
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from recensio.contenttypes import contenttypesMessageFactory as _
@@ -56,42 +57,47 @@ class View(BrowserView, CanonicalURLHelper):
 
     def _get_gnd_link(self, gnd_id):
         return (
-            '&nbsp;<span class="gnd-link">'
-            '<a href="https://d-nb.info/gnd/%s" title="%s" target="_blank">'
-            '<img src="++resource++recensio.theme.images/gnd.svg"'
-            'class="gnd" alt="GND" />'
-            '</a>'
-            '</span>'
+            u'&nbsp;<span class="gnd-link">'
+            u'<a href="https://d-nb.info/gnd/%s" title="%s" target="_blank">'
+            u'<img src="++resource++recensio.theme.images/gnd.svg"'
+            u'class="gnd" alt="GND" />'
+            u'</a>'
+            u'</span>'
             ) % (
                 gnd_id,
                 self.context.translate(
                     _("Person in the Integrated Authority File")
-                ).encode("utf-8")
+                )
             )
 
     def list_rows(self, rows, *keys):
         rows = [row for row in rows if any([row[key] for key in keys])]
         if rows:
-            rows_ul = "<ul class='rows_list'>"
+            rows_ul = u"<ul class='rows_list'>"
             for row in rows:
-                inner = ", ".join(
-                    [escape(row[key]) for key in keys if row[key]]
+                inner = u", ".join(
+                    [safe_unicode(escape(row[key])) for key in keys if row[key]]
                 )
                 if hasattr(row, "UID"):
                     inner = (
-                        '<a href="%s/search?authorsUID:list='
-                        '%s&amp;advanced_search:boolean=True&amp;'
-                        'use_navigation_root:boolean=True">%s</a>'
-                    ) % (api.portal.get().absolute_url(), row.UID(), inner)
-                rows_ul += "<li>%s%s</li>" % (
+                        u'<a title="%s" href="%s/search?authorsUID:list='
+                        u'%s&amp;advanced_search:boolean=True&amp;'
+                        u'use_navigation_root:boolean=True">%s</a>'
+                    ) % (
+                        self.context.translate(_("label_search")),
+                        api.portal.get().absolute_url(),
+                        row.UID(),
+                        inner,
+                    )
+                rows_ul += u"<li>%s%s</li>" % (
                     inner,
                     self._get_gnd_link(row.getGndId())
-                    if getattr(row, "gndId", None) else ""
+                    if getattr(row, "gndId", None) else u""
                 )
-            rows_ul += "</ul>"
+            rows_ul += u"</ul>"
             return rows_ul
         else:
-            return ""
+            return u""
 
     def get_label(self, fields, field, meta_type):
         """Return the metadata label for a field of a particular
