@@ -169,7 +169,7 @@ class ReviewArticleCollection(BaseReview):
     idBvb = atapi.ATFieldProperty("idBvb")
 
     # Authors
-    authors = atapi.ATFieldProperty("authors")
+    authors = atapi.ATReferenceFieldProperty("authors")
 
     # Book
     isbn = atapi.ATFieldProperty("isbn")

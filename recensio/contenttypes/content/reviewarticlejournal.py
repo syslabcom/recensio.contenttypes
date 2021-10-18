@@ -119,6 +119,9 @@ class ReviewArticleJournal(BaseReview):
     ddcSubject = atapi.ATFieldProperty("ddcSubject")
     ddcTime = atapi.ATFieldProperty("ddcTime")
 
+    # Authors
+    authors = atapi.ATReferenceFieldProperty("authors")
+
     # Printed
     subtitle = atapi.ATFieldProperty("subtitle")
     yearOfPublication = atapi.ATFieldProperty("yearOfPublication")

@@ -17,7 +17,9 @@ from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import BookReviewSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.content.schemata import PagecountSchema
-from recensio.contenttypes.content.schemata import PageStartEndOfPresentedTextInPrintSchema
+from recensio.contenttypes.content.schemata import (
+    PageStartEndOfPresentedTextInPrintSchema,
+)
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.content.schemata import SerialSchema
@@ -154,7 +156,7 @@ class PresentationCollection(BaseReview):
     idBvb = atapi.ATFieldProperty("idBvb")
 
     # Authors
-    authors = atapi.ATFieldProperty("authors")
+    authors = atapi.ATReferenceFieldProperty("authors")
 
     # Book
     isbn = atapi.ATFieldProperty("isbn")

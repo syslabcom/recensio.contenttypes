@@ -15,7 +15,9 @@ from recensio.contenttypes.content.review import BaseReview
 from recensio.contenttypes.content.schemata import AuthorsSchema
 from recensio.contenttypes.content.schemata import finalize_recensio_schema
 from recensio.contenttypes.content.schemata import JournalReviewSchema
-from recensio.contenttypes.content.schemata import PageStartEndOfPresentedTextInPrintSchema
+from recensio.contenttypes.content.schemata import (
+    PageStartEndOfPresentedTextInPrintSchema,
+)
 from recensio.contenttypes.content.schemata import PresentationSchema
 from recensio.contenttypes.content.schemata import ReferenceAuthorsSchema
 from recensio.contenttypes.interfaces import IPresentationArticleReview
@@ -142,7 +144,7 @@ class PresentationArticleReview(BaseReview):
     idBvb = atapi.ATFieldProperty("idBvb")
 
     # Authors
-    authors = atapi.ATFieldProperty("authors")
+    authors = atapi.ATReferenceFieldProperty("authors")
 
     # Journal
     issn = atapi.ATFieldProperty("issn")
