@@ -4,7 +4,8 @@ Changelog
 4.8.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed effective date in metadata box. #HELP-3874
+
 
 
 4.8.0 (2021-10-20)

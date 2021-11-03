@@ -372,7 +372,7 @@ class View(BrowserView, CanonicalURLHelper):
                 ploneview = api.content.get_view(
                     context=context, request=self.request, name="plone"
                 )
-                value = ploneview.toLocalizedTime(context["field"], long_format=False)
+                value = ploneview.toLocalizedTime(context[field], long_format=False)
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
