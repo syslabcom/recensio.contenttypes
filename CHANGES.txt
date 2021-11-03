@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - Fixed effective date in metadata box. #HELP-3874
+- Saving a review takes less time. #HELP-3866
 
 
 

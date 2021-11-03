@@ -166,7 +166,6 @@ AuthorsSchema = atapi.Schema(
             vocabulary_factory="recensio.contenttypes.persons",
             multiValued=1,
             relationship="author",
-            searchable=True,
             widget=GNDReferenceBrowserWidget(
                 label=_(u"Authors"),
             ),
@@ -728,7 +727,6 @@ BaseReviewSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema(
             vocabulary_factory="recensio.contenttypes.persons",
             multiValued=1,
             relationship="reviewAuthor",
-            searchable=True,
             widget=GNDReferenceBrowserWidget(
                 label=_(u"label_review_authors"),
             ),
@@ -1081,7 +1079,6 @@ EditorialSchema = atapi.Schema(
             vocabulary_factory="recensio.contenttypes.persons",
             multiValued=1,
             relationship="editor",
-            searchable=True,
             widget=GNDReferenceBrowserWidget(
                 label=_(u"label_editorial"),
             ),
@@ -1368,7 +1365,6 @@ ExhibitionSchema = CommonReviewSchema.copy() + atapi.Schema(
             vocabulary_factory="recensio.contenttypes.persons",
             multiValued=1,
             relationship="curator",
-            searchable=True,
             widget=GNDReferenceBrowserWidget(
                 label=_(u"Kurator / Mitwirkende"),
             ),

@@ -528,6 +528,11 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
             data = " ".join([data, self.getPlaceOfPublication()])
         data = " ".join([data] + isbn(self)())
 
+        for accessor in ["getAuthors", "getReviewAuthors", "getEditorial", "getCurators"]:
+            if hasattr(self, accessor):
+                names = [item.Title() for item in getattr(self, accessor)()]
+                data = " ".join([data] + names)
+
         if hasattr(self, "getYearOfPublicationOnline"):
             data = " ".join([data, self.getYearOfPublicationOnline()])
         if hasattr(self, "getPlaceOfPublicationOnline"):
