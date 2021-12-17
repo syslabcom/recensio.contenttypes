@@ -4,7 +4,7 @@ Changelog
 4.8.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Allow manual ordering of persons (authors, editors, etc.). #HELP-3976
 
 
 4.8.1 (2021-11-08)

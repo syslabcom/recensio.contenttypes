@@ -77,6 +77,10 @@ class TestStringFormatting(unittest.TestCase):
         self.assertEquals(
             pm.formatted_authors_editorial(), u"Tadeusz Kot\u0142owski / Aldous Huxley"
         )
+        pm.setAuthors([self.huxley, self.kotlowski])
+        self.assertEquals(
+            pm.formatted_authors_editorial(), u"Aldous Huxley / Tadeusz Kot\u0142owski"
+        )
 
     def test_single_author_single_editor_formatting(self):
         pm = self.get_obj_of_type("PresentationMonograph")
@@ -88,14 +92,23 @@ class TestStringFormatting(unittest.TestCase):
     def test_multiple_authors_multiple_editors_formatting(self):
         pm = self.get_obj_of_type("PresentationMonograph")
         pm.setAuthors([self.kotlowski, self.huxley])
-        pm.setEditorial([self.editor1, self.editor2]
-        )
-
+        pm.setEditorial([self.editor1, self.editor2])
         self.assertEquals(
             pm.formatted_authors_editorial(),
             (
                 u"Ed1First Ed1Last / Ed2First Ed2Last (Hg.): "
                 u"Tadeusz Kot\u0142owski "
                 u"/ Aldous Huxley"
+            ),
+        )
+
+        pm.setAuthors([self.huxley, self.kotlowski])
+        pm.setEditorial([self.editor2, self.editor1])
+        self.assertEquals(
+            pm.formatted_authors_editorial(),
+            (
+                u"Ed2First Ed2Last / Ed1First Ed1Last (Hg.): "
+                u"Aldous Huxley "
+                u"/ Tadeusz Kot\u0142owski"
             ),
         )
