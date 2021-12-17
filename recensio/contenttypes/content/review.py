@@ -607,10 +607,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
 
     def formatted_authors(self):
         authors_list = []
-        authors = getattr(self, "getAuthors", lambda: [])()
-        authors = sorted(
-            authors, key=lambda author: author["lastname"] or author["firstname"])
-        for author in authors:
+        for author in getattr(self, "getAuthors", lambda:[])():
             if author["lastname"] or author["firstname"]:
                 authors_list.append(
                     (
@@ -627,10 +624,7 @@ class BaseReview(base.ATCTMixin, HistoryAwareMixin, atapi.BaseContent):
         editor_str = ""
         result = ""
         if hasattr(self, "editorial"):
-            editorial = sorted(
-                self.getEditorial(),
-                key=lambda editor: editor["lastname"] or editor["firstname"],
-            )
+            editorial = self.getEditorial()
             label_editor = ""
             if len(editorial) > 0 and editorial != ({"lastname": "", "firstname": ""}):
                 if len(editorial) == 1:
