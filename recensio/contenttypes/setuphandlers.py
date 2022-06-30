@@ -733,7 +733,18 @@ def v5to6(context):
         context=portal,
         request=context.REQUEST,
     )
-    authors = [author for author in authorsearch.all_authors() if "/" in author["name"]]
+    query = {
+        "portal_type": "Person",
+        "b_start": 0,
+        "b_size": 0,
+        "sort_on": "sortable_title",
+        "fl": "Title,UID,path_string",
+        "path": "/".join(portal.getPhysicalPath()),
+    }
+    num_authors = len(catalog(query))
+    query["b_size"] = num_authors
+    authors = [author for author in catalog(query) if "/" in (author.Title or "")]
+
     log.info("Fixing {} authors".format(len(authors)))
 
     for author in authors:
